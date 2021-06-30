@@ -8,11 +8,12 @@ import java.util.regex.Pattern;
  * <pre>
  * << 개정이력(Modification Information) >>
  *
- *   수정일      수정자           수정내용
- *  -------    	--------    ---------------------------
- *   2011.10.10  한성곤         최초 생성
- *	 2017-02-07  이정은         시큐어코딩(ES) - 시큐어코딩 경로 조작 및 자원 삽입[CWE-22, CWE-23, CWE-95, CWE-99]
- *   2018.08.17  신용호         filePathBlackList 수정
+ *   수정일              수정자           수정내용
+ *  -----------  --------  ---------------------------
+ *   2011.10.10  한성곤           최초 생성
+ *	 2017-02-07   이정은           시큐어코딩(ES) - 시큐어코딩 경로 조작 및 자원 삽입[CWE-22, CWE-23, CWE-95, CWE-99]
+ *   2018.08.17  신용호           filePathBlackList 수정
+ *   2018.10.10  신용호           . => \\.으로 수정
  * </pre>
  */
 
@@ -29,7 +30,7 @@ public class EgovWebUtil {
 		returnValue = returnValue.replaceAll(">", "&gt;");
 		returnValue = returnValue.replaceAll("\"", "&#34;");
 		returnValue = returnValue.replaceAll("\'", "&#39;");
-		returnValue = returnValue.replaceAll(".", "&#46;");
+		returnValue = returnValue.replaceAll("\\.", "&#46;");
 		returnValue = returnValue.replaceAll("%2E", "&#46;");
 		returnValue = returnValue.replaceAll("%2F", "&#47;");
 		return returnValue;
@@ -97,28 +98,28 @@ public class EgovWebUtil {
 		returnValue = returnValue.replaceAll("&", "");
 
 		return returnValue;
-	}	
+	}
 
 	public static String filePathWhiteList(String value) {
 		return value;
 	}
 
-	 public static boolean isIPAddress(String str) {
+	public static boolean isIPAddress(String str) {
 		Pattern ipPattern = Pattern.compile("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
 
 		return ipPattern.matcher(str).matches();
     }
 
-	 public static String removeCRLF(String parameter) {
-		 return parameter.replaceAll("\r", "").replaceAll("\n", "");
-	 }
+	public static String removeCRLF(String parameter) {
+		return parameter.replaceAll("\r", "").replaceAll("\n", "");
+	}
 
-	 public static String removeSQLInjectionRisk(String parameter) {
-		 return parameter.replaceAll("\\p{Space}", "").replaceAll("\\*", "").replaceAll("%", "").replaceAll(";", "").replaceAll("-", "").replaceAll("\\+", "").replaceAll(",", "");
-	 }
+	public static String removeSQLInjectionRisk(String parameter) {
+		return parameter.replaceAll("\\p{Space}", "").replaceAll("\\*", "").replaceAll("%", "").replaceAll(";", "").replaceAll("-", "").replaceAll("\\+", "").replaceAll(",", "");
+	}
 
-	 public static String removeOSCmdRisk(String parameter) {
-		 return parameter.replaceAll("\\p{Space}", "").replaceAll("\\*", "").replaceAll("|", "").replaceAll(";", "");
-	 }
+	public static String removeOSCmdRisk(String parameter) {
+		return parameter.replaceAll("\\p{Space}", "").replaceAll("\\*", "").replaceAll("|", "").replaceAll(";", "");
+	}
 
 }

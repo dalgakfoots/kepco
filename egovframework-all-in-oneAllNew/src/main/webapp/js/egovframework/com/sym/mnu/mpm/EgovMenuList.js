@@ -145,7 +145,11 @@ function addTreeNode(parentNode, recursedNodes) {
 				if (lastSibling) document.write("<img src='"+imgpath+"menu_joinbottom.gif' border='0' align='absbottom' alt='' >");
 				else document.write("<img src='"+imgpath+"menu_join.gif' border='0' align='absbottom' alt='' >");
 			}
-			document.write("<a href=javascript:choiceNodes('" + i + "');>");
+			//document.write("<a href=javascript:choiceNodes('" + i + "');>");
+			//document.write("<a href=javascript:fn_main_leftPageMove('" + nodeValues[0] + "');>");
+			if(nodeValues[5].split('//')[1] != undefined){
+			document.write("<a href=" +nodeValues[5].split('//')[0] + "/"  + nodeValues[5].split('//')[1] + " target='main_right'>");
+			}
 			if (hasChildNode) {
 				document.write("<img id='icon" + nodeValues[0] + "' src='"+imgpath+"menu_folder")
 					if (isNodeOpen) document.write("open");

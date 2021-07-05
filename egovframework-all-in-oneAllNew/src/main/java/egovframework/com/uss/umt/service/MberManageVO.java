@@ -421,5 +421,18 @@ public class MberManageVO extends UserDefaultVO{
 	public void setMberEmailAdres(String mberEmailAdres) {
 		this.mberEmailAdres = mberEmailAdres;
 	}
+	@Override
+	public String toString() {
+		return "MberManageVO [oldPassword=" + oldPassword + ", uniqId=" + uniqId + ", userTy=" + userTy + ", adres="
+				+ adres + ", detailAdres=" + detailAdres + ", endTelno=" + endTelno + ", mberFxnum=" + mberFxnum
+				+ ", groupId=" + groupId + ", ihidnum=" + ihidnum + ", sexdstnCode=" + sexdstnCode + ", mberId="
+				+ mberId + ", mberNm=" + mberNm + ", mberSttus=" + mberSttus + ", areaNo=" + areaNo + ", middleTelno="
+				+ middleTelno + ", moblphonNo=" + moblphonNo + ", password=" + password + ", passwordCnsr="
+				+ passwordCnsr + ", passwordHint=" + passwordHint + ", sbscrbDe=" + sbscrbDe + ", zip=" + zip
+				+ ", mberEmailAdres=" + mberEmailAdres + ", lockAt=" + lockAt + "]";
+	}
+	
+	/*TODO 테스트 후 삭제 할 것. mberVO toString임*/
+	
 
 }

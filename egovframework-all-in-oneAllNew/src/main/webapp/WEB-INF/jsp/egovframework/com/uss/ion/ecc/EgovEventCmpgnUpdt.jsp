@@ -98,6 +98,7 @@ function fn_egov_updt_event(form) {
 		return false;
 	} else {
 		if (confirm("<spring:message code="common.update.msg" />")) {
+			fnSelectTeam();
 			form.submit();
 		}
 	}
@@ -108,6 +109,33 @@ function fn_egov_updt_event(form) {
 function fn_egov_inqire_eventlist() {
 	eventCmpgnVO.action = "<c:url value='/uss/ion/ecc/selectEventCmpgnList.do'/>";
 	eventCmpgnVO.submit();
+}
+
+
+function fnSelectTeam() {
+    var checkField = document.getElementById('eventCmpgnVO').chkYn;
+    var id = document.getElementById('eventCmpgnVO').groupId;
+    console.log(checkField);
+    console.log(id);
+    
+    var checkedIds = "";
+    var checkedCount = 0;
+    if(checkField) {
+        if(checkField.length > 1) {
+            for(var i=0; i < checkField.length; i++) {
+                if(checkField[i].checked) {
+                    checkedIds += ((checkedCount==0? "" : ",") + id[i].value);
+                    checkedCount++;
+                }
+            }
+        } else {
+            if(checkField.checked) {
+                checkedIds = id.value;
+            }
+        }
+    }
+    
+    document.getElementById('eventCmpgnVO').groupIds.value = checkedIds;
 }
 
 </script>
@@ -228,6 +256,62 @@ function fn_egov_inqire_eventlist() {
 				<form:input path="eventConfmDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
 				<div><form:errors path="eventConfmDe" cssClass="error" /></div>       
 			</td>
+		</tr>
+		
+		
+		<!--참가 팀 등록 -->
+		<tr>
+			<th><label>참가 팀 등록 <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<div>
+					<table class="board_list">
+					<colgroup>
+						<col style="width: 5%;">
+						<col style="width: 20%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th><!-- <input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="전체선택체크박스"> --></th>
+							<th>팀 ID</th>
+							<th>팀명</th>
+						</tr>
+					</thead>
+				
+				<c:set var="cnt" value="0"/>
+				<c:forEach var="item" items="${groupList}">
+				<c:set var="cnt" value="0"/>
+				<tr>
+						<td>
+							<c:forEach var="item2" items="${teamList}">
+								<c:choose>
+									<c:when test="${item2.team_id eq item.groupId}">
+										<c:set var="cnt" value="${cnt + 1 }"/>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${cnt == 0 }">
+									<input type="checkbox" name="chkYn" class="check2">
+								</c:when>
+								<c:otherwise>
+									<input type="checkbox" name="chkYn" class="check2" checked="checked">
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<th>
+							<input type="hidden" name="groupId" value="${item.groupId}"/>
+							<c:out value="${item.groupId }"/>
+						</th>
+						<th>
+							<c:out value="${item.groupNm }"/>
+						</th>
+					</tr>
+				</c:forEach>
+					</table>
+				</div>
+			</td>
+			<input type="hidden" name="groupIds">
 		</tr>
 	
 		</tbody>

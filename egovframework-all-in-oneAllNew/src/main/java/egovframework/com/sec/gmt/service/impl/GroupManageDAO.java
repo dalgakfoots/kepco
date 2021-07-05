@@ -48,7 +48,12 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	public List<GroupManageVO> selectGroupList(GroupManageVO groupManageVO) throws Exception {
 		return (List<GroupManageVO>) list("groupManageDAO.selectGroupList", groupManageVO);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public List<GroupManageVO> selectGroupListKepco(GroupManageVO groupManageVO) throws Exception {
+		return (List<GroupManageVO>) list("groupManageDAO.selectGroupListKepco", groupManageVO);
+	}
+	
 	/**
 	 * 그룹 기본정보를 화면에서 입력하여 항목의 정합성을 체크하고 데이터베이스에 저장
 	 * @param groupManage GroupManage

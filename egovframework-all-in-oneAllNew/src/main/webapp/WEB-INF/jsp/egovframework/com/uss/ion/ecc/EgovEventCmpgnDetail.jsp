@@ -125,6 +125,40 @@
 			<td class="left"><a href="<c:url value='/uss/ion/ecc/selectTnextrlHrList.do?eventId=${result.eventId}' />" title="<spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" />"><spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" /></a></td>
 		</tr>
 		
+		<!-- 참여 팀  -->
+		
+		<tr>
+			<th><label>참가 팀</label></th>
+			<td class="left">
+				<div>
+					<table class="board_list">
+					<colgroup>
+						<col style="width: 30%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>팀 ID</th>
+							<th>팀명</th>
+						</tr>
+					</thead>
+				<c:forEach var="item" items="${teamList}" >
+					<tr>
+						<th>
+							<input type="hidden" name="groupId" value="${item.teamId}"/>
+							<c:out value="${item.team_id }"/>
+						</th>
+						<th>
+							<c:out value="${item.group_nm }"/>
+						</th>
+					</tr>
+				</c:forEach>
+					</table>
+				</div>
+			</td>
+			<input type="hidden" name="groupIds">
+		</tr>
+		
 	</tbody>
 	</table>
 	<!-- 하단 버튼 -->

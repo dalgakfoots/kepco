@@ -114,7 +114,7 @@ FROM(
                     #{zip},
                     #{adres},
                     #{areaNo},
-                    #{mberSttus},
+                    'P',<!-- 회원가입승인 상태  -->
                     #{detailAdres},
                     #{endTelno},
                     #{moblphonNo},

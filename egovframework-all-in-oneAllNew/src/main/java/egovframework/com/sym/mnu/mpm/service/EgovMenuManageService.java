@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import egovframework.com.cmm.ComDefaultVO;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  * 메뉴관리에 관한 서비스 인터페이스 클래스를 정의한다.
@@ -25,7 +26,9 @@ import egovframework.com.cmm.ComDefaultVO;
  */
 
 public interface EgovMenuManageService {
-
+	
+	public EgovMap selectProgramUrl(String menuNo) throws Exception;
+	
 	/**
 	 * 메뉴 상세정보를 조회
 	 * @param vo ComDefaultVO

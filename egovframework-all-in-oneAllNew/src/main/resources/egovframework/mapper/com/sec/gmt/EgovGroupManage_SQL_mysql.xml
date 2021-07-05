@@ -29,6 +29,13 @@
             ORDER BY GROUP_CREAT_DE DESC
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
+    
+    <select id="selectGroupListKepco" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultMap="group">
+
+            SELECT GROUP_ID, GROUP_NM, GROUP_DC, GROUP_CREAT_DE
+              FROM COMTNAUTHORGROUPINFO
+             WHERE 1=1
+    </select>
 
 	<insert id="insertGroup">
 		

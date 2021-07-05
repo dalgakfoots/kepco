@@ -163,6 +163,7 @@ function fnListPage(){
 function fnInsert(form){
 	
 	if(confirm("<spring:message code="common.regist.msg" />")){	
+		console.log(validateMberManageVO);
 		if(validateMberManageVO(form)){
 			if(form.password.value != form.password2.value){
 	            alert("<spring:message code="fail.user.passwordUpdate2" />");
@@ -241,7 +242,7 @@ function fnInsert(form){
 			<input name="password2" id="password2" title="${title} ${inputTxt}" type="password" size="50" maxlength="20" />
 			</td>
 		</tr>
-		<!-- 비밀번호힌트 -->
+		<%-- <!-- 비밀번호힌트 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.passHit"/></c:set>
 		<tr>
 			<th><label for="passwordHint">${title}</label> <span class="pilsu">*</span></th>
@@ -366,7 +367,7 @@ function fnInsert(form){
                     </form:select>
                     <div><form:errors path="mberSttus" cssClass="error"/></div>
 			</td>
-		</tr>
+		</tr> --%>
 	</tbody>
 	</table>
 

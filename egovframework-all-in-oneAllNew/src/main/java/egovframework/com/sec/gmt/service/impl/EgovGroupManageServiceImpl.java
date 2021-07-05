@@ -45,6 +45,10 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		return groupManageDAO.selectGroupList(groupManageVO);
 	}
 	
+	public List<GroupManageVO> selectGroupListKepco(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectGroupListKepco(groupManageVO);
+	}
+	
 	/**
 	 * 검색조건에 따른 그룹정보를 조회
 	 * @param groupManageVO GroupManageVO

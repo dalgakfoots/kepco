@@ -76,7 +76,7 @@ public class EgovMainMenuManageController {
     		@RequestParam("chkURL") String chkURL,
     		ModelMap model)
             throws Exception {
-
+    	
     	int iMenuNo = Integer.parseInt(menuNo);
     	menuManageVO.setMenuNo(iMenuNo);
     	//menuManageVO.setTempValue(chkURL);
@@ -207,6 +207,7 @@ public class EgovMainMenuManageController {
 
     	String forwardURL = null;
     	forwardURL = menuManageService.selectLastMenuURL(iMenuNo, user == null ? "" : EgovStringUtil.isNullToString(user.getUniqId()));
+    	LOGGER.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+forwardURL);
       	return "forward:"+forwardURL;
     }
 

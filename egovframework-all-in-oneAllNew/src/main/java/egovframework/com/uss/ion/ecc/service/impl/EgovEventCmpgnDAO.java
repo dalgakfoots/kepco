@@ -1,10 +1,12 @@
 package egovframework.com.uss.ion.ecc.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+import egovframework.com.uss.ion.ecc.service.EventCmpgnTeamVO;
 import egovframework.com.uss.ion.ecc.service.EventCmpgnVO;
 import egovframework.com.uss.ion.ecc.service.TnextrlHrVO;
 
@@ -63,4 +65,17 @@ public class EgovEventCmpgnDAO extends EgovComAbstractDAO {
 		delete("EventCmpgn.deleteEventCmpgnTnextrlHr", eventCmpgnVO);
 	}
 
+	public void insertEventCmpgnTeam(HashMap map) {
+		insert("EventCmpgn.insertEventCmpgnTeam", map);
+		
+	}
+	
+	public List<?> selectEventCmpgnTeam(HashMap map) {
+		return selectList("EventCmpgn.selectEventCmpgnTeam", map);
+	}
+
+	public Object deleteEventCmpgnTeam(HashMap map) {
+		return delete("EventCmpgn.deleteEventCmpgnTeam", map);
+	}
+ 
 }

@@ -41,12 +41,12 @@ function chk_all(val) {
 	<!-- 상단 -->
 	<div class="mp_top">
 		<div class="l"><!-- left layout -->
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectBBSListPortlet"/></h3><!-- 생성된 게시판 목록 -->
+			<h3 class="m_tit01 mt15">공지사항</h3><!-- 생성된 게시판 목록 -->
 			<div style="height:150px">
 				<c:import url="/cop/bbs/selectBBSListPortlet.do" />
 			</div>
 			
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectCommuMasterListPortlet"/></h3><!-- 생성된 커뮤니티 목록 -->
+			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectCommuMasterListPortlet"/></h3><!-- 생성된 커뮤니티 목록 -->
 			<div style="height:150px">
 				<c:import url="/cop/cmy/selectCommuMasterListPortlet.do" />
 			</div>
@@ -54,34 +54,35 @@ function chk_all(val) {
 			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectBlogListPortlet"/></h3><!-- 생성된 블로그 목록 -->
 			<div style="height:181px">
 				<c:import url="/cop/bbs/selectBlogListPortlet.do" />
-			</div>
+			</div> --%>
 		</div>
 		
 		<div class="r"><!-- right layout -->
 			<!-- 부서일정관리  -->
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.deptSchdulManageMainList"/></h3><!-- 부서일정관리 -->
+			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.deptSchdulManageMainList"/></h3><!-- 부서일정관리 --> --%>
+			<h3 class="m_tit01 mt15">추후 메뉴 삽입 예정입니다</h3>
 			<div style="height:150px">
 			<c:import charEncoding="utf-8" url="/cop/smt/sdm/EgovDeptSchdulManageMainList.do" ></c:import>
 			</div>
 			
-			<!-- 나의일정관리 -->
+			<%-- <!-- 나의일정관리 -->
 			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.indvdlSchdulManageMainList"/></h3><!-- 나의일정관리 -->
 			<div style="height:150px">
 			<c:import charEncoding="utf-8" url="/cop/smt/sim/EgovIndvdlSchdulManageMainList.do" ></c:import>
 			</div>
 			
 			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.exchangeRateInformation"/></h3><!-- 환율정보 -->
-			<iframe src="http://fx.kebhana.com/fxportal/jsp/RS/DEPLOY_EXRATE/fxrate_all.html" width="100%" height="181" border="0" frameborder="no" scrolling="no" marginwidth="0" hspace="0" vspace="0"></iframe>
+			<iframe src="http://fx.kebhana.com/fxportal/jsp/RS/DEPLOY_EXRATE/fxrate_all.html" width="100%" height="181" border="0" frameborder="no" scrolling="no" marginwidth="0" hspace="0" vspace="0"></iframe> --%>
 		</div>
 	</div>
 	
 	<!-- 배너 -->
-	<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.getBannerImage"/></h3><!-- 배너 -->
+	<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.getBannerImage"/></h3><!-- 배너 -->
 	<div class="mp_bn">
 		<c:import url="/uss/ion/bnr/getBannerImage.do" charEncoding="utf-8">
 			<c:param name="atchFileId" value="${banner.bannerImageFile}" />
 		</c:import>
-	</div>
+	</div> --%>
 
 <!-- bottom -->
 <c:import url="./main_bottom.jsp" />

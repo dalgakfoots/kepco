@@ -2,7 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="menuManageDAO">
-
+	
+	<select id="selectProgramUrl" parameterType="java.util.HashMap" resultType="egovMap">
+		SELECT A.MENU_NO,
+			   A.MENU_NM,
+			   A.PROGRM_FILE_NM,
+			   B.URL
+		  FROM COMTNMENUINFO A
+		  LEFT OUTER JOIN COMTNPROGRMLIST B
+		    ON A.PROGRM_FILE_NM = B.PROGRM_FILE_NM
+		 WHERE A.MENU_NO = #{menuNo}
+	</select>
+	
 	<select id="selectMenuManageList_D" parameterType="comDefaultVO" resultType="egovMap">
 		
 			SELECT 

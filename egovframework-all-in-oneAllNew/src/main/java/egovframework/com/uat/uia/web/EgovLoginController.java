@@ -134,7 +134,6 @@ public class EgovLoginController {
 	 */
 	@RequestMapping(value = "/uat/uia/actionLogin.do")
 	public String actionLogin(@ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
-
 		// 1. 로그인인증제한 활성화시 
 		if( egovLoginConfig.isLock()){
 		    Map<?,?> mapLockUserInfo = (EgovMap)loginService.selectLoginIncorrect(loginVO);
@@ -157,7 +156,6 @@ public class EgovLoginController {
 		
 		// 2. 로그인 처리
 		LoginVO resultVO = loginService.actionLogin(loginVO);
-		
 		// 3. 일반 로그인 처리
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
 
@@ -165,9 +163,10 @@ public class EgovLoginController {
 			request.getSession().setAttribute("loginVO", resultVO);
 			// 2019.10.01 로그인 인증세션 추가
 			request.getSession().setAttribute("accessUser", resultVO.getUserSe().concat(resultVO.getId()));
-
-			return "redirect:/uat/uia/actionMain.do";
-
+			
+			//return "redirect:/uat/uia/actionMain.do";
+			return "redirect:/sym/mnu/mpm/EgovMainMenuHome.do";
+			
 		} else {
 			model.addAttribute("loginMessage", egovMessageSource.getMessage("fail.common.login",request.getLocale()));
 			return "egovframework/com/uat/uia/EgovLoginUsr";

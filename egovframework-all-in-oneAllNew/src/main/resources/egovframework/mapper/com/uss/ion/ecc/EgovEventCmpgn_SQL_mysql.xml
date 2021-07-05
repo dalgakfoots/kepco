@@ -10,7 +10,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EventCmpgn">
-
 	<resultMap id="EventCmpgnListMap" type="egovframework.com.uss.ion.ecc.service.EventCmpgnVO">
 		<result property="eventId" column="EVENT_ID"/>
 		<result property="eventSvcBeginDe" column="EVENT_SVC_BGNDE"/>
@@ -179,7 +178,34 @@
 	 	
 
 	</select>
-
+	<select id = "selectEventCmpgnTeam" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT A.team_id,
+		       C.group_nm
+		FROM   kepco_training_teams A
+		       LEFT OUTER JOIN comtneventinfo B
+		                    ON A.training_id = B.event_id
+		       LEFT OUTER JOIN comtnauthorgroupinfo C
+		                    ON A.team_id = C.group_id
+		WHERE  B.event_id = #{eventId}
+	</select>
+	<insert id="insertEventCmpgnTeam" parameterType="java.util.HashMap">
+		
+		INSERT INTO KEPCO_TRAINING_TEAMS
+					(
+						TRAINING_ID,
+						TEAM_ID,
+						IS_ENABLED
+						
+					) VALUES (
+						
+						#{eventId},
+						#{groupId},
+						'Y'
+					)
+					
+	</insert>
+	
+	
 	<insert id="insertEventCmpgn">
 	 
 
@@ -224,7 +250,12 @@
 			WHERE EXTRL_HR_ID = #{extrlHrId}
 		
 	</delete>
-
+	
+	<delete id="deleteEventCmpgnTeam" parameterType="java.util.HashMap">
+		DELETE FROM KEPCO_TRAINING_TEAMS
+			  WHERE TRAINING_ID = #{eventId}
+	</delete>
+	
 	<update id="updateTnextrlHr">
 		UPDATE COMTNEXTRLHRINFO
 		SET
@@ -377,5 +408,7 @@
 		)
 	 
 	</insert>
-
+	
+	
+	
 </mapper>

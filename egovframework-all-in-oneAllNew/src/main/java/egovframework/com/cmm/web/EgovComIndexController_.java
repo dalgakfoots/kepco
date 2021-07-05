@@ -54,11 +54,11 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uat.uia.service.EgovLoginService;
 
 @Controller
-public class EgovComIndexController implements ApplicationContextAware, InitializingBean {
+public class EgovComIndexController_ implements ApplicationContextAware, InitializingBean {
 
 	private ApplicationContext applicationContext;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(EgovComIndexController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EgovComIndexController_.class);
 
 	public void afterPropertiesSet() throws Exception {}
 
@@ -89,7 +89,6 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 
 	@RequestMapping("/EgovContent.do")
 	public String setContent(ModelMap model) throws Exception {
-
 		// 설정된 비밀번호 유효기간을 가져온다. ex) 180이면 비밀번호 변경후 만료일이 앞으로 180일 
 		String propertyExpirePwdDay = EgovProperties.getProperty("Globals.ExpirePwdDay");
 		int expirePwdDay = 0 ;
@@ -117,8 +116,8 @@ public class EgovComIndexController implements ApplicationContextAware, Initiali
 		
 		// 만료일자로부터 경과한 일수 => ex)1이면 만료일에서 1일 경과
 		model.addAttribute("elapsedTimeExpiration", passedDayChangePWD - expirePwdDay);
-		
-		return "egovframework/com/cmm/EgovUnitContent";
+		return "redirect:/sym/mnu/mpm/EgovMainMenuHome.do";
+//		return "egovframework/com/cmm/EgovUnitContent";
 	}
 
 	@RequestMapping("/EgovLeft.do")

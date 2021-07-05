@@ -102,11 +102,42 @@ function fn_egov_regist_event(form){
 	if (!validateEventCmpgnVO(form)) {	
 		return false;
 	} else {
+		fnSelectTeam();
+		console.log(form.groupIds);
+		
 		if(confirm("<spring:message code="common.regist.msg" />")){	
 			form.submit();	
 		}
 	} 
 }
+
+function fnSelectTeam() {
+    var checkField = document.getElementById('eventCmpgnVO').chkYn;
+    var id = document.getElementById('eventCmpgnVO').groupId;
+    console.log(checkField);
+    console.log(id);
+    
+    var checkedIds = "";
+    var checkedCount = 0;
+    if(checkField) {
+        if(checkField.length > 1) {
+            for(var i=0; i < checkField.length; i++) {
+                if(checkField[i].checked) {
+                    checkedIds += ((checkedCount==0? "" : ",") + id[i].value);
+                    checkedCount++;
+                }
+            }
+        } else {
+            if(checkField.checked) {
+                checkedIds = id.value;
+            }
+        }
+    }
+    
+    document.getElementById('eventCmpgnVO').groupIds.value = checkedIds;
+}
+
+
 </script>
 
 </head>
@@ -227,10 +258,46 @@ function fn_egov_regist_event(form){
 			</td>
 		</tr>
 		
+		<!-- 현재 시스템에 등록된 팀 리스트로 보여줘야 함.  -->
+		<tr>
+			<th><label>참가 팀 등록 <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<div>
+					<table class="board_list">
+					<colgroup>
+						<col style="width: 5%;">
+						<col style="width: 20%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th><!-- <input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="전체선택체크박스"> --></th>
+							<th>팀 ID</th>
+							<th>팀명</th>
+						</tr>
+					</thead>
+				<c:forEach var="item" items="${groupList}" >
+					<tr>
+						<td>
+							<input type="checkbox" name="chkYn" class="check2">
+						</td>
+						<th>
+							<input type="hidden" name="groupId" value="${item.groupId}"/>
+							<c:out value="${item.groupId }"/>
+						</th>
+						<th>
+							<c:out value="${item.groupNm }"/>
+						</th>
+					</tr>
+				</c:forEach>
+					</table>
+				</div>
+			</td>
+			<input type="hidden" name="groupIds">
+		</tr>
 		
 	</tbody>
 	</table>
-
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />

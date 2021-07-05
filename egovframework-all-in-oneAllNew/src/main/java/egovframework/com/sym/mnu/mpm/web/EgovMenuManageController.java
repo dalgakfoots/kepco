@@ -32,6 +32,7 @@ import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
 import egovframework.com.sym.prm.service.EgovProgrmManageService;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -161,7 +162,16 @@ public class EgovMenuManageController {
 
       	return "egovframework/com/sym/mnu/mpm/EgovMenuManage";
     }
-
+    
+    @RequestMapping(value="/sym/mnu/mpm/selectProgramUrl.do")
+    public String selectProgramUrl(@RequestParam("menuNo") String menuNo, ModelMap model) throws Exception {
+    	EgovMap map = menuManageService.selectProgramUrl(menuNo);
+    	LOGGER.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    	System.out.println(map.get("url"));
+    	LOGGER.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    	return "redirect:"+map.get("url");
+    }
+    
     /**
      * 메뉴목록 멀티 삭제한다.
      * @param checkedMenuNoForDel  String

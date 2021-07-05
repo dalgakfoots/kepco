@@ -149,11 +149,11 @@ function press() {
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 <form:form name="listForm" action="${pageContext.request.contextPath}/sec/gmt/EgovGroupList.do" method="post">
 <div class="board">
-	<h1>${pageTitle} <spring:message code="title.list" /></h1><!-- 그룹관리 목록 -->
+	<h1>KEPCO 훈련팀 <spring:message code="title.list" /></h1><!-- 그룹관리 목록 -->
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
-			<li><div style="line-height:4px;">&nbsp;</div><div><spring:message code="comCopSecGmt.searchCondition.searchKeywordText" /> : </div></li><!-- 그룹 명 -->
+			<li><div style="line-height:4px;">&nbsp;</div><div><%-- <spring:message code="comCopSecGmt.searchCondition.searchKeywordText" /> --%>팀명 : </div></li><!-- 그룹 명 -->
 			<!-- 검색키워드 및 조회버튼 -->
 			<li>
 				<input class="s_input" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${searchVO.searchKeyword}"/>'  maxlength="155" >
@@ -178,8 +178,8 @@ function press() {
 	<thead>
 	<tr>
 		<th><input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="<spring:message code="input.selectAll.title" />"></th><!-- 번호 -->
-		<th class="board_th_link"><spring:message code="comCopSecGmt.list.groupId" /></th><!-- 그룹 ID -->
-		<th><spring:message code="comCopSecGmt.list.groupNm" /></th><!-- 그룹 명 -->
+		<th class="board_th_link"><%-- <spring:message code="comCopSecGmt.list.groupId" /> --%> 팀 ID</th><!-- 그룹 ID -->
+		<th><%-- <spring:message code="comCopSecGmt.list.groupNm" /> --%> 팀명</th><!-- 그룹 명 -->
 		<th><spring:message code="comCopSecGmt.list.groupDc" /></th><!-- 설명 -->
 		<th><spring:message code="table.regdate" /></th><!-- 등록일자 -->
 		<th></th>

@@ -515,13 +515,17 @@ public class EgovMberManageController {
 		if (!isAuthenticated) {
 			return "index";
 		}
-
+		
+		
+		MberManageVO mber =  mberManageService.selectMber(mberManageVO.getUniqId());
+		
 		String userTyForPassword = (String) commandMap.get("userTyForPassword");
 		mberManageVO.setUserTy(userTyForPassword);
-
+		
 		model.addAttribute("userSearchVO", userSearchVO);
-		model.addAttribute("mberManageVO", mberManageVO);
-
+		//model.addAttribute("mberManageVO", mberManageVO);
+		model.addAttribute("mberManageVO", mber);
+		
 		return "egovframework/com/uss/umt/EgovMberPasswordUpdt";
 	}
 

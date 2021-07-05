@@ -64,6 +64,7 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		String uniqId = idgenService.getNextStringId();
 		mberManageVO.setUniqId(uniqId);
 		//패스워드 암호화
+		/*TODO 회원가입 시 암호화 하는 line*/
 		String pass = EgovFileScrty.encryptPassword(mberManageVO.getPassword(), EgovStringUtil.isNullToString(mberManageVO.getMberId()));//KISA 보안약점 조치 (2018-10-29, 윤창원)
 		mberManageVO.setPassword(pass);
 

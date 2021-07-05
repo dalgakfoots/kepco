@@ -61,7 +61,7 @@ function fncGroupInsert(form) {
 <form:form commandName="groupManage" method="post" action="${pageContext.request.contextPath}/sec/gmt/EgovGroupInsert.do" onSubmit="fncGroupInsert(document.forms[0]); return false;"> 
 <div class="wTableFrm">
 	<!-- 타이틀 -->
-	<h2>${pageTitle} <spring:message code="title.create" /></h2><!-- 그룹관리 등록 -->
+	<h2>훈련팀 <spring:message code="title.create" /></h2><!-- 그룹관리 등록 -->
 
 	<!-- 등록폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -73,7 +73,7 @@ function fncGroupInsert(form) {
 		<!-- 입력 -->
 		<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 		<!-- 그룹명 -->
-		<c:set var="title"><spring:message code="comCopSecGmt.regist.groupNm" /></c:set>
+		<c:set var="title"><%-- <spring:message code="comCopSecGmt.regist.groupNm" /> --%>팀명</c:set>
 		<tr>
 			<th>${title} <span class="pilsu">*</span></th>
 			<td class="left">

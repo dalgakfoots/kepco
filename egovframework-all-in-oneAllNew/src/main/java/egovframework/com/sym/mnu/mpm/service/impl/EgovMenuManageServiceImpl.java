@@ -2,6 +2,7 @@ package egovframework.com.sym.mnu.mpm.service.impl;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import egovframework.com.sym.prm.service.impl.ProgrmManageDAO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.cmmn.exception.BaseException;
 import egovframework.rte.fdl.excel.EgovExcelService;
+import egovframework.rte.psl.dataaccess.util.EgovMap;
 
 /**
  * 메뉴목록관리, 생성, 사이트맵을 처리하는 비즈니스 구현 클래스를 정의한다.
@@ -59,7 +61,13 @@ public class EgovMenuManageServiceImpl extends EgovAbstractServiceImpl implement
 
 	@Resource(name = "multipartResolver")
 	CommonsMultipartResolver mailmultipartResolver;
-
+	
+	public EgovMap selectProgramUrl(String menuNo) throws Exception {
+		HashMap map = new HashMap();
+		map.put("menuNo", menuNo);
+		return menuManageDAO.selectProgramUrl(map);
+	}
+	
 	/**
 	 * 메뉴 상세정보를 조회
 	 * @param vo ComDefaultVO

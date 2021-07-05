@@ -1,11 +1,14 @@
 package egovframework.com.cop.bbs.web;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.com.cmm.ComDefaultCodeVO;
@@ -195,7 +199,21 @@ public class EgovBBSMasterController {
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));	
 		model.addAttribute("paginationInfo", paginationInfo);
-
+		
+		EgovUserDetailsHelper helper = new EgovUserDetailsHelper();
+		//인증된 권한 목록
+		List<String> authList = (List<String>)EgovUserDetailsHelper.getAuthorities();
+		//관리자인증여부
+		boolean adminAuthUrlPatternMatcher = false;
+		//AntPathRequestMatcher
+		
+		//관리자 권한 체크
+		if(authList.contains("ROLE_ADMIN")){
+			model.addAttribute("auth", true);
+		}else {
+			model.addAttribute("auth", false);
+		}
+		
 		return "egovframework/com/cop/bbs/EgovBBSMasterList";
     }
     
@@ -371,6 +389,20 @@ public class EgovBBSMasterController {
 		}
 		if(EgovComponentChecker.hasComponent("EgovBBSSatisfactionService")){
 			model.addAttribute("useSatisfaction", "true");
+		}
+		
+		EgovUserDetailsHelper helper = new EgovUserDetailsHelper();
+		//인증된 권한 목록
+		List<String> authList = (List<String>)EgovUserDetailsHelper.getAuthorities();
+		//관리자인증여부
+		boolean adminAuthUrlPatternMatcher = false;
+		//AntPathRequestMatcher
+		
+		//관리자 권한 체크
+		if(authList.contains("ROLE_ADMIN")){
+			model.addAttribute("auth", true);
+		}else {
+			model.addAttribute("auth", false);
 		}
 		
 		return "egovframework/com/cop/bbs/EgovBBSMasterDetail";

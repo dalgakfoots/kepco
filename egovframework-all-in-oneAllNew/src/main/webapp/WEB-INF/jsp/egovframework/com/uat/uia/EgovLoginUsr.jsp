@@ -65,7 +65,7 @@ function actionLogin() {
     } else if (document.loginForm.password.value =="") {
         alert("<spring:message code="comUatUia.validate.passCheck" />"); <%-- 비밀번호를 입력하세요 --%>
     } else {
-        document.loginForm.action="<c:url value='/uat/uia/actionLogin.do'/>";
+    	//document.loginForm.action="<c:url value='/uat/uia/actionLogin.do'/>";
         //document.loginForm.j_username.value = document.loginForm.userSe.value + document.loginForm.username.value;
         //document.loginForm.action="<c:url value='/j_spring_security_check'/>";
         document.loginForm.submit();
@@ -229,11 +229,11 @@ function fnShowLogin(stat) {
 	<fieldset>
 		<img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:30px 0 0px 60px" alt="login title image"  title="login title image">
 		<div class="login_type">
-			<ul id="ulLoginType">
+			 <ul id="ulLoginType">
 				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeUsr');" id="typeUsr" title=""><spring:message code="comUatUia.loginForm.USR"/></a></li> <!-- 업무 -->
-			</ul>
+			</ul> 
 		</div>
 	
 		<div class="login_input">
@@ -258,7 +258,7 @@ function fnShowLogin(stat) {
 				<li>
 					<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login"/>" onclick="actionLogin()"> <!-- 로그인  -->
 				</li>
-				<li>
+				<%-- <li>
 					<ul class="btn_idpw" >
 						<li><a href="#" onclick="goRegiUsr(); return false;"><spring:message code="comUatUia.loginForm.regist"/></a></li> <!-- 회원가입  -->
 					</ul>
@@ -268,7 +268,7 @@ function fnShowLogin(stat) {
 						<li><a href="#" onclick="fnShowLogin(1);"><spring:message code="comUatUia.loginForm.login.gpki"/></a></li><!-- 인증서로그인 -->
 						<li><a href="<c:url value='/uat/uia/egovGpkiIssu.do'/>"><spring:message code="comUatUia.loginForm.gpki.info"/></a></li><!-- 인증서안내 -->
 					</ul>
-				</li>
+				</li> --%>
 				
 			</ul>
 		</div>

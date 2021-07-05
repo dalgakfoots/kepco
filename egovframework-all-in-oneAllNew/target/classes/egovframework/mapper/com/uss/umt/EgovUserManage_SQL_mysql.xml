@@ -134,11 +134,31 @@ FROM(
         
     </insert>
     
+    <insert id = "insertTeamMberRelation" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+    	INSERT INTO KEPCO_TEAM_USERS
+    				(TEAM_ID,
+    				 USER_ID,
+    				 IS_ENABLED
+    				)
+    		 VALUES (
+    		 		#{groupId},
+    		 		#{uniqId},
+    		 		'Y'
+    		 		)
+    
+    </insert>
+    
     <delete id="deleteUser_S">
         
             DELETE FROM COMTNEMPLYRINFO 
             WHERE ESNTL_ID=#{delId}
         
+    </delete>
+    
+    <delete id="deleteTeamMberRelation" parameterType="egovframework.com.uss.umt.service.MberManageVO">
+    		
+    		DELETE FROM KEPCO_TEAM_USERS
+    		WHERE USER_ID=#{uniqId}
     </delete>
     
     <select id="selectUser_S" resultType="egovframework.com.uss.umt.service.UserManageVO">

@@ -96,7 +96,7 @@ function fnUpdate(form){
 		<tr>
 			<th>${title}<span class="pilsu">*</span></th>
 			<td class="left">
-				<input name="oldPassword" id="oldPassword" type="password" size="20" value=""  maxlength="100" >
+				<input name="oldPassword" id="oldPassword" type="password" size="20" value="${mberManageVO.password }"  maxlength="100" >
 			</td>
 		</tr>
 		<!-- 비밀번호 -->
@@ -124,7 +124,6 @@ function fnUpdate(form){
 		</tr>
 	</tbody>
 	</table>
-
 	<!-- 하단 버튼 -->
 	<div class="btn">
 	<input type="submit" class="s_submit" value="<spring:message code="button.update" />" title="<spring:message code="button.update" /> <spring:message code="input.button" />" />

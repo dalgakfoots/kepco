@@ -35,6 +35,24 @@
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="groupManage" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javaScript" language="javascript">
+
+/*TODO 자식창에서 호출 : 행 추가시킴*/
+window.call = function(list){
+	var board = document.querySelector("#board");
+	for(var i = 0; i < list.length ; i++){
+		var newRow = board.insertRow();
+		newRow.insertCell(0).innerHTML = '<input type="hidden" name="userId" value="'+list[i].uniqId+'">'
+		newRow.insertCell(1).innerHTML = '<input type="checkbox" name="chkYn" checked="checked">';
+		newRow.insertCell(2).innerHTML = list[i].mberId;
+		newRow.insertCell(3).innerHTML = list[i].mberNm;
+	}
+}
+
+/*TODO 훈련팀 등록 시 회원 추가할 수 있는 팝업화면 추가 */
+function searchNoTeamUsers(){
+	window.open("<c:url value='/uss/umt/selectMberListPopup.do'/>", "회원검색", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+}
+
 function fncSelectGroupList() {
     var varFrom = document.getElementById("groupManage");
     varFrom.action = "<c:url value='/sec/gmt/EgovGroupList.do'/>";
@@ -46,6 +64,7 @@ function fncGroupUpdate(form) {
         if(!validateGroupManage(form)){
             return false;
         }else{
+        	fnSelectTeam();
         	form.submit();
         }
     }
@@ -60,6 +79,27 @@ function fncGroupDelete() {
     	return false;
     }
 }
+
+function fnSelectTeam() {
+    var checkField = document.getElementById('groupManage').chkYn;
+    var id = document.getElementById('groupManage').userId;
+    
+    var checkedIds = "";
+    var checkedCount = 0;
+    if(checkField) {
+    	if(checkField.length > 1) {
+            for(var i=0; i < checkField.length; i++) {
+                if(checkField[i].checked) {
+                	checkedIds += ((checkedCount==0? "" : ",") + id[i].value);
+                    checkedCount++;
+                }
+            }
+        } 
+    }
+    
+    document.getElementById('groupManage').addedUser.value = checkedIds;
+}
+
 </script>
 </head>
 
@@ -106,6 +146,43 @@ function fncGroupDelete() {
 				<div><form:errors path="groupDc" cssClass="error" /></div> 
 			</td>
 		</tr>
+		
+		<!-- TODO 팀 - 회원 매칭 가능하도록 구성  -->
+		
+		<tr>
+			<th>팀원 목록</th>
+			<td class="left">
+				<div>
+					<span class="btn_s2" name="add" onclick="javascript:searchNoTeamUsers()">추가</span>
+					<table class="board_list" id = "board">
+					<colgroup>
+						<col style="width: 10%">
+						<col style="width: 10%">
+						<col style="width: 30%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th></th>
+							<th></th>
+							<th>팀원 ID</th>
+							<th>팀원명</th>
+						</tr>
+					</thead>
+					<tbody>
+						 <c:forEach var="item" items="${selectUsers }">
+							<tr>
+								<td><input type="hidden" name="userId" value="${item.USER_ID}"></td>
+								<td><input type="checkbox" name="chkYn" checked="checked"></td>
+								<td>${item.MBER_ID }</td>
+								<td>${item.MBER_NM }</td>
+							</tr>	
+						</c:forEach>
+					</tbody>	 
+					</table>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 	</table>
 
@@ -123,6 +200,9 @@ function fncGroupDelete() {
 <input type="hidden" name="searchCondition" value="<c:out value='${groupManageVO.searchCondition}'/>"/>
 <input type="hidden" name="searchKeyword" value="<c:out value='${groupManageVO.searchKeyword}'/>"/>
 <input type="hidden" name="pageIndex" value="<c:out value='${groupManageVO.pageIndex}'/>"/>
+
+<input type="hidden" name="addedUser" value=""/>
+<input type="hidden" name="deledUser" value=""/>
 </form:form>
 
 <form id="frmIdDelete" name="frmDelete" method="post">

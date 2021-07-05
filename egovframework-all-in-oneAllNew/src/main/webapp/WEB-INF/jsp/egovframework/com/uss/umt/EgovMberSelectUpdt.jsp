@@ -139,7 +139,6 @@ function fnUpdate(form){
                     <div><form:errors path="groupId" cssClass="error"/></div>
 			</td>
 		</tr>
-		
 		<%-- <!-- 비밀번호힌트 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.passHit"/></c:set>
 		<tr>

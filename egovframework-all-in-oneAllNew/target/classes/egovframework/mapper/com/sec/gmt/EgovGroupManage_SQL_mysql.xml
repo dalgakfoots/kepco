@@ -36,7 +36,18 @@
               FROM COMTNAUTHORGROUPINFO
              WHERE 1=1
     </select>
-
+	
+	<select id="selectUsers" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="java.util.HashMap">
+		SELECT A.TEAM_ID,
+			   A.USER_ID,
+			   B.MBER_ID,
+			   B.MBER_NM,
+			   A.IS_ENABLED
+		  FROM KEPCO_TEAM_USERS A LEFT OUTER JOIN COMTNGNRLMBER B 
+		    ON A.USER_ID = B.ESNTL_ID
+		 WHERE TEAM_ID = #{groupId}
+	</select>
+	
 	<insert id="insertGroup">
 		
 			INSERT INTO COMTNAUTHORGROUPINFO 
@@ -51,6 +62,19 @@
 		
 	</insert>
 	
+	<insert id="insertUserGroupMapping">
+			INSERT INTO KEPCO_TEAM_USERS
+				  (TEAM_ID,
+				  USER_ID,
+				  IS_ENABLED
+				  )
+			VALUES (#{groupId},
+					#{userId},
+					'Y'
+					)
+	
+	</insert>
+	
 	<update id="updateGroup" parameterType="egovframework.com.sec.gmt.service.GroupManage">
 		
 			UPDATE COMTNAUTHORGROUPINFO 
@@ -61,11 +85,22 @@
 		
 	</update>
 	
+	<update id="updateUserGroupId">
+			UPDATE COMTNGNRLMBER
+			   SET GROUP_ID = #{groupId}
+			 WHERE ESNTL_ID = #{userId}
+	</update>
+	
 	<delete id="deleteGroup">
 		
 			DELETE FROM COMTNAUTHORGROUPINFO 
 			 WHERE GROUP_ID=#{groupId}
 		
+	</delete>
+	
+	<delete id="deleteUserGroupMapping">
+			DELETE FROM KEPCO_TEAM_USERS
+			 WHERE TEAM_ID = #{teamId}
 	</delete>
 	
 	<select id="selectGroupListTotCnt" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="int">

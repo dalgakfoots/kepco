@@ -1,7 +1,7 @@
 package egovframework.com.sec.gmt.web;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -190,6 +190,14 @@ public class EgovGroupManageController {
 			param.put("teamId", groupManage.getGroupId());
 			
 			/*TODO 회원 ID로 검색하여 회원의 GROUP_ID 를 NULL 로 변경시킨다.*/
+			
+			List<HashMap> selectedTeamUsers = (List<HashMap>) egovGroupManageService.selectSelectedTeamUsers(param);
+			for(HashMap a : selectedTeamUsers) {
+				HashMap map = new HashMap();
+				map.put("groupId", "");
+				map.put("userId", a.get("ESNTL_ID"));
+				egovGroupManageService.updateUserGroupId(map);
+			}
 			
 			egovGroupManageService.deleteUserGroupMapping(param);
 			String [] userArr = addedUser.split(",");

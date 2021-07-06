@@ -76,5 +76,7 @@ public interface EgovGroupManageService {
 
 	public void insertUserGroupMapping(HashMap map) throws Exception;
 
-	public void deleteUserGroupMapping(HashMap param) throws Exception;	
+	public void deleteUserGroupMapping(HashMap param) throws Exception;
+
+	public List<?> selectSelectedTeamUsers(HashMap param) throws Exception;	
 }

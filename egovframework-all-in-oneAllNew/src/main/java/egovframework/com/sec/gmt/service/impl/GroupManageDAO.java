@@ -113,4 +113,9 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 		delete("groupManageDAO.deleteUserGroupMapping", param);
 		
 	}
+
+	public List<HashMap> selectSelectedTeamUsers(HashMap param) {
+		return selectList("groupManageDAO.selectSelectedTeamUsers", param);
+		
+	}
 }

@@ -123,4 +123,9 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		groupManageDAO.deleteUserGroupMapping(param);
 		
 	}
+
+	@Override
+	public List<?> selectSelectedTeamUsers(HashMap param) throws Exception {
+		return groupManageDAO.selectSelectedTeamUsers(param);
+	}
 }

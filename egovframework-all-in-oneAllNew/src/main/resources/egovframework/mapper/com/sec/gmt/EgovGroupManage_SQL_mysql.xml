@@ -87,7 +87,14 @@
 	
 	<update id="updateUserGroupId">
 			UPDATE COMTNGNRLMBER
-			   SET GROUP_ID = #{groupId}
+			   <choose>
+				   <when test='groupId == ""'>
+				   SET GROUP_ID = NULL
+				   </when>
+				   <otherwise>
+				   SET GROUP_ID = #{groupId}   
+				   </otherwise>
+			   </choose>
 			 WHERE ESNTL_ID = #{userId}
 	</update>
 	
@@ -112,5 +119,16 @@
 				GROUP_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
 			</if>
 	</select>
-
+	
+	<select id="selectSelectedTeamUsers" resultType="java.util.HashMap">
+			
+			SELECT MBER_ID,
+				   MBER_NM,
+				   ESNTL_ID,
+				   GROUP_ID
+			  FROM COMTNGNRLMBER
+			 WHERE GROUP_ID = #{teamId}
+			
+	</select>
+	
 </mapper>

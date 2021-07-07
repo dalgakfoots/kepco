@@ -128,7 +128,11 @@ public class EgovMberManageController {
 	@IncludedInfo(name = "일반회원관리", order = 470, gid = 50)
 	@RequestMapping(value = "/uss/umt/selectMberListPopup.do")
 	public String selectMberListPopup(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO, ModelMap model) throws Exception {
-
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("ok i am in");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
 		// 미인증 사용자에 대한 보안처리
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
 		if (!isAuthenticated) {

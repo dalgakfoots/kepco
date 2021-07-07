@@ -33,7 +33,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <%-- <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script> --%>
-<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFiles.js'/>" ></script>
+<%-- <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFiles.js'/>" ></script> --%>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="faqVO" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javascript">
@@ -43,9 +43,9 @@
  ******************************************************** */
 function fn_egov_init(){
 
-	var maxFileNum = 3;
+	/* var maxFileNum = 3;
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
-	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
+	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) ); */
 	//------------------------- 첨부파일 등록 End
 	
 	// 첫 입력란에 포커스
@@ -57,10 +57,10 @@ function fn_egov_init(){
  ******************************************************** */
 function fn_egov_regist_faq(form){
 	
-	var resultExtension = EgovMultiFilesChecker.checkExtensions("egovComFileUploader", "<c:out value='${fileUploadExtensions}'/>"); // 결과가 false인경우 허용되지 않음
+	/* var resultExtension = EgovMultiFilesChecker.checkExtensions("egovComFileUploader", "<c:out value='${fileUploadExtensions}'/>"); // 결과가 false인경우 허용되지 않음
 	if (!resultExtension) return true;
 	var resultSize = EgovMultiFilesChecker.checkFileSize("egovComFileUploader", <c:out value='${fileUploadMaxSize}'/>); // 파일당 1M까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
-	if (!resultSize) return true;
+	if (!resultSize) return true; */
 	
 	//input item Client-Side validate
 	if (!validateFaqVO(form)) {	
@@ -82,7 +82,7 @@ function fn_egov_regist_faq(form){
 <form:form commandName="faqVO" action="${pageContext.request.contextPath}/uss/olh/faq/insertFaq.do" method="post" onSubmit="fn_egov_regist_faq(document.forms[0]); return false;" enctype="multipart/form-data"> 
 <div class="wTableFrm">
 	<!-- 타이틀 -->
-	<h2>${pageTitle} <spring:message code="title.create" /></h2>
+	<h2>사후대응훈련문제 <spring:message code="title.create" /></h2>
 
 	<!-- 등록폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -97,7 +97,7 @@ function fn_egov_regist_faq(form){
 		<!-- 질문 제목   -->
 		<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.qestnSj"/> </c:set>
 		<tr>
-			<th><label for="qestnSj">${title} <span class="pilsu">*</span></label></th>
+			<th><label for="qestnSj">문제제목 <span class="pilsu">*</span></label></th>
 			<td class="left">
 			    <form:input path="qestnSj" title="${title} ${inputTxt}" size="70" maxlength="70" />
    				<div><form:errors path="qestnSj" cssClass="error" /></div>     
@@ -107,7 +107,7 @@ function fn_egov_regist_faq(form){
 		<!-- 질문 내용  -->
 		<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.qestnCn"/> </c:set>
 		<tr>
-			<th><label for="qestnCn">${title } <span class="pilsu">*</span></label></th>
+			<th><label for="qestnCn">문제내용 <span class="pilsu">*</span></label></th>
 			<td class="nopd" colspan="3">
 				<form:textarea path="qestnCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 				<div><form:errors path="qestnCn" cssClass="error" /></div>  
@@ -117,7 +117,7 @@ function fn_egov_regist_faq(form){
 		<!-- 답변 내용  -->
 		<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.answerCn"/> </c:set>
 		<tr>
-			<th><label for="answerCn">${title } <span class="pilsu">*</span></label></th>
+			<th><label for="answerCn">정답 <span class="pilsu">*</span></label></th>
 			<td class="nopd" colspan="3">
 				<form:textarea path="answerCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 				<div><form:errors path="answerCn" cssClass="error" /></div>  
@@ -125,7 +125,7 @@ function fn_egov_regist_faq(form){
 		</tr>
 		
 		<!-- 첨부파일  -->
-		<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.atchFile"/></c:set>
+		<%-- <c:set var="title"><spring:message code="comUssOlhFaq.faqVO.atchFile"/></c:set>
 		<tr>
 			<th><label for="file_1">${title}</label> </th>
 			<td class="nopd">
@@ -136,7 +136,7 @@ function fn_egov_regist_faq(form){
 			</div>
 			<!-- attached file End -->
 			</td>
-		</tr>
+		</tr> --%>
 		
 	</tbody>
 	</table>

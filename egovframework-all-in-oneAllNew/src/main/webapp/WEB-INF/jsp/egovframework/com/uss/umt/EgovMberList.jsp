@@ -26,7 +26,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${pageTitle} <spring:message code="title.list" /></title>
+<title>팀 미등록 회원 <spring:message code="title.list" /></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <script type="text/javaScript" language="javascript" defer="defer">
@@ -100,7 +100,7 @@ function fnAddUserView() {
 }
 function fnLinkPage(pageNo){
     document.listForm.pageIndex.value = pageNo;
-    document.listForm.action = "<c:url value='/uss/umt/EgovMberManage.do'/>";
+    document.listForm.action = "<c:url value='/uss/umt/selectMberListPopup.do'/>";
     document.listForm.submit();
 }
 function fnSearch(){
@@ -143,12 +143,12 @@ function fnAddUserView(){
 <%-- <form name="listForm" action="<c:url value='/uss/umt/EgovMberManage.do'/>" method="post">  --%>
 <form name="listForm" action="javascript:fnAddUserView()" method="post">
 <div class="board">
-	<h1>${pageTitle} <spring:message code="title.list" /></h1>
-	
+	<%-- <h1>${pageTitle} <spring:message code="title.list" /></h1> --%>
+	<h1>팀 미등록 회원 <spring:message code="title.list" /></h1>
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
-			<li><!-- 상태-->
+			<%-- <li><!-- 상태-->
                 <select name="sbscrbSttus" id="sbscrbSttus" title="<spring:message code="comUssUmt.userManageSsearch.sbscrbSttusTitle" />">
                     <option value="0" <c:if test="${empty mberVO.sbscrbSttus || mberVO.sbscrbSttus == '0'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusAll" /></option><!-- 상태(전체) -->
                     <option value="A" <c:if test="${mberVO.sbscrbSttus == 'A'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.sbscrbSttusA" /></option><!-- 가입신청 -->
@@ -161,11 +161,11 @@ function fnAddUserView(){
                     <option value="0" <c:if test="${mberVO.searchCondition == '0'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.searchConditionId" /></option><!-- ID  -->
                     <option value="1" <c:if test="${empty mberVO.searchCondition || mberVO.searchCondition == '1'}">selected="selected"</c:if> ><spring:message code="comUssUmt.userManageSsearch.searchConditionName" /></option><!-- Name -->
                 </select>
-			</li>
+			</li> --%>
 			<!-- 검색키워드 및 조회버튼 -->
 			<li>
-				<input class="s_input" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${mberVO.searchKeyword}"/>'  maxlength="255" >
-				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" />
+				<%-- <input class="s_input" name="searchKeyword" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${mberVO.searchKeyword}"/>'  maxlength="255" > --%>
+				<%-- <input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" /> --%>
 				<%-- <span class="btn_b"><a href="<c:url value='/uss/umt/EgovMberInsertView.do'/>" onClick="fnAddUserView(); return false;"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span> --%>
 				<span class="btn_b" id="tran"><a href="#" onClick="fnAddUserView();"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
 			</li>

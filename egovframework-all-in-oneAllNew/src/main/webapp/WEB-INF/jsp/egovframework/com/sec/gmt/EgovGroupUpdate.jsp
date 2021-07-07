@@ -108,7 +108,7 @@ function fnSelectTeam() {
 <form:form commandName="groupManage" method="post" action="${pageContext.request.contextPath}/sec/gmt/EgovGroupUpdate.do" onSubmit="fncGroupUpdate(document.forms[0]); return false;"> 
 <div class="wTableFrm">
 	<!-- 타이틀 -->
-	<h2>훈련팀 <spring:message code="title.create" /></h2><!-- 그룹관리 등록 -->
+	<h2>사용자그룹 <spring:message code="title.create" /></h2><!-- 그룹관리 등록 -->
 
 	<!-- 등록폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
@@ -120,7 +120,7 @@ function fnSelectTeam() {
 		<!-- 입력 -->
 		<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 		<!-- 그룹아이디 -->
-		<c:set var="title"><%-- <spring:message code="comCopSecGmt.regist.groupId" /> --%>팀 ID</c:set>
+		<c:set var="title"><spring:message code="comCopSecGmt.regist.groupId" /></c:set>
 		<tr>
 			<th>${title}</th>
 			<td class="left">
@@ -129,7 +129,7 @@ function fnSelectTeam() {
 		</tr>
 		
 		<!-- 그룹명 -->
-		<c:set var="title"><%-- <spring:message code="comCopSecGmt.regist.groupNm" /> --%>팀명</c:set>
+		<c:set var="title"><spring:message code="comCopSecGmt.regist.groupNm" /></c:set>
 		<tr>
 			<th>${title} <span class="pilsu">*</span></th>
 			<td class="left">
@@ -150,7 +150,7 @@ function fnSelectTeam() {
 		<!-- TODO 팀 - 회원 매칭 가능하도록 구성  -->
 		
 		<tr>
-			<th>팀원 목록</th>
+			<th>그룹원 목록</th>
 			<td class="left">
 				<div>
 					<span class="btn_s2" name="add" onclick="javascript:searchNoTeamUsers()">추가</span>

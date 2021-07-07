@@ -209,6 +209,39 @@ public class EgovArticleController {
 		return "egovframework/com/cop/bbs/EgovArticleList";
     }
     
+    @RequestMapping("/cop/bbs/selectBBSPortlet.do")
+    public String selectBBSPortlet(@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception{
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();	//KISA 보안취약점 조치 (2018-12-10, 이정은)
+
+        if(!isAuthenticated) {
+            return "egovframework/com/uat/uia/EgovLoginUsr";
+        }
+	
+		BoardMasterVO vo = new BoardMasterVO();
+		
+		vo.setBbsId(boardVO.getBbsId());
+		vo.setUniqId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
+		
+		boardVO.setPageUnit(propertyService.getInt("pageUnit"));
+		boardVO.setPageSize(propertyService.getInt("pageSize"));
+	
+		PaginationInfo paginationInfo = new PaginationInfo();
+		
+		paginationInfo.setCurrentPageNo(boardVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(boardVO.getPageUnit());
+		paginationInfo.setPageSize(boardVO.getPageSize());
+	
+		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+	
+		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
+		
+		model.addAttribute("resultList", map.get("resultList"));
+    	return "egovframework/com/cop/bbs/selectBBSPortlet";
+    }
     
     
     /**

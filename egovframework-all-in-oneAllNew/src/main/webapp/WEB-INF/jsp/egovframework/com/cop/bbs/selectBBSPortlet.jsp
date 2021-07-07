@@ -28,7 +28,7 @@
 		var newWin = window.open("about:blank","winName",options);
 		var form = document.blogForm;
 		var clone = form[param].cloneNode(true);
-		clone.action = "<c:url value='/cop/bbs/selectBBSMasterDetail.do'/>";
+		clone.action = "<c:url value='/cop/bbs/selectArticleDetail.do'/>";
 		clone.target="winName";
 		clone.name="num"+ num++;
 		document.body.appendChild(clone);
@@ -44,9 +44,10 @@
    	<li style="padding-top:5px">
 		<%-- <form name="blogForm" method="post"  action="<c:url value='/cop/bbs/selectBBSMasterDetail.do'/>" > --%>
 		<form name="blogForm" method="post"  action="javascript:selectBBSMasterDetail(${cnt})" >
+		<input type="hidden" name="nttId" value="<c:out value='${result.nttId}'/>"/>
 		<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>"/>
 		<input type="hidden" name="bbsNm" value="<c:out value='${result.bbsNm}'/>"/>
-		<input type="submit" value="<c:out value="${result.bbsNm}"/>"/>
+		<input type="submit" value="<c:out value="${result.nttSj}"/>"/>
 		</form>
 	</li>
 	<c:set var="cnt" value="${cnt + 1}"/>

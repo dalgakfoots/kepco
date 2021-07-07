@@ -36,7 +36,7 @@ public class EgovFaqServiceImpl extends EgovAbstractServiceImpl implements EgovF
 	public FaqVO selectFaqDetail(FaqVO searchVO) throws Exception {
 		
 		//조회수 증가
-		egovFaqDao.updateFaqInqireCo(searchVO);
+		//egovFaqDao.updateFaqInqireCo(searchVO);
 		
 		FaqVO resultVO = egovFaqDao.selectFaqDetail(searchVO);
 		if (resultVO == null)

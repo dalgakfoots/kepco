@@ -93,7 +93,14 @@
 				  , #{qestnCn}
 				  , #{answerCn}
 				  , 0
-				  , #{atchFileId}
+				  <choose>
+				  	<when test="atchFileId == '' ">
+				  	,NULL
+				  	</when>
+				  	<otherwise>
+				  	, #{atchFileId}
+				  	</otherwise>
+				  </choose>
 				  , sysdate()
 				  , #{frstRegisterId}
 				  , sysdate()

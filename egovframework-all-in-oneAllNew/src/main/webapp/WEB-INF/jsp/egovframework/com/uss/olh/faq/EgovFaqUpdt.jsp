@@ -31,7 +31,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <%-- <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script> --%>
-<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFiles.js'/>" ></script>
+<%-- <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFiles.js'/>" ></script> --%>
 <script type="text/javascript" src="<c:url value="/validator.do"/>"></script>
 <validator:javascript formName="faqVO" staticJavascript="false"	xhtml="true" cdata="false" />
 <script type="text/javascript">
@@ -41,12 +41,12 @@
  ******************************************************** */
 function fn_egov_init() {
 	
-	//------------------------------------------
+	/* //------------------------------------------
 	//------------------------- 첨부파일 수정 Start
 	//-------------------------------------------
 	var maxFileNum = 3
 	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum);
-	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
+	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) ); */
 	//------------------------- 첨부파일 수정 End
 	
 	// 첫 입력란에 포커스..
@@ -57,11 +57,11 @@ function fn_egov_init() {
  ******************************************************** */
 function fn_egov_updt_faq(form) {
 	
-	var resultExtension = EgovMultiFilesChecker.checkExtensions("egovComFileUploader", "<c:out value='${fileUploadExtensions}'/>"); // 결과가 false인경우 허용되지 않음
+	/* var resultExtension = EgovMultiFilesChecker.checkExtensions("egovComFileUploader", "<c:out value='${fileUploadExtensions}'/>"); // 결과가 false인경우 허용되지 않음
 	if (!resultExtension) return true;
 	var resultSize = EgovMultiFilesChecker.checkFileSize("egovComFileUploader", <c:out value='${fileUploadMaxSize}'/>); // 파일당 1M까지 허용 (1K=1024), 결과가 false인경우 허용되지 않음
 	if (!resultSize) return true;
-	
+	 */
 	if (!validateFaqVO(form)) {
 		return false;
 	} else {
@@ -87,7 +87,7 @@ function fn_egov_inqire_faqlist() {
 <!-- 상단타이틀 -->
 <form:form commandName="faqVO" action="${pageContext.request.contextPath}/uss/olh/faq/updateFaq.do" method="post" onSubmit="fn_egov_updt_faq(document.forms[0]); return false;" enctype="multipart/form-data">
 	<div class="wTableFrm">
-	<h2>${pageTitle} <spring:message code="title.update" /></h2>
+	<h2>사후대응훈련문제 <spring:message code="title.update" /></h2>
 
 	<!-- 수정폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.update" arguments="${pageTitle}" />">
@@ -100,7 +100,7 @@ function fn_egov_inqire_faqlist() {
 			<!-- 입력 -->
 			<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 			<!-- 질문 제목   -->
-			<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.qestnSj"/> </c:set>
+			<c:set var="title"><%-- <spring:message code="comUssOlhFaq.faqVO.qestnSj"/> --%>문제제목 </c:set>
 			<tr>
 				<th><label for="qestnSj">${title} <span class="pilsu">*</span></label></th>
 				<td class="left">
@@ -110,7 +110,7 @@ function fn_egov_inqire_faqlist() {
 			</tr>
 	
 			<!-- 질문 내용  -->
-			<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.qestnCn"/> </c:set>
+			<c:set var="title"><%-- <spring:message code="comUssOlhFaq.faqVO.qestnCn"/> --%>문제내용 </c:set>
 			<tr>
 				<th><label for="qestnCn">${title } <span class="pilsu">*</span></label></th>
 				<td class="nopd" colspan="3">
@@ -120,7 +120,7 @@ function fn_egov_inqire_faqlist() {
 			</tr>
 	
 			<!-- 답변 내용  -->
-			<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.answerCn"/> </c:set>
+			<c:set var="title"><%-- <spring:message code="comUssOlhFaq.faqVO.answerCn"/> --%>정답 </c:set>
 			<tr>
 				<th><label for="answerCn">${title } <span class="pilsu">*</span></label></th>
 				<td class="nopd" colspan="3">
@@ -130,7 +130,7 @@ function fn_egov_inqire_faqlist() {
 			</tr>
 	
 			<!-- 첨부파일 -->
-			<c:set var="title"><spring:message code="comUssOlhFaq.faqVO.atchFile"/></c:set>
+			<%-- <c:set var="title"><spring:message code="comUssOlhFaq.faqVO.atchFile"/></c:set>
 			<tr>
 				<th><label for="file_1">${title}</label> </th>
 				<td class="nopd">
@@ -149,7 +149,7 @@ function fn_egov_inqire_faqlist() {
 				<!-- attached file End -->
 				
 				</td>
-			</tr>
+			</tr> --%>
 	
 		</tbody>
 	</table>

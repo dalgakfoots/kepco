@@ -131,7 +131,6 @@ public class MberManageDAO extends EgovComAbstractDAO{
 	}
 
 	public List<?> selectNoTeamMberList(UserDefaultVO userSearchVO) {
-		// TODO Auto-generated method stub
 		return selectList("userManageDAO.selectNoTeamMberList", userSearchVO);
 	}
 

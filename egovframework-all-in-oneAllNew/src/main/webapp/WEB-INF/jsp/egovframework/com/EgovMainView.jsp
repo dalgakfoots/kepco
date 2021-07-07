@@ -43,7 +43,7 @@ function chk_all(val) {
 		<div class="l"><!-- left layout -->
 			<h3 class="m_tit01 mt15">공지사항</h3><!-- 생성된 게시판 목록 -->
 			<div style="height:150px">
-				<c:import url="/cop/bbs/selectBBSListPortlet.do" />
+				<c:import url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000021" />
 			</div>
 			
 			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectCommuMasterListPortlet"/></h3><!-- 생성된 커뮤니티 목록 -->

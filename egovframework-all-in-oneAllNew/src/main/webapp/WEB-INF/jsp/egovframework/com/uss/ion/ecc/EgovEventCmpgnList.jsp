@@ -69,13 +69,14 @@ function fn_egov_inquire_eventdetail(eventId) {
 
 <form name="eventCmpgnForm" action="<c:url value='/uss/ion/ecc/selectEventCmpgnList.do'/>" method="post" onSubmit="fn_egov_search_event(); return false;"> 
 <div class="board">
-	<h1>${pageTitle} <spring:message code="title.list" /></h1>
+	<%-- <h1>${pageTitle} <spring:message code="title.list" /></h1> --%>
+	<h1>훈련 <spring:message code="title.list" /></h1>
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
 			<li>
 				<select name="searchCondition" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
-					<option value="0"  <c:if test="${searchVO.searchCondition == '0'}">selected="selected"</c:if> ><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn" /></option><!-- 행사내용 -->
+					<option value="0"  <c:if test="${searchVO.searchCondition == '0'}">selected="selected"</c:if> >훈련내용</option>
 					<option value="1"  <c:if test="${searchVO.searchCondition == '1'}">selected="selected"</c:if> ><spring:message code="table.reger" /></option><!-- 등록자 -->
 				</select>
 			</li>
@@ -102,10 +103,14 @@ function fn_egov_inquire_eventdetail(eventId) {
 	<thead>
 	<tr>
 		<th><spring:message code="table.num" /></th><!-- 번호 -->
-		<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode" /></th><!-- 행사유형 -->
+		<%-- <th><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode" /></th><!-- 행사유형 -->
 		<th class="board_th_link"><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn" /></th><!-- 행사내용 -->
 		<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" /></th><!-- 행사시작일 -->
-		<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th><!-- 행사종료일 -->
+		<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th><!-- 행사종료일 --> --%>
+		<th>훈련유형</th>
+		<th class="board_th_link">훈련내용</th>
+		<th>훈련시작일</th>
+		<th>훈련종료일</th>
 		<th><spring:message code="table.regdate" /></th><!-- 등록일자 -->
 	</tr>
 	</thead>

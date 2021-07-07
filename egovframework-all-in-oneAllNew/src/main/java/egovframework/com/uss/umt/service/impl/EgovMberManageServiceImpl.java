@@ -197,7 +197,6 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 
 	@Override
 	public List<?> selectNoTeamMberList(UserDefaultVO userSearchVO) throws Exception {
-		// TODO Auto-generated method stub
 		return mberManageDAO.selectNoTeamMberList(userSearchVO);
 	}
 

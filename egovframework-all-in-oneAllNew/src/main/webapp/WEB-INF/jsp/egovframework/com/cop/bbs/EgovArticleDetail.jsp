@@ -214,14 +214,14 @@ function fn_egov_select_commentList(pageNo) {
 			<input type="submit" class="s_submit" value="<spring:message code="button.list" />"><!-- 목록 -->
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
 		</form>
-		<form name="formScrap" action="<c:url value='/cop/scp/insertArticleScrapView.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
+		<%-- <form name="formScrap" action="<c:url value='/cop/scp/insertArticleScrapView.do'/>" method="post" style="float:left; margin:0 0 0 3px;">
 			<input type="submit" class="s_submit" value="<spring:message code="button.scrap" />"><!-- 스크랩 -->
 			<input name="nttId" type="hidden" value="<c:out value="${result.nttId}" />">
 			<input name="bbsId" type="hidden" value="<c:out value="${boardMasterVO.bbsId}" />">
-		</form>
+		</form> --%>
 		
 	</div><div style="clear:both;"></div>
-	
+	${result }
 </div>
 
 <!-- 댓글 -->

@@ -1,5 +1,6 @@
 package egovframework.com.sec.gmt.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,7 +68,17 @@ public interface EgovGroupManageService {
 	 * @return int
 	 * @exception Exception
 	 */
-	public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception;	
+	public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception;
+
+	public List<HashMap> selectUsers(GroupManageVO groupManageVO) throws Exception;
+
+	public void updateUserGroupId(HashMap map) throws Exception;
+
+	public void insertUserGroupMapping(HashMap map) throws Exception;
+
+	public void deleteUserGroupMapping(HashMap param) throws Exception;
+
+	public List<?> selectSelectedTeamUsers(HashMap param) throws Exception;	
 	
 	
 	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception;

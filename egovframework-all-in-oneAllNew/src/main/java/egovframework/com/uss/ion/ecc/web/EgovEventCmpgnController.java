@@ -223,13 +223,13 @@ public class EgovEventCmpgnController {
      */
      @RequestMapping("/uss/ion/ecc/insertEventCmpgn.do")
      public String insertEventCmpgn(@ModelAttribute("searchVO") EventCmpgnVO searchVO, @ModelAttribute("eventCmpgnVO") EventCmpgnVO eventCmpgnVO,
-             BindingResult bindingResult, @RequestParam("groupIds") String groupIds) throws Exception {
+             BindingResult bindingResult) throws Exception {
     	 
     	beanValidator.validate(eventCmpgnVO, bindingResult);
  		if(bindingResult.hasErrors()){
  			return "egovframework/com/uss/olh/ecc/EgovEventCmpgnRegist";
  		}
-
+ 		
      	// 로그인VO에서  사용자 정보 가져오기
      	LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 
@@ -237,20 +237,8 @@ public class EgovEventCmpgnController {
 
      	eventCmpgnVO.setFrstRegisterId(frstRegisterId);		// 최초등록자ID
      	eventCmpgnVO.setLastUpdusrId(frstRegisterId);    	// 최종수정자ID
-
-         egovEventCmpgnService.insertEventCmpgn(eventCmpgnVO);
-        
-         /*TODO 훈련 - 팀 관계 테이블에 데이터 넣기 (완료)
-          * kepco_training_team_vms
-          * */
-         String [] groupArr = groupIds.split(",");
-         HashMap map = null;
-         for(String groupId : groupArr) {
-        	 map = new HashMap();
-        	 map.put("eventId", eventCmpgnVO.getEventId());
-        	 map.put("groupId", groupId);
-        	 kepcoEventCmpgnTeamService.insertEventCmpgnTeam(map);
-         }
+     	egovEventCmpgnService.insertEventCmpgn(eventCmpgnVO);
+         
          
          return "forward:/uss/ion/ecc/selectEventCmpgnList.do";
      }
@@ -316,7 +304,7 @@ public class EgovEventCmpgnController {
       */
      @RequestMapping("/uss/ion/ecc/updateEventCmpgn.do")
      public String updateEventCmpgn(@ModelAttribute("searchVO") EventCmpgnVO searchVO, @ModelAttribute("eventCmpgnVO") EventCmpgnVO eventCmpgnVO,
-             BindingResult bindingResult, @RequestParam("groupIds") String groupIds)
+             BindingResult bindingResult)
              throws Exception {
 
      	// Validation
@@ -330,21 +318,8 @@ public class EgovEventCmpgnController {
      	String	lastUpdusrId = loginVO == null ? "" : EgovStringUtil.isNullToString(loginVO.getUniqId());
      	eventCmpgnVO.setLastUpdusrId(lastUpdusrId);    	// 최종수정자ID
      	
-     	
-     	
      	egovEventCmpgnService.updateEventCmpgn(eventCmpgnVO);
-		/* TODO 참여 팀 전체 삭제 후 다시 삽입 */
-     	HashMap eventId = new HashMap();
-     	eventId.put("eventId", eventCmpgnVO.getEventId());
-     	kepcoEventCmpgnTeamService.deleteEventCmpgnTeam(eventId);
-     	String [] groupArr = groupIds.split(",");
-        HashMap map = null;
-        for(String groupId : groupArr) {
-       	 map = new HashMap();
-       	 map.put("eventId", eventCmpgnVO.getEventId());
-       	 map.put("groupId", groupId);
-       	 kepcoEventCmpgnTeamService.insertEventCmpgnTeam(map);
-        }
+		
      	
          return "forward:/uss/ion/ecc/selectEventCmpgnList.do";
 

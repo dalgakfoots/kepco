@@ -51,54 +51,59 @@
 <form name="eventCmpgnForm" action="<c:url value='/uss/ion/ecc/updateEventCmpgnView.do'/>" method="post">
 <div class="wTableFrm">
 	<!-- 타이틀 -->
-	<h2>${pageTitle} <spring:message code="title.detail" /></h2>
+	<h2>훈련 <spring:message code="title.detail" /></h2>
 
 	<!-- 상세조회 -->
 	<table class="wTable" summary="<spring:message code="common.summary.inqire" arguments="${pageTitle}" />">
-	<caption>${pageTitle} <spring:message code="title.detail" /></caption>
+	<%-- <caption>${pageTitle} <spring:message code="title.detail" /></caption> --%>
+	<caption>훈련 <spring:message code="title.detail" /></caption>
 	<colgroup>
 		<col style="width: 20%;">
 		<col style="width: ;">
 	</colgroup>
 	<tbody>
-		<!-- 행사유형 -->
+		<!-- 훈련유형 -->
 		<tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode" /></th>
+			<%-- <th><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode" /></th> --%>
+			<th>훈련유형</th>
 			<td class="left"><c:out value="${result.eventTyCodeNm}"/></td>
 		</tr>
 		
-		<!-- 행사내용 -->
+		<!-- 훈련내용 -->
 		<tr>
-			<th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn" /></th>
+			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn" /></th> --%>
+			<th>훈련내용</th>
 			<td class="cnt">
 				<c:out value="${fn:replace(result.eventCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
 		
-		<!-- 행사시작일자 -->
+		<!-- 훈련시작일자 -->
 		<tr>
-			<th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" /></th>
+			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" /></th> --%>
+			<th>훈련시작일자</th>
 			<td class="left"><c:out value="${result.eventSvcBeginDe}"/></td>
 		</tr>
 		
-		<!-- 행사종료일자 -->
+		<!-- 훈련종료일자 -->
 		<tr>
-			<th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th>
+			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th> --%>
+			<th>훈련종료일자</th>
 			<td class="left"><c:out value="${result.eventSvcEndDe}"/></td>
 		</tr>
-
-		<!-- 서비스이용인원수 -->
+		<%--
+		<!-- 참가인원수 -->
 		<tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.svcUseNmprCo" /></th>
+			<th>참가인원수</th>
 			<td class="left"><c:out value="${result.svcUseNmprCo}"/></td>
 		</tr>
 
 		<!-- 담당자명 -->
-		<tr>
+		 <tr>
 			<th><spring:message code="comUssIonEcc.eventCmpgnVO.chargerNm" /></th>
 			<td class="left"><c:out value="${result.chargerNm}"/></td>
-		</tr>
-
+		</tr> --%>
+		<%-- 
 		<!-- 준비물내용 -->
 		<tr>
 			<th><spring:message code="comUssIonEcc.eventCmpgnVO.prparetgCn" /></th>
@@ -117,16 +122,16 @@
 		<tr>
 			<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventConfmDe" /></th>
 			<td class="left"><c:out value="${result.eventConfmDe}"/></td>
-		</tr>
+		</tr> 
 
 		<!-- 외부인사정보 -->
 		<tr>
 			<th><spring:message code="comUssIonEcc.tnextrlHrVO.title" /></th>
 			<td class="left"><a href="<c:url value='/uss/ion/ecc/selectTnextrlHrList.do?eventId=${result.eventId}' />" title="<spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" />"><spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" /></a></td>
-		</tr>
+		</tr>--%>
 		
 		<!-- 참여 팀  -->
-		
+		<%-- 
 		<tr>
 			<th><label>참가 팀</label></th>
 			<td class="left">
@@ -158,7 +163,7 @@
 			</td>
 			<input type="hidden" name="groupIds">
 		</tr>
-		
+		 --%>
 	</tbody>
 	</table>
 	<!-- 하단 버튼 -->

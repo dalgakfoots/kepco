@@ -69,13 +69,13 @@ function fn_egov_inquire_faqdetail(faqId) {
 
 <form name="faqForm" action="<c:url value='/uss/olh/faq/selectFaqList.do'/>" method="post" onSubmit="fn_egov_search_faq(); return false;"> 
 <div class="board">
-	<h1>${pageTitle} <spring:message code="title.list" /></h1>
+	<h1>사후대응훈련문제 <spring:message code="title.list" /></h1>
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
 			<li>
 				<select name="searchCnd" title="<spring:message code="title.searchCondition" /> <spring:message code="input.cSelect" />">
-					<option value="0"  <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if> ><spring:message code="comUssOlhFaq.faqVO.qestnSj" /></option><!-- 질문제목 -->
+					<option value="0"  <c:if test="${searchVO.searchCnd == '0'}">selected="selected"</c:if> ><%-- <spring:message code="comUssOlhFaq.faqVO.qestnSj" /> --%>문제제목</option><!-- 질문제목 -->
 				</select>
 			</li>
 			<!-- 검색키워드 및 조회버튼 -->
@@ -92,15 +92,14 @@ function fn_egov_inquire_faqdetail(faqId) {
 	<caption>${pageTitle}<spring:message code="title.list" /></caption>
 	<colgroup>
 		<col style="width: 9%;">
-		<col style="width: 40%;">
-		<col style="width: 9%;">
+		<col style="width: 49%;">
 		<col style="width: 13%;">
 	</colgroup>
 	<thead>
 	<tr>
 		<th><spring:message code="table.num" /></th><!-- 번호 -->
-		<th class="board_th_link"><spring:message code="comUssOlhFaq.faqVO.qestnSj" /></th><!-- 질문제목 -->
-		<th><spring:message code="comUssOlhFaq.faqVO.inqireCo" /></th><!-- 조회수 -->
+		<th class="board_th_link"><%-- <spring:message code="comUssOlhFaq.faqVO.qestnSj" /> --%>문제제목</th><!-- 질문제목 -->
+		<%-- <th><spring:message code="comUssOlhFaq.faqVO.inqireCo" /></th><!-- 조회수 --> --%>
 		<th><spring:message code="table.regdate" /></th><!-- 등록일자 -->
 	</tr>
 	</thead>
@@ -114,7 +113,7 @@ function fn_egov_inquire_faqdetail(faqId) {
 	<tr>
 		<td><c:out value="${(searchVO.pageIndex-1) * searchVO.pageSize + status.count}"/></td>
 		<td class="left"><a href="<c:url value='/uss/olh/faq/selectFaqDetail.do?faqId=${resultInfo.faqId}'/>" onClick="fn_egov_inquire_faqdetail('<c:out value="${resultInfo.faqId}"/>');return false;"><c:out value='${fn:substring(resultInfo.qestnSj, 0, 40)}'/></a></td>
-		<td><c:out value='${resultInfo.inqireCo}'/></td>
+		<%-- <td><c:out value='${resultInfo.inqireCo}'/></td> --%>
 		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
 	</tr>
 	</c:forEach>

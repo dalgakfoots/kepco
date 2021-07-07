@@ -40,12 +40,14 @@ FROM(
              userNm LIKE '%' #{searchKeyword} '%'
         </if>
         </if>
+        <if test="searchCondition == 3">
+        	AND groupId IS NULL
+        </if>
         ORDER BY sbscrbDe DESC
         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     
-    
-        <select id="selectMberListTotCnt" resultType="int">
+    <select id="selectMberListTotCnt" resultType="int">
             SELECT COUNT(1) totcnt
             FROM(
             SELECT 
@@ -74,6 +76,9 @@ FROM(
             <if test="searchCondition == 1">AND
                  userNm LIKE '%' #{searchKeyword} '%'
             </if>
+            </if>
+            <if test="searchCondition == 3">
+            	 AND groupId IS NULL
             </if>
     </select>
     
@@ -176,7 +181,7 @@ FROM(
                 ZIP              = #{zip},
                 ADRES            = #{adres},
                 AREA_NO          = #{areaNo},
-                MBER_STTUS       = #{mberSttus},
+                MBER_STTUS       = 'P',
                 DETAIL_ADRES     = #{detailAdres},
                 END_TELNO        = #{endTelno},
                 MBTLNUM      = #{moblphonNo},

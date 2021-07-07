@@ -176,7 +176,7 @@ FROM(
                 ZIP              = #{zip},
                 ADRES            = #{adres},
                 AREA_NO          = #{areaNo},
-                MBER_STTUS       = #{mberSttus},
+                MBER_STTUS       = 'P',
                 DETAIL_ADRES     = #{detailAdres},
                 END_TELNO        = #{endTelno},
                 MBTLNUM      = #{moblphonNo},

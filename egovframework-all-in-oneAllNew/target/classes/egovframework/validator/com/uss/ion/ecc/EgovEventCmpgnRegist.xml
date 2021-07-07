@@ -35,7 +35,7 @@
 				<var-value>yyyy-MM-dd</var-value> 
 				</var>
 			</field> 
-
+			<!-- 
 			<field property="svcUseNmprCo" depends="maxlength, integer">
         		<arg0 key="comUssIonEcc.eventCmpgnVO.svcUseNmprCo" resource="true"/>
         		<arg1 key="10" resource="true"/>
@@ -53,13 +53,13 @@
 				<var-value>1000</var-value>
 				</var>
 			</field> 
-			<field property="eventConfmDe" depends="required, date">
+			 <field property="eventConfmDe" depends="required, date">
         		<arg0 key="comUssIonEcc.eventCmpgnVO.eventConfmDe" resource="true"/>
 				<var>
 				<var-name>datePatternStrict</var-name>
 				<var-value>yyyy-MM-dd</var-value> 
 				</var>
-			</field> 
+			</field>  -->
 			
 		</form>
 		

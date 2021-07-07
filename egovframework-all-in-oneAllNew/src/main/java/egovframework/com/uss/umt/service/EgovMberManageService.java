@@ -97,5 +97,14 @@ public interface EgovMberManageService {
 	 * @throws Exception
 	 */
 	public void updateLockIncorrect(MberManageVO mberManageVO) throws Exception;
+	
+	
+	/*TODO 회원 등록 시 kepco_team_users 테이블에 관계 insert*/
+	public void insertTeamMberRelation(MberManageVO mberManageVO) throws Exception;
+	
+	/*TODO kepco_team_users 관계 delete*/
+	public void deleteTeamMberRelation(MberManageVO mberManageVO) throws Exception;
+
+	public List<?> selectNoTeamMberList(UserDefaultVO userSearchVO) throws Exception;
 
 }

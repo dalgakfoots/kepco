@@ -117,7 +117,62 @@ public class EgovMberManageController {
 
 		return "egovframework/com/uss/umt/EgovMberManage";
 	}
+	
+	/**
+	 * 팝업용 일반회원목록을 조회한다. (pageing)
+	 * @param userSearchVO 검색조건정보
+	 * @param model 화면모델
+	 * @return uss/umt/EgovMberManage
+	 * @throws Exception
+	 */
+	@IncludedInfo(name = "일반회원관리", order = 470, gid = 50)
+	@RequestMapping(value = "/uss/umt/selectMberListPopup.do")
+	public String selectMberListPopup(@ModelAttribute("userSearchVO") UserDefaultVO userSearchVO, ModelMap model) throws Exception {
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("ok i am in");
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
+		// 미인증 사용자에 대한 보안처리
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+		if (!isAuthenticated) {
+//			return "redirect:/egovDevIndex.jsp";
+//			return "/EgovContent.do";
+			return "index";
+		}
 
+		/** EgovPropertyService */
+		userSearchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		userSearchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(userSearchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(userSearchVO.getPageUnit());
+		paginationInfo.setPageSize(userSearchVO.getPageSize());
+
+		userSearchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		userSearchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		userSearchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		//
+		userSearchVO.setSearchCondition("3"); // group_id is null 값 조회하기 위한 flag
+		List<?> mberList = mberManageService.selectMberList(userSearchVO);
+		model.addAttribute("resultList", mberList);
+
+		int totCnt = mberManageService.selectMberListTotCnt(userSearchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		//일반회원 상태코드를 코드정보로부터 조회
+		ComDefaultCodeVO vo = new ComDefaultCodeVO();
+		vo.setCodeId("COM013");
+		List<?> mberSttus_result = cmmUseService.selectCmmCodeDetail(vo);
+		model.addAttribute("entrprsMberSttus_result", mberSttus_result);//기업회원상태코드목록
+
+		return "egovframework/com/uss/umt/EgovMberList";
+	}
+	
 	/**
 	 * 일반회원등록화면으로 이동한다.
 	 * @param userSearchVO 검색조건정보
@@ -205,6 +260,9 @@ public class EgovMberManageController {
 				mberManageVO.setGroupId(null);
 			}
 			mberManageService.insertMber(mberManageVO);
+			if(mberManageVO.getGroupId() != null) {
+				mberManageService.insertTeamMberRelation(mberManageVO);
+			}
 			//Exception 없이 진행시 등록 성공메시지
 			model.addAttribute("resultMsg", "success.common.insert");
 		}
@@ -302,10 +360,21 @@ public class EgovMberManageController {
 			model.addAttribute("resultMsg", bindingResult.getAllErrors().get(0).getDefaultMessage());
 			return "forward:/uss/umt/EgovMberManage.do";
 		} else {
+			
 			if ("".equals(mberManageVO.getGroupId())) {//KISA 보안약점 조치 (2018-10-29, 윤창원)
-				mberManageVO.setGroupId(null);
+			 mberManageVO.setGroupId(null); 
 			}
-			mberManageService.updateMber(mberManageVO);
+			
+			try {
+				mberManageService.updateMber(mberManageVO);
+				mberManageService.deleteTeamMberRelation(mberManageVO);
+				
+				if(mberManageVO.getGroupId() != null) {
+					mberManageService.insertTeamMberRelation(mberManageVO);
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			//Exception 없이 진행시 수정성공메시지
 			model.addAttribute("resultMsg", "success.common.update");
 			return "forward:/uss/umt/EgovMberManage.do";
@@ -328,7 +397,12 @@ public class EgovMberManageController {
 		if (!isAuthenticated) {
 			return "index";
 		}
-
+		
+		String uniqId = checkedIdForDel.split(":")[1];
+		
+		MberManageVO mberManageVO = new MberManageVO();
+		mberManageVO.setUniqId(uniqId);
+		mberManageService.deleteTeamMberRelation(mberManageVO);
 		mberManageService.deleteMber(checkedIdForDel);
 		//Exception 없이 진행시 삭제성공메시지
 		model.addAttribute("resultMsg", "success.common.delete");
@@ -470,7 +544,8 @@ public class EgovMberManageController {
 		String resultMsg = "";
 		resultVO = mberManageService.selectPassword(mberManageVO);
 		//패스워드 암호화
-		String encryptPass = EgovFileScrty.encryptPassword(oldPassword, mberManageVO.getMberId());
+		//String encryptPass = EgovFileScrty.encryptPassword(oldPassword, mberManageVO.getMberId());
+		String encryptPass = oldPassword;
 		if (encryptPass.equals(resultVO.getPassword())) {
 			if (newPassword.equals(newPassword2)) {
 				isCorrectPassword = true;

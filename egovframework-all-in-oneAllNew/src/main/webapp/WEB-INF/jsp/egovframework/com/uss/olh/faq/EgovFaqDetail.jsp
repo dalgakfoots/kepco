@@ -51,45 +51,45 @@
 <form name="faqForm" action="<c:url value='/uss/olh/faq/updateFaqView.do'/>" method="post">
 <div class="wTableFrm">
 	<!-- 타이틀 -->
-	<h2>${pageTitle} <spring:message code="title.detail" /></h2>
+	<h2>사후대응훈련문제 <spring:message code="title.detail" /></h2>
 
 	<!-- 상세조회 -->
 	<table class="wTable" summary="<spring:message code="common.summary.inqire" arguments="${pageTitle}" />">
 	<caption>${pageTitle} <spring:message code="title.detail" /></caption>
 	<colgroup>
-		<col style="width: ;">
+		<col style="width:15%;">
 		<col style="width: ;">
 	</colgroup>
 	<tbody>
 		<!-- 질문제목 -->
 		<tr>
-			<th><spring:message code="comUssOlhFaq.faqVO.qestnSj" /></th>
+			<th><%-- <spring:message code="comUssOlhFaq.faqVO.qestnSj" /> --%>문제제목</th>
 			<td class="left"><c:out value="${result.qestnSj}"/></td>
 		</tr>
-		<!-- 조회수 -->
+		<%-- <!-- 조회수 -->
 		<tr>
 			<th><spring:message code="comUssOlhFaq.faqVO.inqireCo" /></th>
 			<td class="left"><c:out value="${result.inqireCo}"/></td>
-		</tr>
+		</tr> --%>
 		<!-- 질문 내용 -->
 		<tr>
-			<th><spring:message code="comUssOlhFaq.faqVO.qestnCn" /></th>
+			<th><%-- <spring:message code="comUssOlhFaq.faqVO.qestnCn" /> --%>문제내용</th>
 			<td class="cnt">
 				<c:out value="${fn:replace(result.qestnCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
 		<!-- 답변 내용 -->
 		<tr>
-			<th><spring:message code="comUssOlhFaq.faqVO.answerCn" /></th>
+			<th><%-- <spring:message code="comUssOlhFaq.faqVO.answerCn" /> --%>정답</th>
 			<td class="cnt">
 				<c:out value="${fn:replace(result.answerCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
 		<!-- 등록일자 -->
-		<tr>
+		<%-- <tr>
 			<th><spring:message code="table.regdate" /></th>
 			<td class="left"><c:out value="${result.frstRegisterPnttm}"/></td>
-		</tr>
+		</tr> --%>
 		<!-- 첨부파일  -->
 		<c:if test="${not empty result.atchFileId}">
 		<tr>

@@ -185,4 +185,19 @@ public class EgovMberManageServiceImpl extends EgovAbstractServiceImpl implement
 		mberManageDAO.updateLockIncorrect(mberManageVO);
 	}
 
+	@Override
+	public void insertTeamMberRelation(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.insertTeamMberRelation(mberManageVO);
+	}
+
+	@Override
+	public void deleteTeamMberRelation(MberManageVO mberManageVO) throws Exception {
+		mberManageDAO.deleteTeamMberRelation(mberManageVO);
+	}
+
+	@Override
+	public List<?> selectNoTeamMberList(UserDefaultVO userSearchVO) throws Exception {
+		return mberManageDAO.selectNoTeamMberList(userSearchVO);
+	}
+
 }

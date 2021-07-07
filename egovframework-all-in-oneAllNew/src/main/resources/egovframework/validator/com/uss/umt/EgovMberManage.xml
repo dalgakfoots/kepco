@@ -120,9 +120,9 @@
                 </var>
             </field> -->
             
-            <!--<field property="groupId" depends="required">
+            <!-- <field property="groupId" depends="required">
                 <arg0 key="그룹코드" resource="true"/>
-            </field>-->
+            </field> -->
             
             <!-- <field property="mberSttus" depends="required">
                 <arg0 key="일반회원상태코드" resource="true"/>

@@ -242,6 +242,21 @@ function fnInsert(form){
 			<input name="password2" id="password2" title="${title} ${inputTxt}" type="password" size="50" maxlength="20" />
 			</td>
 		</tr>
+		
+		<!-- 그룹아이디 -->
+		<c:set var="inputSelect"><spring:message code="input.select"/></c:set>
+		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.groupId"/></c:set>
+		<tr>
+			<th><label for="groupId">${title}</label></th>
+			<td class="left">
+                    <form:select path="groupId" id="groupId" title="${title} ${inputSelect}">
+                        <form:option value="" label="${inputSelect}"/>
+                        <form:options items="${groupId_result}" itemValue="code" itemLabel="codeNm"/>
+                    </form:select>
+                    <div><form:errors path="groupId" cssClass="error"/></div>
+			</td>
+		</tr>
+		
 		<%-- <!-- 비밀번호힌트 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.passHit"/></c:set>
 		<tr>
@@ -343,19 +358,7 @@ function fnInsert(form){
                     <div><form:errors path="detailAdres" cssClass="error" /></div>
 			</td>
 		</tr>
-		<!-- 그룹아이디 -->
-		<c:set var="inputSelect"><spring:message code="input.select"/></c:set>
-		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.groupId"/></c:set>
-		<tr>
-			<th><label for="groupId">${title}</label></th>
-			<td class="left">
-                    <form:select path="groupId" id="groupId" title="${title} ${inputSelect}">
-                        <form:option value="" label="${inputSelect}"/>
-                        <form:options items="${groupId_result}" itemValue="code" itemLabel="codeNm"/>
-                    </form:select>
-                    <div><form:errors path="groupId" cssClass="error"/></div>
-			</td>
-		</tr>
+		
 		<!-- 일반회원상태코드 -->
 		<c:set var="title"><spring:message code="comUssUmt.userManageRegist.status"/></c:set>
 		<tr>

@@ -1,5 +1,5 @@
 package egovframework.com.sec.gmt.service.impl;
-
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
@@ -7,7 +7,7 @@ import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
 import egovframework.com.sec.gmt.service.VmGroupType;
 import egovframework.com.sec.gmt.service.VmTypeVO;
-
+import egovframework.com.uss.umt.service.MberManageVO;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -93,7 +93,31 @@ public class GroupManageDAO extends EgovComAbstractDAO {
         return (Integer)selectOne("groupManageDAO.selectGroupListTotCnt", groupManageVO);
     }
     
-    
+	public List<HashMap> selectUsers(GroupManageVO groupManageVO) {
+		
+		return selectList("groupManageDAO.selectUsers", groupManageVO);
+		
+	}
+
+	public void updateUserGroupId(HashMap map) {
+		update("groupManageDAO.updateUserGroupId", map);
+		
+	}
+
+	public void insertUserGroupMapping(HashMap map) {
+		insert("groupManageDAO.insertUserGroupMapping", map);
+		
+	}
+
+	public void deleteUserGroupMapping(HashMap param) {
+		delete("groupManageDAO.deleteUserGroupMapping", param);
+		
+	}
+
+	public List<HashMap> selectSelectedTeamUsers(HashMap param) {
+		return selectList("groupManageDAO.selectSelectedTeamUsers", param);
+		
+	}
 	
 
 	public void insertVmGroup(GroupManage groupManage) throws Exception {

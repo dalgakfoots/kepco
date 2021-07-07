@@ -2,6 +2,7 @@ package egovframework.com.sec.gmt.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManage;
@@ -10,6 +11,7 @@ import egovframework.com.sec.gmt.service.VmGroupType;
 import egovframework.com.sec.gmt.service.VmType;
 import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.com.uss.umt.service.MberManageVO;
 
 import javax.annotation.Resource;
 
@@ -102,6 +104,34 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception {
 		return groupManageDAO.selectGroupListTotCnt(groupManageVO);
 	}
+	@Override
+	public List<HashMap> selectUsers(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectUsers(groupManageVO);
+	}
+
+	@Override
+	public void updateUserGroupId(HashMap map) throws Exception {
+		groupManageDAO.updateUserGroupId(map);
+		
+	}
+
+	@Override
+	public void insertUserGroupMapping(HashMap map) throws Exception {
+		groupManageDAO.insertUserGroupMapping(map);
+		
+	}
+
+	@Override
+	public void deleteUserGroupMapping(HashMap param) throws Exception {
+		groupManageDAO.deleteUserGroupMapping(param);
+		
+	}
+
+	@Override
+	public List<?> selectSelectedTeamUsers(HashMap param) throws Exception {
+		return groupManageDAO.selectSelectedTeamUsers(param);
+	}
+
 	
 
 	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception {

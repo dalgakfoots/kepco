@@ -98,7 +98,7 @@ function fn_egov_updt_event(form) {
 		return false;
 	} else {
 		if (confirm("<spring:message code="common.update.msg" />")) {
-			fnSelectTeam();
+			//fnSelectTeam();
 			form.submit();
 		}
 	}
@@ -148,7 +148,7 @@ function fnSelectTeam() {
 <!-- 상단타이틀 -->
 <form:form commandName="eventCmpgnVO" action="${pageContext.request.contextPath}/uss/ion/ecc/updateEventCmpgn.do" method="post" onSubmit="fn_egov_updt_event(document.forms[0]); return false;" >
 	<div class="wTableFrm">
-	<h2>${pageTitle} <spring:message code="title.update" /></h2>
+	<h2>훈련 <spring:message code="title.update" /></h2>
 
 	<!-- 수정폼 -->
 	<table class="wTable" summary="<spring:message code="common.summary.update" arguments="${pageTitle}" />">
@@ -164,7 +164,7 @@ function fnSelectTeam() {
 		<!-- 행사유형 -->
 		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode"/> </c:set>
 		<tr>
-			<th><label for="eventTyCode">${title} <span class="pilsu">*</span></label></th>
+			<th><label for="eventTyCode">훈련유형 <span class="pilsu">*</span></label></th>
 			<td class="left">
 				<form:select path="eventTyCode" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="--선택하세요--" />
@@ -177,7 +177,7 @@ function fnSelectTeam() {
 		<!-- 행사내용 -->
 		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn"/> </c:set>
 		<tr>
-			<th><label for="eventCn">${title } <span class="pilsu">*</span></label></th>
+			<th><label for="eventCn">훈련내용 <span class="pilsu">*</span></label></th>
 			<td class="nopd">
 				<form:textarea path="eventCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 				<div><form:errors path="eventCn" cssClass="error" /></div>  
@@ -187,7 +187,7 @@ function fnSelectTeam() {
 		<!-- 행사시작일자  -->
 		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe"/> </c:set>
 		<tr>
-			<th><label for="eventSvcBeginDe">${title} <span class="pilsu">*</span></label></th>
+			<th><label for="eventSvcBeginDe">훈련시작일<span class="pilsu">*</span></label></th>
 			<td class="left" colspan="3">
 				<form:input path="eventSvcBeginDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
 				<div><form:errors path="eventSvcBeginDe" cssClass="error" /></div>       
@@ -197,13 +197,13 @@ function fnSelectTeam() {
 		<!-- 행사종료일자  -->
 		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe"/> </c:set>
 		<tr>
-			<th><label for="eventSvcEndDe">${title} <span class="pilsu">*</span></label></th>
+			<th><label for="eventSvcEndDe">훈련종료일 <span class="pilsu">*</span></label></th>
 			<td class="left" colspan="3">
 				<form:input path="eventSvcEndDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
 				<div><form:errors path="eventSvcEndDe" cssClass="error" /></div>       
 			</td>
 		</tr>
-		
+		<%--
 		<!-- 서비스이용인원수 -->
 		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.svcUseNmprCo"/> </c:set>
 		<tr>
@@ -258,7 +258,7 @@ function fnSelectTeam() {
 			</td>
 		</tr>
 		
-		
+		 
 		<!--참가 팀 등록 -->
 		<tr>
 			<th><label>참가 팀 등록 <span class="pilsu">*</span></label></th>
@@ -312,7 +312,7 @@ function fnSelectTeam() {
 				</div>
 			</td>
 			<input type="hidden" name="groupIds">
-		</tr>
+		</tr> --%>
 	
 		</tbody>
 	</table>

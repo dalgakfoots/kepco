@@ -115,5 +115,23 @@ public class MberManageDAO extends EgovComAbstractDAO{
     public void updateLockIncorrect(MberManageVO mberManageVO) {
         update("mberManageDAO.updateLockIncorrect", mberManageVO);
     }
+    
+    
+    /*
+     * 회원 등록 시 팀-멤버 관계 insert
+     * 
+     * */
+	public void insertTeamMberRelation(MberManageVO mberManageVO) {
+		insert("userManageDAO.insertTeamMberRelation", mberManageVO);
+	}
+
+	public void deleteTeamMberRelation(MberManageVO mberManageVO) {
+		delete("userManageDAO.deleteTeamMberRelation", mberManageVO);
+		
+	}
+
+	public List<?> selectNoTeamMberList(UserDefaultVO userSearchVO) {
+		return selectList("userManageDAO.selectNoTeamMberList", userSearchVO);
+	}
 
 }

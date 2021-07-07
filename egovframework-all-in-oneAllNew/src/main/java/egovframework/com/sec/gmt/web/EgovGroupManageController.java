@@ -11,7 +11,8 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -25,6 +26,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springmodules.validation.commons.DefaultBeanValidator;
+
+import egovframework.com.cmm.EgovMessageSource;
+import egovframework.com.cmm.SessionVO;
+import egovframework.com.cmm.annotation.IncludedInfo;
+import egovframework.com.sec.gmt.service.EgovGroupManageService;
+import egovframework.com.sec.gmt.service.GroupManage;
+import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
  * 그룹관리에 관한 controller 클래스를 정의한다.
@@ -76,7 +87,14 @@ public class EgovGroupManageController {
             throws Exception {
         return "egovframework/com/sec/gmt/EgovGroupManage";
     }   
-
+    
+    
+    @RequestMapping("/sec/gmt/EgovMberListPopup.do")
+    public String egovMberListPopup() {
+    	
+    	return "egovframework/com/sec/gmt/EgovMberListPopup";
+    }
+    
 	/**
 	 * 시스템사용 목적별 그룹 목록 조회
 	 * @param groupManageVO GroupManageVO
@@ -120,6 +138,8 @@ public class EgovGroupManageController {
 	    		               ModelMap model) throws Exception {
 
 	    model.addAttribute("groupManage", egovGroupManageService.selectGroup(groupManageVO));
+	    model.addAttribute("selectUsers", egovGroupManageService.selectUsers(groupManageVO));
+	    
 	    return "egovframework/com/sec/gmt/EgovGroupUpdate";
 	}
 
@@ -170,13 +190,38 @@ public class EgovGroupManageController {
     @RequestMapping(value="/sec/gmt/EgovGroupUpdate.do")
 	public String updateGroup(@ModelAttribute("groupManage") GroupManage groupManage, 
 			                   BindingResult bindingResult,
-                               Model model) throws Exception {
+                               Model model, @RequestParam("addedUser") String addedUser) throws Exception {
     	
     	beanValidator.validate(groupManage, bindingResult); //validation 수행
-    	
     	if (bindingResult.hasErrors()) { 
 			return "egovframework/com/sec/gmt/EgovGroupUpdate";
 		} else {
+			/*TODO 팀원 추가 전처리*/
+			HashMap param = new HashMap();
+			param.put("teamId", groupManage.getGroupId());
+			
+			/*TODO 회원 ID로 검색하여 회원의 GROUP_ID 를 NULL 로 변경시킨다.*/
+			
+			List<HashMap> selectedTeamUsers = (List<HashMap>) egovGroupManageService.selectSelectedTeamUsers(param);
+			for(HashMap a : selectedTeamUsers) {
+				HashMap map = new HashMap();
+				map.put("groupId", "");
+				map.put("userId", a.get("ESNTL_ID"));
+				egovGroupManageService.updateUserGroupId(map);
+			}
+			
+			egovGroupManageService.deleteUserGroupMapping(param);
+			String [] userArr = addedUser.split(",");
+	        HashMap map = null;
+	        for(String userId : userArr) {
+	        	 map = new HashMap();
+	        	 map.put("groupId", groupManage.getGroupId());
+	        	 map.put("userId", userId);
+				 /* TODO 체크된 팀원을 추가한다.*/
+	        	 egovGroupManageService.updateUserGroupId(map); // update comtngnrlmber
+	        	 egovGroupManageService.insertUserGroupMapping(map); // insert into kepco_team_users
+	        }
+			
     	    egovGroupManageService.updateGroup(groupManage);
             model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
     	    return "forward:/sec/gmt/EgovGroupList.do";

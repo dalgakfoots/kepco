@@ -68,4 +68,14 @@ public interface EgovGroupManageService {
 	 * @exception Exception
 	 */
 	public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception;	
+	
+	
+	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception;
+	public List<GroupManageVO> selectVmGroupList(GroupManageVO groupManageVO) throws Exception;
+	public int selectVmGroupListTotCnt(GroupManageVO groupManageVO) throws Exception;	
+	public void deleteVmGroup(GroupManage groupManage) throws Exception;
+	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception;
+	public void updateVmGroup(GroupManage groupManage) throws Exception;
+	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception;
+	
 }

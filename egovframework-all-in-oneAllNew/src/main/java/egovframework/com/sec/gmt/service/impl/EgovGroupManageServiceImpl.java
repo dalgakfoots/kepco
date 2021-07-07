@@ -1,11 +1,14 @@
 package egovframework.com.sec.gmt.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
-
+import egovframework.com.sec.gmt.service.VmGroupType;
+import egovframework.com.sec.gmt.service.VmType;
+import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 import javax.annotation.Resource;
@@ -98,5 +101,62 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	 */
 	public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception {
 		return groupManageDAO.selectGroupListTotCnt(groupManageVO);
+	}
+	
+
+	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception {
+		groupManageDAO.insertVmGroup(groupManage);
+		
+		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
+		for (int i =0; i< splitedTypeUrl.length ; i++) {
+			System.out.println("splitedTypeUrl : "+ splitedTypeUrl[i]);
+			String[] typeUrlItems = splitedTypeUrl[i].split(",");
+			
+			System.out.println("typeUrlItems : "+ typeUrlItems[0]);
+			System.out.println("typeUrlItems : "+ typeUrlItems[1]);
+			String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
+			String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
+			
+
+			System.out.println("typeItem : "+ typeItem[1]);
+			System.out.println("urlItem : "+ urlItem[1]);
+			
+			
+			String type = typeItem[1];
+					
+					
+			String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
+			String groupId =groupManage.getGroupId();
+			String url = urlItem[1];
+			
+			VmGroupType vmGroupType = new VmGroupType();
+			vmGroupType.setGroupId(groupId);
+			vmGroupType.setTypeId(typeId);
+			vmGroupType.setUrl(url);
+			
+			
+			groupManageDAO.insertVmGroupTypes(vmGroupType);
+		}
+			
+		groupManageVO.setGroupId(groupManage.getGroupId());
+		return groupManageDAO.selectVmGroup(groupManageVO);
+	}
+	public List<GroupManageVO> selectVmGroupList(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectVmGroupList(groupManageVO);
+	}
+	public int selectVmGroupListTotCnt(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectVmGroupListTotCnt(groupManageVO);
+	}
+	public void deleteVmGroup(GroupManage groupManage) throws Exception {
+		groupManageDAO.deleteVmGroup(groupManage);
+	}
+	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectVmGroup(groupManageVO);
+	}
+	public void updateVmGroup(GroupManage groupManage) throws Exception {
+		groupManageDAO.updateVmGroup(groupManage);
+	}
+	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception {
+		return groupManageDAO.selectVmTypeList(vmTypeVO);
 	}
 }

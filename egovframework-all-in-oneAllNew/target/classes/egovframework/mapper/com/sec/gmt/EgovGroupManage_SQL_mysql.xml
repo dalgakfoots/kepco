@@ -9,6 +9,13 @@
 		<result property="groupDc" column="GROUP_DC"/>
         <result property="groupCreatDe" column="GROUP_CREAT_DE"/>
 	</resultMap>
+	
+ 	<resultMap id="vmType" type="egovframework.com.sec.gmt.service.VmTypeVO">
+        <result property="id" column="id"/>
+		<result property="type" column="type"/>
+        <result property="createdDatetime" column="created_datetime"/>
+	</resultMap>
+	
 
     <select id="selectGroup" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultMap="group">
         
@@ -77,5 +84,117 @@
 				GROUP_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
 			</if>
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="insertVmGroup">
+		INSERT INTO kepco_vm_groups ( 
+			name,
+			comment 
+		) VALUES ( 
+		   	#{groupNm},
+		   	#{groupDc}
+		)
+		 <selectKey keyProperty="groupId" resultType="String">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	
+	<select id="selectVmGroup" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultMap="group">
+            SELECT 
+            	id as GROUP_ID, 
+            	name as GROUP_NM, 
+            	comment as GROUP_DC, 
+            	created_datetime as GROUP_CREAT_DE
+              FROM kepco_vm_groups 
+             WHERE id=#{groupId}
+        
+    </select>
+    
+    <select id="selectVmGroupList" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultMap="group">
+            SELECT 
+				id as GROUP_ID, 
+            	name as GROUP_NM, 
+            	comment as GROUP_DC, 
+            	created_datetime as GROUP_CREAT_DE
+              FROM kepco_vm_groups
+             WHERE 1=1
+            <if test="searchKeyword!=null or searchKeyword!=''">AND
+                name LIKE CONCAT('%' , #{searchKeyword}, '%')
+            </if>
+            ORDER BY created_datetime DESC
+            LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+    
+    <select id="selectVmGroupListTotCnt" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="int">
+			SELECT COUNT(*) totcnt
+			FROM kepco_vm_groups
+			WHERE 1=1
+			<if test="searchKeyword!=null or searchKeyword!=''">AND
+				name LIKE CONCAT('%' , #{searchKeyword}, '%')
+			</if>
+	</select>
+	
+	<delete id="deleteVmGroup">
+			DELETE FROM kepco_vm_groups 
+			 WHERE id=#{groupId}
+	</delete>
+	
+	<update id="updateVmGroup" parameterType="egovframework.com.sec.gmt.service.GroupManage">
+		
+			UPDATE kepco_vm_groups 
+			   SET name=#{groupNm}
+				 , comment=#{groupDc}
+				 , updated_datetime=now()
+		  	 WHERE id=#{groupId}
+		
+	</update>
+	
+	<select id="selectVmTypeList" parameterType="egovframework.com.sec.gmt.service.VmTypeVO" resultMap="vmType">
+		SELECT 
+				id,
+				type,
+				created_datetime
+		FROM kepco_vm_types
+	
+	</select>
+	
+	<select id="selectVmTypeIdByVmType" parameterType="String" resultType="int" >
+			SELECT 
+				id
+			FROM kepco_vm_types
+			WHERE type=#{value}
+	</select>
 
+	<insert id="insertVmGroupTypes" parameterType="egovframework.com.sec.gmt.service.VmGroupType" >
+		<selectKey keyProperty="vmGroupTypeId" resultType="String" order="BEFORE">
+            SELECT 
+            	(IFNULL(MAX(vm_group_type_id), 0) + 1) AS vm_group_type_id 
+            FROM kepco_vm_group_types 
+	            WHERE vm_group_id = #{groupId} 
+	            AND vm_type_id = #{typeId}
+        </selectKey>
+	
+			INSERT INTO kepco_vm_group_types (
+				vm_group_id,
+				vm_type_id,
+				vm_group_type_id,
+				url				
+			) VALUES(
+				#{groupId},
+				#{typeId},
+				#{vmGroupTypeId},
+				#{url}
+			)
+			
+	
+	</insert>
+	
+	
 </mapper>

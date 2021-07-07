@@ -5,6 +5,8 @@ import java.util.List;
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.com.sec.gmt.service.VmGroupType;
+import egovframework.com.sec.gmt.service.VmTypeVO;
 
 import org.springframework.stereotype.Repository;
 
@@ -90,4 +92,38 @@ public class GroupManageDAO extends EgovComAbstractDAO {
     public int selectGroupListTotCnt(GroupManageVO groupManageVO) throws Exception {
         return (Integer)selectOne("groupManageDAO.selectGroupListTotCnt", groupManageVO);
     }
+    
+    
+	
+
+	public void insertVmGroup(GroupManage groupManage) throws Exception {
+		insert("groupManageDAO.insertVmGroup", groupManage);
+	}
+	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception {
+		return (GroupManageVO) selectOne("groupManageDAO.selectVmGroup", groupManageVO);
+	}
+	@SuppressWarnings("unchecked")
+	public List<GroupManageVO> selectVmGroupList(GroupManageVO groupManageVO) throws Exception {
+		return (List<GroupManageVO>) list("groupManageDAO.selectVmGroupList", groupManageVO);
+	}
+	public int selectVmGroupListTotCnt(GroupManageVO groupManageVO) throws Exception {
+	    return (Integer)selectOne("groupManageDAO.selectVmGroupListTotCnt", groupManageVO);
+	}
+	public void deleteVmGroup(GroupManage groupManage) throws Exception {
+		delete("groupManageDAO.deleteVmGroup", groupManage);
+	}
+	public void updateVmGroup(GroupManage groupManage) throws Exception {
+		update("groupManageDAO.updateVmGroup", groupManage);
+	}
+	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception {
+		return (List<VmTypeVO>) list("groupManageDAO.selectVmTypeList", vmTypeVO); 
+	}
+	public int selectVmTypeIdByVmType(String vmType) {
+		return selectOne("groupManageDAO.selectVmTypeIdByVmType", vmType);
+	}
+	public void insertVmGroupTypes(VmGroupType vmGroupType) {
+		insert("groupManageDAO.insertVmGroupTypes", vmGroupType);
+		
+	}
+		
 }

@@ -6,10 +6,12 @@ import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
-
+import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -256,4 +258,133 @@ public class EgovGroupManageController {
 
         return "egovframework/com/sec/gmt/EgovGroupSearch";
 	}
+    
+    
+ 
+    
+    
+    
+    @RequestMapping("/sec/vmt/EgovVmGroupListView.do")
+    public String selectVmGroupListView()
+            throws Exception {
+        return "egovframework/com/sec/vmt/EgovVmGroupManage";
+    }   
+ 
+    @IncludedInfo(name="그룹관리", listUrl="/sec/vmt/EgovVmGroupList.do", order = 80,gid = 20)
+    @RequestMapping(value="/sec/vmt/EgovVmGroupList.do")
+	public String selectvmGroupList(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
+                                   ModelMap model) throws Exception {
+    	/** paging */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(groupManageVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(groupManageVO.getPageUnit());
+		paginationInfo.setPageSize(groupManageVO.getPageSize());
+		
+		groupManageVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		groupManageVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		groupManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		groupManageVO.setGroupManageList(egovGroupManageService.selectVmGroupList(groupManageVO));
+		System.out.println("groupManageVO.getGroupManageList() : " + groupManageVO.getGroupManageList());
+        model.addAttribute("groupList", groupManageVO.getGroupManageList());
+        
+        int totCnt = egovGroupManageService.selectVmGroupListTotCnt(groupManageVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+        model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+        return "egovframework/com/sec/vmt/EgovVmGroupManage";
+	}
+    
+    @RequestMapping(value="/sec/vmt/EgovVmGroupInsertView.do")
+    public String insertVmGroupView(@ModelAttribute("groupManage") GroupManage groupManage, Model model, VmTypeVO vmTypeVO)
+            throws Exception {
+    	vmTypeVO.setVmTypeList(egovGroupManageService.selectVmTypeList(vmTypeVO));
+    	model.addAttribute("typeList", vmTypeVO.getVmTypeList());
+        return "egovframework/com/sec/vmt/EgovVmGroupInsert";
+    }
+    
+    @RequestMapping(value="/sec/vmt/EgovVmGroupInsert.do")
+	public String insertVmGroup(@ModelAttribute("groupManage") GroupManage groupManage, 
+			                  	@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
+			                  	@RequestParam("typeUrl") String typeUrl,
+			                  	BindingResult bindingResult,
+			                  	ModelMap model) throws Exception {
+    	
+    	beanValidator.validate(groupManage, bindingResult); //validation 수행
+    	if (bindingResult.hasErrors()) { 
+			return "egovframework/com/sec/vmt/EgovVmGroupInsert";
+		} else {
+	    	groupManage.setGroupId(egovGroupIdGnrService.getNextStringId());
+	        groupManageVO.setGroupId(groupManage.getGroupId());
+	        
+	        model.addAttribute("message", egovMessageSource.getMessage("success.common.insert"));
+	        model.addAttribute("groupManage", egovGroupManageService.insertVmGroup(groupManage, groupManageVO, typeUrl));
+	        return "forward:/sec/vmt/EgovVmGroupList.do";
+		}
+	}
+    
+    @RequestMapping(value="/sec/vmt/EgovVmGroupListDelete.do")
+	public String deleteVmGroupList(@RequestParam("groupIds") String groupIds,
+			                      @ModelAttribute("groupManage") GroupManage groupManage, 
+	                               Model model) throws Exception {
+    	String [] strGroupIds = groupIds.split(";");
+    	for(int i=0; i<strGroupIds.length;i++) {
+    		groupManage.setGroupId(strGroupIds[i]);
+    		egovGroupManageService.deleteVmGroup(groupManage);
+    	}
+
+		model.addAttribute("message", egovMessageSource.getMessage("success.common.delete"));
+		return "forward:/sec/vmt/EgovVmGroupList.do";
+	}
+    
+    @RequestMapping(value="/sec/vmt/EgovVmGroup.do")
+	public String selectVmGroup(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
+								@ModelAttribute("groupManage") GroupManage groupManage,
+								ModelMap model) throws Exception {
+
+	    model.addAttribute("groupManage", egovGroupManageService.selectVmGroup(groupManageVO));
+	    return "egovframework/com/sec/vmt/EgovVmGroupUpdate";
+	}
+    
+    @RequestMapping(value="/sec/vmt/EgovVmGroupUpdate.do")
+	public String updateVmGroup(@ModelAttribute("groupManage") GroupManage groupManage, 
+			                   BindingResult bindingResult,
+                               Model model) throws Exception {
+    	
+    	beanValidator.validate(groupManage, bindingResult); //validation 수행
+    	
+    	if (bindingResult.hasErrors()) { 
+			return "egovframework/com/sec/vmt/EgovVMGroupUpdate";
+		} else {
+    	    egovGroupManageService.updateVmGroup(groupManage);
+            model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
+    	    return "forward:/sec/vmt/EgovVmGroupList.do";
+		}
+	}	
+    @RequestMapping(value="/sec/vmt/EgovVmGroupSearchList.do")
+	public String selectVmGroupSearchList(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
+                                   ModelMap model) throws Exception {
+    	/** paging */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(groupManageVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(groupManageVO.getPageUnit());
+		paginationInfo.setPageSize(groupManageVO.getPageSize());
+		
+		groupManageVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		groupManageVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		groupManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		groupManageVO.setGroupManageList(egovGroupManageService.selectVmGroupList(groupManageVO));
+        model.addAttribute("groupList", groupManageVO.getGroupManageList());
+        
+        int totCnt = egovGroupManageService.selectVmGroupListTotCnt(groupManageVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+        model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+        return "egovframework/com/sec/vmt/EgovVmGroupSearch";
+	}
+   
+    
 }

@@ -55,6 +55,38 @@
 		 WHERE TEAM_ID = #{groupId}
 	</select>
 	
+	<!-- 훈련 매핑관리에서 사용  -->
+	<select id="selectTrainGroupVmList" resultType="java.util.HashMap">
+		SELECT ID,
+			   TRAINING_ID,
+			   TEAM_ID,
+			   VM_ID
+	      FROM KEPCO_TRAINING_TEAM_VMGROUP
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectVmGroupListForMapping" resultType="java.util.HashMap">
+		SELECT ID,
+			   NAME
+		  FROM kepco_vm_groups
+	</select>
+	
+	<select id="selectTrainList" resultType="java.util.HashMap">
+		SELECT EVENT_ID,
+			   EVENT_CN,
+			   EVENT_SVC_BGNDE,
+			   EVENT_SVC_ENDDE
+  		  FROM COMTNEVENTINFO
+	</select>
+	
+	<select id="selectTeamList" resultType="java.util.HashMap">
+		SELECT GROUP_ID,
+			   GROUP_NM
+		  FROM COMTNAUTHORGROUPINFO
+	</select>
+	
+	<!-- 훈련 매핑관리에서 사용 끝 -->
+	
 	<insert id="insertGroup">
 		
 			INSERT INTO COMTNAUTHORGROUPINFO 
@@ -105,6 +137,15 @@
 			 WHERE ESNTL_ID = #{userId}
 	</update>
 	
+	<update id="updateTrainGroupVmManage">
+			UPDATE KEPCO_TRAINING_TEAM_VMGROUP
+			   SET TRAINING_ID = #{training_id},
+			   	   TEAM_ID = #{team_id},
+			   	   VM_ID = #{vm_id}
+			 WHERE ID = #{id}
+	</update>
+	
+	
 	<delete id="deleteGroup">
 		
 			DELETE FROM COMTNAUTHORGROUPINFO 
@@ -117,6 +158,11 @@
 			 WHERE TEAM_ID = #{teamId}
 	</delete>
 	
+	<delete id="deleteTrainGroupVmManage">
+			DELETE FROM KEPCO_TRAINING_TEAM_VMGROUP
+			 WHERE ID = #{id}
+	</delete>
+	
 	<select id="selectGroupListTotCnt" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="int">
 
 			SELECT COUNT(*) totcnt
@@ -127,12 +173,26 @@
 			</if>
 	</select>
 	
+	<select id="selectTrainGroupVmListTotCnt" resultType="int">
+		
+		SELECT COUNT(*) totcnt
+		  FROM KEPCO_TRAINING_TEAM_VMGROUP
+		 WHERE 1=1
+	</select>
 	
-	
-	
-	
-	
-	
+	<insert id="insertTrainGroupVmManage">
+		INSERT INTO KEPCO_TRAINING_TEAM_VMGROUP
+			   		(ID,
+			   		 TRAINING_ID,
+			   		 TEAM_ID,
+			   		 VM_ID
+			 		)VALUES(
+			   		 #{id},
+			   		 #{training_id},
+			   		 #{team_id},
+			   		 #{vm_id}
+			   		)
+	</insert>
 	
 	
 	<insert id="insertVmGroup">

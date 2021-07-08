@@ -7,6 +7,7 @@ import java.util.HashMap;
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.com.sec.gmt.service.TrainGroupVmVO;
 import egovframework.com.sec.gmt.service.VmGroupType;
 import egovframework.com.sec.gmt.service.VmType;
 import egovframework.com.sec.gmt.service.VmTypeVO;
@@ -188,5 +189,45 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	}
 	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception {
 		return groupManageDAO.selectVmTypeList(vmTypeVO);
+	}
+
+	@Override
+	public List<HashMap> selectTrainGroupVmList(TrainGroupVmVO trainGroupVmVO) {
+		return groupManageDAO.selectTrainGroupVmList(trainGroupVmVO);
+	}
+
+	@Override
+	public List<HashMap> selectTrainList() throws Exception {
+		return groupManageDAO.selectTrainList();
+	}
+
+	@Override
+	public List<HashMap> selectTeamList() throws Exception {
+		return groupManageDAO.selectTeamList();
+	}
+
+	@Override
+	public List<HashMap> selectVmGroupList() throws Exception {
+		return groupManageDAO.selectVmGroupList();
+	}
+
+	@Override
+	public int selectTrainGroupVmListTotCnt(TrainGroupVmVO trainGroupVmVO) throws Exception {
+		return groupManageDAO.selectTrainGroupVmListTotCnt(trainGroupVmVO);
+	}
+
+	@Override
+	public void insertTrainGroupVmManage(HashMap insertMap) {
+		groupManageDAO.insertTrainGroupVmManage(insertMap);
+	}
+
+	@Override
+	public void updateTrainGroupVmManage(HashMap updateMap) {
+		groupManageDAO.updateTrainGroupVmManage(updateMap);
+	}
+
+	@Override
+	public void deleteTrainGroupVmManage(HashMap deleteMap) {
+		groupManageDAO.deleteTrainGroupVmManage(deleteMap);
 	}
 }

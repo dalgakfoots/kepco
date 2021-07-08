@@ -154,12 +154,12 @@ function fnSearch(){
 		<col style="width: 5%;">
 		<col style="width: 3%;">
 		
-		<col style="width: 15%;">
-		<col style="width: 15%;">
-		<col style="width: 20%;">
-		<col style="width: 13%;">
-		<col style="width: 10%;">
-		<col style="width: ;">
+		<col style="width: 25%;">
+		<col style="width: 25%;">
+		<col style="width: 25%;">
+		<%-- <col style="width: 13%;">
+		<col style="width: 10%;"> 
+		<col style="width: ;">--%>
 	</colgroup>
 	<thead>
 	<tr>
@@ -168,10 +168,10 @@ function fnSearch(){
 		
 		<th class="board_th_link"><spring:message code="comUssUmt.userManageList.id" /></th><!--아이디 -->
 		<th><spring:message code="comUssUmt.userManageList.name" /></th><!-- 사용자이름 -->
-		<th><spring:message code="comUssUmt.userManageList.email" /></th><!-- 사용자이메일 -->
-		<th><spring:message code="comUssUmt.userManageList.phone" /></th><!-- 전화번호 -->
+		<%-- <th><spring:message code="comUssUmt.userManageList.email" /></th><!-- 사용자이메일 -->
+		<th><spring:message code="comUssUmt.userManageList.phone" /></th><!-- 전화번호 --> --%>
 		<th><spring:message code="table.regdate" /></th><!-- 등록일 -->
-		<th><spring:message code="comUssUmt.userManageList.sbscrbSttus" /></th><!-- 가입상태 -->
+		<%-- <th><spring:message code="comUssUmt.userManageList.sbscrbSttus" /></th><!-- 가입상태 --> --%>
 
 	</tr>
 	</thead>
@@ -190,14 +190,14 @@ function fnSearch(){
 	    </td>
 	    <td><a href="<c:url value='/uss/umt/EgovMberSelectUpdtView.do'/>?selectedId=<c:out value="${result.uniqId}"/>"  onclick="javascript:fnSelectUser('<c:out value="${result.userTy}"/>:<c:out value="${result.uniqId}"/>'); return false;"><c:out value="${result.userId}"/></a></td>
 	    <td><c:out value="${result.userNm}"/></td>
-	    <td><c:out value="${result.emailAdres}"/></td>
-	    <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td>
+	    <%-- <td><c:out value="${result.emailAdres}"/></td>
+	    <td><c:out value="${result.areaNo}"/>)<c:out value="${result.middleTelno}"/>-<c:out value="${result.endTelno}"/></td> --%>
 	    <td><c:out value="${fn:substring(result.sbscrbDe,0,10)}"/></td>
-	    <td>
+	    <%-- <td>
 	        <c:forEach var="entrprsMberSttus_result" items="${entrprsMberSttus_result}" varStatus="status">
 	            <c:if test="${result.sttus == entrprsMberSttus_result.code}"><c:out value="${entrprsMberSttus_result.codeNm}"/></c:if>
 	        </c:forEach>
-	    </td>
+	    </td> --%>
 	</tr>
 	</c:forEach>
 	</tbody>

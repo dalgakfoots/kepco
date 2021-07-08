@@ -5,6 +5,7 @@ import java.util.List;
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.com.sec.gmt.service.TrainGroupVmVO;
 import egovframework.com.sec.gmt.service.VmGroupType;
 import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.com.uss.umt.service.MberManageVO;
@@ -147,6 +148,40 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	}
 	public void insertVmGroupTypes(VmGroupType vmGroupType) {
 		insert("groupManageDAO.insertVmGroupTypes", vmGroupType);
+		
+	}
+
+	public List<HashMap> selectTrainGroupVmList(TrainGroupVmVO trainGroupVmVO) {
+		return selectList("groupManageDAO.selectTrainGroupVmList", trainGroupVmVO);
+	}
+	/*훈련매핑관리 화면에서 사용*/
+	public List<HashMap> selectVmGroupList() {
+		return selectList("groupManageDAO.selectVmGroupListForMapping");
+	}
+
+	public List<HashMap> selectTrainList() {
+		return selectList("groupManageDAO.selectTrainList");
+	}
+
+	public List<HashMap> selectTeamList() {
+		return selectList("groupManageDAO.selectTeamList");
+	}
+
+	public int selectTrainGroupVmListTotCnt(TrainGroupVmVO trainGroupVmVO) {
+		return (Integer)selectOne("groupManageDAO.selectTrainGroupVmListTotCnt", trainGroupVmVO);
+	}
+
+	public void insertTrainGroupVmManage(HashMap insertMap) {
+		insert("groupManageDAO.insertTrainGroupVmManage", insertMap);
+	}
+
+	public void updateTrainGroupVmManage(HashMap updateMap) {
+		update("groupManageDAO.updateTrainGroupVmManage", updateMap);
+		
+	}
+
+	public void deleteTrainGroupVmManage(HashMap deleteMap) {
+		delete("groupManageDAO.deleteTrainGroupVmManage", deleteMap);
 		
 	}
 		

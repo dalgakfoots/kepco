@@ -1,6 +1,7 @@
 package egovframework.com.sym.mnu.mpm.service;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.cmm.ComDefaultVO;
@@ -141,5 +142,9 @@ public interface EgovMenuManageService {
 	 * @exception Exception
 	 */
 	String menuBndeRegist(MenuManageVO vo, InputStream inputStream) throws Exception;
+	
+	
+	/*메인화면의 사이버위기경보 단계 조회용*/
+	public HashMap selectCyberThreatAlertLevel() throws Exception;
 
 }

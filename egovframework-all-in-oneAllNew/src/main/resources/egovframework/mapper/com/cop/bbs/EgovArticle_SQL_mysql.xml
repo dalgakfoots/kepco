@@ -205,6 +205,24 @@
 		
 	</insert>	
 	
+	<insert id ="insertCyberThreatAlarm" parameterType="java.util.HashMap">
+			
+			INSERT INTO CYBER_THREAT_ALARM
+			       (
+			       	ID,
+			       	NTT_ID,
+			       	BBS_ID,
+			       	LEVEL
+			       )
+			       VALUES(
+			       #{id},
+			       #{nttId},
+			       #{bbsId},
+			       #{level}
+			       )
+			
+	</insert>
+	
 	<select id="selectArticleList" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardList">
 		
 			SELECT
@@ -375,6 +393,14 @@
  		
  	</update>
 
+ 	
+ 	<update id="updateCyberThreatAlarm">
+ 	
+ 			UPDATE CYBER_THREAT_ALARM
+ 			   SET LEVEL = #{level}
+ 			 WHERE ID = #{ctaId}
+ 	
+ 	</update>
  	
  	<select id="selectNoticeArticleList" parameterType="egovframework.com.cop.bbs.service.BoardVO" resultMap="boardList">
 		

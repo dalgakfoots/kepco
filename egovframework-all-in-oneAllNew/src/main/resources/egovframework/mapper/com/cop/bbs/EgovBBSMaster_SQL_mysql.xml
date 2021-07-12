@@ -324,5 +324,21 @@
 			ORDER BY FRST_REGIST_PNTTM DESC
 		
 	</select>	
-
+	
+	<select id ="selectCyberThreatAlarm" resultType="java.util.HashMap">
+			
+			SELECT   A.ID,
+					 A.NTT_ID,
+					 A.LEVEL
+			  FROM cyber_threat_alarm A 
+			  INNER JOIN 
+			(SELECT NTT_ID,
+					 BBS_ID
+			 FROM comtnbbs
+			WHERE BBS_ID = #{bbsId}
+			ORDER BY SORT_ORDR DESC) B ON A.NTT_ID = B.NTT_ID AND A.BBS_ID = B.BBS_ID
+			WHERE B.NTT_ID = ${nttId}
+			
+	</select>
+	
 </mapper>

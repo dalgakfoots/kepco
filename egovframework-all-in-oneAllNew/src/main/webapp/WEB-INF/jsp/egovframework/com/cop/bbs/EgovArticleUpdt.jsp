@@ -211,7 +211,28 @@ function fn_egov_inqire_articlelist() {
 							<div>	<form:errors path="noticeAt" cssClass="error" /></div>
 						</td>
 					</tr>
-
+					
+					<!-- 사이버위기경보  : BBSMSTR_000000000021 인 경우 위기경보관리 라디오버튼 보이도록 처리-->
+					<c:if test="${boardMasterVO.bbsId == 'BBSMSTR_000000000021'}">
+						<c:set var="title">사이버위기경보 설정</c:set>
+						<tr>
+							<th>${title}</th>
+							<td class="left" colspan="3">
+								<input type="hidden" id="ctaId" name="ctaId" value="${alarmId}">
+								<input type="radio" id="cta1" name="cta" value="1" <c:if test='${level eq "1"}'>checked</c:if> >
+								<label for="cta1">정상</label>
+								<input type="radio" id="cta2" name="cta" value="2" <c:if test='${level eq "2"}'>checked</c:if> >
+								<label for="cta2">관심</label>
+								<input type="radio" id="cta3" name="cta" value="3" <c:if test='${level eq "3"}'>checked</c:if> >
+								<label for="cta3">주의</label>
+								<input type="radio" id="cta4" name="cta" value="4" <c:if test='${level eq "4"}'>checked</c:if> >
+								<label for="cta4">경계</label>
+								<input type="radio" id="cta5" name="cta" value="5" <c:if test='${level eq "5"}'>checked</c:if> >
+								<label for="cta5">심각</label>
+							</td>
+						</tr>
+					</c:if>
+					
 					<!-- 비밀글 여부 -->
 					<c:set var="title"><spring:message code="comCopBbs.articleVO.updt.secretAt" /></c:set>
 					<tr>

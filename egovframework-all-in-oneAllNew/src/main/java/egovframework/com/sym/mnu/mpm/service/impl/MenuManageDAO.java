@@ -198,4 +198,11 @@ public class MenuManageDAO extends EgovComAbstractDAO{
 	public int selectLastMenuNoCnt(MenuManageVO vo) throws Exception{
 		return (Integer)selectOne("menuManageDAO.selectLastMenuNoCnt", vo);
 	}
+	
+	
+	/*사이버위기경보 단계 조회용*/
+	public HashMap selectCyberThreatAlertLevel() {
+		// TODO Auto-generated method stub
+		return selectOne("menuManageDAO.selectCyberThreatAlertLevel");
+	}
 }

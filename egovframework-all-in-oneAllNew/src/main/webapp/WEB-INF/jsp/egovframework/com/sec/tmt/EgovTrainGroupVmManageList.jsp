@@ -276,9 +276,6 @@ function save(insertRow , updateRow, deleteRow){
 		<div class="search_box" title="훈련매핑 목록">
 			<ul>
 				<li>
-					<input type="button" class="s_btn" value="조회" />
-				</li>
-				<li>
 					<input type="button" class="s_btn" value="저장" onclick="javascript:beforeSave()"/>
 				</li>
 			</ul>

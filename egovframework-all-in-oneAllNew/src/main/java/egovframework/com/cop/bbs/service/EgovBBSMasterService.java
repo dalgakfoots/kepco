@@ -1,11 +1,9 @@
 package egovframework.com.cop.bbs.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.com.cop.bbs.service.BlogUser;
-import egovframework.com.cop.bbs.service.BlogVO;
-import egovframework.com.cop.bbs.service.Blog;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
 
 public interface EgovBBSMasterService {
@@ -40,5 +38,7 @@ public interface EgovBBSMasterService {
 	List<BlogVO> selectBlogListPortlet(BlogVO blogVO) throws Exception;
 
 	List<BoardMasterVO> selectBBSListPortlet(BoardMasterVO boardMasterVO) throws Exception;
+
+	HashMap selectCyberThreatAlarm(BoardVO boardVO) throws Exception;
 
 }

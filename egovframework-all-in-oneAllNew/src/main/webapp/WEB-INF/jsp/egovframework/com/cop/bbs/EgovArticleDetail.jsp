@@ -163,6 +163,25 @@ function fn_egov_select_commentList(pageNo) {
 				<c:out value="${fn:replace(result.nttCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
+		
+		<!-- 사이버위기경보 단계 -->
+		<c:if test="${boardMasterVO.bbsId eq 'BBSMSTR_000000000021'}">
+			<c:set var="title">사이버위기경보 설정</c:set>
+			<tr>
+				<th>${title}</th>
+				<td class="left" colspan="5">
+					<c:choose>
+						<c:when test='${level eq "1"}'>정상</c:when>
+						<c:when test='${level eq "2" }'>관심</c:when>
+						<c:when test='${level eq "3" }'>주의</c:when>
+						<c:when test='${level eq "4" }'>경계</c:when>
+						<c:when test='${level eq "5" }'>심각</c:when>
+						<c:otherwise>err</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+		</c:if>
+		
 		<!-- 게시일자 -->
 		<tr>
 			<th class="vtop"><spring:message code="comCopBbs.articleVO.detail.ntceDe" /></th>
@@ -221,7 +240,6 @@ function fn_egov_select_commentList(pageNo) {
 		</form> --%>
 		
 	</div><div style="clear:both;"></div>
-	${result }
 </div>
 
 <!-- 댓글 -->

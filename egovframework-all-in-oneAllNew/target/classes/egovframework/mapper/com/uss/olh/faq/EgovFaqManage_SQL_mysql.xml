@@ -24,6 +24,19 @@
 		<result property="lastUpdusrId" column="LAST_UPDUSR_ID"/>				
 	</resultMap>
 	
+	<resultMap id="FaqGroupManage" type="egovframework.com.uss.olh.faq.service.FaqGroupVO">
+		<result property="faqGroupId" column="FAQ_GROUP_ID"/>
+		<result property="faqGroupNm" column="FAQ_GROUP_NM"/>
+		<result property="faqGroupDc" column="FAQ_GROUP_DC"/>
+		<!-- <result property="type" column="TYPE"/>  -->
+	</resultMap>
+	
+	<resultMap id="FaqGroupRelationManage" type="egovframework.com.uss.olh.faq.service.FaqGroupRelationVO">
+		<result property="id" column="ID"/>
+		<result property="faqGroupId" column="FAQ_GROUP_ID"/>
+		<result property="faqId" column="FAQ_ID"/>
+	</resultMap>
+	
 	<select id="selectFaqDetail" resultMap="FaqManage">
 				
 			SELECT 	FAQ_ID, 
@@ -75,6 +88,46 @@
 			</if>
 	</select>
 	
+	<select id="selectFaqGroupList" resultType="java.util.HashMap">
+	
+			SELECT FAQ_GROUP_ID,
+				   FAQ_GROUP_NM,
+				   FAQ_GROUP_DC,
+				   TYPE,
+				   CREATED_DATETIME
+			  FROM KEPCO_EXAM_GROUP
+			 LIMIT  #{recordCountPerPage} OFFSET #{firstIndex}	
+			 
+	</select>
+	
+	
+	<select id="selectFaqGroupListCnt" resultType="int">
+			
+			SELECT 	COUNT(*) totcnt
+			FROM 	KEPCO_EXAM_GROUP
+			WHERE 	1=1
+			
+	</select>
+	
+	<select id="selectFaqGroup" resultMap="FaqGroupManage">
+		SELECT FAQ_GROUP_ID,
+			   FAQ_GROUP_NM,
+			   FAQ_GROUP_DC,
+			   TYPE
+		  FROM KEPCO_EXAM_GROUP
+		 WHERE FAQ_GROUP_ID = #{faqGroupId}
+	</select>
+	
+	<select id="selectFaqGroupRelationList" resultType="java.util.HashMap">
+			
+			SELECT A.FAQ_ID,
+				   A.QESTN_SJ
+		   	  FROM COMTNFAQINFO A LEFT OUTER JOIN KEPCO_EXAM_GROUP_FAQINFO B
+		   	    ON A.FAQ_ID = B.FAQ_ID
+		   	 WHERE B.FAQ_GROUP_ID = #{faqGroupId}
+	
+	</select>
+	
 	<insert id="insertFaq">	
 			
 			INSERT INTO COMTNFAQINFO
@@ -108,6 +161,34 @@
 		
 	</insert>
 	
+	<insert id="insertFaqGroup">
+		
+		INSERT INTO KEPCO_EXAM_GROUP
+			   (FAQ_GROUP_ID,
+			    FAQ_GROUP_NM,
+			    FAQ_GROUP_DC
+			   )VALUES(
+			    #{faqGroupId},
+			    #{faqGroupNm},
+			    #{faqGroupDc}
+			   )
+	
+	</insert>
+	
+	<insert id="insertFaqGroupRelation">
+	
+			INSERT INTO KEPCO_EXAM_GROUP_FAQINFO
+			      (ID,
+			       FAQ_GROUP_ID,
+			       FAQ_ID
+			      )VALUES(
+			       #{id},
+			       #{faqGroupId},
+			       #{faqId}
+			      )
+	
+	</insert>
+	
 	<update id="updateFaqInqireCo">
 				
 			UPDATE	COMTNFAQINFO	SET
@@ -130,11 +211,33 @@
 		
 	</update>
 	
+	<update id="updateFaqGroup">
+	
+			UPDATE KEPCO_EXAM_GROUP
+			   SET FAQ_GROUP_NM = #{faqGroupNm},
+			   	   FAQ_GROUP_DC = #{faqGroupDc}
+			 WHERE FAQ_GROUP_ID = #{faqGroupId}
+	
+	</update>
+	
 	<delete id="deleteFaq">
 		
 			DELETE FROM COMTNFAQINFO 
 			WHERE  FAQ_ID=#{faqId}
 		
+	</delete>
+	
+	<delete id ="deleteFaqGroup">
+			
+			DELETE FROM KEPCO_EXAM_GROUP
+			 WHERE FAQ_GROUP_ID=#{faqGroupId}
+	</delete>
+	
+	<delete id ="deleteFaqGroupRelation">
+	
+			DELETE FROM KEPCO_EXAM_GROUP_FAQINFO
+			 WHERE FAQ_GROUP_ID=#{faqGroupId}
+	
 	</delete>
 	
 </mapper>

@@ -7,6 +7,7 @@ import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
 import egovframework.com.sec.gmt.service.TrainGroupVmVO;
 import egovframework.com.sec.gmt.service.VmGroupType;
+import egovframework.com.sec.gmt.service.VmGroupTypeVO;
 import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.com.uss.umt.service.MberManageVO;
 import org.springframework.stereotype.Repository;
@@ -127,6 +128,10 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception {
 		return (GroupManageVO) selectOne("groupManageDAO.selectVmGroup", groupManageVO);
 	}
+	
+	public void deleteVmGroupTypes(GroupManage groupManage) throws Exception {
+		delete("groupManageDAO.deleteVmGroupTypes", groupManage);
+	}
 	@SuppressWarnings("unchecked")
 	public List<GroupManageVO> selectVmGroupList(GroupManageVO groupManageVO) throws Exception {
 		return (List<GroupManageVO>) list("groupManageDAO.selectVmGroupList", groupManageVO);
@@ -142,6 +147,12 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	}
 	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception {
 		return (List<VmTypeVO>) list("groupManageDAO.selectVmTypeList", vmTypeVO); 
+	}
+	public List<HashMap> selectVmTypeList2() throws Exception {
+		return selectList("groupManageDAO.selectVmTypeList2"); 
+	}
+	public List<HashMap> selectVmGroupTypeList(GroupManageVO groupManageVO) {
+		return  selectList("groupManageDAO.selectVmGroupTypeList", groupManageVO);
 	}
 	public int selectVmTypeIdByVmType(String vmType) {
 		return selectOne("groupManageDAO.selectVmTypeIdByVmType", vmType);

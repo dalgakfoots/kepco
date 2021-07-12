@@ -130,10 +130,9 @@ function fncGroupListDelete() {
 function linkPage(pageNo){
     document.listForm.searchCondition.value = "1";
     document.listForm.pageIndex.value = pageNo;
-    document.listForm.action = "<c:url value='/sec/vmt/EgovVvGroupList.do'/>";
+    document.listForm.action = "<c:url value='/sec/vmt/EgovVmGroupList.do'/>";
     document.listForm.submit();
 }
-
 function press() {
 
     if (event.keyCode==13) {
@@ -149,7 +148,7 @@ function press() {
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
 <form:form name="listForm" action="${pageContext.request.contextPath}/sec/vmt/EgovVmGroupList.do" method="post">
 <div class="board">
-	<h1>KEPCO VM 그룹 <spring:message code="title.list" /></h1><!-- 그룹관리 목록 -->
+	<h1>VM 그룹 <spring:message code="title.list" /></h1><!-- 그룹관리 목록 -->
 	<!-- 검색영역 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>

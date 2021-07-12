@@ -98,9 +98,11 @@ function removeTableItems(index) {
 	var tr =document.getElementsByName(index)[0].parentElement.parentNode.rowIndex;
  	var table = document.getElementById("board_list_body");
 	const newRow = table.deleteRow(tr-1); 
-	a
 	getTableValues();
 }
+
+
+
 
 </script>
 </head>
@@ -200,10 +202,10 @@ function removeTableItems(index) {
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		
-		<input type="hidden" name="typeUrl" id="typeUrl">
+		<input type="hidden" name="typeUrl" id="typeUrl" value="">
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" /><!-- 등록 -->
 		<span class="btn_s"><a href="<c:url value='/sec/vmt/EgovVmGroupList.do' />"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span><!-- 목록 -->
-		 <!-- <span class="btn_s"><a href="javascript:getTableValues()">추가</a></span> -->
+	<!-- 	 <span class="btn_s"><a href="javascript:getTableValues()">추가</a></span> -->
 	</div><div style="clear:both;"></div>
 	
 </div>

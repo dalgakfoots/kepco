@@ -60,6 +60,64 @@ function fncGroupDelete() {
     	return false;
     }
 }
+
+
+function addVmTableRow() {
+	
+	var type = document.getElementById("type").value;
+	var url = document.getElementById("url").value;
+	if (type !== "" && url !== "" ) {
+		var length  = document.getElementById("board_list_body").getElementsByTagName("tr").length;
+		
+		var table = document.getElementById("board_list");
+		const newRow = table.insertRow();
+		const newCell1 = newRow.insertCell(0);
+		const newCell2 = newRow.insertCell(1);
+		const newCell3 = newRow.insertCell(2);
+		newCell1.innerText = type;
+		newCell2.innerText = url;
+		newCell3.innerHTML = "<input type=\"button\" name=\""+length+"\" onclick=\"javascript:removeTableItems("+length+")\" value=\"X\">";		
+		
+		document.getElementById("type").value = "";
+		document.getElementById("url").value = "";
+		getTableValues();
+	}		
+}
+
+function getTableValues() {
+	var vmGroupTypes = new Array();
+	var vm = "";
+	var tr = document.getElementById("board_list_body").getElementsByTagName("tr");
+	for (var i=0; i<tr.length; i++) {
+		if (vm !== "") vm+=">>>";
+		var td = tr[i].getElementsByTagName("td");
+		if (td.length > 0) {
+			 var type = td[0].innerText;
+		     var url = td[1].innerText;
+		     vm += "type<<<"+type +","+"url<<<"+url;
+		}
+	}
+	document.getElementById("typeUrl").value = vm;	
+}
+
+
+function removeTableItems(index) {
+	console.log("index : ", index);
+	console.log("document.getElementsByName(index) : ", document.getElementsByName(index));
+	var tr =document.getElementsByName(index)[0].parentElement.parentNode.rowIndex;
+	
+ 	var table = document.getElementById("board_list_body");
+	const newRow = table.deleteRow(tr-1); 
+	getTableValues();
+}
+
+
+function getVmTableLength() {
+	var length  = document.getElementById("board_list_body").getElementsByTagName("tr").length;
+	return length;
+}
+
+
 </script>
 </head>
 
@@ -106,7 +164,7 @@ function fncGroupDelete() {
 				<div><form:errors path="groupDc" cssClass="error" /></div> 
 			</td>
 		</tr>
-		<%-- <c:set var="title">VM 타입</c:set>
+		<c:set var="title">VM 타입</c:set>
 		<tr>
 			<th>${title}</th>
 			<td class="left">
@@ -119,7 +177,7 @@ function fncGroupDelete() {
 		            	<option id="${item.id}" value="${item.type}" label="${item.type}"/>
 		            </c:forEach>
 		        </select>
-		        <span class="btn_s"><a href="<c:url value='#'/>">추가</a></span>
+		        <%-- <span class="btn_s"><a href="<c:url value='#'/>">추가</a></span> --%>
 			</td>
 		</tr>
 		<c:set var="title">VM URL</c:set>
@@ -130,36 +188,61 @@ function fncGroupDelete() {
 		        <input id="url" title="${title} ${inputTxt}" size="85%" style="height:20px; border: gray 1px solid;"/>
 		        <span class="btn_s"><a href="javascript:addVmTableRow()">추가</a></span>
 			</td>
-		</tr> --%>
-	</tbody>
-	
+		</tr>
+		
+		<c:set var="title">VM</c:set>
+		<tr>
+			<th>${title}</th>
+			<td>
+				<table class="board_list" id="board_list">
+					<colgroup>
+						<col style="width: 45%;">
+						<col style="width: 45%;">
+						<col style="width: 10%;">
+					</colgroup>
+					
+					<thead>
+						<tr>
+							<th>VM 타입</th>
+							<th>URL</th>
+							<th>삭제</th>			
+						</tr>
+					</thead>
+					<tbody id="board_list_body">
+						<tr></tr>
+					<c:forEach var="item" items="${groupTypeList}" varStatus="status">
+					
+						<tr>
+							<td>
+								<input type="hidden" name="vmGroupTypeId" value="${item.vm_group_type_id}"/>
+								<c:out value="${item.type}"/>
+							</td>
+							<td>
+								<c:out value="${item.url}"/>
+							</td>
+							<td>
+							<c:set var="length" value="javascript:getVmTableLength()"/>
+								<input type="button" name="${status.index}" onclick="removeTableItems(${status.index})" value="X">
+							</td>
+							
+						</tr>
+					</c:forEach>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		</tbody>
 	</table>
 	
 		
-	<td class="left">
+ 	<td class="left">
 		<div>
 			<table class="board_list">
 			<colgroup>
 				<col style="width: 30%;">
 				<col style="width: 30%;">
 			</colgroup>
-			<thead>
-				<tr>
-					<th>VM 타입</th>
-					<th>URL</th>
-				</tr>
-			</thead>
-		<c:forEach var="item" items="${typeList}" >
-			<tr>
-				<th>
-					<input type="hidden" name="groupId" value="${item.typeId}"/>
-					<c:out value="${item.typeName}"/>
-				</th>
-				<th>
-					<c:out value="${item.typeUrl}"/>
-				</th>
-			</tr>
-		</c:forEach>
+			
 			</table>
 		</div>
 	</td>
@@ -186,6 +269,7 @@ function fncGroupDelete() {
 	
 </div>
 
+<input type="hidden" name="typeUrl" id="typeUrl" value="">
 <input type="hidden" name="groupId" value="<c:out value='${groupManage.groupId}'/>"/>
 <input type="hidden" name="searchCondition" value="<c:out value='${groupManageVO.searchCondition}'/>"/>
 <input type="hidden" name="searchKeyword" value="<c:out value='${groupManageVO.searchKeyword}'/>"/>

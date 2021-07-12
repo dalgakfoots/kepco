@@ -6,6 +6,7 @@ import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
 import egovframework.com.sec.gmt.service.GroupManage;
 import egovframework.com.sec.gmt.service.GroupManageVO;
+import egovframework.com.sec.gmt.service.VmGroupTypeVO;
 import egovframework.com.sec.gmt.service.VmTypeVO;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -330,7 +331,6 @@ public class EgovGroupManageController {
 		groupManageVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		
 		groupManageVO.setGroupManageList(egovGroupManageService.selectVmGroupList(groupManageVO));
-		System.out.println("groupManageVO.getGroupManageList() : " + groupManageVO.getGroupManageList());
         model.addAttribute("groupList", groupManageVO.getGroupManageList());
         
         int totCnt = egovGroupManageService.selectVmGroupListTotCnt(groupManageVO);
@@ -352,7 +352,7 @@ public class EgovGroupManageController {
     @RequestMapping(value="/sec/vmt/EgovVmGroupInsert.do")
 	public String insertVmGroup(@ModelAttribute("groupManage") GroupManage groupManage, 
 			                  	@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
-			                  	@RequestParam("typeUrl") String typeUrl,
+			                  	@RequestParam(value = "typeUrl", required = false, defaultValue = "") String typeUrl,
 			                  	BindingResult bindingResult,
 			                  	ModelMap model) throws Exception {
     	
@@ -386,14 +386,20 @@ public class EgovGroupManageController {
     @RequestMapping(value="/sec/vmt/EgovVmGroup.do")
 	public String selectVmGroup(@ModelAttribute("groupManageVO") GroupManageVO groupManageVO, 
 								@ModelAttribute("groupManage") GroupManage groupManage,
-								ModelMap model) throws Exception {
-
+								ModelMap model, 
+								VmTypeVO vmTypeVO,
+								VmGroupTypeVO vmGroupTypeVO
+			) throws Exception {
+    
+    	model.addAttribute("typeList", egovGroupManageService.selectVmTypeList2());	
+    	model.addAttribute("groupTypeList", egovGroupManageService.selectVmGroupTypeList(groupManageVO));
 	    model.addAttribute("groupManage", egovGroupManageService.selectVmGroup(groupManageVO));
 	    return "egovframework/com/sec/vmt/EgovVmGroupUpdate";
 	}
     
     @RequestMapping(value="/sec/vmt/EgovVmGroupUpdate.do")
 	public String updateVmGroup(@ModelAttribute("groupManage") GroupManage groupManage, 
+								@RequestParam(value = "typeUrl", required = false, defaultValue = "") String typeUrl,
 			                   BindingResult bindingResult,
                                Model model) throws Exception {
     	
@@ -402,7 +408,7 @@ public class EgovGroupManageController {
     	if (bindingResult.hasErrors()) { 
 			return "egovframework/com/sec/vmt/EgovVMGroupUpdate";
 		} else {
-    	    egovGroupManageService.updateVmGroup(groupManage);
+    	    egovGroupManageService.updateVmGroup(groupManage, typeUrl);
             model.addAttribute("message", egovMessageSource.getMessage("success.common.update"));
     	    return "forward:/sec/vmt/EgovVmGroupList.do";
 		}
@@ -430,6 +436,6 @@ public class EgovGroupManageController {
 
         return "egovframework/com/sec/vmt/EgovVmGroupSearch";
 	}
-   
+    
     
 }

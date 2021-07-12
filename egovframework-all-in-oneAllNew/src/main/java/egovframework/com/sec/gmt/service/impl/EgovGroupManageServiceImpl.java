@@ -140,35 +140,24 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		
 		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
 		for (int i =0; i< splitedTypeUrl.length ; i++) {
-			System.out.println("splitedTypeUrl : "+ splitedTypeUrl[i]);
-			String[] typeUrlItems = splitedTypeUrl[i].split(",");
-			
-			System.out.println("typeUrlItems : "+ typeUrlItems[0]);
-			System.out.println("typeUrlItems : "+ typeUrlItems[1]);
-			String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
-			String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
-			
 
-			System.out.println("typeItem : "+ typeItem[1]);
-			System.out.println("urlItem : "+ urlItem[1]);
+			String[] typeUrlItems = splitedTypeUrl[i].split(",");			
+			if (typeUrlItems.length > 1) {
 			
-			
-			String type = typeItem[1];
-					
-					
-			String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
-			String groupId =groupManage.getGroupId();
-			String url = urlItem[1];
-			
-			VmGroupType vmGroupType = new VmGroupType();
-			vmGroupType.setGroupId(groupId);
-			vmGroupType.setTypeId(typeId);
-			vmGroupType.setUrl(url);
-			
-			
-			groupManageDAO.insertVmGroupTypes(vmGroupType);
+				String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
+				String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
+				String type = typeItem[1];
+				String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
+				String groupId =groupManage.getGroupId();
+				String url = urlItem[1];
+				VmGroupType vmGroupType = new VmGroupType();
+				vmGroupType.setGroupId(groupId);
+				vmGroupType.setTypeId(typeId);
+				vmGroupType.setUrl(url);
+				
+				groupManageDAO.insertVmGroupTypes(vmGroupType);
+			}
 		}
-			
 		groupManageVO.setGroupId(groupManage.getGroupId());
 		return groupManageDAO.selectVmGroup(groupManageVO);
 	}
@@ -184,12 +173,33 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception {
 		return groupManageDAO.selectVmGroup(groupManageVO);
 	}
-	public void updateVmGroup(GroupManage groupManage) throws Exception {
+	public void updateVmGroup(GroupManage groupManage, String typeUrl) throws Exception {
 		groupManageDAO.updateVmGroup(groupManage);
+		groupManageDAO.deleteVmGroupTypes(groupManage);
+		
+		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
+		for (int i =0; i< splitedTypeUrl.length ; i++) {
+			
+			String[] typeUrlItems = splitedTypeUrl[i].split(",");
+			if (typeUrlItems.length >1) {
+				String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
+				String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
+				String type = typeItem[1];
+				String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
+				String groupId =groupManage.getGroupId();
+				String url = urlItem[1];
+				VmGroupType vmGroupType = new VmGroupType();
+				vmGroupType.setGroupId(groupId);
+				vmGroupType.setTypeId(typeId);
+				vmGroupType.setUrl(url);
+				groupManageDAO.insertVmGroupTypes(vmGroupType);
+			}
+		}
 	}
 	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception {
 		return groupManageDAO.selectVmTypeList(vmTypeVO);
 	}
+	
 
 	@Override
 	public List<HashMap> selectTrainGroupVmList(TrainGroupVmVO trainGroupVmVO) {
@@ -211,6 +221,15 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		return groupManageDAO.selectVmGroupList();
 	}
 
+
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public int selectTrainGroupVmListTotCnt(TrainGroupVmVO trainGroupVmVO) throws Exception {
 		return groupManageDAO.selectTrainGroupVmListTotCnt(trainGroupVmVO);
@@ -229,5 +248,14 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	@Override
 	public void deleteTrainGroupVmManage(HashMap deleteMap) {
 		groupManageDAO.deleteTrainGroupVmManage(deleteMap);
+	}
+	
+	public List<HashMap> selectVmTypeList2() throws Exception {
+		return groupManageDAO.selectVmTypeList2();
+	}
+	
+	@Override
+	public List<HashMap> selectVmGroupTypeList(GroupManageVO groupManageVO) throws Exception {
+		return groupManageDAO.selectVmGroupTypeList(groupManageVO);
 	}
 }

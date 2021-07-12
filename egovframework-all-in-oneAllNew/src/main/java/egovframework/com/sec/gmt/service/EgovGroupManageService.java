@@ -86,9 +86,10 @@ public interface EgovGroupManageService {
 	public int selectVmGroupListTotCnt(GroupManageVO groupManageVO) throws Exception;	
 	public void deleteVmGroup(GroupManage groupManage) throws Exception;
 	public GroupManageVO selectVmGroup(GroupManageVO groupManageVO) throws Exception;
-	public void updateVmGroup(GroupManage groupManage) throws Exception;
+	public void updateVmGroup(GroupManage groupManage, String typeUrl) throws Exception;
 	public List<VmTypeVO> selectVmTypeList(VmTypeVO vmTypeVO) throws Exception;
-
+	public List<HashMap> selectVmTypeList2() throws Exception;
+	public List<HashMap> selectVmGroupTypeList(GroupManageVO groupManageVO) throws Exception;
 	public List<HashMap> selectTrainGroupVmList(TrainGroupVmVO trainGroupVmVO) throws Exception;
 	
 	/*훈련매핑관리에서 사용*/

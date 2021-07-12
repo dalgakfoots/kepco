@@ -173,6 +173,19 @@
 			</if>
 	</select>
 	
+	<select id="selectVmGroupTypeList" parameterType="egovframework.com.sec.gmt.service.GroupManageVO" resultType="java.util.HashMap">
+			SELECT 
+					vgt.vm_group_id,
+			        vgt.vm_type_id,
+			        vt.type,
+			        vgt.vm_group_type_id,
+			        vgt.url,
+			        vgt.created_datetime
+			FROM kepco_vm_group_types vgt
+			INNER JOIN kepco_vm_types vt on vt.id = vgt.vm_type_id
+			WHERE vm_group_id = #{groupId};
+	</select>
+	
 	<select id="selectTrainGroupVmListTotCnt" resultType="int">
 		
 		SELECT COUNT(*) totcnt
@@ -264,7 +277,13 @@
 				type,
 				created_datetime
 		FROM kepco_vm_types
-	
+	</select>
+	<select id="selectVmTypeList2" resultType="java.util.HashMap">
+		SELECT 
+				id,
+				type,
+				created_datetime
+		FROM kepco_vm_types
 	</select>
 	
 	<select id="selectVmTypeIdByVmType" parameterType="String" resultType="int" >
@@ -308,6 +327,11 @@
 			
 	
 	</insert>
+	
+	<delete id="deleteVmGroupTypes" parameterType="egovframework.com.sec.gmt.service.GroupManage" >
+			DELETE FROM kepco_vm_group_types 
+			WHERE vm_group_id = #{groupId}
+	</delete>
 	
 	
 </mapper>

@@ -43,6 +43,7 @@ import egovframework.com.cop.cmt.service.CommentVO;
 import egovframework.com.cop.cmt.service.EgovArticleCommentService;
 import egovframework.com.cop.tpl.service.EgovTemplateManageService;
 import egovframework.com.cop.tpl.service.TemplateInfVO;
+import egovframework.com.sec.rgm.service.EgovAuthorGroupService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -107,6 +108,9 @@ public class EgovArticleController {
 	/*CTA ID 채번*/
 	@Resource(name = "egovCyberThreatAlarmIdGnrService")
 	private EgovIdGnrService egovCTAIdGnrService;
+	
+	@Resource(name="egovAuthorGroupService")
+	private EgovAuthorGroupService egovAuthorGroupService;
 	
     @Autowired
     private DefaultBeanValidator beanValidator;
@@ -207,6 +211,13 @@ public class EgovArticleController {
 		if(user != null) {
 	    	model.addAttribute("sessionUniqId", user.getUniqId());
 	    }
+		
+		/* TODO  사용자 권한 확인 */
+		HashMap param = new HashMap();
+		param.put("esntlId", user.getUniqId());
+		HashMap userRole = egovAuthorGroupService.selectUserRole(param);
+		model.addAttribute("userRole", userRole);
+		/* end */
 		
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
@@ -313,12 +324,20 @@ public class EgovArticleController {
 			}
 		}
 		////--------------------------
-		
+		/* TODO 사이버위기경보 게시판인 경우 사이버위기경보 단계 표시 */
 		model.addAttribute("boardMasterVO", masterVo);
 		if(boardVO.getBbsId().equals("BBSMSTR_000000000021")) {
 			HashMap map = egovBBSMasterService.selectCyberThreatAlarm(boardVO);
 			model.addAttribute("level", map.get("LEVEL"));
 		}
+		
+		/* TODO  사용자 권한 확인 */
+		HashMap param = new HashMap();
+		param.put("esntlId", user.getUniqId());
+		HashMap userRole = egovAuthorGroupService.selectUserRole(param);
+		model.addAttribute("userRole", userRole);
+		/* end */
+		
 		return "egovframework/com/cop/bbs/EgovArticleDetail";
     }
 

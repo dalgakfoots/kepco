@@ -26,12 +26,9 @@
 		var options = 'top=10, left=10, width=760, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 		var num = 0;
 		var newWin = window.open("about:blank","winName",options);
-		//var form = document.blogForm;
-		var form = document.blogForm[bbsOrder];
-		console.log(form);
-		//var clone = form[param].cloneNode(true);
-		var clone = form.cloneNode(true);
-		console.log(clone);
+		var itName = 'blogForm'+bbsOrder;
+		var form = document.getElementsByName(itName);
+		var clone = form[param].cloneNode(true);
 		clone.action = "<c:url value='/cop/bbs/selectArticleDetail.do'/>";
 		clone.target="winName";
 		clone.name="num"+ num++;
@@ -47,7 +44,7 @@
 <c:forEach var="result" items="${resultList}" varStatus="status">
    	<li style="padding-top:5px">
 		<%-- <form name="blogForm" method="post"  action="<c:url value='/cop/bbs/selectBBSMasterDetail.do'/>" > --%>
-		<form name="blogForm" method="post"  action="javascript:selectBBSMasterDetail(${bbsOrder },${cnt})" >
+		<form name="blogForm${bbsOrder}" method="post"  action="javascript:selectBBSMasterDetail(${bbsOrder },${cnt})" >
 		<input type="hidden" name="nttId" value="<c:out value='${result.nttId}'/>"/>
 		<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>"/>
 		<input type="hidden" name="bbsNm" value="<c:out value='${result.bbsNm}'/>"/>

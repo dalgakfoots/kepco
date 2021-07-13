@@ -106,5 +106,20 @@
                 </if>
             </if>
 	</select>
-
+	
+	<!-- 해당 인원의 ROLE 조회하여  ESNTL_ID , USER_ID, ROLE  반환-->
+	<select id="selectUserRole" resultType="java.util.HashMap">
+			
+			SELECT A.esntl_id,
+			       A.mber_id,
+			       A.mber_nm,
+			       B.author_code
+			FROM   comtngnrlmber A
+			       LEFT OUTER JOIN comtnemplyrscrtyestbs B
+			                    ON A.esntl_id = B.scrty_dtrmn_trget_id
+			WHERE  A.esntl_id = #{esntlId} 
+	
+	</select>
+	
+	
 </mapper>

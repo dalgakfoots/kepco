@@ -246,5 +246,14 @@ public class LoginVO implements Serializable{
 	public void setOrgnztNm(String orgnztNm) {
 		this.orgnztNm = orgnztNm;
 	}
+	@Override
+	public String toString() {
+		return "LoginVO [id=" + id + ", name=" + name + ", ihidNum=" + ihidNum + ", email=" + email + ", password="
+				+ password + ", passwordHint=" + passwordHint + ", passwordCnsr=" + passwordCnsr + ", userSe=" + userSe
+				+ ", orgnztId=" + orgnztId + ", orgnztNm=" + orgnztNm + ", uniqId=" + uniqId + ", url=" + url + ", ip="
+				+ ip + ", dn=" + dn + "]";
+	}
+	
+	
 	
 }

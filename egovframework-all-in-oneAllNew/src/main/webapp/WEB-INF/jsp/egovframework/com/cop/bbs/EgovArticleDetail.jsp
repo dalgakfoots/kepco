@@ -205,7 +205,7 @@ function fn_egov_select_commentList(pageNo) {
 	</table>
 	<!-- 하단 버튼 -->
 	<div class="btn">
-		<c:if test="${result.ntcrId != 'anonymous'}">
+		<c:if test="${result.ntcrId != 'anonymous' and userRole.author_code eq 'ROLE_ADMIN'}">
 		<!-- 익명글 수정/삭제 불가  -->
 		<form name="articleForm" action="<c:url value='/cop/bbs/updateArticleView.do'/>" method="post" style="float:left;">
 			<input type="submit" class="s_submit" value="<spring:message code="button.update" />" title="<spring:message code="title.update" /> <spring:message code="input.button" />" /><!-- 수정 -->

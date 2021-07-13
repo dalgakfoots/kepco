@@ -26,7 +26,7 @@
 <input name="menuNo" type="hidden" />
 <input name="chkURL" type="hidden" />
     <div id="gnb">
-    <div id="top_logo"><a href="<c:url value='/sym/mnu/mpm/EgovMainMenuHome.do' />" target=_top><img src="<c:url value='/images/egovframework/com/cmm/main/logo_01.gif' />" alt="egovframe" /></a></div>
+    <div id="top_logo"><a href="<c:url value='/sym/mnu/mpm/EgovMainMenuHome.do' />" target=_top><img src="<c:url value='/images/egovframework/com/cmm/main/kepco_logo.jpg' />" alt="kepco" / width="350", height="60"></a></div>
     <div id="use_descri">
             <ul>
                 <li><spring:message code="comSymMnuMpm.head.head"/></li><!-- 공통서비스 테스트 사이트 -->

@@ -95,7 +95,6 @@ function fn_egov_init(){
 	 * 저장처리화면
 	 ******************************************************** */
 	function fn_egov_regist_article(form) {
-
 		CKEDITOR.instances.nttCn.updateElement();
 
 		//input item Client-Side validate
@@ -155,6 +154,7 @@ function fn_egov_init(){
 			}
 
 			if (confirm("<spring:message code="common.regist.msg" />")) {
+				sendMessage();
 				form.submit();
 			}
 		}
@@ -292,6 +292,23 @@ function fn_egov_init(){
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" /><!-- 등록 -->
 		<span class="btn_s"><a href="<c:url value='/cop/bbs/selectArticleList.do' />?bbsId=${boardMasterVO.bbsId}"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span><!-- 목록 -->
 	</div><div style="clear:both;"></div>
+	
+	<script type="text/javascript">
+		var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmSender");
+		
+		webSocket.onopen = function(message){};
+		
+		webSocket.onclose = function(message) {};
+		
+		function sendMessage(){
+			
+			let message = "${boardMasterVO.bbsId}"
+			webSocket.send(message);
+			
+		}
+		
+		
+	</script>
 	
 </div>
 

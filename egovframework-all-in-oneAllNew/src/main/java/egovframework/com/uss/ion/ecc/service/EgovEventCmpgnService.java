@@ -7,6 +7,7 @@ import egovframework.rte.fdl.cmmn.exception.FdlException;
 public interface EgovEventCmpgnService {
 
 	List<?> selectEventCmpgnList(EventCmpgnVO searchVO);
+	List<?> selectEventCmpgnListForMonitor();
 
 	int selectEventCmpgnListCnt(EventCmpgnVO searchVO);
 

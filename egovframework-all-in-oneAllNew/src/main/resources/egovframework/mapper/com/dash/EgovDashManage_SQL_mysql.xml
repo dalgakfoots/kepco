@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EgovDashManageDAO">
+		<select id="selectTrainingTeams" parameterType="String" resultType="java.util.HashMap">
+			SELECT 
+				ktt.training_id, 
+			    a.event_cn as training_name,
+			    ktt.team_id, 
+			    b.group_nm as team_name
+			FROM kepco_training_teams ktt
+			inner join COMTNEVENTINFO a on a.event_id = ktt.training_id
+			inner join  COMTNAUTHORGROUPINFO b on ktt.team_id = b.group_id
+			WHERE training_id = #{value}
+		</select>
+		
+		<select id="selectTrainingName" parameterType="String" resultType="String">
+			SELECT event_cn
+			FROM COMTNEVENTINFO A
+			WHERE event_id = #{value}
+		</select>
+		
+		<select id="selectDashTable" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+			SELECT 
+			    (select group_nm 
+			    	FROM COMTNAUTHORGROUPINFO 
+			    	WHERE group_id=#{teamId}
+			    ) as team_name, 
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId} 
+			        and training_type = '예방보안') as type_1,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = '실시간대응') as type_2,
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = '사후대응') as type_3,
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = 'vm복구') as type_4,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = '가용성') as type_5,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}) as total
+		</select>
+		
+		<select id="selectTeamTotalScoreByDateTime" parameterType="java.util.HashMap" resultType="int">
+			SELECT 
+				IFNULL( SUM(score), 0 ) 
+			FROM kepco_training_team_scores
+			WHERE training_id = #{trainingId}
+		    AND team_id = #{teamId}
+			AND created_datetime &lt; #{selectTime}
+		</select>
+		
+		<select id="selectSortedTeamIdByRank" parameterType="String" resultType="java.util.HashMap">
+		    
+		    SELECT 
+				ktts.team_id,
+		        a.group_nm as team_name
+			FROM kepco_training_team_scores ktts
+				inner join COMTNAUTHORGROUPINFO a on a.group_id = ktts.team_id 
+			WHERE ktts.training_id = #{trainingId}
+		    group by ktts.team_id
+		    order by IFNULL( SUM(ktts.score), 0 ) desc
+		    limit 10
+				
+		</select>
+		
+		
+		<insert id="insertDashScore" parameterType="java.util.HashMap">
+			INSERT INTO kepco_training_team_scores(
+				training_id,
+				team_id,
+				question_id,
+				training_type,
+				score
+			) VALUES (
+				#{trainingId},
+				#{teamId},
+				#{questionId},
+				#{trainingType},
+				#{score}
+			);
+		</insert>
+		
+
+</mapper>

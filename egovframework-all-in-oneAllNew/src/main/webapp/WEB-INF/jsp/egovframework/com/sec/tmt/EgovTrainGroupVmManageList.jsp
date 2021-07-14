@@ -91,7 +91,7 @@ function insertRow(){
 	var tbody = board.getElementsByTagName('tbody')[0];
 	var rowToInsert = tbody.insertRow(-1);
 	cell0 = rowToInsert.insertCell();
-	cell0.innerHTML = "1"
+	cell0.innerHTML = " "
 		
 	cell1 = rowToInsert.insertCell();
 	cell1.innerHTML = "<input type='checkbox' class='chk' name='checkField' onchange='javascript:uncheckedTest(this)' checked='checked' />"
@@ -154,20 +154,48 @@ function insertRow(){
 		map.set('${item.ID}','${item.NAME}');
 	</c:forEach>
 		
-	var keySets = map.keys();
-	var list = new Array(); // 키값들을 담아둘 list
-		
+	var pstkeySets = map.keys();
+	var mdtkeySets = map.keys();
+	var watkeySets = map.keys();
+	
+	var pstlist = new Array(); // 키값들을 담아둘 list
+	
+	// 예방보안훈련VMGroup
 	cell8 = rowToInsert.insertCell();
-	//var list = new Array();
-	var temp = "<select name='vmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	
+	var pstSelect = "<select name='pstVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
 		
-	for(var item of keySets)
+	for(var item of pstkeySets)
 	{
-		list.push(item);
-		temp += ("<option value='"+item+"'>"+map.get(item)+"</option>");
+		//pstlist.push(item);
+		pstSelect += ("<option value='"+item+"'>"+map.get(item)+"</option>");
 	}
-	temp += "</select>";
-	cell8.innerHTML = temp;
+	pstSelect += "</select>";
+	cell8.innerHTML = pstSelect;
+	
+	// 악성코드탐지대응VMGroup
+	cell9 = rowToInsert.insertCell();
+	var mdtSelect = "<select name='mdtVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	
+	for(var item of mdtkeySets)
+	{
+		//pstlist.push(item);
+		mdtSelect += ("<option value='"+item+"'>"+map.get(item)+"</option>");
+	}
+	mdtSelect += "</select>";
+	cell9.innerHTML = mdtSelect;
+	
+	// 웹공격대응훈련VMGroup
+	cell10 = rowToInsert.insertCell();
+	var watSelect = "<select name='watVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	
+	for(var item of watkeySets)
+	{
+		//pstlist.push(item);
+		watSelect += ("<option value='"+item+"'>"+map.get(item)+"</option>");
+	}
+	watSelect += "</select>";
+	cell10.innerHTML = watSelect;
 	/* VM그룹명, VM그룹ID 설정 끝 */
 }
 
@@ -287,14 +315,14 @@ function save(insertRow , updateRow, deleteRow){
 				<col style="width: 5%;">
 				<col style="width: 3%;">
 				<col style="width: 5%;">
-				<col style="width: 20%;">
+				<col style="width: 10%;">
 				<col style="width: 1%;">
 				<col style="width: 15%;">
-				<col style="width: 20%;">
-				<col style="width: 20%;">
-				<%-- <col style="width: 13%;">
-				<col style="width: 10%;">
-				<col style="width: ;"> --%>
+				<col style="width: 15%;">
+				<col style="width: ;">
+				<col style="width: ;">
+				<col style="width: ;">
+				<%--<col style="width: ;"> --%>
 			</colgroup>
 			<thead>
 				<tr>
@@ -305,16 +333,16 @@ function save(insertRow , updateRow, deleteRow){
 					<th></th> <!-- 훈련매핑 아이디 -->
 					<th>훈련명</th> <!-- selectbox  -->
 					<th>사용자그룹명</th>
-					<th>VM그룹명</th>
-					<!-- <th>임시1</th>
-					<th>임시2</th>
-					<th>임시3</th> -->
+					<th>예방보안훈련<br/>VM그룹</th>
+					<th>악성코드탐지대응훈련<br/>VM그룹</th>
+					<th>웹공격대응훈련<br/>VM그룹</th>
+					<!-- <th>임시3</th> -->
 				</tr>
 			</thead>
 			<tbody class="ov" name="tbody">
-				<c:forEach var="item" items="${mappingList }">
+				<c:forEach var="item" items="${mappingList }" varStatus="status">
 					<tr>
-						<td><!-- 번호  -->1</td>
+						<td><!-- 번호  -->${status.count}</td>
 						<td><!-- 체크박스  --><input type='checkbox' class='chk' name='checkField' onchange='javascript:uncheckedTest(this)'/></td>
 						<td><!-- 상태값  --></td>
 						<td><!-- 매핑ID 라벨  --><label>${item.ID}</label></td>
@@ -334,9 +362,23 @@ function save(insertRow , updateRow, deleteRow){
 							</select>
 						</td>
 						<td>
-							<select name='vmGroupId' onchange='javascript:updatedRowSelect(this)'>
+							<select name='pstVmGroupId' onchange='javascript:updatedRowSelect(this)'>
 								<c:forEach var="vmGroup" items="${vmGroupNameList}">
-									<option value="${vmGroup.ID}" <c:if test="${item.VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+									<option value="${vmGroup.ID}" <c:if test="${item.PST_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+								</c:forEach>
+							</select>
+						</td>
+						<td>
+							<select name='mdtVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<c:forEach var="vmGroup" items="${vmGroupNameList}">
+									<option value="${vmGroup.ID}" <c:if test="${item.MDT_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+								</c:forEach>
+							</select>
+						</td>
+						<td>
+							<select name='watVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<c:forEach var="vmGroup" items="${vmGroupNameList}">
+									<option value="${vmGroup.ID}" <c:if test="${item.WAT_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 								</c:forEach>
 							</select>
 						</td>

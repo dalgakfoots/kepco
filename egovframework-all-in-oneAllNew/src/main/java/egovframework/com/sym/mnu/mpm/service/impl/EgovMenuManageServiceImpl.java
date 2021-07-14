@@ -589,4 +589,12 @@ public class EgovMenuManageServiceImpl extends EgovAbstractServiceImpl implement
 		progrmManageDAO.deleteAllProgrmDtls();
 		return true;
 	}
+	
+	
+	/*사이버위기경보 단계 확인*/
+	@Override
+	public HashMap selectCyberThreatAlertLevel() throws Exception {
+		HashMap selectCyberThreatAlertLevel = menuManageDAO.selectCyberThreatAlertLevel();
+		return selectCyberThreatAlertLevel;
+	}
 }

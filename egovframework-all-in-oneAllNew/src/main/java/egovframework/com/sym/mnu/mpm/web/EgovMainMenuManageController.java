@@ -207,8 +207,7 @@ public class EgovMainMenuManageController {
 
     	String forwardURL = null;
     	forwardURL = menuManageService.selectLastMenuURL(iMenuNo, user == null ? "" : EgovStringUtil.isNullToString(user.getUniqId()));
-    	LOGGER.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : "+forwardURL);
-      	return "forward:"+forwardURL;
+    	return "forward:"+forwardURL;
     }
 
     /**

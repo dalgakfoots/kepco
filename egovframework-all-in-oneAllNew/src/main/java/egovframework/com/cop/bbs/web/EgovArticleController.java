@@ -1,6 +1,8 @@
 package egovframework.com.cop.bbs.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,8 +43,10 @@ import egovframework.com.cop.cmt.service.CommentVO;
 import egovframework.com.cop.cmt.service.EgovArticleCommentService;
 import egovframework.com.cop.tpl.service.EgovTemplateManageService;
 import egovframework.com.cop.tpl.service.TemplateInfVO;
-import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.com.sec.rgm.service.EgovAuthorGroupService;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
@@ -100,6 +105,13 @@ public class EgovArticleController {
 	@Resource(name = "EgovTemplateManageService")
 	private EgovTemplateManageService egovTemplateManageService;
     
+	/*CTA ID 채번*/
+	@Resource(name = "egovCyberThreatAlarmIdGnrService")
+	private EgovIdGnrService egovCTAIdGnrService;
+	
+	@Resource(name="egovAuthorGroupService")
+	private EgovAuthorGroupService egovAuthorGroupService;
+	
     @Autowired
     private DefaultBeanValidator beanValidator;
 
@@ -200,6 +212,13 @@ public class EgovArticleController {
 	    	model.addAttribute("sessionUniqId", user.getUniqId());
 	    }
 		
+		/* TODO  사용자 권한 확인 */
+		HashMap param = new HashMap();
+		param.put("esntlId", user.getUniqId());
+		HashMap userRole = egovAuthorGroupService.selectUserRole(param);
+		model.addAttribute("userRole", userRole);
+		/* end */
+		
 		model.addAttribute("resultList", map.get("resultList"));
 		model.addAttribute("resultCnt", map.get("resultCnt"));
 		model.addAttribute("articleVO", boardVO);
@@ -210,7 +229,7 @@ public class EgovArticleController {
     }
     
     @RequestMapping("/cop/bbs/selectBBSPortlet.do")
-    public String selectBBSPortlet(@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception{
+    public String selectBBSPortlet(@ModelAttribute("searchVO") BoardVO boardVO, @RequestParam("bbsOrder") String bbsOrder, ModelMap model) throws Exception{
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();	//KISA 보안취약점 조치 (2018-12-10, 이정은)
@@ -240,7 +259,8 @@ public class EgovArticleController {
 		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
 		
 		model.addAttribute("resultList", map.get("resultList"));
-    	return "egovframework/com/cop/bbs/selectBBSPortlet";
+    	model.addAttribute("bbsOrder", bbsOrder);
+		return "egovframework/com/cop/bbs/selectBBSPortlet";
     }
     
     
@@ -278,7 +298,6 @@ public class EgovArticleController {
 		// template 처리 (기본 BBS template 지정  포함)
 		//----------------------------
 		BoardMasterVO master = new BoardMasterVO();
-		
 		master.setBbsId(boardVO.getBbsId());
 		master.setUniqId((user == null || user.getUniqId() == null) ? "" : user.getUniqId());
 		
@@ -305,9 +324,20 @@ public class EgovArticleController {
 			}
 		}
 		////--------------------------
-		
+		/* TODO 사이버위기경보 게시판인 경우 사이버위기경보 단계 표시 */
 		model.addAttribute("boardMasterVO", masterVo);
-	
+		if(boardVO.getBbsId().equals("BBSMSTR_000000000021")) {
+			HashMap map = egovBBSMasterService.selectCyberThreatAlarm(boardVO);
+			model.addAttribute("level", map.get("LEVEL"));
+		}
+		
+		/* TODO  사용자 권한 확인 */
+		HashMap param = new HashMap();
+		param.put("esntlId", user.getUniqId());
+		HashMap userRole = egovAuthorGroupService.selectUserRole(param);
+		model.addAttribute("userRole", userRole);
+		/* end */
+		
 		return "egovframework/com/cop/bbs/EgovArticleDetail";
     }
 
@@ -360,7 +390,7 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/insertArticle.do")
     public String insertArticle(final MultipartHttpServletRequest multiRequest, @ModelAttribute("searchVO") BoardVO boardVO,
-	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardVO board, BindingResult bindingResult, 
+	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") BoardVO board, @RequestParam(value="cta", required=false, defaultValue = "0") String cta , BindingResult bindingResult, 
 	    ModelMap model) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
@@ -424,6 +454,15 @@ public class EgovArticleController {
 		    
 		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    egovArticleService.insertArticle(board);
+		    // Cyber Threat Alarm 설정
+		    if(!cta.equals("0")) {
+		    	HashMap map = new HashMap();
+		    	map.put("id", egovCTAIdGnrService.getNextStringId());
+		    	map.put("nttId", board.getNttId());
+		    	map.put("bbsId", board.getBbsId());
+		    	map.put("level", cta);
+		    	egovArticleService.insertCyberThreatAlarm(map);
+		    }
 		}
 		//status.setComplete();
 		if(boardVO.getBlogAt().equals("Y")){
@@ -609,6 +648,12 @@ public class EgovArticleController {
 		model.addAttribute("articleVO", bdvo);
 		model.addAttribute("boardMasterVO", bmvo);
 		
+		//사이버위기경보 설정
+		if(boardVO.getBbsId().equals("BBSMSTR_000000000021")) {
+			HashMap map = egovBBSMasterService.selectCyberThreatAlarm(boardVO);
+			model.addAttribute("alarmId", map.get("ID"));
+			model.addAttribute("level", map.get("LEVEL"));
+		}
 		if(boardVO.getBlogAt().equals("chkBlog")){
 			return "egovframework/com/cop/bbs/EgovArticleBlogUpdt";
 		}else{
@@ -628,7 +673,10 @@ public class EgovArticleController {
      */
     @RequestMapping("/cop/bbs/updateArticle.do")
     public String updateBoardArticle(final MultipartHttpServletRequest multiRequest, @ModelAttribute("searchVO") BoardVO boardVO,
-	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") Board board, BindingResult bindingResult, ModelMap model) throws Exception {
+	    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") Board board, BindingResult bindingResult,
+	    @RequestParam(value="cta", required=false, defaultValue = "0") String cta,
+	    @RequestParam(value="ctaId", required=false, defaultValue = "1") String ctaId,
+	    ModelMap model) throws Exception {
 
 		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
@@ -700,6 +748,14 @@ public class EgovArticleController {
 		    board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
 		    
 		    egovArticleService.updateArticle(board);
+		    // 사이버위기경보 수정
+		    HashMap map = new HashMap();
+		    map.put("ctaId", ctaId);
+		    map.put("nttId", board.getNttId());
+		    map.put("bbsId", board.getBbsId());
+		    map.put("level", cta);
+		    
+		    egovArticleService.updateCyberThreatAlarm(map);
 		}
 		
 		return "forward:/cop/bbs/selectArticleList.do";

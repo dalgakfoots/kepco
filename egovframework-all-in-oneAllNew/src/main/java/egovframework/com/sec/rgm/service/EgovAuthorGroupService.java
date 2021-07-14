@@ -1,5 +1,6 @@
 package egovframework.com.sec.rgm.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -57,6 +58,15 @@ public interface EgovAuthorGroupService {
 	 * @return int
 	 * @exception Exception
 	 */
-	public int selectAuthorGroupListTotCnt(AuthorGroupVO authorGroupVO) throws Exception;		
+	public int selectAuthorGroupListTotCnt(AuthorGroupVO authorGroupVO) throws Exception;
+	
+	/**
+	 * 사용자 ESNTL_ID를 통해 ROLE을 반환
+	 * @param HashMap param
+	 * @return HashMap
+	 * @exception Exception
+	 */
+	public HashMap selectUserRole(HashMap param) throws Exception;
+	
 
 }

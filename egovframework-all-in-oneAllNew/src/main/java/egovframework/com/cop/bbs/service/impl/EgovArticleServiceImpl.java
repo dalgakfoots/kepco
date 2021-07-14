@@ -163,4 +163,14 @@ public class EgovArticleServiceImpl extends EgovAbstractServiceImpl implements E
 		return map;
 	}
 
+	@Override
+	public void insertCyberThreatAlarm(HashMap board) throws Exception {
+		egovArticleDao.insertCyberThreatAlarm(board);
+	}
+
+	@Override
+	public void updateCyberThreatAlarm(HashMap map) throws Exception {
+		egovArticleDao.updateCyberThreatAlarm(map);
+	}
+
 }

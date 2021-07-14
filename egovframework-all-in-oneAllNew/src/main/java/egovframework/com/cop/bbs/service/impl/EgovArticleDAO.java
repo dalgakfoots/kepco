@@ -1,12 +1,12 @@
 package egovframework.com.cop.bbs.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.cop.bbs.service.Board;
-import egovframework.com.cop.bbs.service.BoardMasterVO;
 import egovframework.com.cop.bbs.service.BoardVO;
 
 @Repository("EgovArticleDAO")
@@ -94,6 +94,14 @@ public class EgovArticleDAO extends EgovComAbstractDAO {
 	
 	public int selectLoginUser(BoardVO boardVO) {
 		return (Integer)selectOne("BBSArticle.selectLoginUser", boardVO);
+	}
+
+	public void insertCyberThreatAlarm(HashMap board) {
+		insert("BBSArticle.insertCyberThreatAlarm", board);
+	}
+
+	public void updateCyberThreatAlarm(HashMap map) {
+		update("BBSArticle.updateCyberThreatAlarm", map);
 	}
 	
 

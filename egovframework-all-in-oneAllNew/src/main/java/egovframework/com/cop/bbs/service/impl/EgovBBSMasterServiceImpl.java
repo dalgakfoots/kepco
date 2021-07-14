@@ -8,13 +8,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egovframework.com.cop.bbs.service.BoardMaster;
-import egovframework.com.cop.bbs.service.BoardMasterVO;
-import egovframework.com.cop.bbs.service.EgovBBSMasterService;
 import egovframework.com.cmm.EgovComponentChecker;
 import egovframework.com.cop.bbs.service.Blog;
 import egovframework.com.cop.bbs.service.BlogUser;
 import egovframework.com.cop.bbs.service.BlogVO;
+import egovframework.com.cop.bbs.service.BoardMaster;
+import egovframework.com.cop.bbs.service.BoardMasterVO;
+import egovframework.com.cop.bbs.service.BoardVO;
+import egovframework.com.cop.bbs.service.EgovBBSMasterService;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -172,6 +173,11 @@ public class EgovBBSMasterServiceImpl extends EgovAbstractServiceImpl implements
 	@Override
 	public List<BoardMasterVO> selectBBSListPortlet(BoardMasterVO boardMasterVO) throws Exception {
 		return egovBBSMasterDao.selectBBSListPortlet(boardMasterVO);
+	}
+
+	@Override
+	public HashMap selectCyberThreatAlarm(BoardVO boardVO) throws Exception {
+		return egovBBSMasterDao.selectCyberThreatAlarm(boardVO);
 	}
 	
 }

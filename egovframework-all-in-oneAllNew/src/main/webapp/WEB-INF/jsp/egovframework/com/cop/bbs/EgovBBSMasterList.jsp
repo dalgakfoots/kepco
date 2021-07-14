@@ -70,7 +70,7 @@ function fn_egov_inquire_bbsdetail(bbsId) {
 
 <form name="BBSMasterForm" action="<c:url value='/cop/bbs/selectBBSMasterInfs.do'/>" method="post" onSubmit="fn_egov_search_bbssj(); return false;"> 
 <div class="board">
-	<h1><%-- ${pageTitle} --%>공지사항 <spring:message code="title.list" /></h1><!-- 게시판 목록 -->
+	<h1>${pageTitle}<spring:message code="title.list" /></h1><!-- 게시판 목록 -->
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
@@ -103,10 +103,10 @@ function fn_egov_inquire_bbsdetail(bbsId) {
 	<thead>
 	<tr>
 		<th><spring:message code="table.num" /></th><!-- 번호 -->
-		<th class="board_th_link"><%-- <spring:message code="comCopBbs.boardMasterVO.list.bbsNm" /> --%>제목</th><!-- 게시판명 -->
+		<th class="board_th_link"><spring:message code="comCopBbs.boardMasterVO.list.bbsNm" /></th><!-- 게시판명 -->
 		<th><spring:message code="table.reger" /></th><!-- 작성자명 -->
 		<th><spring:message code="table.regdate" /></th><!-- 작성시각 -->
-		<%-- <th><spring:message code="comCopBbs.boardMasterVO.list.useAt" /></th><!-- 사용여부 --> --%>
+		<th><spring:message code="comCopBbs.boardMasterVO.list.useAt" /></th><!-- 사용여부 -->
 	</tr>
 	</thead>
 	<tbody class="ov">
@@ -121,7 +121,7 @@ function fn_egov_inquire_bbsdetail(bbsId) {
 		<td class="left"><a href="<c:url value='/cop/bbs/selectBBSMasterDetail.do?bbsId=${resultInfo.bbsId}'/>" onClick="fn_egov_inquire_bbsdetail('<c:out value="${resultInfo.bbsId}"/>');return false;"><c:out value='${fn:substring(resultInfo.bbsNm, 0, 40)}'/></a></td>
 		<td><c:out value='${resultInfo.frstRegisterNm}'/></td>
 		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
-		<%-- <td><c:out value='${resultInfo.useAt}'/></td>	 --%>	
+		<td><c:out value='${resultInfo.useAt}'/></td>	
 	</tr>
 	</c:forEach>
 	</tbody>
@@ -135,11 +135,11 @@ function fn_egov_inquire_bbsdetail(bbsId) {
 	</div>
 	
 	<!-- 등록버튼 -->
-	<!-- 
+	
 	<div class="btn">
 		<span class="btn_s"><a href="<c:url value='/cop/bbs/insertBBSMasterView.do' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span>
 	</div>
-	-->
+	
 	
 </div>
 <input name="cmmntyId" type="hidden" value="<c:out value='${searchVO.cmmntyId}'/>">

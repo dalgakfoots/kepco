@@ -106,7 +106,8 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 
 <div class="board">
 	<form name="articleForm" action="<c:url value='/cop/bbs/selectArticleList.do'/>" method="post" onSubmit="fn_egov_search_article(); return false;"> 
-	<h1>${pageTitle} <spring:message code="title.list" /> (<c:out value="${boardMasterVO.bbsNm}"/>)</h1><!-- 게시글 목록 -->
+	<%-- <h1>${pageTitle} <spring:message code="title.list" /> (<c:out value="${boardMasterVO.bbsNm}"/>)</h1><!-- 게시글 목록 --> --%>
+	<h1><c:out value="${boardMasterVO.bbsNm}"/></h1><!-- 게시글 목록 -->
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>
@@ -121,7 +122,8 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 			<li>
 				<input class="s_input" name="searchWrd" type="text"  size="35" title="<spring:message code="title.search" /> <spring:message code="input.input" />" value='<c:out value="${searchVO.searchWrd}"/>'  maxlength="155" >
 				<input type="submit" class="s_btn" value="<spring:message code="button.inquire" />" title="<spring:message code="title.inquire" /> <spring:message code="input.button" />" /><!-- 조회 -->
-				<c:if test="${preview != 'true'}">
+				<!-- TODO 사용자 권한 확인-->
+				<c:if test='${preview != "true" and userRole.author_code eq "ROLE_ADMIN"}'>
 					<span class="btn_b"><a href="<c:url value='/cop/bbs/insertArticleView.do?bbsId=${boardMasterVO.bbsId}' />"  title="<spring:message code="button.create" /> <spring:message code="input.button" />"><spring:message code="button.create" /></a></span><!-- 등록 -->
 				</c:if>
 			</li>

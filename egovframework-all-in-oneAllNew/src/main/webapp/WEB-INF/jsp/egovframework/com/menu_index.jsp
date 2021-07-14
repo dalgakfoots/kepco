@@ -24,7 +24,7 @@
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Menu Index frame</title>
+<title>KEPCO 훈련</title>
 </head>
 
 <frameset rows="122,*,50" frameborder="0" >

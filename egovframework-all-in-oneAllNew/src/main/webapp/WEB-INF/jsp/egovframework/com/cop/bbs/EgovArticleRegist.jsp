@@ -95,7 +95,6 @@ function fn_egov_init(){
 	 * 저장처리화면
 	 ******************************************************** */
 	function fn_egov_regist_article(form) {
-
 		CKEDITOR.instances.nttCn.updateElement();
 
 		//input item Client-Side validate
@@ -155,6 +154,7 @@ function fn_egov_init(){
 			}
 
 			if (confirm("<spring:message code="common.regist.msg" />")) {
+				sendMessage();
 				form.submit();
 			}
 		}
@@ -220,6 +220,26 @@ function fn_egov_init(){
 			</td>
 		</tr>
 		
+		<!-- 사이버위기경보  : BBSMSTR_000000000021 인 경우 위기경보관리 라디오버튼 보이도록 처리-->
+		<c:if test="${boardMasterVO.bbsId == 'BBSMSTR_000000000021'}">
+			<c:set var="title">사이버위기경보 설정</c:set>
+			<tr>
+				<th>${title}</th>
+				<td class="left" colspan="3">
+					<input type="radio" id="cta1" name="cta" value="1">
+					<label for="cta1">정상</label>
+					<input type="radio" id="cta2" name="cta" value="2">
+					<label for="cta2">관심</label>
+					<input type="radio" id="cta3" name="cta" value="3">
+					<label for="cta3">주의</label>
+					<input type="radio" id="cta4" name="cta" value="4">
+					<label for="cta4">경계</label>
+					<input type="radio" id="cta5" name="cta" value="5">
+					<label for="cta5">심각</label>
+				</td>
+			</tr>
+		</c:if>
+		
 		<!-- 비밀글 여부 -->
 		<c:set var="title"><spring:message code="comCopBbs.articleVO.regist.secretAt"/> </c:set>
 		<tr>
@@ -272,6 +292,23 @@ function fn_egov_init(){
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" /><!-- 등록 -->
 		<span class="btn_s"><a href="<c:url value='/cop/bbs/selectArticleList.do' />?bbsId=${boardMasterVO.bbsId}"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span><!-- 목록 -->
 	</div><div style="clear:both;"></div>
+	
+	<script type="text/javascript">
+		var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmSender");
+		
+		webSocket.onopen = function(message){};
+		
+		webSocket.onclose = function(message) {};
+		
+		function sendMessage(){
+			
+			let message = "${boardMasterVO.bbsId}"
+			webSocket.send(message);
+			
+		}
+		
+		
+	</script>
 	
 </div>
 

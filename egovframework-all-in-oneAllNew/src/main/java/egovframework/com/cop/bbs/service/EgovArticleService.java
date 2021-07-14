@@ -1,5 +1,6 @@
 package egovframework.com.cop.bbs.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,4 +38,10 @@ public interface EgovArticleService {
 	List<BoardVO> selectArticleDetailCn(BoardVO boardVO);
 	
 	int selectLoginUser(BoardVO boardVO);
+	
+	
+	//사이버위기경보 C, U
+	void insertCyberThreatAlarm(HashMap board) throws Exception;
+	void updateCyberThreatAlarm(HashMap map) throws Exception;
+
 }

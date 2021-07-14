@@ -1,5 +1,6 @@
 package egovframework.com.uss.olh.faq.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,6 +8,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.uss.olh.faq.service.EgovFaqService;
+import egovframework.com.uss.olh.faq.service.FaqGroupRelationVO;
+import egovframework.com.uss.olh.faq.service.FaqGroupVO;
 import egovframework.com.uss.olh.faq.service.FaqVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
@@ -59,6 +62,51 @@ public class EgovFaqServiceImpl extends EgovAbstractServiceImpl implements EgovF
 	@Override
 	public void deleteFaq(FaqVO faqVO) {
 		egovFaqDao.deleteFaq(faqVO);
+	}
+
+	@Override
+	public List<?> selectFaqGroupList(FaqGroupVO searchVO) throws Exception {
+		return egovFaqDao.selectFaqGroupList(searchVO);
+	}
+
+	@Override
+	public int selectFaqGroupListCnt(FaqGroupVO searchVO) throws Exception {
+		return egovFaqDao.selectFaqGroupListCnt(searchVO);
+	}
+
+	@Override
+	public void insertFaqGroup(FaqGroupVO faqGroupVO) throws Exception {
+		egovFaqDao.insertFaqGroup(faqGroupVO);
+	}
+
+	@Override
+	public FaqGroupVO selectFaqGroup(FaqGroupVO faqGroupVO) throws Exception {
+		return egovFaqDao.selectFaqGroup(faqGroupVO);
+	}
+
+	@Override
+	public void deleteFaqGroup(FaqGroupVO faqGroupVO) throws Exception {
+		egovFaqDao.deleteFaqGroup(faqGroupVO);
+	}
+
+	@Override
+	public void updateFaqGroup(FaqGroupVO faqGroupVO) throws Exception {
+		egovFaqDao.updateFaqGroup(faqGroupVO);
+	}
+
+	@Override
+	public void deleteFaqGroupRelation(FaqGroupVO faqGroupVO) throws Exception {
+		egovFaqDao.deleteFaqGroupRelation(faqGroupVO);
+	}
+
+	@Override
+	public void insertFaqGroupRelation(FaqGroupRelationVO vo) throws Exception {
+		egovFaqDao.insertFaqGroupRelation(vo);
+	}
+
+	@Override
+	public List<HashMap> selectFaqGroupRelationList(FaqGroupVO faqGroupVO) throws Exception {
+		return egovFaqDao.selectFaqGroupRelationList(faqGroupVO);
 	}
 
 }

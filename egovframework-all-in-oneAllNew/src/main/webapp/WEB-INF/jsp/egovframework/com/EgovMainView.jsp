@@ -41,9 +41,15 @@ function chk_all(val) {
 	<!-- 상단 -->
 	<div class="mp_top">
 		<div class="l"><!-- left layout -->
-			<h3 class="m_tit01 mt15">공지사항</h3><!-- 생성된 게시판 목록 -->
+			<h3 class="m_tit01 mt15">사이버 위기 경보</h3>
 			<div style="height:150px">
-				<c:import url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000021" />
+				<c:import charEncoding="utf-8" url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000021&bbsOrder=0" />
+			</div>
+			
+			
+			<h3 class="m_tit01 mt15">일반 알림문</h3>
+			<div style="height:150px">
+				<c:import charEncoding="utf-8" url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000032&bbsOrder=1"/>
 			</div>
 			
 			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectCommuMasterListPortlet"/></h3><!-- 생성된 커뮤니티 목록 -->
@@ -60,9 +66,15 @@ function chk_all(val) {
 		<div class="r"><!-- right layout -->
 			<!-- 부서일정관리  -->
 			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.deptSchdulManageMainList"/></h3><!-- 부서일정관리 --> --%>
-			<h3 class="m_tit01 mt15">추후 메뉴 삽입 예정입니다</h3>
+			<h3 class="m_tit01 mt15">사이버위협 정보 공유</h3>
 			<div style="height:150px">
-			<c:import charEncoding="utf-8" url="/cop/smt/sdm/EgovDeptSchdulManageMainList.do" ></c:import>
+				<c:import charEncoding="utf-8" url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000031&bbsOrder=2" ></c:import>
+			</div>
+			
+			
+			<h3 class="m_tit01 mt15">사이버위기경보 단계</h3>
+			<div style="height:150px">
+				<c:import charEncoding="utf-8" url="/sym/mnu/mpm/SelectCyberThreatAlert.do" ></c:import>
 			</div>
 			
 			<%-- <!-- 나의일정관리 -->

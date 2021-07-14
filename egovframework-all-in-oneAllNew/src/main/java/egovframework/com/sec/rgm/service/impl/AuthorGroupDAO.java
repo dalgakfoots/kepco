@@ -1,12 +1,13 @@
 package egovframework.com.sec.rgm.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.sec.rgm.service.AuthorGroup;
 import egovframework.com.sec.rgm.service.AuthorGroupVO;
-
-import org.springframework.stereotype.Repository;
 
 /**
  * 권한그룹에 대한 DAO 클래스를 정의한다.
@@ -74,5 +75,11 @@ public class AuthorGroupDAO extends EgovComAbstractDAO {
 	 */
     public int selectAuthorGroupListTotCnt(AuthorGroupVO authorGroupVO) throws Exception {
         return (Integer)selectOne("authorGroupDAO.selectAuthorGroupListTotCnt", authorGroupVO);
+    }
+    
+    
+    /*사용자 esntl_id 를 통해 ROLE 조회*/
+    public HashMap selectUserRole(HashMap param) throws Exception{
+    	return selectOne("authorGroupDAO.selectUserRole", param);
     }
 }

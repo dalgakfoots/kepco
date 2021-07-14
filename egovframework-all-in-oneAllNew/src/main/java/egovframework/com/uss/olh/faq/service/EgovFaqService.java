@@ -1,5 +1,6 @@
 package egovframework.com.uss.olh.faq.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.rte.fdl.cmmn.exception.FdlException;
@@ -17,5 +18,23 @@ public interface EgovFaqService {
 	void updateFaq(FaqVO faqVO);
 
 	void deleteFaq(FaqVO faqVO);
+
+	List<?> selectFaqGroupList(FaqGroupVO searchVO) throws Exception;
+
+	int selectFaqGroupListCnt(FaqGroupVO searchVO) throws Exception;
+
+	void insertFaqGroup(FaqGroupVO faqGroupVO) throws Exception;
+
+	FaqGroupVO selectFaqGroup(FaqGroupVO faqGroupVO) throws Exception;
+
+	void deleteFaqGroup(FaqGroupVO faqGroupVO) throws Exception;
+
+	void updateFaqGroup(FaqGroupVO faqGroupVO) throws Exception;
+
+	void deleteFaqGroupRelation(FaqGroupVO faqGroupVO) throws Exception;
+
+	void insertFaqGroupRelation(FaqGroupRelationVO vo) throws Exception;
+
+	List<HashMap> selectFaqGroupRelationList(FaqGroupVO faqGroupVO) throws Exception;
 
 }

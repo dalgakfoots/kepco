@@ -1,5 +1,6 @@
 package egovframework.com.uss.olh.faq.web;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,8 +26,11 @@ import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.uss.olh.faq.service.EgovFaqService;
+import egovframework.com.uss.olh.faq.service.FaqGroupRelationVO;
+import egovframework.com.uss.olh.faq.service.FaqGroupVO;
 import egovframework.com.uss.olh.faq.service.FaqVO;
 import egovframework.com.utl.fcc.service.EgovStringUtil;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -71,7 +75,15 @@ public class EgovFaqController {
 	/** EgovMessageSource */
 	@Resource(name = "egovMessageSource")
 	EgovMessageSource egovMessageSource;
-
+	
+	// 그룹아이디 채번
+	@Resource(name = "egovFaqGroupManageIdGnrService")
+	private EgovIdGnrService egovFaqGroupManageIdGnrService;
+	
+	// 관계테이블 아이디 채번
+	@Resource(name = "egovFaqGroupRelationIdGnrService")
+	private EgovIdGnrService egovFaqGroupRelationIdGnrService;
+	
 	// Validation 관련
 	@Autowired
 	private DefaultBeanValidator beanValidator;
@@ -305,6 +317,139 @@ public class EgovFaqController {
 		// 첨부파일 삭제 End.............
 
 		return "forward:/uss/olh/faq/selectFaqList.do";
+	}
+	
+	// 문제그룹리스트
+	@RequestMapping("/uss/olh/faq/selectFaqGroupList.do")
+	public String selectFaqGroupList(@ModelAttribute("searchVO") FaqGroupVO searchVO, ModelMap model) throws Exception {
+		/** EgovPropertyService.SiteList */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		
+		List<?> FaqList = egovFaqService.selectFaqGroupList(searchVO);
+		model.addAttribute("resultList", FaqList);
+		
+		int totCnt = egovFaqService.selectFaqGroupListCnt(searchVO);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		return "egovframework/com/uss/olh/faq/EgovFaqGroupManage";
+	}
+	
+	
+	@RequestMapping("/uss/olh/faq/EgovFaqListPopup.do")
+	public String egovFaqListPopup(@ModelAttribute("searchVO") FaqVO searchVO, ModelMap model) throws Exception {
+		/** EgovPropertyService.SiteList */
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> FaqList = egovFaqService.selectFaqList(searchVO);
+		model.addAttribute("resultList", FaqList);
+
+		int totCnt = egovFaqService.selectFaqListCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		return "egovframework/com/uss/olh/faq/EgovFaqListPopup";
+	}
+	
+	//문제그룹등록화면
+	@RequestMapping("/uss/olh/faq/insertFaqGroupView.do")
+	public String insertFaqGroupView(ModelMap model) {
+		return "egovframework/com/uss/olh/faq/EgovFaqGroupInsert";
+	}
+	
+	
+	//문제그룹등록
+	@RequestMapping("/uss/olh/faq/EgovFaqGroupInsert.do")
+	public String EgovFaqGroupInsert(@ModelAttribute("groupManage") FaqGroupVO faqGroupVO, ModelMap model) throws Exception {
+		
+		faqGroupVO.setFaqGroupId(egovFaqGroupManageIdGnrService.getNextStringId());
+		egovFaqService.insertFaqGroup(faqGroupVO);
+		
+		
+		return "forward:/uss/olh/faq/selectFaqGroupList.do";
+	}
+	
+	// 문제그룹수정
+	@RequestMapping("/uss/olh/faq/EgovFaqGroupUpdate.do")
+	public String EgovFaqGroupUpdate(@ModelAttribute("groupManage") FaqGroupVO faqGroupVO, @RequestParam("addedFaq") String addedFaq , ModelMap model) throws Exception {
+		
+		FaqGroupRelationVO vo = null;
+		
+		egovFaqService.updateFaqGroup(faqGroupVO);
+		
+		
+		// 관계테이블 내 faqGroupId 로 저장되어 있는 것들을 모두 삭제
+		egovFaqService.deleteFaqGroupRelation(faqGroupVO);
+		
+		// 구분자 , 로 되어 있는 String을 배열로 만든 뒤, 관계테이블에 삽입
+		String[] addFaqs = addedFaq.split(",");
+		for(String faq : addFaqs) {
+			vo = new FaqGroupRelationVO();
+			vo.setId(egovFaqGroupRelationIdGnrService.getNextStringId());
+			vo.setFaqGroupId(faqGroupVO.getFaqGroupId());
+			vo.setFaqId(faq);
+			
+			egovFaqService.insertFaqGroupRelation(vo);
+		}
+		
+		return "forward:/uss/olh/faq/selectFaqGroupList.do";
+	}
+	
+	//문제그룹삭제
+	@RequestMapping("/uss/olh/faq/EgovFaqGroupDelete.do")
+	public String EgovFaqGroupDelete(@ModelAttribute("groupManage") FaqGroupVO faqGroupVO, ModelMap model) throws Exception {
+		
+		egovFaqService.deleteFaqGroup(faqGroupVO);
+		
+		return "forward:/uss/olh/faq/selectFaqGroupList.do";
+	}
+	
+	//문제그룹 체크하여 한번에 삭제
+	@RequestMapping("/uss/olh/faq/EgovFaqGroupListDelete.do")
+	public String EgovFaqGroupListDelete(@RequestParam("faqGroupIds") String faqGroupIds, ModelMap model) throws Exception {
+		
+		FaqGroupVO vo = null;
+		String[] faqGroupIdArr = faqGroupIds.split(";");
+		for(String faqGroupId : faqGroupIdArr) {
+			vo = new FaqGroupVO();
+			vo.setFaqGroupId(faqGroupId);
+			egovFaqService.deleteFaqGroup(vo);
+		}
+		
+		return "forward:/uss/olh/faq/selectFaqGroupList.do";
+	}
+	
+	//문제그룹 detail and update 화면
+	@RequestMapping("/uss/olh/faq/selectFaqGroup.do")
+	public String selectFaqGroup(@ModelAttribute("groupManage") FaqGroupVO faqGroupVO, @RequestParam("groupId") String groupId , ModelMap model) throws Exception {
+		
+		faqGroupVO.setFaqGroupId(groupId);
+		faqGroupVO = egovFaqService.selectFaqGroup(faqGroupVO);
+		List<HashMap> selectFaq = egovFaqService.selectFaqGroupRelationList(faqGroupVO);
+		model.addAttribute("selectFaq", selectFaq);
+		model.addAttribute("groupManage", faqGroupVO);
+		
+		return "egovframework/com/uss/olh/faq/EgovFaqGroupUpdate";
 	}
 	
 }

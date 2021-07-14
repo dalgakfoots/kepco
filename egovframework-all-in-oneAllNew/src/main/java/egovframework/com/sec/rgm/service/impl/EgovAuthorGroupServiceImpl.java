@@ -1,5 +1,6 @@
 package egovframework.com.sec.rgm.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import egovframework.com.sec.rgm.service.AuthorGroup;
@@ -81,5 +82,15 @@ public class EgovAuthorGroupServiceImpl  extends EgovAbstractServiceImpl impleme
 	public int selectAuthorGroupListTotCnt(AuthorGroupVO authorGroupVO) throws Exception {
 		return authorGroupDAO.selectAuthorGroupListTotCnt(authorGroupVO);
     }
+
+	/**
+	 * 사용자 ESNTL_ID를 통해 ROLE을 반환
+	 * @param HashMap param
+	 * @return HashMap
+	 * @exception Exception
+	 */
+	public HashMap selectUserRole(HashMap param) throws Exception {
+		return authorGroupDAO.selectUserRole(param);
+	}
 	
 }

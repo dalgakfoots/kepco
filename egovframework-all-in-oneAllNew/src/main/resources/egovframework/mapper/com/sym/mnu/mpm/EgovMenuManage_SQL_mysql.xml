@@ -148,5 +148,21 @@
 		  FROM COMTNMENUINFO
 		
 	</select>
-
+	
+	<select id="selectCyberThreatAlertLevel" resultType="java.util.HashMap">
+		
+		SELECT A.id,
+		       A.level
+		FROM   cyber_threat_alarm A
+		       INNER JOIN (SELECT ntt_id,
+		                          bbs_id
+		                   FROM   comtnbbs
+		                   WHERE  bbs_id = 'BBSMSTR_000000000021'
+		                   ORDER  BY sort_ordr DESC
+		                   LIMIT  1) B
+		               ON A.ntt_id = B.ntt_id
+		                  AND A.bbs_id = B.bbs_id 
+		                  
+	</select>
+	
 </mapper>

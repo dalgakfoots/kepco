@@ -62,7 +62,7 @@ function fn_main_leftPageMove(menuNo){
 			var Tree = new Array;
 			for (var j = 0; j < document.menuListForm.tmp_menuNm.length; j++) {
 				Tree[j] = document.menuListForm.tmp_menuNm[j].value;
-				console.log(Tree[j]);
+				/* console.log(Tree[j]); */
 			}
 			
 			createTree(Tree, true, '<c:out value="${resultVO.tempInt}"/>'); 

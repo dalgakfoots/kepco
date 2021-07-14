@@ -31,6 +31,11 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
+	public List<?> selectEventCmpgnListForMonitor() {
+		return egovEventCmpgnDao.selectEventCmpgnListForMonitor();
+	}
+
+	@Override
 	public int selectEventCmpgnListCnt(EventCmpgnVO searchVO) {
 		return egovEventCmpgnDao.selectEventCmpgnListCnt(searchVO);
 	}

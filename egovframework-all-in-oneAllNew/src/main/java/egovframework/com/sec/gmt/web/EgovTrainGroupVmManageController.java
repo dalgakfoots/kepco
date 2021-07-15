@@ -111,16 +111,18 @@ public class EgovTrainGroupVmManageController {
 			, @RequestParam("deleteRow") String deleteRow, ModelMap model) throws Exception {
 		/* TODO KEPCO_TRAINING_TEAM_VMGROUP 테이블의 스키마가 변경될 시, 반드시 처리해줘야 함. */
 		
+		
 		HashMap updateMap = new HashMap();
 		if(updateRow.length()!=0) {
 			String[] updates = updateRow.split("/");
 			for(String update : updates){
 				String[] elements = update.split(";");
-				System.out.println(elements[0]);
 				updateMap.put("id" , elements[0]);
 				updateMap.put("training_id", elements[1]);
 				updateMap.put("team_id", elements[2]);
-				updateMap.put("vm_id", elements[3]);
+				updateMap.put("pstVmGroupId", elements[3]);
+				updateMap.put("mdtVmGroupId", elements[4]);
+				updateMap.put("watVmGroupId", elements[5]);
 				egovGroupManageService.updateTrainGroupVmManage(updateMap);
 			}
 		}
@@ -134,7 +136,9 @@ public class EgovTrainGroupVmManageController {
 				deleteMap.put("id" , elements[0]);
 				deleteMap.put("training_id", elements[1]);
 				deleteMap.put("team_id", elements[2]);
-				deleteMap.put("vm_id", elements[3]);
+				deleteMap.put("pstVmGroupId", elements[3]);
+				deleteMap.put("mdtVmGroupId", elements[4]);
+				deleteMap.put("watVmGroupId", elements[5]);
 				egovGroupManageService.deleteTrainGroupVmManage(deleteMap);
 			}
 		}
@@ -148,7 +152,9 @@ public class EgovTrainGroupVmManageController {
 				insertMap.put("id" , egovTGVMIdGnrService.getNextStringId());
 				insertMap.put("training_id", elements[1]);
 				insertMap.put("team_id", elements[2]);
-				insertMap.put("vm_id", elements[3]);
+				insertMap.put("pstVmGroupId", elements[3]);
+				insertMap.put("mdtVmGroupId", elements[4]);
+				insertMap.put("watVmGroupId", elements[5]);
 				egovGroupManageService.insertTrainGroupVmManage(insertMap);
 			}
 			

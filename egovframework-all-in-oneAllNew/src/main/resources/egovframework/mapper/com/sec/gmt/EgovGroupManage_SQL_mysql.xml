@@ -60,7 +60,9 @@
 		SELECT ID,
 			   TRAINING_ID,
 			   TEAM_ID,
-			   VM_ID
+			   PST_VM_ID,
+			   MDT_VM_ID,
+			   WAT_VM_ID
 	      FROM KEPCO_TRAINING_TEAM_VMGROUP
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
@@ -141,7 +143,9 @@
 			UPDATE KEPCO_TRAINING_TEAM_VMGROUP
 			   SET TRAINING_ID = #{training_id},
 			   	   TEAM_ID = #{team_id},
-			   	   VM_ID = #{vm_id}
+			   	   PST_VM_ID = #{pstVmGroupId},
+			   	   MDT_VM_ID = #{mdtVmGroupId},
+			   	   WAT_VM_ID = #{watVmGroupId}
 			 WHERE ID = #{id}
 	</update>
 	
@@ -202,12 +206,16 @@
 			   		(ID,
 			   		 TRAINING_ID,
 			   		 TEAM_ID,
-			   		 VM_ID
+			   		 PST_VM_ID,
+			   		 MDT_VM_ID,
+			   		 WAT_VM_ID
 			 		)VALUES(
 			   		 #{id},
 			   		 #{training_id},
 			   		 #{team_id},
-			   		 #{vm_id}
+			   		 #{pstVmGroupId},
+			   		 #{mdtVmGroupId},
+			   		 #{watVmGroupId}
 			   		)
 	</insert>
 	

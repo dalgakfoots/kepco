@@ -179,7 +179,11 @@
 			        vgt.vm_type_id,
 			        vt.type,
 			        vgt.vm_group_type_id,
+			        vgt.name,
 			        vgt.url,
+			        vgt.ip,
+			        vgt.user_name,
+			        vgt.user_password,
 			        vgt.created_datetime
 			FROM kepco_vm_group_types vgt
 			INNER JOIN kepco_vm_types vt on vt.id = vgt.vm_type_id
@@ -304,7 +308,7 @@
 			
 	</select>
 	
-	<insert id="insertVmGroupTypes" parameterType="egovframework.com.sec.gmt.service.VmGroupType" >
+	<insert id="insertVmGroupTypes" parameterType="java.util.HashMap" >
 		<selectKey keyProperty="vmGroupTypeId" resultType="String" order="BEFORE">
             SELECT 
             	(IFNULL(MAX(vm_group_type_id), 0) + 1) AS vm_group_type_id 
@@ -317,11 +321,35 @@
 				vm_group_id,
 				vm_type_id,
 				vm_group_type_id,
-				url				
+	            <if test="system!=null or system!=''">
+	                name,
+	            </if>
+	            <if test="ip!=null or ip!=''">
+	                ip,
+	            </if>
+	            <if test="userName!=null or userName!=''">
+	                user_name,
+	            </if>
+	            <if test="userPW!=null or userPW!=''">
+	                user_password,
+	            </if>
+				url
 			) VALUES(
 				#{groupId},
 				#{typeId},
 				#{vmGroupTypeId},
+				<if test="system!=null or system!=''">
+	                #{system},
+	            </if>
+	            <if test="ip!=null or ip!=''">
+	                #{ip},
+	            </if>
+	            <if test="userName!=null or userName!=''">
+	                #{userName},
+	            </if>
+	            <if test="userPW!=null or userPW!=''">
+	                #{userPW},
+	            </if>
 				#{url}
 			)
 			

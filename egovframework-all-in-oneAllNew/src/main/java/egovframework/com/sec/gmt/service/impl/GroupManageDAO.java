@@ -1,6 +1,7 @@
 package egovframework.com.sec.gmt.service.impl;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.sec.gmt.service.GroupManage;
@@ -157,8 +158,8 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	public int selectVmTypeIdByVmType(String vmType) {
 		return selectOne("groupManageDAO.selectVmTypeIdByVmType", vmType);
 	}
-	public void insertVmGroupTypes(VmGroupType vmGroupType) {
-		insert("groupManageDAO.insertVmGroupTypes", vmGroupType);
+	public void insertVmGroupTypes(Map map) {
+		insert("groupManageDAO.insertVmGroupTypes", map);
 		
 	}
 

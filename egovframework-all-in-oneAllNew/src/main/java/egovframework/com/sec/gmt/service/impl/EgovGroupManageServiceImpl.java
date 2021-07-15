@@ -2,6 +2,7 @@ package egovframework.com.sec.gmt.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.HashMap;
 
 import egovframework.com.sec.gmt.service.EgovGroupManageService;
@@ -138,24 +139,23 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception {
 		groupManageDAO.insertVmGroup(groupManage);
 		
+		
+		Map map = new HashMap();
 		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
 		for (int i =0; i< splitedTypeUrl.length ; i++) {
 
 			String[] typeUrlItems = splitedTypeUrl[i].split(",");			
 			if (typeUrlItems.length > 1) {
-			
-				String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
-				String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
-				String type = typeItem[1];
-				String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
-				String groupId =groupManage.getGroupId();
-				String url = urlItem[1];
-				VmGroupType vmGroupType = new VmGroupType();
-				vmGroupType.setGroupId(groupId);
-				vmGroupType.setTypeId(typeId);
-				vmGroupType.setUrl(url);
-				
-				groupManageDAO.insertVmGroupTypes(vmGroupType);
+				for (String item : typeUrlItems) {
+					String[] splitedItem = item.split("&lt;&lt;&lt;");
+					if (splitedItem[0].equals("type")) {
+						map.put("typeId", groupManageDAO.selectVmTypeIdByVmType(splitedItem[1])+"");	
+					} else {
+						map.put(splitedItem[0], splitedItem[1].equals("0")? null : splitedItem[1]);
+					}
+				}
+				map.put("groupId", groupManage.getGroupId());
+				groupManageDAO.insertVmGroupTypes(map); //map
 			}
 		}
 		groupManageVO.setGroupId(groupManage.getGroupId());
@@ -177,22 +177,22 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		groupManageDAO.updateVmGroup(groupManage);
 		groupManageDAO.deleteVmGroupTypes(groupManage);
 		
+		Map map = new HashMap();
 		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
 		for (int i =0; i< splitedTypeUrl.length ; i++) {
-			
-			String[] typeUrlItems = splitedTypeUrl[i].split(",");
-			if (typeUrlItems.length >1) {
-				String[] typeItem = typeUrlItems[0].split("&lt;&lt;&lt;");
-				String[] urlItem = typeUrlItems[1].split("&lt;&lt;&lt;");
-				String type = typeItem[1];
-				String typeId = groupManageDAO.selectVmTypeIdByVmType(type)+"";
-				String groupId =groupManage.getGroupId();
-				String url = urlItem[1];
-				VmGroupType vmGroupType = new VmGroupType();
-				vmGroupType.setGroupId(groupId);
-				vmGroupType.setTypeId(typeId);
-				vmGroupType.setUrl(url);
-				groupManageDAO.insertVmGroupTypes(vmGroupType);
+
+			String[] typeUrlItems = splitedTypeUrl[i].split(",");			
+			if (typeUrlItems.length > 1) {
+				for (String item : typeUrlItems) {
+					String[] splitedItem = item.split("&lt;&lt;&lt;");
+					if (splitedItem[0].equals("type")) {
+						map.put("typeId", groupManageDAO.selectVmTypeIdByVmType(splitedItem[1])+"");	
+					} else {
+						map.put(splitedItem[0], splitedItem[1].equals("0")? null : splitedItem[1]);
+					}
+				}
+				map.put("groupId", groupManage.getGroupId());
+				groupManageDAO.insertVmGroupTypes(map); //map
 			}
 		}
 	}

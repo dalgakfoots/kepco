@@ -77,7 +77,30 @@
 		    group by ktts.team_id
 		    order by IFNULL( SUM(ktts.score), 0 ) desc
 		    limit 10
-				
+		</select>
+		
+		
+		<select id="selectTeamIdByUserId" parameterType="String" resultType="String">
+			SELECT 
+				group_id
+			FROM comtngnrlmber 
+			WHERE mber_id=#{value}
+		</select>
+		
+		<select id="selectScoreLogList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+			SELECT 
+				ktts.training_id,
+			    ktts.team_id, 
+			    ktts.question_id,
+			    ktts.training_type,
+			    ktts.score,
+			    ktts.created_datetime,
+			    ktts.updated_datetime,
+			    a.group_nm as team_name
+			FROM kepco_training_team_scores ktts
+			inner join COMTNAUTHORGROUPINFO a on a.group_id = ktts.team_id 
+			WHERE training_id = #{trainingId}
+			AND team_id = #{teamId};
 		</select>
 		
 		

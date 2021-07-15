@@ -152,6 +152,28 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	
 		return resultMap;
 	}
+
+	
+
+	@Override
+	public String selectTeamIdByUserId(String userId) throws Exception {
+		return egovDashManageDAO.selectTeamIdByUserId(userId);
+	}
+	
+	@Override
+	public List<Map> selectScoreLogList(String trainingId, String teamId) throws Exception {
+		final List<Map> scoreLogList = egovDashManageDAO.selectScoreLogList(trainingId, teamId);
+		return scoreLogList;
+	}
+	
+	@Override
+	public Map selectCurrentScore(String trainingId, String teamId) throws Exception {
+		final Map currentScore = egovDashManageDAO.selectDashTable(trainingId, teamId);
+		return currentScore;
+	}
+	
+	
+	
 	
 	
 	
@@ -165,7 +187,7 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 		for (Map map : trainingTeams) {
 			index++;
 			model.put("teamId", map.get("team_id"));
-			String question = "test007_";
+			String question = "test003_";
 			
 			for (int i =0 ; i<5 ; i++) {
 				switch (i) {

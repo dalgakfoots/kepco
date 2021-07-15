@@ -8,6 +8,7 @@ public interface EgovEventCmpgnService {
 
 	List<?> selectEventCmpgnList(EventCmpgnVO searchVO);
 	List<?> selectEventCmpgnListForMonitor();
+	List<?> selectEventCmpgnListForScoreView(EventCmpgnVO searchVO);
 
 	int selectEventCmpgnListCnt(EventCmpgnVO searchVO);
 

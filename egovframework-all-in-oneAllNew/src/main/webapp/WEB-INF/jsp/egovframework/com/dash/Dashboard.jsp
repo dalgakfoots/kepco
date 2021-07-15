@@ -174,7 +174,7 @@
 
   	function intervalTest() {
   		ajaxTest()
-  		let timerId = setInterval(() => ajaxTest(), 1000 * 10);
+  		let timerId = setInterval(() => ajaxTest(), 1000 * 60 * 5);
   	}
  
 
@@ -281,9 +281,9 @@
 </head>
 <body onLoad="javascript:intervalTest()">
  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-    <!-- <a class="navbar-brand mr-1" href="DashboardView.do">한국 전력 공사</a> -->
+    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
 	<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
-	<a class="navbar-brand mr-1" href="<c:url value='/dash/DashboardTraining.do' />">한국 전력 공사</a>
+	<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>

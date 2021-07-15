@@ -121,7 +121,7 @@ function getVmTableLength() {
 </script>
 </head>
 
-<body>
+<body onload="getTableValues()">
 
 <form:form commandName="groupManage" method="post" action="${pageContext.request.contextPath}/sec/vmt/EgovVmGroupUpdate.do" onSubmit="fncGroupUpdate(document.forms[0]); return false;"> 
 <div class="wTableFrm">

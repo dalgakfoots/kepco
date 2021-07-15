@@ -49,20 +49,43 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	public void insertEventCmpgn(EventCmpgnVO eventCmpgnVO) throws FdlException {
 		String eventId = idgenService1.getNextStringId();
 		eventCmpgnVO.setEventId(eventId);
-		
+		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime()+":00"; 
+		eventCmpgnVO.setEventSvcBeginDe(startDatetime);
+		System.out.println("startDatetime : "+ startDatetime);
+		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime()+":00";
+		System.out.println("endDatatime : "+ endDatatime);
+		eventCmpgnVO.setEventSvcEndDe(endDatatime);
 		egovEventCmpgnDao.insertEventCmpgn(eventCmpgnVO);
 	}
 
 	@Override
 	public EventCmpgnVO selectEventCmpgnDetail(EventCmpgnVO eventCmpgnVO) throws Exception {
 		EventCmpgnVO resultVO = egovEventCmpgnDao.selectEventCmpgnDetail(eventCmpgnVO);
+		
+		String[] sptitedStartDatetime = resultVO.getEventSvcBeginDe().split(" ");
+		if (sptitedStartDatetime.length > 0) resultVO.setEventSvcBeginDe(sptitedStartDatetime[0]);
+		if (sptitedStartDatetime.length > 1) resultVO.setEventSvcBeginTime(sptitedStartDatetime[1]);
+		
+		
+		String[] sptitedEndDatetime = resultVO.getEventSvcEndDe().split(" ");
+		if (sptitedEndDatetime.length > 0) resultVO.setEventSvcEndDe(sptitedEndDatetime[0]);
+		if (sptitedEndDatetime.length > 1) resultVO.setEventSvcEndTime(sptitedEndDatetime[1]);
+		
+		
         if (resultVO == null)
             throw processException("info.nodata.msg");
+        
         return resultVO;
 	}
 
 	@Override
 	public void updateEventCmpgn(EventCmpgnVO eventCmpgnVO) {
+		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime()+":00"; 
+		eventCmpgnVO.setEventSvcBeginDe(startDatetime);
+		System.out.println("startDatetime : "+ startDatetime);
+		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime()+":00";
+		System.out.println("endDatatime : "+ endDatatime);
+		eventCmpgnVO.setEventSvcEndDe(endDatatime);
 		egovEventCmpgnDao.updateEventCmpgn(eventCmpgnVO);
 	}
 

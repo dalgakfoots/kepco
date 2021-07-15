@@ -83,13 +83,13 @@
 	<update id="updateEventCmpgn">
 		UPDATE COMTNEVENTINFO
 		SET
-			EVENT_SVC_BGNDE=REPLACE(#{eventSvcBeginDe},'-',''),
+			EVENT_SVC_BGNDE=#{eventSvcBeginDe},
 			SVC_USE_NMPR_CO=#{svcUseNmprCo},
 			CHARGER_NM=#{chargerNm},
 			EVENT_CN=#{eventCn},
 			LAST_UPDT_PNTTM=sysdate(),
 			LAST_UPDUSR_ID=#{lastUpdusrId},
-			EVENT_SVC_ENDDE=REPLACE(#{eventSvcEndDe},'-',''),
+			EVENT_SVC_ENDDE=#{eventSvcEndDe},
 			EVENT_TY_CODE=#{eventTyCode},
 			EVENT_CONFM_AT=#{eventConfmAt},
 			EVENT_CONFM_DE=REPLACE(#{eventConfmDe},'-',''),
@@ -100,7 +100,7 @@
 	<select id="selectEventCmpgnDetail" parameterType="egovframework.com.uss.ion.ecc.service.EventCmpgnVO" resultMap="EventCmpgnDetailMap">
 		SELECT
 			EVENT_ID,
-			DATE_FORMAT(EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			EVENT_SVC_BGNDE,
 			SVC_USE_NMPR_CO,
 			CHARGER_NM,
 			EVENT_CN,
@@ -110,7 +110,7 @@
 			FRST_REGISTER_ID,
 			LAST_UPDT_PNTTM,
 			LAST_UPDUSR_ID,
-			DATE_FORMAT(EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			EVENT_SVC_ENDDE,
 			EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			PRPARETG_CN
@@ -127,7 +127,7 @@
 	 
 		SELECT
 			A.EVENT_ID,
-			DATE_FORMAT(A.EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			EVENT_SVC_BGNDE,
 			A.SVC_USE_NMPR_CO,
 			A.CHARGER_NM,
 			A.EVENT_CN,
@@ -136,7 +136,7 @@
 			(SELECT USER_NM FROM COMTNEMPLYRINFO WHERE ESNTL_ID = A.FRST_REGISTER_ID) FRST_REGISTER_NM,
 			A.LAST_UPDT_PNTTM,
 			A.LAST_UPDUSR_ID,
-			DATE_FORMAT(A.EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			EVENT_SVC_ENDDE,
 			A.EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			A.PRPARETG_CN
@@ -164,7 +164,7 @@
 	<select id="selectEventCmpgnListForMonitor" resultMap="EventCmpgnListMap">
 		SELECT
 			A.EVENT_ID,
-			DATE_FORMAT(A.EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			A.EVENT_SVC_BGNDE,
 			A.SVC_USE_NMPR_CO,
 			A.CHARGER_NM,
 			A.EVENT_CN,
@@ -173,7 +173,7 @@
 			(SELECT USER_NM FROM COMTNEMPLYRINFO WHERE ESNTL_ID = A.FRST_REGISTER_ID) FRST_REGISTER_NM,
 			A.LAST_UPDT_PNTTM,
 			A.LAST_UPDUSR_ID,
-			DATE_FORMAT(A.EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			A.EVENT_SVC_ENDDE,
 			A.EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			A.PRPARETG_CN
@@ -189,8 +189,8 @@
 			a.EVENT_ID,
             c.CODE_NM AS EVENT_TY_CODE_NM,
  			a.EVENT_CN,
- 			DATE_FORMAT(A.EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
- 			DATE_FORMAT(A.EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+ 			a.EVENT_SVC_BGNDE,
+ 			a.EVENT_SVC_ENDDE,
  			DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y-%m-%d') FRST_REGIST_PNTTM,
             a.FRST_REGISTER_ID
 		FROM COMTNEVENTINFO a
@@ -278,11 +278,11 @@
 		LAST_UPDUSR_ID
 	)VALUES(
 		#{eventId},
-		REPLACE(#{eventSvcBeginDe},'-',''),
+		#{eventSvcBeginDe},
 		#{svcUseNmprCo},
 		#{chargerNm},
 		#{eventCn},
-		REPLACE(#{eventSvcEndDe},'-',''),
+		#{eventSvcEndDe},
 		#{eventTyCode},
 		#{prparetgCn},
 		#{eventConfmAt},

@@ -134,7 +134,13 @@ function fnSelectTeam() {
     
     document.getElementById('eventCmpgnVO').groupIds.value = checkedIds;
 }
-
+function test(){
+	 var start = document.getElementById('eventSvcBeginTime').value;
+	 var end = document.getElementById('eventSvcEndTime').value;
+	 
+	 console.log("start : ", start);
+	 console.log("end : ", end);
+}
 
 </script>
 
@@ -153,17 +159,20 @@ function fnSelectTeam() {
 	<table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
 	<caption>훈련 <spring:message code="title.create" /></caption>
 	<colgroup>
-		<col style="width: 20%;"><col style="width: ;">
-	</colgroup>
+		<col style="width: 20%;">
+		<col style="width: 30%;">
+		<col style="width: 20%;">
+		<col style="width: 30%;">
+	</colgroup> 
 	<tbody>
 		<!-- 입력 -->
 		<c:set var="inputTxt"><spring:message code="input.input" /></c:set>
 		
 		<!-- 행사유형 -->
-		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode"/> --%>훈련유형</c:set>
+		<c:set var="title">훈련유형</c:set>
 		<tr>
 			<th><label for="eventTyCode">${title} <span class="pilsu">*</span></label></th>
-			<td class="left">
+			<td class="left" colspan="3">
 				<form:select path="eventTyCode" title="${title} ${inputTxt}" cssClass="txt">
 					<form:option value="" label="--선택하세요--" />
 					<form:options items="${eventTyCode}" itemValue="code" itemLabel="codeNm" />
@@ -176,19 +185,23 @@ function fnSelectTeam() {
 		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventCn"/> --%>훈련내용</c:set>
 		<tr>
 			<th><label for="eventCn">${title } <span class="pilsu">*</span></label></th>
-			<td class="nopd">
+			<td class="nopd" colspan="3">
 				<form:textarea path="eventCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 				<div><form:errors path="eventCn" cssClass="error" /></div>  
 			</td>
 		</tr>
-		
 		<!-- 행사시작일자  -->
 		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe"/> --%>훈련시작일 </c:set>
 		<tr>
 			<th><label for="eventSvcBeginDe">${title} <span class="pilsu">*</span></label></th>
-			<td class="left" colspan="3">
+			<td class="left">
 				<form:input path="eventSvcBeginDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
 				<div><form:errors path="eventSvcBeginDe" cssClass="error" /></div>       
+			</td>
+			
+			<th><label for="eventSvcBeginTime">훈련시작시간 <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:input path="eventSvcBeginTime" type="time" style="width:100px;"/>
 			</td>
 		</tr>
 		
@@ -196,103 +209,16 @@ function fnSelectTeam() {
 		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe"/> --%>훈련종료일 </c:set>
 		<tr>
 			<th><label for="eventSvcEndDe">${title} <span class="pilsu">*</span></label></th>
-			<td class="left" colspan="3">
+			<td class="left">
 				<form:input path="eventSvcEndDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
 				<div><form:errors path="eventSvcEndDe" cssClass="error" /></div>       
 			</td>
-		</tr>
-		<%-- 
-		<!-- 서비스이용인원수 -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.svcUseNmprCo"/> </c:set>
-		<tr>
-			<th><label for="svcUseNmprCo">${title} </label></th>
+			
+			<th><label for="eventSvcEndTime">훈련종료시간 <span class="pilsu">*</span></label></th>
 			<td class="left">
-			    <form:input path="svcUseNmprCo" title="${title} ${inputTxt}" size="70" maxlength="70" />
-   				<div><form:errors path="svcUseNmprCo" cssClass="error" /></div>     
+				<form:input path="eventSvcEndTime" type="time" style="width:100px;"/>
 			</td>
 		</tr>
-		
-		<!-- 담당자명 -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.chargerNm"/> </c:set>
-		<tr>
-			<th><label for="chargerNm">${title} </label></th>
-			<td class="left">
-			    <form:input path="chargerNm" title="${title} ${inputTxt}" size="70" maxlength="70" />
-   				<div><form:errors path="chargerNm" cssClass="error" /></div>     
-			</td>
-		</tr>
-		
-		<!-- 준비물내용 -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.prparetgCn"/> </c:set>
-		<tr>
-			<th><label for="prparetgCn">${title } </label></th>
-			<td class="nopd">
-				<form:textarea path="prparetgCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
-				<div><form:errors path="prparetgCn" cssClass="error" /></div>  
-			</td>
-		</tr>
-		
-		<!-- 승인여부 -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventConfmAt"/> </c:set>
-		<tr>
-			<th><label for="eventConfmAt">${title } </label></th>
-			<td class="left">
-				<form:select path="eventConfmAt" title="${title} ${inputTxt }" cssClass="txt">
-					<form:option value="" label="--선택하세요--" />
-					<form:option value="Y"  label="예" />
-	  		   		<form:option value='N'>아니오</form:option>
-				</form:select>
-				<div><form:errors path="eventConfmAt" cssClass="error" /></div>       
-			</td>
-		</tr>
-		
-		<!-- 승인일자  -->
-		 <c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventConfmDe"/> </c:set>
-		<tr>
-			<th><label for="eventConfmDe">${title} <span class="pilsu">*</span></label></th>
-			<td class="left" colspan="3">
-				<form:input path="eventConfmDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
-				<div><form:errors path="eventConfmDe" cssClass="error" /></div>       
-			</td>
-		</tr>  --%>
-		
-		<!-- 현재 시스템에 등록된 팀 리스트로 보여줘야 함.  -->
-		<%-- <tr>
-			<th><label>참가 팀 등록 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<div>
-					<table class="board_list">
-					<colgroup>
-						<col style="width: 5%;">
-						<col style="width: 20%;">
-						<col style="width: 30%;">
-					</colgroup>
-					<thead>
-						<tr>
-							<th><!-- <input type="checkbox" name="checkAll" class="check2" onclick="javascript:fncCheckAll()" title="전체선택체크박스"> --></th>
-							<th>팀 ID</th>
-							<th>팀명</th>
-						</tr>
-					</thead>
-				<c:forEach var="item" items="${groupList}" >
-					<tr>
-						<td>
-							<input type="checkbox" name="chkYn" class="check2">
-						</td>
-						<th>
-							<input type="hidden" name="groupId" value="${item.groupId}"/>
-							<c:out value="${item.groupId }"/>
-						</th>
-						<th>
-							<c:out value="${item.groupNm }"/>
-						</th>
-					</tr>
-				</c:forEach>
-					</table>
-				</div>
-			</td>
-			<input type="hidden" name="groupIds">
-		</tr> --%>
 		
 	</tbody>
 	</table>
@@ -300,6 +226,7 @@ function fnSelectTeam() {
 	<div class="btn">
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />
 		<span class="btn_s"><a href="<c:url value='/uss/ion/ecc/selectEventCmpgnList.do' />"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
+		<span class="btn_s"><a href="<c:url value='javascript:test()' />">test</a></span>
 	</div><div style="clear:both;"></div>
 	
 </div>

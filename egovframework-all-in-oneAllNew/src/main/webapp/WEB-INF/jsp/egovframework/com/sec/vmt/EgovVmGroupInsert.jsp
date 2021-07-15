@@ -63,21 +63,12 @@ function addVmTableRow() {
 	var ip = document.getElementById("ip").value;
 	var user = document.getElementById("user").value;
 	var pw = document.getElementById("pw").value;
-	
-	
-	console.log("type : ", type );
-	console.log("system : ", system );
-	console.log("url : ", url );
-	console.log("ip : ", ip );
-	console.log("user : ", user);
-	console.log("pw : ", pw );
-	
-	
+
 	
 	
 	if (type !== "" && url !== "" ) {
 		var length  = document.getElementById("board_list_body").getElementsByTagName("tr").length;
-		console.log("length : ", length );
+
 		
 		var table = document.getElementById("board_list");
 		const newRow = table.insertRow();

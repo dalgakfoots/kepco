@@ -102,7 +102,18 @@
 			WHERE training_id = #{trainingId}
 			AND team_id = #{teamId};
 		</select>
-		
+		<select id="selectTrainingTimeByTrainingId" parameterType="String" resultType="java.util.HashMap">
+			SELECT
+				A.EVENT_SVC_BGNDE,
+				A.EVENT_SVC_ENDDE
+			
+			FROM COMTNEVENTINFO A
+			LEFT OUTER JOIN 
+					(SELECT CODE_ID, CODE, CODE_NM FROM 
+						COMTCCMMNDETAILCODE WHERE CODE_ID = 'COM035' AND USE_AT='Y') b
+					ON a.EVENT_TY_CODE = b.CODE
+			WHERE A.event_id = #{trainingId}
+		</select> 
 		
 		<insert id="insertDashScore" parameterType="java.util.HashMap">
 			INSERT INTO kepco_training_team_scores(

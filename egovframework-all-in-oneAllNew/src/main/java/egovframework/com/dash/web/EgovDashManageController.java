@@ -193,15 +193,15 @@ public class EgovDashManageController {
 		return "egovframework/com/dash/EgovScoreDetail";
 	}
 	
-	@RequestMapping(value = "/dash/EgovScoreDetail.do")
-	public ModelAndView selectEgovScoreDetail(@RequestParam(value = "trainingId") String trainingId) throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
-    	modelAndView.setViewName("jsonView");
-    	
-    	modelAndView = egovDashManageService.selectDashGragh(trainingId, modelAndView);
-    	modelAndView.addObject("rankList", egovDashManageService.selectDashTable(trainingId));
-		return modelAndView;
-	}
+//	@RequestMapping(value = "/dash/EgovScoreDetail.do")
+//	public ModelAndView selectEgovScoreDetail(@RequestParam(value = "trainingId") String trainingId) throws Exception {
+//		ModelAndView modelAndView = new ModelAndView();
+//    	modelAndView.setViewName("jsonView");
+//    	
+//    	modelAndView = egovDashManageService.selectDashGragh(trainingId, modelAndView);
+//    	modelAndView.addObject("rankList", egovDashManageService.selectDashTable(trainingId));
+//		return modelAndView;
+//	}
 	
 	
 	

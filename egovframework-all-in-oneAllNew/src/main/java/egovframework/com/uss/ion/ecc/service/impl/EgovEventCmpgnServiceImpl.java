@@ -1,10 +1,14 @@
 package egovframework.com.uss.ion.ecc.service.impl;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.uss.ion.ecc.service.EgovEventCmpgnService;
 import egovframework.com.uss.ion.ecc.service.EventCmpgnVO;
@@ -46,15 +50,25 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public void insertEventCmpgn(EventCmpgnVO eventCmpgnVO) throws FdlException {
+	public void insertEventCmpgn(EventCmpgnVO eventCmpgnVO) throws Exception{
 		String eventId = idgenService1.getNextStringId();
 		eventCmpgnVO.setEventId(eventId);
-		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime()+":00"; 
-		eventCmpgnVO.setEventSvcBeginDe(startDatetime);
-		System.out.println("startDatetime : "+ startDatetime);
-		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime()+":00";
-		System.out.println("endDatatime : "+ endDatatime);
-		eventCmpgnVO.setEventSvcEndDe(endDatatime);
+		
+		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date tempDate = null;
+		
+		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
+		tempDate = dateForm1.parse(startDatetime);
+		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
+		
+		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
+		tempDate = dateForm1.parse(endDatatime);
+		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
+		
+		
+		
+		
 		egovEventCmpgnDao.insertEventCmpgn(eventCmpgnVO);
 	}
 
@@ -79,13 +93,19 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	}
 
 	@Override
-	public void updateEventCmpgn(EventCmpgnVO eventCmpgnVO) {
-		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime()+":00"; 
-		eventCmpgnVO.setEventSvcBeginDe(startDatetime);
-		System.out.println("startDatetime : "+ startDatetime);
-		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime()+":00";
-		System.out.println("endDatatime : "+ endDatatime);
-		eventCmpgnVO.setEventSvcEndDe(endDatatime);
+	public void updateEventCmpgn(EventCmpgnVO eventCmpgnVO) throws ParseException {
+		
+		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date tempDate = null;
+		
+		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
+		tempDate = dateForm1.parse(startDatetime);
+		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
+		
+		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
+		tempDate = dateForm1.parse(endDatatime);
+		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
 		egovEventCmpgnDao.updateEventCmpgn(eventCmpgnVO);
 	}
 

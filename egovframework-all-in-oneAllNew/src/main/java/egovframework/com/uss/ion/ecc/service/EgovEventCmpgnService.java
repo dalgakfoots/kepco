@@ -1,5 +1,6 @@
 package egovframework.com.uss.ion.ecc.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import egovframework.rte.fdl.cmmn.exception.FdlException;
@@ -12,11 +13,11 @@ public interface EgovEventCmpgnService {
 
 	int selectEventCmpgnListCnt(EventCmpgnVO searchVO);
 
-	void insertEventCmpgn(EventCmpgnVO eventCmpgnVO) throws FdlException;
+	void insertEventCmpgn(EventCmpgnVO eventCmpgnVO) throws Exception;
 
 	EventCmpgnVO selectEventCmpgnDetail(EventCmpgnVO eventCmpgnVO) throws Exception;
 
-	void updateEventCmpgn(EventCmpgnVO eventCmpgnVO);
+	void updateEventCmpgn(EventCmpgnVO eventCmpgnVO) throws ParseException;
 
 	void deleteEventCmpgn(EventCmpgnVO eventCmpgnVO);
 
@@ -24,7 +25,7 @@ public interface EgovEventCmpgnService {
 
 	int selectTnextrlHrListCnt(TnextrlHrVO searchVO);
 
-	void insertTnextrlHr(TnextrlHrVO tnextrlHrVO) throws FdlException;
+	void insertTnextrlHr(TnextrlHrVO tnextrlHrVO)  throws Exception;
 
 	TnextrlHrVO selectTnextrlHrDetail(TnextrlHrVO tnextrlHrVO) throws Exception;
 

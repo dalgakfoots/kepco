@@ -21,7 +21,7 @@
     </Appenders>
     <Loggers>
         <Logger name="java.sql" level="INFO" additivity="false">
-            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
         </Logger>
         <Logger name="egovframework" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />

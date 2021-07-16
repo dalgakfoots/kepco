@@ -174,7 +174,7 @@
 
   	function intervalTest() {
   		ajaxTest()
-  		let timerId = setInterval(() => ajaxTest(), 1000 * 10);
+  		let timerId = setInterval(() => ajaxTest(), 1000 * 60 * 5);
   	}
  
 

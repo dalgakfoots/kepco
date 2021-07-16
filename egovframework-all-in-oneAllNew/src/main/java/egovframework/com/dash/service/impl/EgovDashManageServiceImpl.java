@@ -86,18 +86,34 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	public ModelAndView selectDashGragh(String trainingId, ModelAndView resultMap) throws Exception {
 		int intervalTime = 5;
 		
+		
 		// 현재시각과 trainingId로 훈련 시작 시간을 불러온다. 
 			SimpleDateFormat dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 			SimpleDateFormat time2 = new SimpleDateFormat("HH:mm:ss");
-			Date standardTime = dateTime.parse("2021-07-14 15:00:00");
-			Date today = new Date();
 			
+			
+			Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
+			Date standardTime = dateTime.parse(trainingTime.get("EVENT_SVC_BGNDE").toString());
+			Date endtime = dateTime.parse(trainingTime.get("EVENT_SVC_ENDDE").toString());
+			Date today = new Date();
+			System.out.println("standardTime : "+ standardTime);
+			System.out.println("endtime : "+ endtime);
+			System.out.println("today : "+ today);
+			
+			
+			int compare = today.compareTo(endtime);
+			if (compare > 0) {
+				System.out.println("today > endtime");
+			} else {
+				System.out.println("today <= endtime");
+				endtime = today;
+			}
 			
 		//현재시각과 훈련시작시각의 차이를 구한다. (분 단위)
-			long diff = today.getTime()- standardTime.getTime();
+			long diff = endtime.getTime()- standardTime.getTime();
 			long min = (diff / 1000) / 60;
-			int intervalCount = ((int) min)/ intervalTime +1; 
+			int intervalCount = ((int) min)/ intervalTime ; 
 			System.out.println("min : "+ min);
 			System.out.println("intervalCount : " + intervalCount);
 			

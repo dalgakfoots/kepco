@@ -70,7 +70,7 @@ function fn_egov_inquire_eventdetail(eventId) {
 <form name="eventCmpgnForm" action="<c:url value='/uss/ion/ecc/selectEventCmpgnList.do'/>" method="post" onSubmit="fn_egov_search_event(); return false;"> 
 <div class="board">
 	<%-- <h1>${pageTitle} <spring:message code="title.list" /></h1> --%>
-	<h1>훈련 <spring:message code="title.list" /></h1>
+	<h1>대시보드 목록 </h1>
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>

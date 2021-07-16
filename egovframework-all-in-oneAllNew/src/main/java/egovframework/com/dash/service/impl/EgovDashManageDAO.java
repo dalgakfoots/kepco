@@ -75,4 +75,8 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 	public String selectTeamIdByUserId(String userId) {
 		return selectOne("EgovDashManageDAO.selectTeamIdByUserId", userId);
 	}
+	
+	public Map selectTrainingTimeByTrainingId(String trainingId) {
+		return selectOne("EgovDashManageDAO.selectTrainingTimeByTrainingId", trainingId);
+	}
 }

@@ -226,7 +226,6 @@ function test(){
 	<div class="btn">
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />
 		<span class="btn_s"><a href="<c:url value='/uss/ion/ecc/selectEventCmpgnList.do' />"  title="<spring:message code="button.list" />  <spring:message code="input.button" />"><spring:message code="button.list" /></a></span>
-		<span class="btn_s"><a href="<c:url value='javascript:test()' />">test</a></span>
 	</div><div style="clear:both;"></div>
 	
 </div>

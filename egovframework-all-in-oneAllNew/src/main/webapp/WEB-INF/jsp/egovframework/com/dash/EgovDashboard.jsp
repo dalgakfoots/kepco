@@ -10,7 +10,7 @@
 <title>SB Admin - Dashboard</title>
  <!-- Custom fonts for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
-
+  <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
   <!-- Page level plugin CSS-->
   <link href="<c:url value='/css/egovframework/com/dash/vendor/datatables/dataTables.bootstrap4.css'/>" rel="stylesheet">
 
@@ -174,7 +174,7 @@
 
   	function intervalTest() {
   		ajaxTest()
-  		let timerId = setInterval(() => ajaxTest(), 1000 * 10);
+  		let timerId = setInterval(() => ajaxTest(), 1000 * 60 * 5);
   	}
  
 
@@ -280,7 +280,7 @@
   </script>
 </head>
 <body onLoad="javascript:intervalTest()">
-
+<div class="board">
   <div id="wrapper">
 
     <div id="content-wrapper">
@@ -394,7 +394,7 @@
       </div>
     </div>
   </div> -->
-
+<div>
   <!-- Bootstrap core JavaScript-->
   <script src="<c:url value='/css/egovframework/com/dash/vendor/jquery/jquery.min.js'/>"></script>
   <script src="<c:url value='/css/egovframework/com/dash/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>

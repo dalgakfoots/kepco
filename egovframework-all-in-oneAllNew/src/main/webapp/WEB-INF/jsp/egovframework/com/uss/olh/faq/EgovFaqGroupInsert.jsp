@@ -86,6 +86,21 @@ function fncGroupInsert(form) {
 			    <textarea name="faqGroupDc" title="${title} ${inputTxt}" cols="300" rows="10"></textarea>
 			</td>
 		</tr>
+		<!-- 문제 타입  -->
+		<c:set var="title">문제타입</c:set>
+		<tr>
+			<th>${title}</th>
+			<td class="left">
+				<input type="radio" id="pst" name="type" value="pst">
+				<label for="pst">예방보안훈련</label>
+				<input type="radio" id="mdt" name="type" value="mdt">
+				<label for="mdt">악성코드탐지대응훈련</label>
+				<input type="radio" id="wat" name="type" value="wat">
+				<label for="wat">웹공격대응훈련</label>
+				<input type="radio" id="ast" name="type" value="ast">
+				<label for="ast">사후대응훈련</label>
+			</td>
+		</tr>
 	</tbody>
 	</table>
 

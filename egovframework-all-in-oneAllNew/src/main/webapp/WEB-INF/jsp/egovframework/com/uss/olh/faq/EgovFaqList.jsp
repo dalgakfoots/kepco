@@ -69,7 +69,7 @@ function fn_egov_inquire_faqdetail(faqId) {
 
 <form name="faqForm" action="<c:url value='/uss/olh/faq/selectFaqList.do'/>" method="post" onSubmit="fn_egov_search_faq(); return false;"> 
 <div class="board">
-	<h1>사후대응훈련문제 <spring:message code="title.list" /></h1>
+	<h1>훈련문제 <spring:message code="title.list" /></h1>
 	<!-- 하단 버튼 -->
 	<div class="search_box" title="<spring:message code="common.searchCondition.msg" />">
 		<ul>

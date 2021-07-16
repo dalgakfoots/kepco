@@ -25,4 +25,19 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		return egovTrainDAO.selectUserVmGroupId(param);
 	}
 
+	@Override
+	public List<HashMap> selectUserExamList(HashMap param) throws Exception {
+		return egovTrainDAO.selectUserExamList(param);
+	}
+
+	@Override
+	public HashMap selectQuestionDetail(HashMap param) throws Exception {
+		return egovTrainDAO.selectQuestionDetail(param);
+	}
+
+	@Override
+	public void insertUserAnswer(HashMap param) throws Exception {
+		egovTrainDAO.insertUserAnswer(param);
+	}
+
 }

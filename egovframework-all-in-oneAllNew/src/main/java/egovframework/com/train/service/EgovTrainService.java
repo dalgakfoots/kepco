@@ -9,4 +9,10 @@ public interface EgovTrainService {
 
 	HashMap selectUserVmGroupId(HashMap param) throws Exception;
 
+	List<HashMap> selectUserExamList(HashMap param) throws Exception;
+
+	HashMap selectQuestionDetail(HashMap param) throws Exception;
+
+	void insertUserAnswer(HashMap param) throws Exception;
+
 }

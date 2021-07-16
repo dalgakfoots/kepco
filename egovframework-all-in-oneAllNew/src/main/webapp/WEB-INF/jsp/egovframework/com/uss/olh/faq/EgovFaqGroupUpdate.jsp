@@ -141,6 +141,21 @@ function fnSelectTeam() {
 			</td>
 		</tr>
 		
+		<!-- 타입  -->
+		<c:set var="title">문제타입</c:set>
+		<tr>
+			<th>${title}</th>
+			<td class="left">
+				<input type="radio" id="pst" name="type" value="pst" <c:if test="${groupManage.type eq 'pst'}">checked</c:if> >
+				<label for="pst">예방보안훈련</label>
+				<input type="radio" id="mdt" name="type" value="mdt" <c:if test="${groupManage.type eq 'mdt'}">checked</c:if>>
+				<label for="mdt">악성코드탐지대응훈련</label>
+				<input type="radio" id="wat" name="type" value="wat" <c:if test="${groupManage.type eq 'wat'}">checked</c:if>>
+				<label for="wat">웹공격대응훈련</label>
+				<input type="radio" id="ast" name="type" value="ast" <c:if test="${groupManage.type eq 'ast'}">checked</c:if>>
+				<label for="ast">사후대응훈련</label>
+			</td>
+		</tr>
 		<!-- TODO 팀 - 회원 매칭 가능하도록 구성  -->
 		
 		<tr>

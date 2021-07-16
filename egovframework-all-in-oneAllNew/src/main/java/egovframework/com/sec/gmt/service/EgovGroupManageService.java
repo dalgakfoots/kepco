@@ -96,11 +96,14 @@ public interface EgovGroupManageService {
 	public List<HashMap> selectTrainList() throws Exception;
 	public List<HashMap> selectTeamList() throws Exception;
 	public List<HashMap> selectVmGroupList() throws Exception;
+	public List<HashMap> selectExamGroupList() throws Exception;
 	public int selectTrainGroupVmListTotCnt(TrainGroupVmVO trainGroupVmVO) throws Exception;
 	
 	/*훈련매핑관리 C,U,D*/
 	public void insertTrainGroupVmManage(HashMap updateMap);
 	public void updateTrainGroupVmManage(HashMap updateMap);
 	public void deleteTrainGroupVmManage(HashMap updateMap);
+
+	
 	
 }

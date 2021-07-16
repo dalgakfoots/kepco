@@ -18,4 +18,16 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		return selectOne("egovTrainDAO.selectUserVmGroupId", param);
 	}
 
+	public List<HashMap> selectUserExamList(HashMap param) {
+		return selectList("egovTrainDAO.selectUserExamList",param);
+	}
+
+	public HashMap selectQuestionDetail(HashMap param) {
+		return selectOne("egovTrainDAO.selectQuestonDetail",param);
+	}
+
+	public void insertUserAnswer(HashMap param) {
+		insert("egovTrainDAO.insertUserAnswer", param);
+	}
+
 }

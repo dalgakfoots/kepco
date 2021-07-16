@@ -61,8 +61,12 @@
 			   TRAINING_ID,
 			   TEAM_ID,
 			   PST_VM_ID,
+			   PST_EXAM_GROUP_ID,
 			   MDT_VM_ID,
-			   WAT_VM_ID
+			   MDT_EXAM_GROUP_ID,
+			   WAT_VM_ID,
+			   WAT_EXAM_GROUP_ID,
+			   AST_EXAM_GROUP_ID
 	      FROM KEPCO_TRAINING_TEAM_VMGROUP
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
@@ -85,6 +89,14 @@
 		SELECT GROUP_ID,
 			   GROUP_NM
 		  FROM COMTNAUTHORGROUPINFO
+	</select>
+	
+	<select id="selectExamGroupList" resultType="java.util.HashMap">
+		SELECT FAQ_GROUP_ID,
+			   FAQ_GROUP_NM,
+			   FAQ_GROUP_DC,
+			   `TYPE`
+		  FROM KEPCO_EXAM_GROUP
 	</select>
 	
 	<!-- 훈련 매핑관리에서 사용 끝 -->
@@ -144,8 +156,12 @@
 			   SET TRAINING_ID = #{training_id},
 			   	   TEAM_ID = #{team_id},
 			   	   PST_VM_ID = #{pstVmGroupId},
+			   	   PST_EXAM_GROUP_ID = #{pstExamGroupId},
 			   	   MDT_VM_ID = #{mdtVmGroupId},
-			   	   WAT_VM_ID = #{watVmGroupId}
+			   	   MDT_EXAM_GROUP_ID = #{mdtExamGroupId},
+			   	   WAT_VM_ID = #{watVmGroupId},
+			   	   WAT_EXAM_GROUP_ID = #{watExamGroupId},
+			   	   AST_EXAM_GROUP_ID = #{astExamGroupId}
 			 WHERE ID = #{id}
 	</update>
 	
@@ -183,7 +199,11 @@
 			        vgt.vm_type_id,
 			        vt.type,
 			        vgt.vm_group_type_id,
+			        vgt.name,
 			        vgt.url,
+			        vgt.ip,
+			        vgt.user_name,
+			        vgt.user_password,
 			        vgt.created_datetime
 			FROM kepco_vm_group_types vgt
 			INNER JOIN kepco_vm_types vt on vt.id = vgt.vm_type_id
@@ -203,15 +223,23 @@
 			   		 TRAINING_ID,
 			   		 TEAM_ID,
 			   		 PST_VM_ID,
+			   		 PST_EXAM_GROUP_ID,
 			   		 MDT_VM_ID,
-			   		 WAT_VM_ID
+			   		 MDT_EXAM_GROUP_ID,
+			   		 WAT_VM_ID,
+			   		 WAT_EXAM_GROUP_ID,
+			   		 AST_EXAM_GROUP_ID
 			 		)VALUES(
 			   		 #{id},
 			   		 #{training_id},
 			   		 #{team_id},
 			   		 #{pstVmGroupId},
+			   		 #{pstExamGroupId},
 			   		 #{mdtVmGroupId},
-			   		 #{watVmGroupId}
+			   		 #{mdtExamGroupId},
+			   		 #{watVmGroupId},
+			   		 #{watExamGroupId},
+			   		 #{astExamGroupId}
 			   		)
 	</insert>
 	
@@ -312,7 +340,7 @@
 			
 	</select>
 	
-	<insert id="insertVmGroupTypes" parameterType="egovframework.com.sec.gmt.service.VmGroupType" >
+	<insert id="insertVmGroupTypes" parameterType="java.util.HashMap" >
 		<selectKey keyProperty="vmGroupTypeId" resultType="String" order="BEFORE">
             SELECT 
             	(IFNULL(MAX(vm_group_type_id), 0) + 1) AS vm_group_type_id 
@@ -325,11 +353,35 @@
 				vm_group_id,
 				vm_type_id,
 				vm_group_type_id,
-				url				
+	            <if test="system!=null or system!=''">
+	                name,
+	            </if>
+	            <if test="ip!=null or ip!=''">
+	                ip,
+	            </if>
+	            <if test="userName!=null or userName!=''">
+	                user_name,
+	            </if>
+	            <if test="userPW!=null or userPW!=''">
+	                user_password,
+	            </if>
+				url
 			) VALUES(
 				#{groupId},
 				#{typeId},
 				#{vmGroupTypeId},
+				<if test="system!=null or system!=''">
+	                #{system},
+	            </if>
+	            <if test="ip!=null or ip!=''">
+	                #{ip},
+	            </if>
+	            <if test="userName!=null or userName!=''">
+	                #{userName},
+	            </if>
+	            <if test="userPW!=null or userPW!=''">
+	                #{userPW},
+	            </if>
 				#{url}
 			)
 			

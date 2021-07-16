@@ -83,13 +83,13 @@
 	<update id="updateEventCmpgn">
 		UPDATE COMTNEVENTINFO
 		SET
-			EVENT_SVC_BGNDE=REPLACE(#{eventSvcBeginDe},'-',''),
+			EVENT_SVC_BGNDE=#{eventSvcBeginDe},
 			SVC_USE_NMPR_CO=#{svcUseNmprCo},
 			CHARGER_NM=#{chargerNm},
 			EVENT_CN=#{eventCn},
 			LAST_UPDT_PNTTM=sysdate(),
 			LAST_UPDUSR_ID=#{lastUpdusrId},
-			EVENT_SVC_ENDDE=REPLACE(#{eventSvcEndDe},'-',''),
+			EVENT_SVC_ENDDE=#{eventSvcEndDe},
 			EVENT_TY_CODE=#{eventTyCode},
 			EVENT_CONFM_AT=#{eventConfmAt},
 			EVENT_CONFM_DE=REPLACE(#{eventConfmDe},'-',''),
@@ -100,7 +100,7 @@
 	<select id="selectEventCmpgnDetail" parameterType="egovframework.com.uss.ion.ecc.service.EventCmpgnVO" resultMap="EventCmpgnDetailMap">
 		SELECT
 			EVENT_ID,
-			DATE_FORMAT(EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			EVENT_SVC_BGNDE,
 			SVC_USE_NMPR_CO,
 			CHARGER_NM,
 			EVENT_CN,
@@ -110,7 +110,7 @@
 			FRST_REGISTER_ID,
 			LAST_UPDT_PNTTM,
 			LAST_UPDUSR_ID,
-			DATE_FORMAT(EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			EVENT_SVC_ENDDE,
 			EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			PRPARETG_CN
@@ -127,7 +127,7 @@
 	 
 		SELECT
 			A.EVENT_ID,
-			DATE_FORMAT(A.EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			EVENT_SVC_BGNDE,
 			A.SVC_USE_NMPR_CO,
 			A.CHARGER_NM,
 			A.EVENT_CN,
@@ -136,10 +136,11 @@
 			(SELECT USER_NM FROM COMTNEMPLYRINFO WHERE ESNTL_ID = A.FRST_REGISTER_ID) FRST_REGISTER_NM,
 			A.LAST_UPDT_PNTTM,
 			A.LAST_UPDUSR_ID,
-			DATE_FORMAT(A.EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			EVENT_SVC_ENDDE,
 			A.EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			A.PRPARETG_CN
+		
 		FROM COMTNEVENTINFO A
 		LEFT OUTER JOIN 
 				(SELECT CODE_ID, CODE, CODE_NM FROM 
@@ -155,16 +156,15 @@
 	 		AND  FRST_REGISTER_ID IN (SELECT ESNTL_ID FROM COMTNEMPLYRINFO WHERE USER_NM LIKE CONCAT ('%', #{searchKeyword},'%') )
 	 	</if>
 	 	
-
-	 
 		ORDER BY A.FRST_REGIST_PNTTM DESC
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
-	
 	</select>
+	
+	
 	<select id="selectEventCmpgnListForMonitor" resultMap="EventCmpgnListMap">
 		SELECT
 			A.EVENT_ID,
-			DATE_FORMAT(A.EVENT_SVC_BGNDE,'%Y-%m-%d') EVENT_SVC_BGNDE,
+			A.EVENT_SVC_BGNDE,
 			A.SVC_USE_NMPR_CO,
 			A.CHARGER_NM,
 			A.EVENT_CN,
@@ -173,7 +173,7 @@
 			(SELECT USER_NM FROM COMTNEMPLYRINFO WHERE ESNTL_ID = A.FRST_REGISTER_ID) FRST_REGISTER_NM,
 			A.LAST_UPDT_PNTTM,
 			A.LAST_UPDUSR_ID,
-			DATE_FORMAT(A.EVENT_SVC_ENDDE,'%Y-%m-%d') EVENT_SVC_ENDDE,
+			A.EVENT_SVC_ENDDE,
 			A.EVENT_TY_CODE,
 			B.CODE_NM AS EVENT_TY_CODE_NM,
 			A.PRPARETG_CN
@@ -182,6 +182,36 @@
 				(SELECT CODE_ID, CODE, CODE_NM FROM 
 					COMTCCMMNDETAILCODE WHERE CODE_ID = 'COM035' AND USE_AT='Y') b
 				ON a.EVENT_TY_CODE = b.CODE
+	</select>
+	
+	<select id="selectEventCmpgnListForScoreView" resultMap="EventCmpgnListMap">
+		SELECT 
+			a.EVENT_ID,
+            c.CODE_NM AS EVENT_TY_CODE_NM,
+ 			a.EVENT_CN,
+ 			a.EVENT_SVC_BGNDE,
+ 			a.EVENT_SVC_ENDDE,
+ 			DATE_FORMAT(A.FRST_REGIST_PNTTM,'%Y-%m-%d') FRST_REGIST_PNTTM,
+            a.FRST_REGISTER_ID
+		FROM COMTNEVENTINFO a
+		inner join kepco_training_teams kitt on a.event_id = kitt.training_id
+		inner join comtngnrlmber b on b.group_id = kitt.team_id
+		LEFT OUTER JOIN 
+				(SELECT CODE_ID, CODE, CODE_NM FROM 
+					COMTCCMMNDETAILCODE WHERE CODE_ID = 'COM035' AND USE_AT='Y') c
+				ON a.EVENT_TY_CODE = c.CODE
+		where b.mber_id = #{lastUpdusrId}
+	    
+			<if test="searchCondition == 0">
+				AND a.EVENT_CN LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+		 	
+		 	<if test="searchCondition == 1">
+		 		AND  a.FRST_REGISTER_ID IN (SELECT ESNTL_ID FROM COMTNEMPLYRINFO WHERE USER_NM LIKE CONCAT ('%', #{searchKeyword},'%') )
+		 	</if>
+		 	
+			ORDER BY A.FRST_REGIST_PNTTM DESC
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
 	<select id="selectEventCmpgnListCnt" parameterType="egovframework.com.uss.ion.ecc.service.EventCmpgnVO" resultType="int">
@@ -248,11 +278,11 @@
 		LAST_UPDUSR_ID
 	)VALUES(
 		#{eventId},
-		REPLACE(#{eventSvcBeginDe},'-',''),
+		#{eventSvcBeginDe},
 		#{svcUseNmprCo},
 		#{chargerNm},
 		#{eventCn},
-		REPLACE(#{eventSvcEndDe},'-',''),
+		#{eventSvcEndDe},
 		#{eventTyCode},
 		#{prparetgCn},
 		#{eventConfmAt},

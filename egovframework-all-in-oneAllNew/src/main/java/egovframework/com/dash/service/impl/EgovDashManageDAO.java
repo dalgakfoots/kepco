@@ -60,8 +60,23 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 		return selectOne("EgovDashManageDAO.selectTeamTotalScoreByDateTime", param);
 	}
 	
+	public List<Map> selectScoreLogList (String trainingId, String teamId) throws Exception {
+		Map param = new HashMap();
+		param.put("trainingId", trainingId);
+		param.put("teamId", teamId);
+		return selectList("EgovDashManageDAO.selectScoreLogList", param);
+	}
+	
 	public List<Map> selectSortedTeamIdByRank(String trainingId) {
 		return selectList("EgovDashManageDAO.selectSortedTeamIdByRank", trainingId);
 		
+	}
+	
+	public String selectTeamIdByUserId(String userId) {
+		return selectOne("EgovDashManageDAO.selectTeamIdByUserId", userId);
+	}
+	
+	public Map selectTrainingTimeByTrainingId(String trainingId) {
+		return selectOne("EgovDashManageDAO.selectTrainingTimeByTrainingId", trainingId);
 	}
 }

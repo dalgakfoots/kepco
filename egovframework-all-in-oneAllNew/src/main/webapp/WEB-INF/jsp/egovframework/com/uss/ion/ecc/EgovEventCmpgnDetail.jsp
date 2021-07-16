@@ -59,21 +59,23 @@
 	<caption>훈련 <spring:message code="title.detail" /></caption>
 	<colgroup>
 		<col style="width: 20%;">
-		<col style="width: ;">
+		<col style="width: 30%;">
+		<col style="width: 20%;">
+		<col style="width: 30%;">
 	</colgroup>
 	<tbody>
 		<!-- 훈련유형 -->
 		<tr>
 			<%-- <th><spring:message code="comUssIonEcc.eventCmpgnVO.eventTyCode" /></th> --%>
 			<th>훈련유형</th>
-			<td class="left"><c:out value="${result.eventTyCodeNm}"/></td>
+			<td class="left" colspan="3"><c:out value="${result.eventTyCodeNm}"/></td>
 		</tr>
 		
 		<!-- 훈련내용 -->
 		<tr>
 			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventCn" /></th> --%>
 			<th>훈련내용</th>
-			<td class="cnt">
+			<td class="cnt" colspan="3">
 				<c:out value="${fn:replace(result.eventCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
@@ -83,6 +85,9 @@
 			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" /></th> --%>
 			<th>훈련시작일자</th>
 			<td class="left"><c:out value="${result.eventSvcBeginDe}"/></td>
+			<th>훈련시작시간</th>
+			<td class="left"><c:out value="${result.eventSvcBeginTime}"/></td>
+			
 		</tr>
 		
 		<!-- 훈련종료일자 -->
@@ -90,80 +95,10 @@
 			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th> --%>
 			<th>훈련종료일자</th>
 			<td class="left"><c:out value="${result.eventSvcEndDe}"/></td>
+			
+			<th>훈련종료시간</th>
+			<td class="left"><c:out value="${result.eventSvcEndTime}"/></td>
 		</tr>
-		<%--
-		<!-- 참가인원수 -->
-		<tr>
-			<th>참가인원수</th>
-			<td class="left"><c:out value="${result.svcUseNmprCo}"/></td>
-		</tr>
-
-		<!-- 담당자명 -->
-		 <tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.chargerNm" /></th>
-			<td class="left"><c:out value="${result.chargerNm}"/></td>
-		</tr> --%>
-		<%-- 
-		<!-- 준비물내용 -->
-		<tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.prparetgCn" /></th>
-			<td class="cnt">
-				<c:out value="${fn:replace(result.prparetgCn , crlf , '<br/>')}" escapeXml="false" />
-			</td>
-		</tr>
-
-		<!-- 승인여부 -->
-		<tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventConfmAt" /></th>
-			<td class="left"><c:out value="${result.eventConfmAt}"/></td>
-		</tr>
-
-		<!-- 승인일 -->
-		<tr>
-			<th><spring:message code="comUssIonEcc.eventCmpgnVO.eventConfmDe" /></th>
-			<td class="left"><c:out value="${result.eventConfmDe}"/></td>
-		</tr> 
-
-		<!-- 외부인사정보 -->
-		<tr>
-			<th><spring:message code="comUssIonEcc.tnextrlHrVO.title" /></th>
-			<td class="left"><a href="<c:url value='/uss/ion/ecc/selectTnextrlHrList.do?eventId=${result.eventId}' />" title="<spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" />"><spring:message code="comUssIonEcc.tnextrlHrVO.title" /> <spring:message code="title.inquire" /></a></td>
-		</tr>--%>
-		
-		<!-- 참여 팀  -->
-		<%-- 
-		<tr>
-			<th><label>참가 팀</label></th>
-			<td class="left">
-				<div>
-					<table class="board_list">
-					<colgroup>
-						<col style="width: 30%;">
-						<col style="width: 30%;">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>팀 ID</th>
-							<th>팀명</th>
-						</tr>
-					</thead>
-				<c:forEach var="item" items="${teamList}" >
-					<tr>
-						<th>
-							<input type="hidden" name="groupId" value="${item.teamId}"/>
-							<c:out value="${item.team_id }"/>
-						</th>
-						<th>
-							<c:out value="${item.group_nm }"/>
-						</th>
-					</tr>
-				</c:forEach>
-					</table>
-				</div>
-			</td>
-			<input type="hidden" name="groupIds">
-		</tr>
-		 --%>
 	</tbody>
 	</table>
 	<!-- 하단 버튼 -->

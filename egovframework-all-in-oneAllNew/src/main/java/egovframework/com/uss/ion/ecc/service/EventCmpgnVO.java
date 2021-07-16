@@ -44,6 +44,11 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	private String eventSvcBeginDe = "";
 
 	/**
+	 * 행사시작시간
+	 */
+	private String eventSvcBeginTime = "";
+
+	/**
 	 * 서비스이용 인원수
 	 */
 	private int svcUseNmprCo = 0;
@@ -62,6 +67,12 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	 * 행사종료일자
 	 */
 	private String eventSvcEndDe = "";
+	
+	/**
+	 * 행사종료시간 
+	 */
+	private String eventSvcEndTime = "";
+
 
 	/**
 	 * 행사유형코드
@@ -385,7 +396,18 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 		this.cmd = cmd;
 	}
 
-
+	public String getEventSvcBeginTime() {
+		return eventSvcBeginTime;
+	}
+	public void setEventSvcBeginTime(String eventSvcBeginTime) {
+		this.eventSvcBeginTime = eventSvcBeginTime;
+	}
+	public String getEventSvcEndTime() {
+		return eventSvcEndTime;
+	}
+	public void setEventSvcEndTime(String eventSvcEndTime) {
+		this.eventSvcEndTime = eventSvcEndTime;
+	}
 
 
 

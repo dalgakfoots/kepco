@@ -65,31 +65,41 @@
 	  
 	  var ctx = document.getElementById("myAreaChart");
 	  
+/* 	  'rgba(255, 0, 0, 0)',
+	  'rgba(255, 94, 0, 0)',
+	  'rgba(255, 228, 0, 0)',
+	  'rgba(0, 255, 0, 0)',
+	  'rgba(0, 0, 255, 0)',
+	  'rgba(5, 0, 153, 0)',
+	  'rgba(255, 192, 203, 0)',
+	  'rgba(211, 211, 211, 0)',
+	  'rgba(211, 211, 211, 0)', */
+	  
 	  const backgroundColor = [
-		  'rgba(255, 99, 132, 0)',
-          'rgba(54, 162, 235, 0)',
-          'rgba(255, 206, 86, 0)',
-          'rgba(75, 192, 192, 0)',
-          'rgba(153, 102, 255, 0)',
-          'rgba(255, 159, 64, 0)',
-          'rgba(255, 99, 132, 0)',
-          'rgba(54, 162, 235, 0)',
-          'rgba(255, 206, 86, 0)',
-          'rgba(75, 192, 192, 0)'
+		  'rgba(255, 0, 0, 0)',
+		  'rgba(255, 94, 0, 0)',
+		  'rgba(255, 228, 0, 0)',
+		  'rgba(0, 255, 0, 0)',
+		  'rgba(0, 0, 255, 0)',
+		  'rgba(5, 0, 153, 0)',
+		  'rgba(255, 192, 203, 0)',
+		  'rgba(204, 204, 204, 0)',
+		  'rgba(153, 204, 153, 0)',
+		  'rgba(000, 255, 255, 0)',
       ];
       const borderColor = [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
+    	  'rgba(255, 0, 0, 1)',
+		  'rgba(255, 94, 0, 1)',
+		  'rgba(255, 228, 0, 1)',
+		  'rgba(0, 255, 0, 1)',
+		  'rgba(0, 0, 255, 1)',
+		  'rgba(5, 0, 153, 1)',
+		  'rgba(255, 192, 203, 1)',
+		  'rgba(204, 204, 204, 1)',
+		  'rgba(153, 204, 153, 1)',
+		  'rgba(000, 255, 255, 1)',
       ];
-      const pointBackgroundColor = [
+/*       const pointBackgroundColor = [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
@@ -113,7 +123,7 @@
           'rgba(255, 206, 86, 0.8)',
           'rgba(75, 192, 192, 0.8)'
       ];
-	  
+	   */
 	  
 	  
 	  
@@ -127,13 +137,13 @@
 	  	        lineTension: 0.2,
 	  	        backgroundColor: backgroundColor[index],
 	            borderColor: borderColor[index],
-	  	        pointRadius: 4,
-	  	      	pointHoverRadius: 4,
+	            borderWidth: 2,
+	  	        pointRadius: 3,
+	  	      	pointHoverRadius: 3,
 	  	      	
-	  	      	
-	  	        pointBackgroundColor: "rgba(2,117,216,1)",
+	  	        pointBackgroundColor: borderColor[index],
 	  	        pointBorderColor: "rgba(255,255,255,0.8)",
-	  	        pointHoverBackgroundColor: "rgba(2,117,216,1)",
+	  	        pointHoverBackgroundColor: borderColor[index],
 	  	        pointHitRadius: 50,
 	  	        pointBorderWidth: 0.5,
 	  	        data: e.data,
@@ -141,7 +151,7 @@
 	      })
 	    },
 	    options: {
-	      scales: {
+	     scales: {
 	        xAxes: [{
 	          time: {
 	            unit: 'date'
@@ -164,17 +174,124 @@
 	          }
 	        }],
 	      },
+	   
 	      legend: {
-	        display: false
+	    	  display: true,
+	    	  position : "bottom",
+	    	  align : "center",
 	      }
-	    }
+	    } 
 	  });
   }
-  
+  /* function getOrCreateTooltip(chart) {
+	  let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+	  if (!tooltipEl) {
+	    tooltipEl = document.createElement('div');
+	    tooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
+	    tooltipEl.style.borderRadius = '3px';
+	    tooltipEl.style.color = 'white';
+	    tooltipEl.style.opacity = 1;
+	    tooltipEl.style.pointerEvents = 'none';
+	    tooltipEl.style.position = 'absolute';
+	    tooltipEl.style.transform = 'translate(-50%, 0)';
+	    tooltipEl.style.transition = 'all .1s ease';
+
+	    const table = document.createElement('table');
+	    table.style.margin = '0px';
+
+	    tooltipEl.appendChild(table);
+	    chart.canvas.parentNode.appendChild(tooltipEl);
+	  }
+
+	  return tooltipEl;
+	};
+
+	function externalTooltipHandler(context) {
+	  // Tooltip Element
+	  const {chart, tooltip} = context;
+	  const tooltipEl = getOrCreateTooltip(chart);
+
+	  // Hide if no tooltip
+	  if (tooltip.opacity === 0) {
+	    tooltipEl.style.opacity = 0;
+	    return;
+	  }
+
+	  // Set Text
+	  if (tooltip.body) {
+	    const titleLines = tooltip.title || [];
+	    const bodyLines = tooltip.body.map(b => b.lines);
+
+	    const tableHead = document.createElement('thead');
+
+	    titleLines.forEach(title => {
+	      const tr = document.createElement('tr');
+	      tr.style.borderWidth = 0;
+
+	      const th = document.createElement('th');
+	      th.style.borderWidth = 0;
+	      const text = document.createTextNode(title);
+
+	      th.appendChild(text);
+	      tr.appendChild(th);
+	      tableHead.appendChild(tr);
+	    });
+
+	    const tableBody = document.createElement('tbody');
+	    bodyLines.forEach((body, i) => {
+	      const colors = tooltip.labelColors[i];
+
+	      const span = document.createElement('span');
+	      span.style.background = colors.backgroundColor;
+	      span.style.borderColor = colors.borderColor;
+	      span.style.borderWidth = '2px';
+	      span.style.marginRight = '10px';
+	      span.style.height = '10px';
+	      span.style.width = '10px';
+	      span.style.display = 'inline-block';
+
+	      const tr = document.createElement('tr');
+	      tr.style.backgroundColor = 'inherit';
+	      tr.style.borderWidth = 0;
+
+	      const td = document.createElement('td');
+	      td.style.borderWidth = 0;
+
+	      const text = document.createTextNode(body);
+
+	      td.appendChild(span);
+	      td.appendChild(text);
+	      tr.appendChild(td);
+	      tableBody.appendChild(tr);
+	    });
+
+	    const tableRoot = tooltipEl.querySelector('table');
+
+	    // Remove old children
+	    while (tableRoot.firstChild) {
+	      tableRoot.firstChild.remove();
+	    }
+
+	    // Add new children
+	    tableRoot.appendChild(tableHead);
+	    tableRoot.appendChild(tableBody);
+	  }
+
+	  const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
+
+	  // Display, position, and set styles for font
+	  tooltipEl.style.opacity = 1;
+	  tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+	  tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+	  tooltipEl.style.font = tooltip.options.bodyFont.string;
+	  tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
+	};
+   */
 
   	function intervalTest() {
   		ajaxTest()
-  		let timerId = setInterval(() => ajaxTest(), 1000 * 10);
+  		let timerId = setInterval(() => ajaxTest(), 1000 * 60 * 5);
   	}
  
 
@@ -281,9 +398,9 @@
 </head>
 <body onLoad="javascript:intervalTest()">
  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-    <!-- <a class="navbar-brand mr-1" href="DashboardView.do">한국 전력 공사</a> -->
+    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
 	<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
-	<a class="navbar-brand mr-1" href="<c:url value='/dash/DashboardTraining.do' />">한국 전력 공사</a>
+	<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>

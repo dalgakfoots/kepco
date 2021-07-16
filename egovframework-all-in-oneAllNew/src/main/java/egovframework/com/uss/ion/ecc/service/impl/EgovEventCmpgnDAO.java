@@ -19,6 +19,9 @@ public class EgovEventCmpgnDAO extends EgovComAbstractDAO {
 	public List<?> selectEventCmpgnListForMonitor(){
 		return selectList("EventCmpgn.selectEventCmpgnListForMonitor");
 	}
+	public List<?> selectEventCmpgnListForScoreView(EventCmpgnVO searchVO){
+		return selectList("EventCmpgn.selectEventCmpgnListForScoreView", searchVO);
+	}
 	public int selectEventCmpgnListCnt(EventCmpgnVO searchVO) {
 		return (Integer) selectOne("EventCmpgn.selectEventCmpgnListCnt", searchVO);
 	}

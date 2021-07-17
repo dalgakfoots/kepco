@@ -92,6 +92,7 @@
 				ktts.training_id,
 			    ktts.team_id, 
 			    ktts.question_id,
+			    ktts.score_id,
 			    ktts.training_type,
 			    ktts.score,
 			    ktts.created_datetime,
@@ -100,7 +101,8 @@
 			FROM kepco_training_team_scores ktts
 			inner join COMTNAUTHORGROUPINFO a on a.group_id = ktts.team_id 
 			WHERE training_id = #{trainingId}
-			AND team_id = #{teamId};
+			AND team_id = #{teamId}
+			order by created_datetime desc
 		</select>
 		<select id="selectTrainingTimeByTrainingId" parameterType="String" resultType="java.util.HashMap">
 			SELECT
@@ -116,16 +118,28 @@
 		</select> 
 		
 		<insert id="insertDashScore" parameterType="java.util.HashMap">
+			<selectKey keyProperty="scoreId" resultType="int" order="BEFORE">
+	            SELECT 
+	            	(IFNULL(MAX(score_id), 0) + 1) AS score_id 
+	            FROM kepco_training_team_scores 
+		            WHERE training_id = #{trainingId} 
+		            AND team_id = #{teamId}
+		            AND question_id = #{questionId}
+        	</selectKey>
+		
+		
 			INSERT INTO kepco_training_team_scores(
 				training_id,
 				team_id,
 				question_id,
+				score_id,
 				training_type,
 				score
 			) VALUES (
 				#{trainingId},
 				#{teamId},
 				#{questionId},
+				#{scoreId},
 				#{trainingType},
 				#{score}
 			);

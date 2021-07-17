@@ -114,9 +114,18 @@ public class EgovComIndexController_ implements ApplicationContextAware, Initial
 			model.addAttribute("passedDay", passedDayChangePWD);
 		}
 		
-		// 만료일자로부터 경과한 일수 => ex)1이면 만료일에서 1일 경과
+		// 만료일자로부터 경과한 일수 => ex)1이면 만료일에서 1일 경과		
 		model.addAttribute("elapsedTimeExpiration", passedDayChangePWD - expirePwdDay);
-		return "redirect:/sym/mnu/mpm/EgovMainMenuHome.do";
+		System.out.println("loginVO : " + loginVO);
+		System.out.println("loginVO.getId() : " + loginVO.getId());
+		String userRole = loginService.selectUserRoleByUserId(loginVO.getId());
+		if (userRole.equals("ROLE_MONITOR")) {
+			return "redirect:/dash/DashboardTraining.do";
+		} else {
+			return "redirect:/sym/mnu/mpm/EgovMainMenuHome.do";	
+		}
+		
+//		return "redirect:/sym/mnu/mpm/EgovMainMenuHome.do";
 //		return "egovframework/com/cmm/EgovUnitContent";
 	}
 

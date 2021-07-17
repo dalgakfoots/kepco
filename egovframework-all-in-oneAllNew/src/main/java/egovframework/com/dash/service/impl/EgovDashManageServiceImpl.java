@@ -203,7 +203,7 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 		for (Map map : trainingTeams) {
 			index++;
 			model.put("teamId", map.get("team_id"));
-			String question = "test003_";
+			String question = "test001_";
 			
 			for (int i =0 ; i<5 ; i++) {
 				switch (i) {

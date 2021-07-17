@@ -449,4 +449,12 @@
 		</if>
 	</select>
 	
+	<select id="selectUserRoleByUserId" parameterType="String" resultType="String">
+			SELECT A.AUTHOR_CODE
+			FROM COMTNEMPLYRSCRTYESTBS A, COMVNUSERMASTER B
+			WHERE A.SCRTY_DTRMN_TRGET_ID = B.ESNTL_ID 
+			AND B.USER_ID = #{value} 
+	
+	</select>
+	
 </mapper>

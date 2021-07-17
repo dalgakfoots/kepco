@@ -5,6 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
 
 <title>SB Admin - Dashboard</title>
@@ -22,6 +23,8 @@
   </script>
 </head>
 <body>
+
+<div class="board">
 
   <div id="wrapper">
 
@@ -103,7 +106,7 @@
 						<td><c:out value="${status.index+1}"/></td>
 	                    <td><c:out value="${item.created_datetime}"/></td>
 	                    <td><c:out value="${item.team_name}"/></td>
-	                    <td><c:out value="${item.training_type}"/> / <c:out value="${item.question_id}"/></td>
+	                    <td><c:out value="${item.training_type}"/> / <c:out value="${item.question_id}"/> / <c:out value="${item.score_id}"/> 회차</td>
 	                    <td><c:out value="${item.score}"/></td>
 	                    <!-- <td>로그보기</td> -->
 					</tr>
@@ -124,7 +127,7 @@
     <input type="hidden" id="tableLength" value="<c:out value="${rankList}"/>">
 	<input type="hidden" id="trainingId" value="<c:out value="${training_id}"/>">
   </div>
-
+</div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="<c:url value='/css/egovframework/com/dash/vendor/jquery/jquery.min.js'/>"></script>

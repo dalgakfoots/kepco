@@ -91,4 +91,6 @@ public interface EgovLoginService {
 	 */    
     int selectPassedDayChangePWD(LoginVO vo) throws Exception;
     
+    String selectUserRoleByUserId(String userId) throws Exception;
+    
 }

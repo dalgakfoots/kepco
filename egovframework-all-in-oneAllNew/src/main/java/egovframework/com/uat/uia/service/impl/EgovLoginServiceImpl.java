@@ -253,4 +253,9 @@ public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements Ego
 	public int selectPassedDayChangePWD(LoginVO vo) throws Exception {
 		return loginDAO.selectPassedDayChangePWD(vo);
 	}
+	
+	public String selectUserRoleByUserId(String userId) throws Exception {
+		return loginDAO.selectUserRoleByUserId(userId);
+		
+	}
 }

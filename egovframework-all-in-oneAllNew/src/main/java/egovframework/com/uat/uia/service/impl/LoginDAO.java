@@ -122,4 +122,8 @@ public class LoginDAO extends EgovComAbstractDAO {
     	return selectOne("LoginUsr.selectPassedDayChangePWD", vo);
     }
     
+    public String selectUserRoleByUserId(String userId) throws Exception {
+    	return selectOne("LoginUsr.selectUserRoleByUserId", userId);
+    }
+    
 }

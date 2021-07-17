@@ -16,6 +16,7 @@
 
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
+  
   <script type="text/javaScript" language="javascript">
    function loadChartFirst() {
 
@@ -393,17 +394,46 @@
   	  	  			newCell8.innerText = rankList[i].total;	
   			}
   	}
+  
+	function logout() {
+		$("#sessionInfo").hide();
+		window.location.href = "<c:url value='/uat/uia/actionLogout.do'/>";
+	}
   	
   </script>
 </head>
 <body onLoad="javascript:intervalTest()">
- <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
-	<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
-	<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <!-- Navbar Brand-->
+	    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
+		<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
+		<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
+
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
     </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <div class="input-group-append">
+        </div>
+      </div>
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+      
+      <li class="nav-item dropdown no-arrow">
+      	<a class="nav-link" onclick="logout();return false;">Logout</a>
+      	
+      	<!-- 
+      	<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+      	<a class="btn02" href="#"  onclick="logout();return false;">Logout</a> -->
+      </li>
+    </ul> 
+
   </nav>
 
   <div id="wrapper">

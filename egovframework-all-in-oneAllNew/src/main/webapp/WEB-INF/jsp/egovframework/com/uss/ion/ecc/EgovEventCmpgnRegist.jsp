@@ -98,6 +98,18 @@ function fn_egov_init(){
  * 저장처리화면
  ******************************************************** */
 function fn_egov_regist_event(form){
+	
+	var eventSvcBeginTime = document.getElementById("eventSvcBeginTime").value;
+	var eventSvcEndTime =document.getElementById("eventSvcEndTime").value;
+	if (eventSvcBeginTime === "") {
+		alert("훈련시작시간은 필수 항목입니다.");
+		return false;
+	} else if (eventSvcEndTime === "") {
+		alert("훈련종료시간은 필수 항목입니다.");
+		return false;
+	}
+	
+	
 	//input item Client-Side validate
 	if (!validateEventCmpgnVO(form)) {	
 		return false;
@@ -133,13 +145,6 @@ function fnSelectTeam() {
     }
     
     document.getElementById('eventCmpgnVO').groupIds.value = checkedIds;
-}
-function test(){
-	 var start = document.getElementById('eventSvcBeginTime').value;
-	 var end = document.getElementById('eventSvcEndTime').value;
-	 
-	 console.log("start : ", start);
-	 console.log("end : ", end);
 }
 
 </script>
@@ -201,7 +206,7 @@ function test(){
 			
 			<th><label for="eventSvcBeginTime">훈련시작시간 <span class="pilsu">*</span></label></th>
 			<td class="left">
-				<form:input path="eventSvcBeginTime" type="time" style="width:100px;"/>
+				<form:input path="eventSvcBeginTime" id="eventSvcBeginTime" type="time" style="width:100px;"/>
 			</td>
 		</tr>
 		
@@ -216,7 +221,7 @@ function test(){
 			
 			<th><label for="eventSvcEndTime">훈련종료시간 <span class="pilsu">*</span></label></th>
 			<td class="left">
-				<form:input path="eventSvcEndTime" type="time" style="width:100px;"/>
+				<form:input path="eventSvcEndTime" id="eventSvcEndTime" type="time" style="width:100px;"/>
 			</td>
 		</tr>
 		

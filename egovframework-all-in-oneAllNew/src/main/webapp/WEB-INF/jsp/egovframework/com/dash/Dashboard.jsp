@@ -176,16 +176,13 @@
 	} */
   	
   	function removeTable(rankList) {
-  		var table = document.getElementById("list_body");
+		var table = document.getElementById("list_body");
   		var tr = table.getElementsByTagName("tr");
-  		console.log (" tr.length : ", tr.length);
  		if (tr.length > 0) {
- 			for (var index in tr) {
- 				console.log("index : ", index);
- 				console.log("tr[index] : ", tr[index]);
- 				table.deleteRow(0); 
+ 			var length = tr.length;
+ 			for(let i=0; i < length ; i++) {
+ 				table.deleteRow(0);
  			}
- 			table.deleteRow(0);	 
  		}
 		addTableRow(rankList);
   	}
@@ -217,15 +214,19 @@
 		$("#sessionInfo").hide();
 		window.location.href = "<c:url value='/uat/uia/actionLogout.do'/>";
 	}
+	
   	
   </script>
 </head>
-<body onLoad="javascript:intervalTest()">
+<body onLoad="javascript:intervalTest()"> 
+
+<!-- <body > -->
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
     <!-- Navbar Brand-->
 	    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
 		<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
+		<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:test()' />">한국 전력 공사</a> --%>
 		<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
@@ -297,7 +298,7 @@
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>순위</th>
@@ -360,31 +361,7 @@
     <input type="hidden" id="tableLength" value="<c:out value="${rankList}"/>">
 	<input type="hidden" id="trainingId" value="<c:out value="${training_id}"/>">
   </div>
-  <!-- /#wrapper -->
 
-  <!-- Scroll to Top Button-->
- <!--  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a> -->
-
-  <!-- Logout Modal-->
-<!--   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <!-- Bootstrap core JavaScript-->
   <script src="<c:url value='/css/egovframework/com/dash/vendor/jquery/jquery.min.js'/>"></script>

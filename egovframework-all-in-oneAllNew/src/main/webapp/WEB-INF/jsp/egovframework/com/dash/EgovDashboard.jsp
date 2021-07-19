@@ -177,16 +177,13 @@
 	} */
   	
   	function removeTable(rankList) {
-  		var table = document.getElementById("list_body");
+		var table = document.getElementById("list_body");
   		var tr = table.getElementsByTagName("tr");
-  		console.log (" tr.length : ", tr.length);
  		if (tr.length > 0) {
- 			for (var index in tr) {
- 				console.log("index : ", index);
- 				console.log("tr[index] : ", tr[index]);
- 				table.deleteRow(0); 
+ 			var length = tr.length;
+ 			for(let i=0; i < length ; i++) {
+ 				table.deleteRow(0);
  			}
- 			table.deleteRow(0);	 
  		}
 		addTableRow(rankList);
   	}
@@ -213,6 +210,7 @@
   	  	  			newCell8.innerText = rankList[i].total;	
   			}
   	}
+  	
   	
   </script>
 </head>
@@ -251,7 +249,7 @@
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>순위</th>
@@ -264,18 +262,7 @@
                     <th>총점</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>순위</th>
-                    <th>팀명</th>
-                    <th>예방보안</th>
-                    <th>실시간대응</th>
-                    <th>사후대응</th>
-                    <th>VM복구</th>
-                    <th>가용성</th>
-                    <th>총점</th>
-                  </tr>
-                </tfoot>
+               
                 <tbody id="list_body">
              
             	<c:forEach var="item" items="${rankList}" varStatus="status">

@@ -91,7 +91,7 @@ function closeToast(){
         	<li style="float:left"><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="125", height="73"/></li>
     		<li style="font-size:11px; float:left; margin: 10px">
     		(우) 58322 전라남도 나주시 전력로 55 (빛가람동 120) Copyright@2019 KEPCO. All Rights Reserved.
-			</p>
+			</
 			안내번호 : 061-345-3114 당직상황실(야간 및 주말,공휴일) : 061-345-3203
 			</li>
     	</ul>
@@ -100,7 +100,7 @@ function closeToast(){
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
 	    var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmReceiver");
-	    webSocket.onopen = function(message) {};
+	    webSocket.onopen = function(message) { console.log("socket is opened") };
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {};
 	    // 서버로 부터 메시지가 오면

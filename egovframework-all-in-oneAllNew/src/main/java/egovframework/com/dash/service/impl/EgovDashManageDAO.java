@@ -47,6 +47,11 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 		model.put("teamId", teamId);
 		return selectOne("EgovDashManageDAO.selectDashTable", model);
 	}
+	
+	public List<Map> selectDashTableList(String trainingId) throws Exception {
+		return selectList("EgovDashManageDAO.selectDashTableList", trainingId);
+	}
+
 
 	public void insertDashScore(HashMap model) throws Exception {
 		insert("EgovDashManageDAO.insertDashScore", model);
@@ -69,6 +74,11 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 	
 	public List<Map> selectSortedTeamIdByRank(String trainingId) {
 		return selectList("EgovDashManageDAO.selectSortedTeamIdByRank", trainingId);
+		
+	}
+	
+	public List<Map> selectSortedTeamIdByRankList(String trainingId) {
+		return selectList("EgovDashManageDAO.selectSortedTeamIdByRankList", trainingId);
 		
 	}
 	

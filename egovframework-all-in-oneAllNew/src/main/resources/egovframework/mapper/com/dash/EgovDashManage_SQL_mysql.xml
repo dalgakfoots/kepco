@@ -3,14 +3,14 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EgovDashManageDAO">
 		<select id="selectTrainingTeams" parameterType="String" resultType="java.util.HashMap">
-			SELECT 
-				ktt.training_id, 
+						SELECT 
+				kttv.training_id, 
 			    a.event_cn as training_name,
-			    ktt.team_id, 
+			    kttv.team_id, 
 			    b.group_nm as team_name
-			FROM kepco_training_teams ktt
-			inner join COMTNEVENTINFO a on a.event_id = ktt.training_id
-			inner join  COMTNAUTHORGROUPINFO b on ktt.team_id = b.group_id
+			FROM  kepco_training_team_vmgroup kttv
+			inner join COMTNEVENTINFO a on a.event_id = kttv.training_id
+			inner join  COMTNAUTHORGROUPINFO b on kttv.team_id = b.group_id
 			WHERE training_id = #{value}
 		</select>
 		
@@ -57,6 +57,42 @@
 			        and team_id = #{teamId}) as total
 		</select>
 		
+		<select id="selectDashTableList" parameterType="String" resultType="java.util.HashMap">
+			         
+			SELECT 
+			    (select group_nm 
+			    	FROM COMTNAUTHORGROUPINFO 
+			    	WHERE group_id=kttv.team_id
+			    ) as team_name, 
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id 
+			        and training_type = '예방보안') as type_1,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = '실시간대응') as type_2,
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = '사후대응') as type_3,
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = 'vm복구') as type_4,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = '가용성') as type_5,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id) as total
+			FROM kepco_training_team_vmgroup kttv
+            WHERE kttv.training_id = #{value}
+			order by total desc
+			limit 10
+		</select>
+		
 		<select id="selectTeamTotalScoreByDateTime" parameterType="java.util.HashMap" resultType="int">
 			SELECT 
 				IFNULL( SUM(score), 0 ) 
@@ -76,6 +112,25 @@
 			WHERE ktts.training_id = #{trainingId}
 		    group by ktts.team_id
 		    order by IFNULL( SUM(ktts.score), 0 ) desc
+		    limit 10
+		</select>
+		
+				
+		<select id="selectSortedTeamIdByRankList" parameterType="String" resultType="java.util.HashMap">
+		    
+	    	SELECT 
+				kttv.team_id,
+		        a.group_nm as team_name
+                
+			FROM kepco_training_team_vmgroup kttv
+			
+			inner join COMTNAUTHORGROUPINFO a on a.group_id = kttv.team_id 
+			WHERE kttv.training_id = #{value}
+		    group by kttv.team_id
+		    order by (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+                    and training_id = #{value})  desc
 		    limit 10
 		</select>
 		

@@ -57,29 +57,13 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public List<?> selectDashTable(String trainingId) throws Exception {
 		// score table에 있는 score들을 타입별로 더해서가져와
-		List<Map> rankList = new ArrayList();
 		
-		List<Map> trainingTeams = selectTrainingTeams(trainingId);
-		for (Map map : trainingTeams) {
-			String teamId = (String) map.get("team_id");
-			rankList.add(egovDashManageDAO.selectDashTable(trainingId, teamId));
-		}
-
-		for (int i=0 ; i < (rankList.size()-1) ; i++) {
-			
-			int item1 = Integer.parseInt(rankList.get(i).get("total").toString());
-			int item2 = Integer.parseInt(rankList.get(i+1).get("total").toString());
-			Map temp = new HashMap();
-			
-			if (item1 < item2) {
-				temp = rankList.get(i+1);
-				rankList.remove(i+1);
-				rankList.add(i,temp);
-				i=0;
-			}
-		}
-		
-		return rankList;
+//		List<Map> trainingTeams = selectTrainingTeams(trainingId);
+//		for (Map map : trainingTeams) {
+//			String teamId = (String) map.get("team_id");
+//			rankList.add(egovDashManageDAO.selectDashTable(trainingId, teamId));
+//		}
+		return egovDashManageDAO.selectDashTableList(trainingId);
 	}
 
 	@Override
@@ -97,16 +81,16 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			Date standardTime = dateTime.parse(trainingTime.get("EVENT_SVC_BGNDE").toString());
 			Date endtime = dateTime.parse(trainingTime.get("EVENT_SVC_ENDDE").toString());
 			Date today = new Date();
-			System.out.println("standardTime : "+ standardTime);
-			System.out.println("endtime : "+ endtime);
-			System.out.println("today : "+ today);
+//			System.out.println("standardTime : "+ standardTime);
+//			System.out.println("endtime : "+ endtime);
+//			System.out.println("today : "+ today);
 			
 			
 			int compare = today.compareTo(endtime);
 			if (compare > 0) {
-				System.out.println("today > endtime");
+//				System.out.println("today > endtime");
 			} else {
-				System.out.println("today <= endtime");
+//				System.out.println("today <= endtime");
 				endtime = today;
 			}
 			
@@ -114,8 +98,8 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			long diff = endtime.getTime()- standardTime.getTime();
 			long min = (diff / 1000) / 60;
 			int intervalCount = ((int) min)/ intervalTime ; 
-			System.out.println("min : "+ min);
-			System.out.println("intervalCount : " + intervalCount);
+//			System.out.println("min : "+ min);
+//			System.out.println("intervalCount : " + intervalCount);
 			
 		// 시작 시간부터 현재시간을 인터벌 시간으로 나누어 splitedList를 만든다.
 		   Calendar cal = Calendar.getInstance();
@@ -132,15 +116,16 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			   dashGraghColumn.add(column);
 			   
 		   }
-		   System.out.println("splitedDateList : "+ splitedDateList);
-		   System.out.println("dashGraghColumn : "+ dashGraghColumn);
+//		   System.out.println("splitedDateList : "+ splitedDateList);
+//		   System.out.println("dashGraghColumn : "+ dashGraghColumn);
 		   
 
 		   
 		// 훈련에 속한 팀리스트를 불러온다.
 		   List<Map> graghList = new ArrayList();
 //		   List<Map> trainingTeams = selectTrainingTeams(trainingId);
-		   List<Map> trainingTeams = egovDashManageDAO.selectSortedTeamIdByRank(trainingId);
+//		   List<Map> trainingTeams = egovDashManageDAO.selectSortedTeamIdByRank(trainingId);
+		   List<Map> trainingTeams = egovDashManageDAO.selectSortedTeamIdByRankList(trainingId);
 		   for (Map map : trainingTeams) {
 			   String teamId = (String) map.get("team_id");
 			   String teamName = (String) map.get("team_name");

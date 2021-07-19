@@ -115,6 +115,13 @@ public class EgovDashManageController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		
+		
+//		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+//		String userId = user.getId();
+//		searchVO.setLastUpdusrId(userId);
+//
+//        List<?> sampleList = egovEventCmpgnService.selectEventCmpgnListForScoreView(searchVO);
         List<?> sampleList = egovEventCmpgnService.selectEventCmpgnList(searchVO);
         model.addAttribute("resultList", sampleList);
 

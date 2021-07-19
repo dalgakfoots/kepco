@@ -81,10 +81,19 @@ function closeToast(){
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight= "0">
     <div id="new_footer">
-    	<ul>
+    	<%-- <ul>
         	<li style="float:left"><img src="<c:url value='/images/egovframework/com/cmm/main/bottom_logo.png' />" alt="안전행전부" /></li>
     		<li style="font-size:11px; float:left; margin: 10px"><spring:message code="comSymMnuMpm.main_bottom.address"/></p>
     		© Ministry of the Interior and Safety. All rights reserved.</li>
+    	</ul>
+    	 --%>
+    	<ul>
+        	<li style="float:left"><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="125", height="73"/></li>
+    		<li style="font-size:11px; float:left; margin: 10px">
+    		(우) 58322 전라남도 나주시 전력로 55 (빛가람동 120) Copyright@2019 KEPCO. All Rights Reserved.
+			</p>
+			안내번호 : 061-345-3114 당직상황실(야간 및 주말,공휴일) : 061-345-3203
+			</li>
     	</ul>
     </div>
     <div id ="snackbar"></div>

@@ -172,7 +172,7 @@ function fnInit() {
     
     getid(document.loginForm);
     
-    fnLoginTypeSelect("typeGnr");
+    /* fnLoginTypeSelect("typeGnr"); */
 
     <c:if test="${not empty fn:trim(loginMessage) &&  loginMessage ne ''}">
     alert("loginMessage:<c:out value='${loginMessage}'/>");
@@ -181,10 +181,10 @@ function fnInit() {
     // reload "_top" frame page
     if (parent.frames["_top"] == undefined)
     	console.log("'_top' frame is not exist!");
-    parent.frames["_top"].location.reload();
+    else parent.frames["_top"].location.reload();
 }
 
-function fnLoginTypeSelect(objName){
+/* function fnLoginTypeSelect(objName){
 
 		document.getElementById("typeGnr").className = "";
 		document.getElementById("typeEnt").className = "";
@@ -200,7 +200,7 @@ function fnLoginTypeSelect(objName){
 			 document.loginForm.userSe.value = "USR";
 		}
 	
-}
+} */
 
 function fnShowLogin(stat) {
 	if (stat < 1) {	//일반로그인
@@ -213,28 +213,36 @@ function fnShowLogin(stat) {
 	}
 }
 
+function test() {
+	if (event.keyCode === 13) actionLogin();
+}
+
 </script>
 </head>
 <body onLoad="fnInit();">
 
 <!-- javascript warning tag  -->
 <noscript class="noScriptTitle"><spring:message code="common.noScriptTitle.msg" /></noscript>
-
-
+<br/><br/><br/><br/><br/><br/>
 <!-- 일반로그인 -->
 <div class="login_form">
 	<form name="loginForm" id="loginForm" action="<c:url value='/uat/uia/actionLogin.do'/>" method="post">
 	<input type="hidden" id="message" name="message" value="<c:out value='${message}'/>">
 	
 	<fieldset>
-		<img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:30px 0 0px 60px" alt="login title image"  title="login title image">
-		<div class="login_type">
+			<%-- <img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:30px 0 0px 60px" alt="login title image"  title="login title image">
+			<img src="<c:url value='/images/egovframework/com/cmm/main/top_logo.png' />" alt="eGovframe" style="margin:30px 0 0px 60px" title="login title image"> --%>
+		<img src="<c:url value='/images/egovframework/com/cmm/main/kepco_logo.jpg' />" alt="kepco" / width="350", height="60">
+		<%-- <div class="login_type">
 			 <ul id="ulLoginType">
 				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -->
 				<li><a href="javascript:fnLoginTypeSelect('typeUsr');" id="typeUsr" title=""><spring:message code="comUatUia.loginForm.USR"/></a></li> <!-- 업무 -->
 			</ul> 
-		</div>
+		</div> --%>
+		
+		<br/>
+		<br/>
 	
 		<div class="login_input">
 			<ul>
@@ -248,7 +256,14 @@ function fnShowLogin(stat) {
 				<c:set var="title"><spring:message code="comUatUia.loginForm.pw"/></c:set>
 				<li>
 					<label for="password">${title}</label>
-					<input type="password" name="password" id="password" maxlength="20" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}">
+					<input 	type="password" 
+							name="password" 
+							id="password" 
+							maxlength="20" 
+							title="${title} ${inputTxt}" 
+							placeholder="${title} ${inputTxt}"
+							onKeyDown="test()"
+							>
 				</li>
 				<!-- 아이디 저장 -->
 				<c:set var="title"><spring:message code="comUatUia.loginForm.idSave"/></c:set>
@@ -258,6 +273,8 @@ function fnShowLogin(stat) {
 				<li>
 					<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login"/>" onclick="actionLogin()"> <!-- 로그인  -->
 				</li>
+				
+				
 				<%-- <li>
 					<ul class="btn_idpw" >
 						<li><a href="#" onclick="goRegiUsr(); return false;"><spring:message code="comUatUia.loginForm.regist"/></a></li> <!-- 회원가입  -->

@@ -18,105 +18,37 @@
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
   <script type="text/javaScript" language="javascript">
-   function loadChartFirst() {
-
-	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-	  Chart.defaults.global.defaultFontColor = '#292b2c';
-
-	  // Area Chart Example
-	  var ctx = document.getElementById("myAreaChart");
-	    var myLineChart = new Chart(ctx, {
-	    type: 'line',
-	    data: {
-	    },
-	    options: {
-	      scales: {
-	        xAxes: [{
-	          time: {
-	            unit: 'date'
-	          },
-	          gridLines: {
-	            display: false
-	          },
-	          ticks: {
-	            maxTicksLimit: 10
-	          }
-	        }],
-	        yAxes: [{
-	          ticks: {
-	            min: 0,
-	            max: 2000,
-	            maxTicksLimit: 10
-	          },
-	          gridLines: {
-	            color: "rgba(0, 0, 0, .125)",
-	          }
-	        }],
-	      },
-	      legend: {
-	        display: false
-	      }
-	    }
-	  });
-  } 
   function loadChart(rslt) {
 
 	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	  Chart.defaults.global.defaultFontColor = '#292b2c';
 	  
 	  var ctx = document.getElementById("myAreaChart");
-	  
+
 	  const backgroundColor = [
-		  'rgba(255, 99, 132, 0)',
-          'rgba(54, 162, 235, 0)',
-          'rgba(255, 206, 86, 0)',
-          'rgba(75, 192, 192, 0)',
-          'rgba(153, 102, 255, 0)',
-          'rgba(255, 159, 64, 0)',
-          'rgba(255, 99, 132, 0)',
-          'rgba(54, 162, 235, 0)',
-          'rgba(255, 206, 86, 0)',
-          'rgba(75, 192, 192, 0)'
+		  'rgba(255, 0, 0, 0)',
+		  'rgba(255, 94, 0, 0)',
+		  'rgba(255, 228, 0, 0)',
+		  'rgba(0, 255, 0, 0)',
+		  'rgba(0, 0, 255, 0)',
+		  'rgba(5, 0, 153, 0)',
+		  'rgba(255, 192, 203, 0)',
+		  'rgba(204, 204, 204, 0)',
+		  'rgba(153, 204, 153, 0)',
+		  'rgba(000, 255, 255, 0)',
       ];
       const borderColor = [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
+    	  'rgba(255, 0, 0, 1)',
+		  'rgba(255, 94, 0, 1)',
+		  'rgba(255, 228, 0, 1)',
+		  'rgba(0, 255, 0, 1)',
+		  'rgba(0, 0, 255, 1)',
+		  'rgba(5, 0, 153, 1)',
+		  'rgba(255, 192, 203, 1)',
+		  'rgba(204, 204, 204, 1)',
+		  'rgba(153, 204, 153, 1)',
+		  'rgba(000, 255, 255, 1)',
       ];
-      const pointBackgroundColor = [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
-      ];
-      const pointBorderColor = [
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(54, 162, 235, 0.8)',
-          'rgba(255, 206, 86, 0.8)',
-          'rgba(75, 192, 192, 0.8)',
-          'rgba(153, 102, 255, 0.8)',
-          'rgba(255, 159, 64, 0.8)',
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(54, 162, 235, 0.8)',
-          'rgba(255, 206, 86, 0.8)',
-          'rgba(75, 192, 192, 0.8)'
-      ];
-	  
-	  
-	  
 	  
 	  var myLineChart = new Chart(ctx, {
 	    type: 'line',
@@ -128,13 +60,13 @@
 	  	        lineTension: 0.2,
 	  	        backgroundColor: backgroundColor[index],
 	            borderColor: borderColor[index],
-	  	        pointRadius: 4,
-	  	      	pointHoverRadius: 4,
+	            borderWidth: 2,
+	  	        pointRadius: 3,
+	  	      	pointHoverRadius: 3,
 	  	      	
-	  	      	
-	  	        pointBackgroundColor: "rgba(2,117,216,1)",
+	  	        pointBackgroundColor: borderColor[index],
 	  	        pointBorderColor: "rgba(255,255,255,0.8)",
-	  	        pointHoverBackgroundColor: "rgba(2,117,216,1)",
+	  	        pointHoverBackgroundColor: borderColor[index],
 	  	        pointHitRadius: 50,
 	  	        pointBorderWidth: 0.5,
 	  	        data: e.data,
@@ -142,7 +74,7 @@
 	      })
 	    },
 	    options: {
-	      scales: {
+	     scales: {
 	        xAxes: [{
 	          time: {
 	            unit: 'date'
@@ -157,20 +89,24 @@
 	        yAxes: [{
 	          ticks: {
 	            min: 0,
-	            max: 2500,
-	            maxTicksLimit: 10
+	            max: 35000,
+	            maxTicksLimit: 20
 	          },
 	          gridLines: {
 	            color: "rgba(0, 0, 0, .125)",
 	          }
 	        }],
 	      },
+	   
 	      legend: {
-	        display: false
+	    	  display: true,
+	    	  position : "bottom",
+	    	  align : "center",
 	      }
-	    }
+	    } 
 	  });
   }
+
   
 
   	function intervalTest() {

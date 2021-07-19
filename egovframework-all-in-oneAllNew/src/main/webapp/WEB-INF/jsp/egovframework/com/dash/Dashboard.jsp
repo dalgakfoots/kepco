@@ -18,64 +18,14 @@
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
   
   <script type="text/javaScript" language="javascript">
-   function loadChartFirst() {
-
-	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-	  Chart.defaults.global.defaultFontColor = '#292b2c';
-
-	  // Area Chart Example
-	  var ctx = document.getElementById("myAreaChart");
-	    var myLineChart = new Chart(ctx, {
-	    type: 'line',
-	    data: {
-	    },
-	    options: {
-	      scales: {
-	        xAxes: [{
-	          time: {
-	            unit: 'date'
-	          },
-	          gridLines: {
-	            display: false
-	          },
-	          ticks: {
-	            maxTicksLimit: 10
-	          }
-	        }],
-	        yAxes: [{
-	          ticks: {
-	            min: 0,
-	            max: 2000,
-	            maxTicksLimit: 10
-	          },
-	          gridLines: {
-	            color: "rgba(0, 0, 0, .125)",
-	          }
-	        }],
-	      },
-	      legend: {
-	        display: false
-	      }
-	    }
-	  });
-  } 
+  
   function loadChart(rslt) {
 
 	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	  Chart.defaults.global.defaultFontColor = '#292b2c';
 	  
 	  var ctx = document.getElementById("myAreaChart");
-	  
-/* 	  'rgba(255, 0, 0, 0)',
-	  'rgba(255, 94, 0, 0)',
-	  'rgba(255, 228, 0, 0)',
-	  'rgba(0, 255, 0, 0)',
-	  'rgba(0, 0, 255, 0)',
-	  'rgba(5, 0, 153, 0)',
-	  'rgba(255, 192, 203, 0)',
-	  'rgba(211, 211, 211, 0)',
-	  'rgba(211, 211, 211, 0)', */
-	  
+
 	  const backgroundColor = [
 		  'rgba(255, 0, 0, 0)',
 		  'rgba(255, 94, 0, 0)',
@@ -100,33 +50,6 @@
 		  'rgba(153, 204, 153, 1)',
 		  'rgba(000, 255, 255, 1)',
       ];
-/*       const pointBackgroundColor = [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)'
-      ];
-      const pointBorderColor = [
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(54, 162, 235, 0.8)',
-          'rgba(255, 206, 86, 0.8)',
-          'rgba(75, 192, 192, 0.8)',
-          'rgba(153, 102, 255, 0.8)',
-          'rgba(255, 159, 64, 0.8)',
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(54, 162, 235, 0.8)',
-          'rgba(255, 206, 86, 0.8)',
-          'rgba(75, 192, 192, 0.8)'
-      ];
-	   */
-	  
-	  
 	  
 	  var myLineChart = new Chart(ctx, {
 	    type: 'line',
@@ -167,8 +90,8 @@
 	        yAxes: [{
 	          ticks: {
 	            min: 0,
-	            max: 2500,
-	            maxTicksLimit: 10
+	            max: 35000,
+	            maxTicksLimit: 20
 	          },
 	          gridLines: {
 	            color: "rgba(0, 0, 0, .125)",
@@ -184,111 +107,6 @@
 	    } 
 	  });
   }
-  /* function getOrCreateTooltip(chart) {
-	  let tooltipEl = chart.canvas.parentNode.querySelector('div');
-
-	  if (!tooltipEl) {
-	    tooltipEl = document.createElement('div');
-	    tooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
-	    tooltipEl.style.borderRadius = '3px';
-	    tooltipEl.style.color = 'white';
-	    tooltipEl.style.opacity = 1;
-	    tooltipEl.style.pointerEvents = 'none';
-	    tooltipEl.style.position = 'absolute';
-	    tooltipEl.style.transform = 'translate(-50%, 0)';
-	    tooltipEl.style.transition = 'all .1s ease';
-
-	    const table = document.createElement('table');
-	    table.style.margin = '0px';
-
-	    tooltipEl.appendChild(table);
-	    chart.canvas.parentNode.appendChild(tooltipEl);
-	  }
-
-	  return tooltipEl;
-	};
-
-	function externalTooltipHandler(context) {
-	  // Tooltip Element
-	  const {chart, tooltip} = context;
-	  const tooltipEl = getOrCreateTooltip(chart);
-
-	  // Hide if no tooltip
-	  if (tooltip.opacity === 0) {
-	    tooltipEl.style.opacity = 0;
-	    return;
-	  }
-
-	  // Set Text
-	  if (tooltip.body) {
-	    const titleLines = tooltip.title || [];
-	    const bodyLines = tooltip.body.map(b => b.lines);
-
-	    const tableHead = document.createElement('thead');
-
-	    titleLines.forEach(title => {
-	      const tr = document.createElement('tr');
-	      tr.style.borderWidth = 0;
-
-	      const th = document.createElement('th');
-	      th.style.borderWidth = 0;
-	      const text = document.createTextNode(title);
-
-	      th.appendChild(text);
-	      tr.appendChild(th);
-	      tableHead.appendChild(tr);
-	    });
-
-	    const tableBody = document.createElement('tbody');
-	    bodyLines.forEach((body, i) => {
-	      const colors = tooltip.labelColors[i];
-
-	      const span = document.createElement('span');
-	      span.style.background = colors.backgroundColor;
-	      span.style.borderColor = colors.borderColor;
-	      span.style.borderWidth = '2px';
-	      span.style.marginRight = '10px';
-	      span.style.height = '10px';
-	      span.style.width = '10px';
-	      span.style.display = 'inline-block';
-
-	      const tr = document.createElement('tr');
-	      tr.style.backgroundColor = 'inherit';
-	      tr.style.borderWidth = 0;
-
-	      const td = document.createElement('td');
-	      td.style.borderWidth = 0;
-
-	      const text = document.createTextNode(body);
-
-	      td.appendChild(span);
-	      td.appendChild(text);
-	      tr.appendChild(td);
-	      tableBody.appendChild(tr);
-	    });
-
-	    const tableRoot = tooltipEl.querySelector('table');
-
-	    // Remove old children
-	    while (tableRoot.firstChild) {
-	      tableRoot.firstChild.remove();
-	    }
-
-	    // Add new children
-	    tableRoot.appendChild(tableHead);
-	    tableRoot.appendChild(tableBody);
-	  }
-
-	  const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
-
-	  // Display, position, and set styles for font
-	  tooltipEl.style.opacity = 1;
-	  tooltipEl.style.left = positionX + tooltip.caretX + 'px';
-	  tooltipEl.style.top = positionY + tooltip.caretY + 'px';
-	  tooltipEl.style.font = tooltip.options.bodyFont.string;
-	  tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
-	};
-   */
 
   	function intervalTest() {
   		ajaxTest()

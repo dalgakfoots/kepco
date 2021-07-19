@@ -3,19 +3,21 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovTrainDAO">
     
+    <!-- selects -->
+    
     <select id="selectUserVmGroupId" resultType="java.util.HashMap">
     	SELECT A.MBER_ID,
     		   A.ESNTL_ID,
-    		   A.GROUP_ID,
+    		   A.GROUP_ID
     	<choose>
     		<when test='trainType == "pst"'>
-    		   B.PST_VM_ID AS VM_GROUP_ID
+    		   ,B.PST_VM_ID AS VM_GROUP_ID
     		</when>
     		<when test='trainType == "mdt"'>
-    		   B.MDT_VM_ID AS VM_GROUP_ID
+    		   ,B.MDT_VM_ID AS VM_GROUP_ID
     		</when>
     		<when test='trainType == "wat"'>
-    		   B.WAT_VM_ID AS VM_GROUP_ID
+    		   ,B.WAT_VM_ID AS VM_GROUP_ID
     		</when>
     	</choose>
 		FROM   comtngnrlmber A
@@ -29,44 +31,157 @@
 		SELECT mber_id,
 		       group_id,
 		       vm_group_id,
+		       name,
+		       ip,
+		       user_name,
+		       user_password,
 		       vm_type_id,
+		       vm_group_type_id,
+		       `type`,
 		       url
 		FROM   (SELECT A.mber_id,
 		               A.group_id,
 		               B.pst_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
 		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
 		               C.url
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
 		                            ON B.pst_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}
 		        UNION ALL
 		        SELECT A.mber_id,
 		               A.group_id,
 		               B.mdt_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
 		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
 		               C.url
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
 		                            ON B.mdt_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}
 		        UNION ALL
 		        SELECT A.mber_id,
 		               A.group_id,
 		               B.wat_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
 		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
 		               C.url
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
 		                            ON B.wat_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}) A 
 		WHERE	VM_GROUP_ID = #{vmGroupId}
 	</select>
+	
+	<select id="selectUserExamList" resultType="java.util.HashMap">
+	
+	  SELECT   A.group_id,
+		       B.group_nm,
+		       <choose>
+		       		<when test="trainType == 'pst'">
+		       			C.pst_exam_group_id,		
+		       		</when>
+		       		<when test="trainType == 'mdt'">
+		       			C.mdt_exam_group_id,
+		       		</when>
+		       		<when test="trainType == 'wat'">
+		       			C.wat_exam_group_id,
+		       		</when>
+		       		<when test="trainType == 'ast'">
+		       			C.ast_exam_group_id,
+		       		</when>
+		       </choose>
+		       E.faq_id,
+		       E.qestn_sj,
+		       Ifnull(F.cnt, '0') AS CNT
+		FROM   comtngnrlmber A
+		       LEFT OUTER JOIN comtnauthorgroupinfo B
+		                    ON A.group_id = B.group_id
+		       LEFT OUTER JOIN kepco_training_team_vmgroup C
+		                    ON B.group_id = C.team_id
+		       <choose>
+		       		<when test="trainType == 'pst'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.pst_exam_group_id = D.faq_group_id
+		            </when>
+		            <when test="trainType == 'mdt'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.mdt_exam_group_id = D.faq_group_id
+		            </when>
+		            <when test="trainType == 'wat'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.wat_exam_group_id = D.faq_group_id
+		            </when>
+		            <when test="trainType == 'ast'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.ast_exam_group_id = D.faq_group_id
+		            </when>
+		       </choose>
+		       LEFT OUTER JOIN comtnfaqinfo E
+		                    ON D.faq_id = E.faq_id
+		       LEFT OUTER JOIN (SELECT quiz_id,
+		                               user_id,
+		                               Count(*) AS CNT
+		                        FROM   quiz_user_answer
+		                        GROUP  BY quiz_id,
+		                                  user_id) F
+		                    ON A.esntl_id = F.user_id
+		                       AND E.faq_id = F.quiz_id		                    
+		WHERE  A.esntl_id = #{esntlId}
+
+	</select>
+	
+	<select id="selectQuestonDetail" resultType="java.util.HashMap">
+			
+			SELECT FAQ_ID,
+				   QESTN_SJ,
+				   QESTN_CN
+			  FROM COMTNFAQINFO
+			 WHERE FAQ_ID = #{faqId}
+			
+	</select>
+	
+	<!-- inserts  -->
+	
+	<insert id="insertUserAnswer">
+	
+			INSERT INTO quiz_user_answer
+			            (id,
+			             quiz_id,
+			             user_id,
+			             answer)
+			VALUES     ( #{id},
+						 #{faqId},
+			             #{esntlId},
+			             #{answer} ) 
+	</insert>
 	
 </mapper>

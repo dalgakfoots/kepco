@@ -221,7 +221,10 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 		return groupManageDAO.selectVmGroupList();
 	}
 
-
+	@Override
+	public List<HashMap> selectExamGroupList() throws Exception {
+		return groupManageDAO.selectExamGroupList();
+	}
 	
 	
 	
@@ -258,4 +261,6 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	public List<HashMap> selectVmGroupTypeList(GroupManageVO groupManageVO) throws Exception {
 		return groupManageDAO.selectVmGroupTypeList(groupManageVO);
 	}
+
+	
 }

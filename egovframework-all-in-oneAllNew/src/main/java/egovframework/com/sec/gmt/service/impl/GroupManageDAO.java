@@ -178,7 +178,11 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 	public List<HashMap> selectTeamList() {
 		return selectList("groupManageDAO.selectTeamList");
 	}
-
+	
+	public List<HashMap> selectExamGroupList() {
+		return selectList("groupManageDAO.selectExamGroupList");
+	}
+	
 	public int selectTrainGroupVmListTotCnt(TrainGroupVmVO trainGroupVmVO) {
 		return (Integer)selectOne("groupManageDAO.selectTrainGroupVmListTotCnt", trainGroupVmVO);
 	}
@@ -196,5 +200,7 @@ public class GroupManageDAO extends EgovComAbstractDAO {
 		delete("groupManageDAO.deleteTrainGroupVmManage", deleteMap);
 		
 	}
+
+	
 		
 }

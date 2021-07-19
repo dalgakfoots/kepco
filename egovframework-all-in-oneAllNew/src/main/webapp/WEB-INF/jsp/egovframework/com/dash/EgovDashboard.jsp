@@ -11,7 +11,7 @@
 <title>SB Admin - Dashboard</title>
  <!-- Custom fonts for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/vendor/fontawesome-free/css/all.min.css'/>" rel="stylesheet" type="text/css">
-
+  <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
   <!-- Page level plugin CSS-->
   <link href="<c:url value='/css/egovframework/com/dash/vendor/datatables/dataTables.bootstrap4.css'/>" rel="stylesheet">
 
@@ -217,7 +217,10 @@
   </script>
 </head>
 <body onLoad="javascript:intervalTest()">
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/dalgakfoots/kepco.git
 <div class="board">
   <div id="wrapper">
 
@@ -307,8 +310,37 @@
     <input type="hidden" id="tableLength" value="<c:out value="${rankList}"/>">
 	<input type="hidden" id="trainingId" value="<c:out value="${training_id}"/>">
   </div>
+<<<<<<< HEAD
  </div>
 
+=======
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+ <!--  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a> -->
+
+  <!-- Logout Modal-->
+<!--   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<div>
+>>>>>>> branch 'master' of https://github.com/dalgakfoots/kepco.git
   <!-- Bootstrap core JavaScript-->
   <script src="<c:url value='/css/egovframework/com/dash/vendor/jquery/jquery.min.js'/>"></script>
   <script src="<c:url value='/css/egovframework/com/dash/vendor/bootstrap/js/bootstrap.bundle.min.js'/>"></script>

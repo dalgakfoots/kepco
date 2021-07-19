@@ -166,11 +166,13 @@
 		INSERT INTO KEPCO_EXAM_GROUP
 			   (FAQ_GROUP_ID,
 			    FAQ_GROUP_NM,
-			    FAQ_GROUP_DC
+			    FAQ_GROUP_DC,
+			    `TYPE`
 			   )VALUES(
 			    #{faqGroupId},
 			    #{faqGroupNm},
-			    #{faqGroupDc}
+			    #{faqGroupDc},
+			    #{type}
 			   )
 	
 	</insert>
@@ -215,7 +217,8 @@
 	
 			UPDATE KEPCO_EXAM_GROUP
 			   SET FAQ_GROUP_NM = #{faqGroupNm},
-			   	   FAQ_GROUP_DC = #{faqGroupDc}
+			   	   FAQ_GROUP_DC = #{faqGroupDc},
+			   	   `TYPE` = #{type}
 			 WHERE FAQ_GROUP_ID = #{faqGroupId}
 	
 	</update>

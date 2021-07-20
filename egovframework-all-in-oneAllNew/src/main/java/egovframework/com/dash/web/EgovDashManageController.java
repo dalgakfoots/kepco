@@ -33,6 +33,7 @@ import egovframework.com.ext.ldapumt.service.UcorgVO;
 import egovframework.com.ext.ldapumt.service.UserVO;
 import egovframework.com.uss.ion.ecc.service.EgovEventCmpgnService;
 import egovframework.com.uss.ion.ecc.service.EventCmpgnVO;
+import egovframework.com.vm.service.VmApiService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -61,6 +62,8 @@ public class EgovDashManageController {
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
 
+    @Resource(name = "VmApiService")
+    protected VmApiService vmApiService;
 	
 	@RequestMapping(value="/dash/DashboardTraining.do")
 	public String selectEventCmpgnList(ModelMap model) throws Exception {
@@ -217,6 +220,14 @@ public class EgovDashManageController {
 		
 		String trainingId = "EVENT_00000000000061";
 		egovDashManageService.insertDashScore(trainingId, model);
+	}
+
+	@RequestMapping(value = "/dash/test2.do")
+	public void test2(HashMap model) throws Exception {
+		
+		String ticket = vmApiService.getTicketForUrl();
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("ticket : " + ticket);
 	}
 
 

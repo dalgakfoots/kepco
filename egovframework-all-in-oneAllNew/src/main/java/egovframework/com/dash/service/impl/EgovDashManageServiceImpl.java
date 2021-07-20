@@ -68,7 +68,7 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 
 	@Override
 	public ModelAndView selectDashGragh(String trainingId, ModelAndView resultMap) throws Exception {
-		int intervalTime = 5;
+		int intervalTime = 1;
 		
 		
 		// 현재시각과 trainingId로 훈련 시작 시간을 불러온다. 

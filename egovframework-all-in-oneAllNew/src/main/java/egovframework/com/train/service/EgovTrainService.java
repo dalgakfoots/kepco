@@ -13,6 +13,22 @@ public interface EgovTrainService {
 
 	HashMap selectQuestionDetail(HashMap param) throws Exception;
 
+	String selectSubmitCnt(HashMap submitCntMap) throws Exception;
+	
 	void insertUserAnswer(HashMap param) throws Exception;
+
+	String selectUserAnswer(HashMap submitCntMap) throws Exception;
+
+	String selectQuestionFinishYn(HashMap finishYnMap) throws Exception;
+
+	HashMap selectUserGroupQuestionScore(HashMap param) throws Exception;
+
+	void insertUserGroupQuestionScore(HashMap resultMap) throws Exception;
+
+	void insertQuestionFinishYn(HashMap resultMap) throws Exception;
+
+	String selectQuestionFinishYnByUserId(HashMap submitCntMap) throws Exception;
+
+
 
 }

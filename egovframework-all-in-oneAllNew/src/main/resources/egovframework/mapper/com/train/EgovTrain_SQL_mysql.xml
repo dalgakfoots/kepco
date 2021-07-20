@@ -8,7 +8,8 @@
     <select id="selectUserVmGroupId" resultType="java.util.HashMap">
     	SELECT A.MBER_ID,
     		   A.ESNTL_ID,
-    		   A.GROUP_ID
+    		   A.GROUP_ID,
+    		   B.TRAINING_ID
     	<choose>
     		<when test='trainType == "pst"'>
     		   ,B.PST_VM_ID AS VM_GROUP_ID
@@ -111,6 +112,10 @@
 		       		</when>
 		       		<when test="trainType == 'mdt'">
 		       			C.mdt_exam_group_id,
+		       			E.PRE_EXAM_ID,
+      				    H.QUESTION_ID AS SOLVED_PRE_EXAM_ID,
+       					IF(IFNULL(E.PRE_EXAM_ID,"") = IFNULL(H.QUESTION_ID,"") , 'Y' , 'N') AS PRE_EXAM_SOLVED_YN,
+       					I.QUESTION_SJ AS PRE_EXAM_SJ,
 		       		</when>
 		       		<when test="trainType == 'wat'">
 		       			C.wat_exam_group_id,
@@ -121,6 +126,7 @@
 		       </choose>
 		       E.faq_id,
 		       E.qestn_sj,
+		       E.TYPE,
 		       Ifnull(F.cnt, '0') AS CNT
 		FROM   comtngnrlmber A
 		       LEFT OUTER JOIN comtnauthorgroupinfo B
@@ -131,41 +137,176 @@
 		       		<when test="trainType == 'pst'">
 			       INNER JOIN kepco_exam_group_faqinfo D
 			                    ON C.pst_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  PST_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM PST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
 		            </when>
 		            <when test="trainType == 'mdt'">
 			       INNER JOIN kepco_exam_group_faqinfo D
 			                    ON C.mdt_exam_group_id = D.faq_group_id
-		            </when>
+			       INNER JOIN (SELECT  MDT_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,pre_exam_id
+			       					  ,`type`
+			       				 FROM MDT_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       LEFT OUTER JOIN (SELECT TRAINING_ID, TEAM_ID, QUESTION_ID 
+			                          FROM KEPCO_TRAINING_TEAM_SCORES
+			                         GROUP BY TRAINING_ID, TEAM_ID, QUESTION_ID) H ON E.PRE_EXAM_ID = H.QUESTION_ID
+			       LEFT OUTER JOIN MDT_EXAM_MST I ON E.PRE_EXAM_ID = I.MDT_EXAM_ID <!-- 이전 문제 제목 확인 용  -->
+			        </when>
 		            <when test="trainType == 'wat'">
 			       INNER JOIN kepco_exam_group_faqinfo D
 			                    ON C.wat_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  WAT_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM WAT_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
 		            </when>
 		            <when test="trainType == 'ast'">
 			       INNER JOIN kepco_exam_group_faqinfo D
 			                    ON C.ast_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  AST_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM AST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
 		            </when>
 		       </choose>
-		       LEFT OUTER JOIN comtnfaqinfo E
-		                    ON D.faq_id = E.faq_id
 		       LEFT OUTER JOIN (SELECT quiz_id,
-		                               user_id,
+		                               group_id,
 		                               Count(*) AS CNT
 		                        FROM   quiz_user_answer
 		                        GROUP  BY quiz_id,
-		                                  user_id) F
-		                    ON A.esntl_id = F.user_id
+		                                  group_id) F
+		                    ON A.group_id = F.group_id
 		                       AND E.faq_id = F.quiz_id		                    
 		WHERE  A.esntl_id = #{esntlId}
+		ORDER BY E.faq_id
 
 	</select>
 	
-	<select id="selectQuestonDetail" resultType="java.util.HashMap">
+	<select id="selectQuestionDetail" resultType="java.util.HashMap">
 			
 			SELECT FAQ_ID,
-				   QESTN_SJ,
-				   QESTN_CN
-			  FROM COMTNFAQINFO
-			 WHERE FAQ_ID = #{faqId}
+			       `TYPE`,
+			       QESTN_SJ,
+			       QESTN_CN,
+			       SCORE,
+			       MAX_SUBMIT_CNT,
+			       DEDUCT_SCORE
+			FROM   (SELECT pst_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   pst_exam_mst
+			        UNION ALL
+			        SELECT mdt_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   mdt_exam_mst
+			        UNION ALL
+			        SELECT wat_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   wat_exam_mst
+			        UNION ALL
+			        SELECT ast_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   ast_exam_mst) A
+			WHERE  A.faq_id = #{faqId}
+			
+	</select>
+	
+	<select id="selectSubmitCnt" resultType="String">
+			SELECT Count(*) AS CNT
+			FROM   comtngnrlmber A
+			       LEFT OUTER JOIN quiz_user_answer B
+			                    ON A.group_id = B.group_id
+			WHERE  a.esntl_id = #{esntlId} AND b.quiz_id = #{quizId}
+	</select>
+	
+	<select id="selectUserAnswer" resultType="String">
+		SELECT ANSWER
+		  FROM QUIZ_USER_ANSWER
+		 WHERE QUIZ_ID = #{quizId}
+		   AND USER_ID = #{esntlId}
+		 ORDER BY ID DESC LIMIT 1
+	</select>
+	
+	<select id="selectQuestionFinishYn" resultType="String">
+		SELECT FINISH_YN
+		  FROM KEPCO_GROUP_QUIZ_INFO
+		 WHERE GROUP_ID = #{groupId}
+		   AND QUIZ_ID = #{quizId}
+	</select>
+	
+	<select id="selectQuestionFinishYnByUserId" resultType="String">
+			
+			SELECT IFNULL(FINISH_YN,'N') AS FINISH_YN
+			  FROM COMTNGNRLMBER A LEFT OUTER JOIN 
+			       KEPCO_GROUP_QUIZ_INFO B ON A.GROUP_ID = B.GROUP_ID
+			 WHERE A.ESNTL_ID = #{esntlId} AND B.QUIZ_ID = #{quizId}
+			   
+	</select>
+	
+	<select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
+			
+			SELECT A.QUIZ_ID,
+			       A.GROUP_ID,
+			       MAX(CASE
+			             WHEN A.ANSWER = B.ANSWER_CN THEN SCORE
+			             ELSE 0
+			           end)                        AS SCORE,
+			       DEDUCT_SCORE * ( COUNT(*) - 1 ) AS DEDUCT_SCORE
+			FROM   QUIZ_USER_ANSWER A
+			       LEFT OUTER JOIN (SELECT PST_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   PST_EXAM_MST
+			                        UNION ALL
+			                        SELECT MDT_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   MDT_EXAM_MST
+			                        UNION ALL
+			                        SELECT WAT_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   WAT_EXAM_MST
+			                        UNION ALL
+			                        SELECT AST_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   AST_EXAM_MST) B
+			                    ON A.QUIZ_ID = B.QUIZ_ID
+			WHERE  A.QUIZ_ID = #{quizId}
+			       AND A.GROUP_ID = #{groupId}
+			GROUP  BY A.QUIZ_ID,
+			          A.GROUP_ID 
 			
 	</select>
 	
@@ -176,12 +317,46 @@
 			INSERT INTO quiz_user_answer
 			            (id,
 			             quiz_id,
+			             group_id,
 			             user_id,
 			             answer)
 			VALUES     ( #{id},
 						 #{faqId},
+						 #{groupId},
 			             #{esntlId},
 			             #{answer} ) 
+	</insert>
+	
+	<insert id="insertUserGroupQuestionScore">
+			INSERT INTO KEPCO_TRAINING_TEAM_SCORES
+						(TRAINING_ID,
+						 TEAM_ID,
+						 QUESTION_ID,
+						 SCORE_ID,
+						 TRAINING_TYPE,
+						 SCORE,
+						 USER_ID
+						)VALUES(
+						 #{trainId},
+						 #{GROUP_ID},
+						 #{QUIZ_ID},
+						 #{scoreId},
+						 #{trainType},
+						 #{TOT},
+						 #{userId}
+						)
+	</insert>
+	
+	<insert id="insertQuestionFinishYn">
+			INSERT INTO KEPCO_GROUP_QUIZ_INFO
+					   (GROUP_ID,
+					    QUIZ_ID,
+					    FINISH_YN
+					   )VALUES(
+					    #{GROUP_ID},
+					    #{QUIZ_ID},
+					    'Y'
+					   )
 	</insert>
 	
 </mapper>

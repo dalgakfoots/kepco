@@ -120,11 +120,42 @@
 	
 	<select id="selectFaqGroupRelationList" resultType="java.util.HashMap">
 			
-			SELECT A.FAQ_ID,
-				   A.QESTN_SJ
-		   	  FROM COMTNFAQINFO A LEFT OUTER JOIN KEPCO_EXAM_GROUP_FAQINFO B
-		   	    ON A.FAQ_ID = B.FAQ_ID
-		   	 WHERE B.FAQ_GROUP_ID = #{faqGroupId}
+			SELECT A.exam_id     AS FAQ_ID,
+			       A.question_sj AS QESTN_SJ,
+			       A.faq_group_id
+			FROM   (SELECT A.id,
+			               pst_exam_id AS EXAM_ID,
+			               question_sj,
+			               faq_group_id
+			        FROM   kepco_exam_group_faqinfo A
+			               INNER JOIN pst_exam_mst B
+			                       ON A.faq_id = B.pst_exam_id
+			        UNION ALL
+			        SELECT A.id,
+			               mdt_exam_id AS EXAM_ID,
+			               question_sj,
+			               faq_group_id
+			        FROM   kepco_exam_group_faqinfo A
+			               INNER JOIN mdt_exam_mst C
+			                       ON A.faq_id = C.mdt_exam_id
+			        UNION ALL
+			        SELECT A.id,
+			               wat_exam_id AS EXAM_ID,
+			               question_sj,
+			               faq_group_id
+			        FROM   kepco_exam_group_faqinfo A
+			               INNER JOIN wat_exam_mst D
+			                       ON A.faq_id = D.wat_exam_id
+			        UNION ALL
+			        SELECT A.id,
+			               ast_exam_id AS EXAM_ID,
+			               question_sj,
+			               faq_group_id
+			        FROM   kepco_exam_group_faqinfo A
+			               INNER JOIN ast_exam_mst E
+			                       ON A.faq_id = E.ast_exam_id) A
+			WHERE  A.faq_group_id = #{faqGroupId}
+			ORDER  BY exam_id 
 	
 	</select>
 	

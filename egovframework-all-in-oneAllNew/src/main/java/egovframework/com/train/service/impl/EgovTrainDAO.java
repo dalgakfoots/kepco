@@ -23,11 +23,41 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 	}
 
 	public HashMap selectQuestionDetail(HashMap param) {
-		return selectOne("egovTrainDAO.selectQuestonDetail",param);
+		return selectOne("egovTrainDAO.selectQuestionDetail",param);
 	}
 
 	public void insertUserAnswer(HashMap param) {
 		insert("egovTrainDAO.insertUserAnswer", param);
 	}
+
+	public String selectSubmitCnt(HashMap submitCntMap) {
+		return selectOne("egovTrainDAO.selectSubmitCnt",submitCntMap);
+	}
+
+	public String selectUserAnswer(HashMap submitCntMap) {
+		return selectOne("egovTrainDAO.selectUserAnswer", submitCntMap);
+	}
+
+	public String selectQuestionFinishYn(HashMap finishYnMap) {
+		return selectOne("egovTrainDAO.selectQuestionFinishYn", finishYnMap);
+	}
+
+	public HashMap selectUserGroupQuestionScore(HashMap param) {
+		return selectOne("egovTrainDAO.selectUserGroupQuestionScore",param);
+	}
+
+	public void insertUserGroupQuestionScore(HashMap resultMap) {
+		insert("egovTrainDAO.insertUserGroupQuestionScore", resultMap);
+	}
+
+	public void insertQuestionFinishYn(HashMap resultMap) {
+		insert("egovTrainDAO.insertQuestionFinishYn",resultMap);
+	}
+
+	public String selectQuestionFinishYnByUserId(HashMap submitCntMap) {
+		return selectOne("egovTrainDAO.selectQuestionFinishYnByUserId", submitCntMap);
+	}
+
+	
 
 }

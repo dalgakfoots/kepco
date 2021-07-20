@@ -99,8 +99,9 @@ function closeToast(){
     <div id ="snackbar"></div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
+    	/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
 	    var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmReceiver");
-	    webSocket.onopen = function(message) { console.log("socket is opened") };
+	    webSocket.onopen = function(message) {};
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {};
 	    // 서버로 부터 메시지가 오면

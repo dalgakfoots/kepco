@@ -21,6 +21,15 @@
 		}
 	}
 	
+	function finishQuestion(){
+		
+		if(confirm("문제풀이완료를 실행 할 경우 해당 문제를 더 이상 제출할 수 없습니다.\n진행하시겠습니까?")){
+		var form = document.frm;
+		form.action = "<c:url value='/train/finishQuestion.do'/>";
+		form.submit();
+		}
+	}
+	
 	function examList(){
 		
 		var form = document.frm;
@@ -35,7 +44,7 @@
 	<h1><c:out value="${trainTypeName}"/> 문제지</h1>
 	<table class="board_list">
 		<thead>
-			<th>문제 (<c:out value="${detail.QESTN_SJ}"/>)</th>
+			<th><span style="padding-right:45%;">문제 (<c:out value="${detail.QESTN_SJ}"/>)</span> <span>풀이제한 : ${submitCnt}/${detail.MAX_SUBMIT_CNT}</span> <span>배점 : ${detail.SCORE}</span> </th>
 		</thead>
 		<tbody>
 			<tr>
@@ -43,20 +52,24 @@
 			</tr>
 			<tr>
 				<td>
-				<textarea name="qestn" disabled>${detail.QESTN_CN}</textarea>
+				<textarea name="qestn" style="height:100px;" disabled>${detail.QESTN_CN}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>
-				<textarea id="answer" placeholder="답변 입력"></textarea>
-				<button type="button" onclick="javascript:submitAnswer()">답변제출</button>
+				<c:if test="${detail.TYPE eq 'QUIZ' }">
+					<textarea id="answer" placeholder="답변 입력">${userAnswer}</textarea>
+					<c:if test="${isFinish eq '' || isFinish eq 'N'}">
+						<button type="button" onclick="javascript:submitAnswer()">답변제출</button>
+						<button type="button" onclick="javascript:finishQuestion()">문제풀이완료</button>
+					</c:if>
+				</c:if>
 				<button type="button" onclick="javascript:examList()">문제목록</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-
 <form name="frm" id="frm" method="post">
 <input type="hidden" name="faqId" value="${detail.FAQ_ID}">
 <input type="hidden" name="trainType" value="${frm.trainType}">

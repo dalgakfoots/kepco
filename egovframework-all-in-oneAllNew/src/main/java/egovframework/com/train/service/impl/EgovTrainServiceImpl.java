@@ -40,4 +40,39 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		egovTrainDAO.insertUserAnswer(param);
 	}
 
+	@Override
+	public String selectSubmitCnt(HashMap submitCntMap) throws Exception {
+		return egovTrainDAO.selectSubmitCnt(submitCntMap);
+	}
+
+	@Override
+	public String selectUserAnswer(HashMap submitCntMap) throws Exception {
+		return egovTrainDAO.selectUserAnswer(submitCntMap);
+	}
+
+	@Override
+	public String selectQuestionFinishYn(HashMap finishYnMap) throws Exception {
+		return egovTrainDAO.selectQuestionFinishYn(finishYnMap);
+	}
+
+	@Override
+	public HashMap selectUserGroupQuestionScore(HashMap param) throws Exception {
+		return egovTrainDAO.selectUserGroupQuestionScore(param);
+	}
+
+	@Override
+	public void insertUserGroupQuestionScore(HashMap resultMap) throws Exception {
+		egovTrainDAO.insertUserGroupQuestionScore(resultMap);
+	}
+
+	@Override
+	public void insertQuestionFinishYn(HashMap resultMap) throws Exception {
+		egovTrainDAO.insertQuestionFinishYn(resultMap);
+	}
+
+	@Override
+	public String selectQuestionFinishYnByUserId(HashMap submitCntMap) throws Exception {
+		return egovTrainDAO.selectQuestionFinishYnByUserId(submitCntMap);
+	}
+
 }

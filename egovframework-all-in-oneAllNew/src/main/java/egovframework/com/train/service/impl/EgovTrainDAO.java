@@ -58,6 +58,14 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		return selectOne("egovTrainDAO.selectQuestionFinishYnByUserId", submitCntMap);
 	}
 
+	public HashMap selectWatAdditionalScore(HashMap param) {
+		return selectOne("egovTrainDAO.selectWatAdditionalScore",param);
+	}
+
+	public List<HashMap> selectUserWatExamList(HashMap param) {
+		return selectList("egovTrainDAO.selectUserWatExamList",param);
+	}
+
 	
 
 }

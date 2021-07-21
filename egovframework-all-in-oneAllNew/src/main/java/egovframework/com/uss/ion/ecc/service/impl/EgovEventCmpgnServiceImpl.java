@@ -1,8 +1,11 @@
 package egovframework.com.uss.ion.ecc.service.impl;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -66,11 +69,40 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 		tempDate = dateForm1.parse(endDatatime);
 		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
 		
-		
-		
-		
 		egovEventCmpgnDao.insertEventCmpgn(eventCmpgnVO);
+		
+		
+//		insertTrainingTime(eventCmpgnVO.getEventId(), tempDate);
+		
 	}
+	
+//	private void insertTrainingTime(String trainingId, Date start) {
+//		SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Map param = new HashMap();
+//		
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(start);
+//		
+//		
+//		param.put("trainingId", trainingId);
+//		param.put("start", dateForm.format(start));
+//		
+//		
+//
+//		cal.add(Calendar.MINUTE, 90);
+//		param.put("start", dateForm.format(cal.getTime()));
+//
+//		cal.add(Calendar.MINUTE, 90);
+//		param.put("start", dateForm.format(cal.getTime()));
+//
+//		cal.add(Calendar.MINUTE, 90);
+//		param.put("start", dateForm.format(cal.getTime()));
+//		
+//		cal.add(Calendar.MINUTE, 90);
+//		param.put("start", dateForm.format(cal.getTime()));
+//		
+//		
+//	}
 
 	@Override
 	public EventCmpgnVO selectEventCmpgnDetail(EventCmpgnVO eventCmpgnVO) throws Exception {

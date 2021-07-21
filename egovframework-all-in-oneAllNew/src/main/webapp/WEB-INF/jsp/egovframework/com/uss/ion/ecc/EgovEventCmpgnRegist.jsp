@@ -227,6 +227,45 @@ function fnSelectTeam() {
 		
 	</tbody>
 	</table>
+	<br/><br/><br/>
+<%-- <table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
+	<caption>훈련 <spring:message code="title.create" /></caption>
+	<colgroup>
+		<col style="width: 20%;">
+		<col style="width: 30%;">
+	</colgroup> 
+	<tbody>
+		<!-- 행사시작일자  -->
+		<tr>
+			<th><label for="eventSvcBeginDe">예방보안 <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:input path="pst" id="pst" type="time" style="width:150px;"/>       
+			</td>
+		</tr>
+		<tr>
+			<th><label for="eventSvcBeginTime">실시간대응(Web)<span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:input path="wst" id="wst" type="time" style="width:150px;"/>
+			</td>
+		</tr>
+		
+		<!-- 행사종료일자  -->
+		<tr>
+			<th><label for="eventSvcEndDe">실시강대응(악성코드) <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:input path="mst" id="mst" type="time" style="width:150px;"/>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="eventSvcEndTime"> 사후대응 <span class="pilsu">*</span></label></th>
+			<td class="left">
+				<form:input path="ast" id="ast" type="time" style="width:150px;"/>
+			</td>
+		</tr>
+		
+	</tbody>
+	</table> --%>
+	
 	<!-- 하단 버튼 -->
 	<div class="btn">
 		<input type="submit" class="s_submit" value="<spring:message code="button.create" />" title="<spring:message code="button.create" /> <spring:message code="input.button" />" />

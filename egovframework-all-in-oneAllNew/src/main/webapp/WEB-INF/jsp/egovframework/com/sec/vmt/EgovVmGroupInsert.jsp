@@ -59,6 +59,7 @@ function addVmTableRow() {
 	
 	var type = document.getElementById("type").value;
 	var system = document.getElementById("system").value;
+	var id = document.getElementById("id").value;
 	var url = document.getElementById("url").value;
 	var ip = document.getElementById("ip").value;
 	var user = document.getElementById("user").value;
@@ -66,7 +67,7 @@ function addVmTableRow() {
 
 	
 	
-	if (type !== "" && url !== "" ) {
+	if (type !== "" && url !== "" && id !== "" ) {
 		var length  = document.getElementById("board_list_body").getElementsByTagName("tr").length;
 
 		
@@ -78,15 +79,18 @@ function addVmTableRow() {
 		const newCell4 = newRow.insertCell(3);
 		const newCell5 = newRow.insertCell(4);
 		const newCell6 = newRow.insertCell(5);
+		const newCell7 = newRow.insertCell(6);
 		newCell1.innerText = type;
 		newCell2.innerText = system;
-		newCell3.innerText = url;
-		newCell4.innerText = ip;
-		newCell5.innerText = user + " / " + pw;
-		newCell6.innerHTML = "<input type=\"button\" name=\""+length+"\" onclick=\"javascript:removeTableItems("+length+")\" value=\"X\">";		
+		newCell3.innerText = id;
+		newCell4.innerText = url;
+		newCell5.innerText = ip;
+		newCell6.innerText = user + " / " + pw;
+		newCell7.innerHTML = "<input type=\"button\" name=\""+length+"\" onclick=\"javascript:removeTableItems("+length+")\" value=\"X\">";		
 		
 		document.getElementById("type").value = "";
 		document.getElementById("system").value = "";
+		document.getElementById("id").value = "";
 		document.getElementById("url").value = "";
 		document.getElementById("ip").value = "";
 		document.getElementById("user").value = "";
@@ -103,14 +107,15 @@ function getTableValues() {
 		if (vm !== "") vm+=">>>";
 		var td = tr[i].getElementsByTagName("td");
 		if (td.length > 0) {
-			var userInfo = td[4].innerText.split("/");
+			var userInfo = td[5].innerText.split("/");
 			var obj = {
 				type : td[0].innerText === "" ? "0" : td[0].innerText,	
 				system : td[1].innerText === "" ? "0" : td[1].innerText,
-				url : td[2].innerText === "" ? "0" : td[2].innerText,
-				ip : td[3].innerText === "" ? "0" : td[3].innerText,
+				id : td[2].innerText === "" ? "0" : td[2].innerText,
+				url : td[3].innerText === "" ? "0" : td[3].innerText,
+				ip : td[4].innerText === "" ? "0" : td[4].innerText,
 				userName : userInfo[0].trim() === "" ? "0" : userInfo[0].trim(),
-				userPW : userInfo[1].trim() === "" ? "0" : userInfo[1].trim() ,
+				userPW : userInfo[1].trim() === "" ? "0" : userInfo[1].trim(),
 			}
 		     for (let i in obj) {	 
 		    	 if (i !== "type") vm += ","; 
@@ -118,6 +123,7 @@ function getTableValues() {
 		     }
 		}
 	}
+	console.log("vm : ", vm);
 	document.getElementById("typeUrl").value = vm;	
 }
 
@@ -194,6 +200,15 @@ function removeTableItems(index) {
 			</td>
 		</tr>
 		
+		<c:set var="title">VM Id</c:set>
+		<tr>
+			<th>${title}</th>
+			<td class="left">
+			    <c:set var="title">url</c:set>
+		        <input id="id" title="${title} ${inputTxt}" size="85%" style="height:20px; border: gray 1px solid;"/>
+			</td>
+		</tr>
+		
 		
 		<c:set var="title">VM URL</c:set>
 		<tr>
@@ -203,6 +218,8 @@ function removeTableItems(index) {
 		        <input id="url" title="${title} ${inputTxt}" size="85%" style="height:20px; border: gray 1px solid;"/>
 			</td>
 		</tr>
+		
+		
 		
 		<c:set var="title">VM IP</c:set>
 		<tr>
@@ -240,7 +257,8 @@ function removeTableItems(index) {
 					<colgroup>
 						<col style="width: 15%;">
 						<col style="width: 15%;">
-						<col style="width: 35%;">
+						<col style="width: 15%;">
+						<col style="width: 20%;">
 						<col style="width: 15%;">
 						<col style="width: 15%;">
 						<col style="width: 5%;">
@@ -249,6 +267,7 @@ function removeTableItems(index) {
 						<tr>
 							<th>VM 타입</th>
 							<th>시스템명</th>
+							<th>VM ID</th>
 							<th>URL</th>
 							<th>IP</th>
 							<th>계정정보</th>

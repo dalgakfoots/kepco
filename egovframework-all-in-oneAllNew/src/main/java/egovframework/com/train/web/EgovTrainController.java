@@ -11,11 +11,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.train.service.EgovTrainService;
 import egovframework.com.train.service.EgovTrainVO;
+import egovframework.com.vm.service.VmApiService;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
 @Controller
@@ -27,6 +29,9 @@ public class EgovTrainController {
 	
 	@Resource(name = "egovQuizUserAnswerManageIdGnrService")
 	private EgovIdGnrService egovQuizUserAnswerManageIdGnrService;
+	
+    @Resource(name = "VmApiService")
+    protected VmApiService vmApiService;
 	
 	@RequestMapping(value="/train/enterTrainingSystem.do")
 	public String enterTrainingSystem(@RequestParam(value = "trainType", required=false, defaultValue="pst") String trainType, ModelMap model ) throws Exception {
@@ -247,6 +252,32 @@ public class EgovTrainController {
 		//풀이완료 했다면
 		model.addAttribute("msg", "해당 문제의 풀이를 완료하였습니다.");
 		return "forward:/train/enterExam.do";
+	}
+	
+//	
+//	@RequestMapping("/train/ticketUrl.do")
+//	public ModelAndView getVmTicketUrl() throws Exception {
+//		ModelAndView modelAndView = new ModelAndView();
+//    	modelAndView.setViewName("jsonView");
+//    	
+//    	String ticket = vmApiService.getTicketForUrl();
+//    	modelAndView.addObject("ticket", ticket);
+//		return modelAndView;
+//	}
+//	
+	@RequestMapping("/train/ticketUrl.do")
+	public String getVmTicketUrl(@RequestParam(value = "url") String url,
+								@RequestParam(value = "vmId") String vmId,
+								ModelMap model) throws Exception {
+    	String ticket = vmApiService.getTicketForUrl(vmId);
+    	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    	System.out.println("url : "+ url);
+    	System.out.println("ticket : "+ ticket);
+    			
+    			
+    	model.addAttribute("ticket", ticket);
+    	model.addAttribute("url", url);
+    	return "egovframework/com/utl/train/poc";
 	}
 	
 }

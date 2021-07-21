@@ -39,8 +39,10 @@
 		       vm_type_id,
 		       vm_group_type_id,
 		       `type`,
-		       url
-		FROM   (SELECT A.mber_id,
+		       url,
+               id
+		FROM   (
+        SELECT A.mber_id,
 		               A.group_id,
 		               B.pst_vm_id AS VM_GROUP_ID,
 		               C.name,
@@ -50,7 +52,8 @@
 		               C.vm_type_id,
 		               C.vm_group_type_id,
 		               D.`type`,
-		               C.url
+		               C.url,
+                       C.id
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
@@ -70,7 +73,8 @@
 		               C.vm_type_id,
 		               C.vm_group_type_id,
 		               D.`type`,
-		               C.url
+		               C.url,
+                       C.id
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
@@ -90,7 +94,8 @@
 		               C.vm_type_id,
 		               C.vm_group_type_id,
 		               D.`type`,
-		               C.url
+		               C.url,
+                       C.id
 		        FROM   comtngnrlmber A
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id

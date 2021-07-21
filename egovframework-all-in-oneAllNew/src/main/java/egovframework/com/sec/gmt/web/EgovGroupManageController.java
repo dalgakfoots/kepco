@@ -355,7 +355,7 @@ public class EgovGroupManageController {
 			                  	@RequestParam(value = "typeUrl", required = false, defaultValue = "") String typeUrl,
 			                  	BindingResult bindingResult,
 			                  	ModelMap model) throws Exception {
-    	
+    	System.out.println("typeUrl : " + typeUrl);
     	beanValidator.validate(groupManage, bindingResult); //validation 수행
     	if (bindingResult.hasErrors()) { 
 			return "egovframework/com/sec/vmt/EgovVmGroupInsert";

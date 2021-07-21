@@ -10,6 +10,35 @@
 <title>훈련</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
+
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/jquery.js'/>" ></script>
+<script type="text/javaScript" language="javascript">
+/* 	function windowOpen(url, index){
+		
+		$.ajax({
+  			type:"get",
+  			url:"<c:url value='/train/ticketUrl.do'/>",
+  			dataType:'json',
+  			success:function(returnData, status){
+  				if(status == "success") {
+  					
+  					var ticketUrl = returnData.ticket + url;
+  					console.log("ticketUrl : " , ticketUrl);
+  				window.open(ticketUrl, index);
+  					
+  				}else{ console.log("error");return;} 
+  			}
+  		}); 
+		
+		
+	}  */
+	
+	
+	function movePage(url, vmId) {
+		window.open("<c:url value='/train/ticketUrl.do' />?url="+url+"&vmId="+vmId, '_blank');
+	}
+</script>
+
 </head>
 <body>
 <div class="board">
@@ -43,7 +72,9 @@
 				<td>${item.type}</td>
 				<td>${item.ip}</td>
 				<td>${item.user_name } <c:out value="/"/> ${item.user_password }</td>
-				<td><button class="s_btn" type="button" onclick="javascript:window.open('${item.url}', 'vmconsole${status.index}')">열기</button></td>
+				<td><button class="s_btn" type="button" onclick="javascript:movePage('${item.url}', '${item.id}')">열기</button></td> 
+				
+				
 			</tr>
 		</c:forEach>
 		<c:if test="${fn:length(userVmLists) == 0}">

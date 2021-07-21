@@ -200,6 +200,7 @@
 			        vt.type,
 			        vgt.vm_group_type_id,
 			        vgt.name,
+			       	vgt.id,
 			        vgt.url,
 			        vgt.ip,
 			        vgt.user_name,
@@ -365,7 +366,8 @@
 	            <if test="userPW!=null or userPW!=''">
 	                user_password,
 	            </if>
-				url
+				url,
+				id
 			) VALUES(
 				#{groupId},
 				#{typeId},
@@ -382,7 +384,8 @@
 	            <if test="userPW!=null or userPW!=''">
 	                #{userPW},
 	            </if>
-				#{url}
+				#{url},
+				#{id}
 			)
 			
 	

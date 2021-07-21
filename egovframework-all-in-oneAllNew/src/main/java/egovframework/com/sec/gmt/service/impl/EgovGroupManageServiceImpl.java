@@ -138,7 +138,7 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 
 	public GroupManageVO insertVmGroup(GroupManage groupManage, GroupManageVO groupManageVO, String typeUrl) throws Exception {
 		groupManageDAO.insertVmGroup(groupManage);
-		
+		System.out.println("typeUrl : "+ typeUrl);
 		
 		Map map = new HashMap();
 		String[] splitedTypeUrl = typeUrl.split("&gt;&gt;&gt;");
@@ -152,6 +152,7 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 						map.put("typeId", groupManageDAO.selectVmTypeIdByVmType(splitedItem[1])+"");	
 					} else {
 						map.put(splitedItem[0], splitedItem[1].equals("0")? null : splitedItem[1]);
+						System.out.println(splitedItem[0] + " : " + splitedItem[1]);
 					}
 				}
 				map.put("groupId", groupManage.getGroupId());
@@ -259,7 +260,8 @@ public class EgovGroupManageServiceImpl extends EgovAbstractServiceImpl implemen
 	
 	@Override
 	public List<HashMap> selectVmGroupTypeList(GroupManageVO groupManageVO) throws Exception {
-		return groupManageDAO.selectVmGroupTypeList(groupManageVO);
+		List<HashMap> list = groupManageDAO.selectVmGroupTypeList(groupManageVO);
+		return list;
 	}
 
 	

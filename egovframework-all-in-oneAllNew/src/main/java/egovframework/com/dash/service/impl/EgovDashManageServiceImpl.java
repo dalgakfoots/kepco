@@ -215,7 +215,7 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 				}
 				
 				double dValue = Math.random();
-				model.put("score", (int)(dValue * 100));
+				model.put("score", (int)(dValue * 1000));
 				egovDashManageDAO.insertDashScore(model);	
 			}
 		}

@@ -213,14 +213,13 @@ public class EgovDashManageController {
 //		return modelAndView;
 //	}
 	
-//	
-//	
-//	@RequestMapping(value = "/dash/test.do")
-//	public void test(HashMap model) throws Exception {
-//		
-//		String trainingId = "EVENT_00000000000061";
-//		egovDashManageService.insertDashScore(trainingId, model);
-//	}
+
+	@RequestMapping(value = "/dash/test.do")
+	public void test(HashMap model) throws Exception {
+		
+		String trainingId = "EVENT_00000000000181";
+		egovDashManageService.insertDashScore(trainingId, model);
+	}
 //
 //	@RequestMapping(value = "/dash/test2.do")
 //	public void test2(HashMap model) throws Exception {

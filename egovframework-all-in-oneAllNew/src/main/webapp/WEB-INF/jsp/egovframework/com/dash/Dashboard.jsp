@@ -227,7 +227,7 @@
 	    <!-- <a class="navbar-brand mr-1" href="/dash/DashboardTraining.do">한국 전력 공사</a> -->
 		<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:ajaxTest()' />">한국 전력 공사</a> --%>
 		<%-- <a class="navbar-brand mr-1" href="<c:url value='javascript:test()' />">한국 전력 공사</a> --%>
-		<a class="navbar-brand mr-1" href="<c:url value='/dash/test.do' />">한국 전력 공사</a>
+		<a class="navbar-brand mr-1" href="<c:url value='/dash/DashboardTraining.do' />">한국 전력 공사</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -243,7 +243,9 @@
 
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
-      
+      <li class="nav-item dropdown no-arrow">
+      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
+      </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>
       	
@@ -251,6 +253,7 @@
       	<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
       	<a class="btn02" href="#"  onclick="logout();return false;">Logout</a> -->
       </li>
+       
     </ul> 
 
   </nav>

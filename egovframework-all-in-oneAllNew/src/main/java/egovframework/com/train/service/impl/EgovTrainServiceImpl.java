@@ -75,4 +75,14 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		return egovTrainDAO.selectQuestionFinishYnByUserId(submitCntMap);
 	}
 
+	@Override
+	public HashMap selectWatAdditionalScore(HashMap param) throws Exception {
+		return egovTrainDAO.selectWatAdditionalScore(param);
+	}
+
+	@Override
+	public List<HashMap> selectUserWatExamList(HashMap param) throws Exception {
+		return egovTrainDAO.selectUserWatExamList(param);
+	}
+
 }

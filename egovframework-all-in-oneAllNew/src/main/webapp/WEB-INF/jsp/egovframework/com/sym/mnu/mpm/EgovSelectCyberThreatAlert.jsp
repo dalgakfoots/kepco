@@ -28,7 +28,7 @@
 			<img src="<c:url value='/images/egovframework/com/sym/mpm/cyber_terror_level05.png' />" alt="심각" />
 		</c:when>
 		<c:otherwise>
-		err
+			<img src="<c:url value='/images/egovframework/com/sym/mpm/cyber_terror_level01.png' />" alt="정상" />
 		</c:otherwise>
 	</c:choose>
 </div>

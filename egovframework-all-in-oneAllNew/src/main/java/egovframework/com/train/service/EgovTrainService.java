@@ -29,6 +29,10 @@ public interface EgovTrainService {
 
 	String selectQuestionFinishYnByUserId(HashMap submitCntMap) throws Exception;
 
+	HashMap selectWatAdditionalScore(HashMap param) throws Exception;
+
+	List<HashMap> selectUserWatExamList(HashMap param) throws Exception;
+
 
 
 }

@@ -124,6 +124,18 @@
 		       		</when>
 		       		<when test="trainType == 'wat'">
 		       			C.wat_exam_group_id,
+		       			E.EXAM_OPEN_TIME,
+				        DATE_FORMAT(NOW(),'%H%i') AS NOWTIME,
+				        IF(E.EXAM_OPEN_TIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H%i') , 'Y', 'N') AS IS_EXAM_TIME_YN,
+						E.PRE_EXAM_ID,
+				        H.QUESTION_ID AS SOLVED_PRE_EXAM_ID,
+				        IF(IFNULL(E.PRE_EXAM_ID,"") = IFNULL(H.QUESTION_ID,"") , 'Y' , 'N') AS PRE_EXAM_SOLVED_YN,
+				        I.QUESTION_SJ AS PRE_EXAM_SJ,
+				        H.PRE_EXAM_CREATED_TIME,
+					    CASE
+					   		WHEN IF(Ifnull(E.pre_exam_id, "") = Ifnull(H.question_id, ""), 'Y', 'N') = 'N'
+					   	 	THEN '10'
+					   	 END AS NEED_TO_ADD,
 		       		</when>
 		       		<when test="trainType == 'ast'">
 		       			C.ast_exam_group_id,
@@ -165,8 +177,14 @@
 			                    ON C.wat_exam_group_id = D.faq_group_id
 			       INNER JOIN (SELECT  WAT_EXAM_ID AS faq_id
 			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,PRE_EXAM_ID
+                          			  ,EXAM_OPEN_TIME
 			       					  ,`type`
 			       				 FROM WAT_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       LEFT OUTER JOIN (SELECT TRAINING_ID, TEAM_ID, QUESTION_ID , MAX(CREATED_DATETIME) AS PRE_EXAM_CREATED_TIME
+			                          FROM KEPCO_TRAINING_TEAM_SCORES
+			                         GROUP BY TRAINING_ID, TEAM_ID, QUESTION_ID) H ON E.PRE_EXAM_ID = H.QUESTION_ID
+			       LEFT OUTER JOIN WAT_EXAM_MST I ON E.PRE_EXAM_ID = I.WAT_EXAM_ID
 		            </when>
 		            <when test="trainType == 'ast'">
 			       INNER JOIN kepco_exam_group_faqinfo D
@@ -188,6 +206,96 @@
 		WHERE  A.esntl_id = #{esntlId}
 		ORDER BY E.faq_id
 
+	</select>
+	
+	<select id="selectUserWatExamList" resultType="java.util.HashMap">
+			WITH temp
+			AS
+			  (
+			                  SELECT          a.group_id,
+			                                  b.group_nm,
+			                                  c.wat_exam_group_id,
+			                                  e.exam_open_time,
+			                                  date_format(now(), '%H%i')                                   AS nowtime,
+			                                  IF(e.exam_open_time <![CDATA[<=]]> date_format(now(), '%H%i'), 'Y', 'N') AS is_exam_time_yn,
+			                                  e.pre_exam_id,
+			                                  h.question_id                                                       AS solved_pre_exam_id,
+			                                  IF(ifnull(e.pre_exam_id, "") = ifnull(h.question_id, ""), 'Y', 'N') AS pre_exam_solved_yn,
+			                                  i.question_sj                                                       AS pre_exam_sj,
+			                                  h.pre_exam_created_time,
+			                                  CASE
+			                                                  WHEN IF(ifnull(e.pre_exam_id, "") = ifnull(h.question_id, ""), 'Y', 'N') = 'N' THEN '10'
+			                                  end AS need_to_add,
+			                                  e.faq_id,
+			                                  e.qestn_sj,
+			                                  e.type,
+			                                  ifnull(f.cnt, '0') AS cnt
+			                  FROM            comtngnrlmber a
+			                  LEFT OUTER JOIN comtnauthorgroupinfo b
+			                  ON              a.group_id = b.group_id
+			                  LEFT OUTER JOIN kepco_training_team_vmgroup c
+			                  ON              b.group_id = c.team_id
+			                  INNER JOIN      kepco_exam_group_faqinfo d
+			                  ON              c.wat_exam_group_id = d.faq_group_id
+			                  INNER JOIN
+			                                  (
+			                                         SELECT wat_exam_id AS faq_id,
+			                                                question_sj AS qestn_sj,
+			                                                pre_exam_id,
+			                                                exam_open_time,
+			                                                `type`
+			                                         FROM   wat_exam_mst) e
+			                  ON              d.faq_id = e.faq_id
+			                  LEFT OUTER JOIN
+			                                  (
+			                                           SELECT   training_id,
+			                                                    team_id,
+			                                                    question_id,
+			                                                    max(created_datetime) AS pre_exam_created_time
+			                                           FROM     kepco_training_team_scores
+			                                           GROUP BY training_id,
+			                                                    team_id,
+			                                                    question_id) h
+			                  ON              e.pre_exam_id = h.question_id
+			                  LEFT OUTER JOIN wat_exam_mst i
+			                  ON              e.pre_exam_id = i.wat_exam_id
+			                  LEFT OUTER JOIN
+			                                  (
+			                                           SELECT   quiz_id,
+			                                                    group_id,
+			                                                    count(*) AS cnt
+			                                           FROM     quiz_user_answer
+			                                           GROUP BY quiz_id,
+			                                                    group_id) f
+			                  ON              a.group_id = f.group_id
+			                  AND             e.faq_id = f.quiz_id
+			                  WHERE           a.esntl_id = #{esntlId}
+			                  ORDER BY        e.faq_id ),
+			  temp2
+			AS
+			  (
+			           SELECT   faq_id ,
+			                    qestn_sj ,
+			                    pre_exam_sj,
+			                    `type` ,
+			                    cnt ,
+			                    is_exam_time_yn,
+			                    pre_exam_solved_yn,
+			                    pre_exam_created_time,
+			                    date_add(lag(pre_exam_created_time) over (ORDER BY faq_id) , INTERVAL 10 minute)AS lagtest
+			           FROM     temp
+			           GROUP BY faq_id)
+			  SELECT faq_id ,
+			         qestn_sj ,
+			         PRE_EXAM_SJ,
+			         `type`,
+			         CNT ,
+			         IS_EXAM_TIME_YN ,
+			         PRE_EXAM_SOLVED_YN ,
+			         IF(lagtest <![CDATA[<=]]> now() , 'Y' , 'N') AS PRE_EXAM_LAG_YN ,
+			         LAGTEST,
+			         now() AS NOWTIME
+			  FROM   temp2
 	</select>
 	
 	<select id="selectQuestionDetail" resultType="java.util.HashMap">
@@ -313,6 +421,26 @@
 			GROUP  BY A.QUIZ_ID,
 			          A.GROUP_ID 
 			
+	</select>
+	
+	<select id="selectWatAdditionalScore" resultType="java.util.HashMap">
+	
+			SELECT B.training_id,
+			       B.team_id,
+			       B.question_id,
+			       Date_format(B.created_datetime, '%H') AS CREATED_HOUR,
+			       Date_format(B.created_datetime, '%i') AS CREATED_MIN,
+			       C.wat_exam_id,
+			       Substr(C.exam_open_time, 1, 2)        AS EXAM_OPEN_HOUR,
+			       Substr(C.exam_open_time, 3, 4)        AS EXAM_OPEN_MIN
+			FROM   kepco_training_team_vmgroup A
+			       LEFT OUTER JOIN kepco_training_team_scores B
+			                    ON A.team_id = B.team_id
+			       LEFT OUTER JOIN wat_exam_mst C
+			                    ON B.question_id = C.wat_exam_id
+			WHERE  A.team_id = #{groupId}
+			       AND B.question_id = #{quizId} 
+	
 	</select>
 	
 	<!-- inserts  -->

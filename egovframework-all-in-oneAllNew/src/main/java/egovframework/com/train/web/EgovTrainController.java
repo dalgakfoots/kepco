@@ -1,5 +1,7 @@
 package egovframework.com.train.web;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -105,8 +107,32 @@ public class EgovTrainController {
 			trainTypeName = "사후대응훈련";
 		}
 		
-		List<HashMap> examList = egovTrainService.selectUserExamList(param);
-		
+		List<HashMap> examList = null;
+		if(trainType.equals("wat")) {
+			examList = egovTrainService.selectUserWatExamList(param);
+			for(int i = 0 ; i < examList.size() ; i++) {
+				if(examList.get(i).get("LAGTEST") == null) continue;
+				Timestamp origin = (Timestamp) examList.get(i).get("LAGTEST"); // 을 가져와서
+				Timestamp later = new Timestamp(origin.getTime() + (600 * 1000L));
+				int temp = i + 1;
+				if (temp < examList.size()) {
+					examList.get(temp).put("LAGTEST", later);
+					if(later.compareTo((Timestamp) examList.get(temp).get("NOWTIME")) < 0) {
+						examList.get(temp).replace("PRE_EXAM_LAG_YN", "Y");
+					}
+				}
+				//다음에다 10을 더한뒤 넣어줌 
+				
+				
+			}
+			
+			for(HashMap a : examList) {
+				System.out.println(a.entrySet());
+			}
+			
+		}else {
+			examList = egovTrainService.selectUserExamList(param);
+		}
 		model.addAttribute("examList", examList);
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("trainType", trainType);
@@ -232,13 +258,40 @@ public class EgovTrainController {
 			Long temp = (long)resultMap.get("SCORE");
 			int score = temp.intValue();
 			temp = (long)resultMap.get("DEDUCT_SCORE");
+			String trainType = frm.getTrainType();
+			
+			// 만약 웹공격대응훈련 이라면 점수계산시 가산점을 계산하여 더해줘야함
+			int addtionalScore = 0; 
+//			HashMap addtionalMap = egovTrainService.selectWatAdditionalScore(param);
+//			
+//			/*가산점 계산*/
+//			int createdHour = Integer.parseInt((String)addtionalMap.get("CREATED_HOUR"));
+//			int createdMin = Integer.parseInt((String)addtionalMap.get("CREATED_MIN"));
+//			int temp1 = (createdHour * 60) + createdMin;
+//			
+//			int examOpenHour = Integer.parseInt((String)addtionalMap.get("EXAM_OPEN_HOUR"));
+//			int examOpenMin = Integer.parseInt((String)addtionalMap.get("EXAM_OPEN_MIN"));
+//			int temp2 = (examOpenHour * 60) + examOpenMin;
+//			
+//			
+//			
+			/*가산점 계산 끝*/
+			
 			int deductScore = temp.intValue();
 			int tot = score - deductScore;
-			tot = tot < 0 ? 0 : tot;
+			tot = tot < 0 ? 0 : tot + addtionalScore;
 			resultMap.put("trainId", trainingId);
 			resultMap.put("scoreId", 1);
 			resultMap.put("TOT", tot);
-			resultMap.put("trainType", frm.getTrainType());
+			
+			if(trainType.equals("pst")) {
+				trainType = "예방보안";
+			}else if(trainType.equals("mdt") || trainType.equals("wat")) {
+				trainType = "실시간대응";
+			}else if(trainType.equals("ast")) {
+				trainType = "사후대응";
+			}
+			resultMap.put("trainType", trainType);
 			resultMap.put("userId", esntlId);
 			
 			//kepco_training_team_scores 테이블에 {훈련id , 그룹id, 문제id, (임의의)score_id , 트레이닝타입(한글), 점수, 사용자id} insert

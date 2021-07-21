@@ -135,7 +135,8 @@ public class EgovTrainGroupVmManageController {
 				updateMap.put("watVmGroupId", elements[7]);
 				updateMap.put("watExamGroupId", elements[8]);
 				
-				updateMap.put("astExamGroupId", elements[9]);
+				updateMap.put("astVmGroupId", elements[9]);
+				updateMap.put("astExamGroupId", elements[10]);
 				
 				egovGroupManageService.updateTrainGroupVmManage(updateMap);
 			}
@@ -160,7 +161,8 @@ public class EgovTrainGroupVmManageController {
 				deleteMap.put("watVmGroupId", elements[7]);
 				deleteMap.put("watExamGroupId", elements[8]);
 				
-				deleteMap.put("astExamGroupId", elements[9]);
+				deleteMap.put("astVmGroupId", elements[9]);
+				deleteMap.put("astExamGroupId", elements[10]);
 				
 				egovGroupManageService.deleteTrainGroupVmManage(deleteMap);
 			}
@@ -185,7 +187,8 @@ public class EgovTrainGroupVmManageController {
 				insertMap.put("watVmGroupId", elements[7]);
 				insertMap.put("watExamGroupId", elements[8]);
 				
-				insertMap.put("astExamGroupId", elements[9]);
+				insertMap.put("astVmGroupId", elements[9]);
+				insertMap.put("astExamGroupId", elements[10]);
 				egovGroupManageService.insertTrainGroupVmManage(insertMap);
 			}
 			

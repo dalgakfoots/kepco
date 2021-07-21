@@ -20,6 +20,9 @@
     		<when test='trainType == "wat"'>
     		   ,B.WAT_VM_ID AS VM_GROUP_ID
     		</when>
+    		<when test='trainType == "ast"'>
+    		   ,B.AST_VM_ID AS VM_GROUP_ID
+    		</when>
     	</choose>
 		FROM   comtngnrlmber A
 		       LEFT OUTER JOIN kepco_training_team_vmgroup B
@@ -101,6 +104,27 @@
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
 		                            ON B.wat_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
+		        WHERE  A.esntl_id = #{esntlId}
+		        UNION ALL
+		        SELECT A.mber_id,
+		               A.group_id,
+		               B.ast_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
+		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
+		               C.url,
+                       C.id
+		        FROM   comtngnrlmber A
+		               LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                            ON A.group_id = B.team_id
+		               LEFT OUTER JOIN kepco_vm_group_types C
+		                            ON B.ast_vm_id = C.vm_group_id
 		               LEFT OUTER JOIN kepco_vm_types D
 		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}) A 

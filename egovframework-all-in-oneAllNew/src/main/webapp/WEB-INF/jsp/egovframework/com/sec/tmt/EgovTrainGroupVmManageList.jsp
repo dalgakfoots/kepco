@@ -157,6 +157,7 @@ function insertRow(){
 	var pstkeySets = map.keys();
 	var mdtkeySets = map.keys();
 	var watkeySets = map.keys();
+	var astKeySets = map.keys();
 	
 	/* 문제그룹명, 문제ID 설정  */
 	var examMap = new Map();
@@ -237,6 +238,18 @@ function insertRow(){
 	}
 	watExamSelect += "</select>";
 	cell13.innerHTML = watExamSelect;
+	
+	// 사후대응훈련VMGroup
+	cell15 = rowToInsert.insertCell();
+	var astSelect = "<select name='astVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	
+	for(var item of astKeySets)
+	{
+		//pstlist.push(item);
+		astSelect += ("<option value='"+item+"'>"+map.get(item)+"</option>");
+	}
+	astSelect += "</select>";
+	cell15.innerHTML = astSelect;
 	
 	// 사후대응훈련문제Group
 	cell14 = rowToInsert.insertCell();
@@ -380,6 +393,7 @@ function save(insertRow , updateRow, deleteRow){
 					<col style="width: 150px;">
 					<col style="width: 150px;">
 					<col style="width: 150px;">
+					<col style="width: 150px;">
 				</colgroup>
 				<thead>
 					<tr>
@@ -396,6 +410,7 @@ function save(insertRow , updateRow, deleteRow){
 						<th>악성코드탐지대응훈련<br/>문제그룹</th>
 						<th>웹공격대응훈련<br/>VM그룹</th>
 						<th>웹공격대응훈련<br/>문제그룹</th>
+						<th>사후대응훈련<br/>VM그룹</th>
 						<th>사후대응훈련<br/>문제그룹</th>
 					</tr>
 				</thead>
@@ -463,6 +478,13 @@ function save(insertRow , updateRow, deleteRow){
 								<select name='watExamGroupId' onchange='javascript:updatedRowSelect(this)'>
 									<c:forEach var="examGroup" items="${examGroupNameList}">
 										<option value="${examGroup.FAQ_GROUP_ID}" <c:if test="${item.WAT_EXAM_GROUP_ID eq examGroup.FAQ_GROUP_ID}"> selected="selected" </c:if> >${examGroup.FAQ_GROUP_NM}</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+								<select name='astVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+									<c:forEach var="vmGroup" items="${vmGroupNameList}">
+										<option value="${vmGroup.ID}" <c:if test="${item.AST_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 									</c:forEach>
 								</select>
 							</td>

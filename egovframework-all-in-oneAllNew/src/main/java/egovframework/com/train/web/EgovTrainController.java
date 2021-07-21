@@ -76,10 +76,6 @@ public class EgovTrainController {
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("userVmLists", userVmLists);
 		
-		if(trainType.equals("ast")) {
-			return "forward:/train/enterExam.do";
-		}
-		
 		return "egovframework/com/utl/train/EnterTrainingSystem";
 	}
 	
@@ -124,10 +120,6 @@ public class EgovTrainController {
 				//다음에다 10을 더한뒤 넣어줌 
 				
 				
-			}
-			
-			for(HashMap a : examList) {
-				System.out.println(a.entrySet());
 			}
 			
 		}else {

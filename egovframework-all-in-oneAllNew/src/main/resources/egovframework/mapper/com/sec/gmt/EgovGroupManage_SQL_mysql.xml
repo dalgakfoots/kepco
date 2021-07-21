@@ -161,6 +161,7 @@
 			   	   MDT_EXAM_GROUP_ID = #{mdtExamGroupId},
 			   	   WAT_VM_ID = #{watVmGroupId},
 			   	   WAT_EXAM_GROUP_ID = #{watExamGroupId},
+			   	   AST_VM_ID = #{astVmGroupId},
 			   	   AST_EXAM_GROUP_ID = #{astExamGroupId}
 			 WHERE ID = #{id}
 	</update>
@@ -229,6 +230,7 @@
 			   		 MDT_EXAM_GROUP_ID,
 			   		 WAT_VM_ID,
 			   		 WAT_EXAM_GROUP_ID,
+			   		 AST_VM_ID,
 			   		 AST_EXAM_GROUP_ID
 			 		)VALUES(
 			   		 #{id},
@@ -240,6 +242,7 @@
 			   		 #{mdtExamGroupId},
 			   		 #{watVmGroupId},
 			   		 #{watExamGroupId},
+			   		 #{astVmGroupId},
 			   		 #{astExamGroupId}
 			   		)
 	</insert>

@@ -121,7 +121,8 @@ h1 {
   <!-- <textarea id="messageTextArea" rows="10" cols="50" disabled="disabled"></textarea> -->
   <script type="text/javascript">
     // 서버의 broadsocket의 서블릿으로 웹 소켓을 한다.
-    var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/broadsocket/<c:out value='${user.id}'/>");
+
+    var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/broadsocket/<c:out value='${result.GROUP_ID}'/>");
     
     // 콘솔 텍스트 영역
     /* var messageTextArea = document.getElementById("messageTextArea"); */

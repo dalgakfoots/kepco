@@ -203,33 +203,78 @@ public class EgovDashManageController {
 		return "egovframework/com/dash/EgovScoreDetail";
 	}
 	
-//	@RequestMapping(value = "/dash/EgovScoreDetail.do")
-//	public ModelAndView selectEgovScoreDetail(@RequestParam(value = "trainingId") String trainingId) throws Exception {
-//		ModelAndView modelAndView = new ModelAndView();
-//    	modelAndView.setViewName("jsonView");
-//    	
-//    	modelAndView = egovDashManageService.selectDashGragh(trainingId, modelAndView);
-//    	modelAndView.addObject("rankList", egovDashManageService.selectDashTable(trainingId));
-//		return modelAndView;
-//	}
 	
-//	
-//	
-//	@RequestMapping(value = "/dash/test.do")
-//	public void test(HashMap model) throws Exception {
-//		
-//		String trainingId = "EVENT_00000000000061";
-//		egovDashManageService.insertDashScore(trainingId, model);
-//	}
-//
-//	@RequestMapping(value = "/dash/test2.do")
-//	public void test2(HashMap model) throws Exception {
-//		
-//		String ticket = vmApiService.getTicketForUrl();
-//		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-//		System.out.println("ticket : " + ticket);
-//	}
-//
+	
+	
+	@RequestMapping(value = "/dash/EgovDeductionScoreView.do")
+	public String selectEgovDeductionScoreView(@ModelAttribute("searchVO") EventCmpgnVO searchVO,
+												ModelMap model) throws Exception {
+		
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		String userId = user.getId();
+		searchVO.setLastUpdusrId(userId);
+		
+    	/** EgovPropertyService.sample */
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+        List<?> sampleList = egovEventCmpgnService.selectEventCmpgnListForScoreView(searchVO);
+        model.addAttribute("resultList", sampleList);
+
+        int totCnt = egovEventCmpgnService.selectEventCmpgnListCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+
+		
+		return "egovframework/com/dash/EgovDeductionScoreView";
+	}
+	
+	
+	@RequestMapping(value = "/dash/EgovDeductionScoreDetail.do")
+	public String selectEgovDeductionScoreDetail(@RequestParam(value = "trainingId") String trainingId,
+										ModelMap model) throws Exception {
+		
+		final LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		final String userId = user.getId();
+		final String teamId = egovDashManageService.selectTeamIdByUserId(userId);
+		final String trainingName = egovDashManageService.selectTrainingName(trainingId);
+		
+		//스코어 로그 리스트 불러오기
+			final List<Map> scoreLogList = egovDashManageService.selectScoreLogList(trainingId, teamId);
+			
+		//스코어 현재 스코어 불러오기 
+			final Map currentScore = egovDashManageService.selectCurrentScore(trainingId, teamId);
+		
+//		model.addAttribute("scoreLogList", scoreLogList);
+//		model.addAttribute("currentScore", currentScore);
+//		model.addAttribute("training_name", trainingName);
+		
+		return "egovframework/com/dash/EgovDeductionScoreDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+
+	@RequestMapping(value = "/dash/test.do")
+	public void test(HashMap model) throws Exception {
+		
+		String trainingId = "EVENT_00000000000181";
+		egovDashManageService.insertDashScore(trainingId, model);
+	}
 
 
 }

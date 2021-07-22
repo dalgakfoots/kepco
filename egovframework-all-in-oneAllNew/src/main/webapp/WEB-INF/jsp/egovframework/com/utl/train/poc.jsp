@@ -19,7 +19,7 @@
 <html>
 <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  <title>VMware WMKS</title>
+  <title><c:out value='${vmName}'/></title>
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="yes" name="apple-mobile-web-app-capable">
   <meta content="white" name="apple-mobile-web-app-status-bar-style">
@@ -59,7 +59,11 @@
 </head>
 <body>
   <div id="fullscreen">
+  
     <table>
+      <tr>
+        <td><h1><c:out value='${vmName}'/></h1></td>
+      </tr>
       <tr>
         <td><input onclick="enterFullScreen()" type="button" value="전체화면"></td>
       </tr>

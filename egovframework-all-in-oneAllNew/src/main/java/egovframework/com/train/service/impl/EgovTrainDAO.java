@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
+import egovframework.com.train.service.EgovTrainTimeSettingVO;
 
 @Repository("EgovTrainDAO")
 public class EgovTrainDAO extends EgovComAbstractDAO {
@@ -64,6 +65,26 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 
 	public List<HashMap> selectUserWatExamList(HashMap param) {
 		return selectList("egovTrainDAO.selectUserWatExamList",param);
+	}
+
+	public HashMap selectTrainingTimeSetting() {
+		return selectOne("egovTrainDAO.selectTrainingTimeSetting");
+	}
+
+	public List<HashMap> selectTrainingIdList() {
+		return selectList("egovTrainDAO.selectTrainingIdList");
+	}
+
+	public void setTrainingTimeSetting(EgovTrainTimeSettingVO frm) {
+		insert("egovTrainDAO.setTrainingTimeSetting",frm);
+	}
+
+	public String selectCurrentExamAvailable(HashMap trainType) {
+		return selectOne("egovTrainDAO.selectCurrentExamAvailable", trainType);
+	}
+
+	public void updateWatExamOpenTime(HashMap param) {
+		update("egovTrainDAO.updateWatExamOpenTime", param);
 	}
 
 	

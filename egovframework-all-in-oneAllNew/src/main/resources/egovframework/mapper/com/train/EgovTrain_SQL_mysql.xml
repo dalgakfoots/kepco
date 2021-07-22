@@ -164,6 +164,9 @@
 		       		<when test="trainType == 'ast'">
 		       			C.ast_exam_group_id,
 		       		</when>
+		       		<when test="trainType == 'srg'">
+		       			'FAQG_00000000000061' as srg_exam_group_id, <!--TODO 임시로 처리 중. 추후 반드시 별도 컬럼으로 관리되어야 함.  -->
+		       		</when>
 		       </choose>
 		       E.faq_id,
 		       E.qestn_sj,
@@ -181,7 +184,7 @@
 			       INNER JOIN (SELECT  PST_EXAM_ID AS faq_id
 			       					  ,QUESTION_SJ AS qestn_sj
 			       					  ,`type`
-			       				 FROM PST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       				 FROM PST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID AND E.`TYPE` = 'QUIZ'
 		            </when>
 		            <when test="trainType == 'mdt'">
 			       INNER JOIN kepco_exam_group_faqinfo D
@@ -217,6 +220,14 @@
 			       					  ,QUESTION_SJ AS qestn_sj
 			       					  ,`type`
 			       				 FROM AST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+		            </when>
+		            <when test="trainType == 'srg'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON 'FAQG_00000000000061' = D.faq_group_id <!--TODO 임시로 처리 중. 추후 반드시 별도 컬럼으로 관리되어야 함.  -->
+			       INNER JOIN (SELECT  SRG_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM SRG_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
 		            </when>
 		       </choose>
 		       LEFT OUTER JOIN (SELECT quiz_id,
@@ -369,7 +380,17 @@
 			               score,
 			               max_submit_cnt,
 			               deduct_score
-			        FROM   ast_exam_mst) A
+			        FROM   ast_exam_mst
+			        UNION ALL
+			        SELECT srg_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   srg_exam_mst) A
 			WHERE  A.faq_id = #{faqId}
 			
 	</select>
@@ -438,7 +459,13 @@
 			                               ANSWER_CN,
 			                               SCORE,
 			                               DEDUCT_SCORE
-			                        FROM   AST_EXAM_MST) B
+			                        FROM   AST_EXAM_MST
+			                        UNION ALL
+			                        SELECT SRG_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   SRG_EXAM_MST) B
 			                    ON A.QUIZ_ID = B.QUIZ_ID
 			WHERE  A.QUIZ_ID = #{quizId}
 			       AND A.GROUP_ID = #{groupId}
@@ -464,6 +491,59 @@
 			                    ON B.question_id = C.wat_exam_id
 			WHERE  A.team_id = #{groupId}
 			       AND B.question_id = #{quizId} 
+	
+	</select>
+	
+	<select id="selectTrainingTimeSetting" resultType="java.util.HashMap">
+	
+		SELECT TRAINING_ID,
+			   PST_START_DATETIME,
+			   PST_END_DATETIME,
+			   WAT_START_DATETIME,
+			   WAT_END_DATETIME,
+				MDT_START_DATETIME,
+				MDT_END_DATETIME,
+				AST_START_DATETIME,
+				AST_END_DATETIME,
+				SRG_START_DATETIME,
+				SRG_END_DATETIME
+		 FROM kepco_training_time
+		ORDER BY TRAINING_ID DESC
+		LIMIT 1
+	
+	</select>
+	
+	<select id="selectTrainingIdList" resultType="java.util.HashMap">
+	
+		SELECT EVENT_ID,EVENT_CN FROM comtneventinfo
+		ORDER BY EVENT_ID DESC
+		LIMIT 1
+		 
+	</select>
+	
+	<select id="selectCurrentExamAvailable" resultType="String">
+	
+		SELECT 
+			<choose>
+				<when test='value == "pst"'>
+					IF( (PST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( PST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "mdt"'>
+					IF( (MDT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( MDT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "wat"'>
+					IF( (WAT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( WAT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "ast"'>
+					IF( (AST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( AST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "srg"'>
+					IF( (SRG_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( SRG_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+			</choose>
+		  FROM KEPCO_TRAINING_TIME
+	
+		<!-- KEPCO_TRAINING_TIME 테이블이 현재 최신 훈련 ROW 하나만 들고 있기 때문에 가능함. 추후 반드시 변경해야함. -->
 	
 	</select>
 	
@@ -516,4 +596,55 @@
 					   )
 	</insert>
 	
+	<insert id="setTrainingTimeSetting">
+	
+			INSERT INTO KEPCO_TRAINING_TIME
+						(TRAINING_ID,
+						 START_DATETIME,
+						 END_DATETIME,
+						 PST_START_DATETIME,
+						 PST_END_DATETIME,
+						 MDT_START_DATETIME,
+						 MDT_END_DATETIME,
+						 WAT_START_DATETIME,
+						 WAT_END_DATETIME,
+						 AST_START_DATETIME,
+						 AST_END_DATETIME,
+						 SRG_START_DATETIME,
+						 SRG_END_DATETIME
+						)VALUES(
+						 #{trainingId},
+						 '1',
+						 '1',
+						 #{pstStartDatetime},
+						 #{pstEndDatetime},
+						 #{mdtStartDatetime},
+						 #{mdtEndDatetime},
+						 #{watStartDatetime},
+						 #{watEndDatetime},
+						 #{astStartDatetime},
+						 #{astEndDatetime},
+						 #{srgStartDatetime},
+						 #{srgEndDatetime}
+						) ON DUPLICATE KEY UPDATE
+						 PST_START_DATETIME = #{pstStartDatetime},
+						 PST_END_DATETIME = #{pstEndDatetime},
+						 MDT_START_DATETIME = #{mdtStartDatetime},
+						 MDT_END_DATETIME = #{mdtEndDatetime},
+						 WAT_START_DATETIME = #{watStartDatetime},
+						 WAT_END_DATETIME = #{watEndDatetime},
+						 AST_START_DATETIME = #{astStartDatetime},
+						 AST_END_DATETIME = #{astEndDatetime},
+						 SRG_START_DATETIME = #{srgStartDatetime},
+						 SRG_END_DATETIME= #{srgEndDatetime}
+	
+	</insert>
+	
+	<!-- updates  -->
+	<update id = "updateWatExamOpenTime">
+	
+			UPDATE WAT_EXAM_MST
+			   SET EXAM_OPEN_TIME = #{watStartDateTime}
+	
+	</update>
 </mapper>

@@ -34,8 +34,9 @@
 	}  */
 	
 	
-	function movePage(url, vmId) {
-		window.open("<c:url value='/train/ticketUrl.do' />?url="+url+"&vmId="+vmId, '_blank');
+	function movePage(url, vmId, vmName, index) {
+		console.log("index : ", index);
+		window.open("<c:url value='/train/ticketUrl.do' />?url="+url+"&vmId="+vmId+"&vmName="+vmName,  index, '_blank');
 	}
 </script>
 
@@ -72,7 +73,7 @@
 				<td>${item.type}</td>
 				<td>${item.ip}</td>
 				<td>${item.user_name } <c:out value="/"/> ${item.user_password }</td>
-				<td><button class="s_btn" type="button" onclick="javascript:movePage('${item.url}', '${item.id}')">열기</button></td> 
+				<td><button class="s_btn" type="button" onclick="javascript:movePage('${item.url}', '${item.id}', '${item.name}', '${status.index}')">열기</button></td> 
 				
 				
 			</tr>

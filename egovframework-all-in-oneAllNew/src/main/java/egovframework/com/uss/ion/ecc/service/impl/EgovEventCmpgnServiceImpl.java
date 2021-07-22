@@ -44,7 +44,7 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	
 	@Override
 	public List<?> selectEventCmpgnListForScoreView(EventCmpgnVO searchVO) {
-		return egovEventCmpgnDao.selectEventCmpgnListForScoreView(searchVO);
+		return egovEventCmpgnDao.selectEventCmpgnList(searchVO);
 	}
 
 	@Override

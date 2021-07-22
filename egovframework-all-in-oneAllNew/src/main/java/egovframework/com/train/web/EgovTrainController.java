@@ -313,6 +313,7 @@ public class EgovTrainController {
 	@RequestMapping("/train/ticketUrl.do")
 	public String getVmTicketUrl(@RequestParam(value = "url") String url,
 								@RequestParam(value = "vmId") String vmId,
+								@RequestParam(value = "vmName") String vmName,
 								ModelMap model) throws Exception {
     	String ticket = vmApiService.getTicketForUrl(vmId);
     	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -322,6 +323,7 @@ public class EgovTrainController {
     			
     	model.addAttribute("ticket", ticket);
     	model.addAttribute("url", url);
+    	model.addAttribute("vmName", vmName);
     	return "egovframework/com/utl/train/poc";
 	}
 	

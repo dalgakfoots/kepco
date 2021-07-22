@@ -103,7 +103,7 @@ function closeToast(){
 	    var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/newArticleAlarmReceiver");
 	    webSocket.onopen = function(message) {};
 	    webSocket.onclose = function(message) {};
-	    webSocket.onerror = function(message) {};
+	    webSocket.onerror = function(message) {console.log('it is error')};
 	    // 서버로 부터 메시지가 오면
 	    webSocket.onmessage = function(message) {
 	      	var bbsId = message.data;

@@ -112,6 +112,7 @@ function fn_egov_select_commentList(pageNo) {
 	form.submit();
 }
 
+
 </script>
 
 <!-- 2009.06.29 : 2단계 기능 추가  -->
@@ -159,8 +160,10 @@ function fn_egov_select_commentList(pageNo) {
 		<!-- 글 내용 -->
 		<tr>
 			<th class="vtop"><spring:message code="comCopBbs.articleVO.detail.nttCn" /></th>
-			<td colspan="5" class="cnt">
-				<c:out value="${fn:replace(result.nttCn , crlf , '<br/>')}" escapeXml="false" />
+			<td colspan="5" class="cnt" id="content">
+				<%-- <c:out value="${fn:replace(result.nttCn , crlf , '<br/>')}" escapeXml="false" /> --%>
+				<c:out value="${result.nttCn}" escapeXml="false"/>
+				
 			</td>
 		</tr>
 		
@@ -257,6 +260,5 @@ function fn_egov_select_commentList(pageNo) {
 	</c:import>
 	</form>
 </c:if>
-
 </body>
 </html>

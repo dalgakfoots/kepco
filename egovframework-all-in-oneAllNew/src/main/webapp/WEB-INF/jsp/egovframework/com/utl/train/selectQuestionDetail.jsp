@@ -33,7 +33,7 @@
 	function examList(){
 		
 		var form = document.frm;
-		form.action = "<c:url value='/train/enterExam.do'/>";
+		form.action = "<c:url value='/train/enterTrainingSystem.do'/>";
 		form.submit();
 		
 	}
@@ -64,7 +64,7 @@
 						<button type="button" onclick="javascript:finishQuestion()">문제풀이완료</button>
 					</c:if>
 				</c:if>
-				<button type="button" onclick="javascript:examList()">문제목록</button>
+				<button type="button" onclick="javascript:examList()">뒤로가기</button>
 				</td>
 			</tr>
 		</tbody>

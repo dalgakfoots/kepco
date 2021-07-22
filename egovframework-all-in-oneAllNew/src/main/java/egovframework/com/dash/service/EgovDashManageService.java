@@ -17,8 +17,10 @@ public interface EgovDashManageService {
 	ModelAndView selectDashGragh(String trainingId, ModelAndView modelAndView) throws Exception;
 	
 	List<Map> selectScoreLogList(String trainingId, String teamId) throws Exception;
+	List<Map> selectScoreLogListForDeduction(String trainingId) throws Exception;
 	Map selectCurrentScore(String trainingId, String teamId) throws Exception;
 	
 	String selectTeamIdByUserId(String userId) throws Exception;
 	void insertDashScore( String trainingId, HashMap model) throws Exception;
+	void insertEgovDeductionScore(String trainingIs, String teamId, String score) throws Exception;
 }

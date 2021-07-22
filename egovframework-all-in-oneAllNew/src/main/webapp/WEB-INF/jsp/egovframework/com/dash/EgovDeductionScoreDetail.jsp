@@ -18,7 +18,24 @@
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
   <script type="text/javaScript" language="javascript">
-  	
+	function ajaxTest() {
+		
+ 		var trainingId = document.getElementById("trainingId").value;
+ 		var teamId = document.getElementById("teamId").value;
+ 		var score =document.getElementById("score").value;
+ 		if (score !== null && score !== "" ) {
+ 			$.ajax({
+ 				type:"get",
+ 				url:"<c:url value='/dash/EgovDeductionScoreInsert.do?trainingId="+trainingId+"&teamId="+teamId+"&score="+score+"'/>",
+ 				dataType:'json',
+ 				success:function(returnData, status){
+ 					if(status == "success") {
+ 						 window.location.reload();
+ 					}else{ alert("ERROR!");return;} 
+ 				}
+ 			});  
+ 		}
+	}
   	
   </script>
 </head>
@@ -35,7 +52,7 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="<c:url value='/dash/EgovDashboardTraining.do' />">점수감점조회</a>
+            <a href="<c:url value='/dash/EgovDashboardTraining.do' />">점수감점</a>
           </li>
         <li class="breadcrumb-item active"><c:out value="${training_name}"/></li>
         </ol>
@@ -44,33 +61,48 @@
         <!--  <div class="card mb-3"> -->
         <div class="card-header">
             <i class="fas fa-table"></i>
-            점수 조회</div>
+           	감점</div>
       		<table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
-                  <tr>
-                    <th>팀명</th>
-                    <th>예방보안</th>
-                    <th>실시간대응</th>
-                    <th>사후대응</th>
-                    <th>vm복구</th>
-                    <th>가용성</th>
-                    <th>총점</th>
-                  </tr>
+                  	<tr>
+                    	<th>팀명</th>
+                    	<th>점수</th>
+                    	<th>등록</th>
+                  	</tr>
                 </thead>
                 <tbody id="score_body">
 					<tr>
-						<td><c:out value="${currentScore.team_name}"/></td>
-						<td><c:out value="${currentScore.type_1}"/></td>
-						<td><c:out value="${currentScore.type_2}"/></td>
-						<td><c:out value="${currentScore.type_3}"/></td>
-						<td><c:out value="${currentScore.type_4}"/></td>
-						<td><c:out value="${currentScore.type_5}"/></td>
-						<td><c:out value="${currentScore.total}"/></td>
+						<td><!--  -->
+							<select name='teamId' id="teamId">
+								<c:forEach var="team" items="${teamList}">
+									<option value="${team.team_id}">${team.team_name}</option>
+								</c:forEach>
+							</select>
+						</td>
+						<td>
+							<input id="trainingId" value="${trainingId}" style="border:2;" type="hidden" >
+							<input id="score" style="border:2;" type="number" >
+						</td>
+						<td>
+							<input type="button"  
+							onclick="javascript:ajaxTest()"
+							value="등록"
+							title="등록"/>
+						</td>
 					</tr>
                 </tbody>
               </table>
 		<!-- </div> -->
+		
+		
+		
+		
  		<br/><br/>
+ 		
+ 		
+ 		
+ 		
+ 		
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">

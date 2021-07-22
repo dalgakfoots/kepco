@@ -168,11 +168,20 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 	
 	@Override
+	public List<Map> selectScoreLogListForDeduction(String trainingId) throws Exception {
+		final List<Map> scoreLogList = egovDashManageDAO.selectScoreLogListForDeduction(trainingId, "vm복구");
+		return scoreLogList;
+	}
+	
+	@Override
 	public Map selectCurrentScore(String trainingId, String teamId) throws Exception {
 		final Map currentScore = egovDashManageDAO.selectDashTable(trainingId, teamId);
 		return currentScore;
 	}
-	
+	@Override
+	public void insertEgovDeductionScore(String trainingId, String teamId, String score) {
+		egovDashManageDAO.insertEgovDeductionScore(trainingId, teamId, score);
+	}
 	
 	
 	

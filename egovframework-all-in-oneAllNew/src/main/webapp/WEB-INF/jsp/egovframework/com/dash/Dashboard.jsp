@@ -199,6 +199,7 @@
   	  	  			const newCell6 = newRow.insertCell(5);
   	  	  			const newCell7 = newRow.insertCell(6);
   	  	  			const newCell8 = newRow.insertCell(7);
+  	  	  			const newCell9 = newRow.insertCell(8);
   	  	  			newCell1.innerText = parseInt(i)+1;
   	  	  			newCell2.innerText = rankList[i].team_name;
   	  	  			newCell3.innerText = rankList[i].type_1;
@@ -206,7 +207,8 @@
   	  	  			newCell5.innerText = rankList[i].type_3;
   	  	  			newCell6.innerText = rankList[i].type_4;
   	  	  			newCell7.innerText = rankList[i].type_5;
-  	  	  			newCell8.innerText = rankList[i].total;	
+  	  	  			newCell8.innerText = rankList[i].type_6;
+  	  	  			newCell9.innerText = rankList[i].total;	
   			}
   	}
   
@@ -309,9 +311,11 @@
                     <th>예방보안</th>
                     <th>실시간대응</th>
                     <th>사후대응</th>
+                    <th>보안규정</th>
                     <th>VM복구</th>
                     <th>가용성</th>
                     <th>총점</th>
+                    
                   </tr>
                 </thead>
                 <tfoot>
@@ -321,9 +325,11 @@
                     <th>예방보안</th>
                     <th>실시간대응</th>
                     <th>사후대응</th>
+                    <th>보안규정</th>
                     <th>VM복구</th>
                     <th>가용성</th>
                     <th>총점</th>
+                    
                   </tr>
                 </tfoot>
                 <tbody id="list_body">
@@ -337,7 +343,9 @@
 	                    <td><c:out value="${item.type_3}"/></td>
 	                    <td><c:out value="${item.type_4}"/></td>
 	                    <td><c:out value="${item.type_5}"/></td>
+	                    <td><c:out value="${item.type_6}"/></td>
 	                    <td><c:out value="${item.total}"/></td>
+	                    
 					</tr>
 				</c:forEach>
                 </tbody>

@@ -40,6 +40,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -249,21 +250,30 @@ public class EgovDashManageController {
 		final String teamId = egovDashManageService.selectTeamIdByUserId(userId);
 		final String trainingName = egovDashManageService.selectTrainingName(trainingId);
 		
+		// 훈련에 참여팀 목록 불러오기 
+			final List<Map> teamList = egovDashManageService.selectTrainingTeams(trainingId);
 		//스코어 로그 리스트 불러오기
-			final List<Map> scoreLogList = egovDashManageService.selectScoreLogList(trainingId, teamId);
+			final List<Map> scoreLogList = egovDashManageService.selectScoreLogListForDeduction(trainingId);
 			
-		//스코어 현재 스코어 불러오기 
-			final Map currentScore = egovDashManageService.selectCurrentScore(trainingId, teamId);
-		
-//		model.addAttribute("scoreLogList", scoreLogList);
-//		model.addAttribute("currentScore", currentScore);
-//		model.addAttribute("training_name", trainingName);
+		model.addAttribute("trainingId", trainingId);
+		model.addAttribute("teamList", teamList);
+		model.addAttribute("scoreLogList", scoreLogList);
+		model.addAttribute("training_name", trainingName);
 		
 		return "egovframework/com/dash/EgovDeductionScoreDetail";
 	}
 	
 	
-	
+	@RequestMapping(value = "/dash/EgovDeductionScoreInsert.do")
+	public ModelAndView insertEgovDeductionScore(@RequestParam(value = "trainingId") String trainingId,
+												@RequestParam(value = "teamId") String teamId,
+												@RequestParam(value = "score") String score,
+										ModelMap model) throws Exception {
+		ModelAndView modelAndView = new ModelAndView();
+    	modelAndView.setViewName("jsonView");
+    	egovDashManageService.insertEgovDeductionScore(trainingId, teamId, score);
+		return modelAndView;
+	}
 	
 	
 	

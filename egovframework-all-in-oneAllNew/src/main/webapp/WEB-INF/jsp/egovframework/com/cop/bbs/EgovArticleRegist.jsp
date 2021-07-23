@@ -294,7 +294,7 @@ function fn_egov_init(){
 	</div><div style="clear:both;"></div>
 	
 	<script type="text/javascript">
-		var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/newArticleAlarmSender");
+		var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmSender");
 		
 		webSocket.onopen = function(message){};
 		

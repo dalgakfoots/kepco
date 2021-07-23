@@ -88,19 +88,21 @@ function closeToast(){
     	</ul>
     	 --%>
     	<ul>
-        	<li style="float:left"><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="125", height="73"/></li>
-    		<li style="font-size:11px; float:left; margin: 10px">
+        	<li><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="100", height="57"/></li>
+    		<li class="ft_info">
     		(우) 58322 전라남도 나주시 전력로 55 (빛가람동 120) Copyright@2019 KEPCO. All Rights Reserved.
-			</
+			<br/>
 			안내번호 : 061-345-3114 당직상황실(야간 및 주말,공휴일) : 061-345-3203
 			</li>
     	</ul>
     </div>
     <div id ="snackbar"></div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <script type="text/javascript">
     	/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
-	    var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/newArticleAlarmReceiver");
+	    var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmReceiver");
 	    webSocket.onopen = function(message) {};
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {console.log('it is error')};
@@ -119,8 +121,29 @@ function closeToast(){
 	      	}
 	      	
 	      	if(bbsNm != ""){
-	      		console.log("새로운 "+bbsNm+" 이(가) 등록되었습니다.");
-	      		showToast(bbsNm);
+	      		/* console.log("새로운 "+bbsNm+" 이(가) 등록되었습니다."); */
+	      		toastr.options = {
+	      			  "closeButton": true,
+	      			  "debug": false,
+	      			  "newestOnTop": false,
+	      			  "progressBar": false,
+	      			  "positionClass": "toast-bottom-center",
+	      			  "preventDuplicates": false,
+	      			  "onclick": null,
+	      			  "showDuration": "300",
+	      			  "hideDuration": "1000",
+	      			  "timeOut": "0",
+	      			  "extendedTimeOut": "0",
+	      			  "showEasing": "swing",
+	      			  "hideEasing": "linear",
+	      			  "showMethod": "fadeIn",
+	      			  "hideMethod": "fadeOut"
+	      		}
+	      		
+	      		toastr["info"]("새로운 "+bbsNm+" 이(가) 등록되었습니다.", "서버로부터 알림이 왔습니다.");
+	      		
+	      		
+	      		//showToast(bbsNm);
 	      	}
 	      	
 	    };

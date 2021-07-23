@@ -56,21 +56,43 @@
             updateScreen();
           });
   </script>
+  <style type="text/css">
+  .title{
+  	display:flex;
+  	align-items:center;
+  	justify-content:space-between;
+  }
+  .title h1{
+  	font-size:26px;
+  }
+  .btn{
+    padding: 8px 12px;
+    border: none;
+    color: #fff;
+    background: #363542;
+    border-radius: 2px;
+    cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="fullscreen">
   
-    <table>
+    <%-- <table>
       <tr>
         <td><h1><c:out value='${vmName}'/></h1></td>
       </tr>
       <tr>
-        <td><input onclick="enterFullScreen()" type="button" value="전체화면"></td>
+        <td><input onclick="enterFullScreen()" type="button" value="전체화면" class="btn"></td>
       </tr>
-    </table>
+    </table> --%>
+    <div class="title">
+    	<h1><c:out value='${vmName}'/></h1>
+    	<input onclick="enterFullScreen()" type="button" value="전체화면" class="btn">
+    </div>
   </div>
   <div style="float:right;">
-    <div id="wmksContainer" style="border: solid 2px blue;"></div>
+    <div id="wmksContainer" style="border: 1px solid #ddd;"></div>
     <div id="msgBox" style="overflow: auto;"></div>
   </div>
 

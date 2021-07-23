@@ -88,10 +88,10 @@ function closeToast(){
     	</ul>
     	 --%>
     	<ul>
-        	<li style="float:left"><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="125", height="73"/></li>
-    		<li style="font-size:11px; float:left; margin: 10px">
+        	<li><img src="<c:url value='/images/egovframework/com/cmm/main/kepco.jpeg' />" alt="한국전력공사" width="100", height="57"/></li>
+    		<li class="ft_info">
     		(우) 58322 전라남도 나주시 전력로 55 (빛가람동 120) Copyright@2019 KEPCO. All Rights Reserved.
-			</
+			<br/>
 			안내번호 : 061-345-3114 당직상황실(야간 및 주말,공휴일) : 061-345-3203
 			</li>
     	</ul>

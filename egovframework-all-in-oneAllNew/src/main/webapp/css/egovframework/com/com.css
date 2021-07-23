@@ -12,22 +12,23 @@
     since    :2016.06.08
 */
 @charset "utf-8";
-
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 /* Base Style *****************************/
 * { margin:0; padding:0; border:0; }
 /* body { overflow-y:auto; } */
+
 body{ 
 	/*margin-top:20px;*/ 
 	margin-left:10px;
 	padding-top:0px;
 	padding-left:0px;
 	margin-bottom:0;
-	font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; 
+	font-family:'Spoqa Han Sans Neo', '돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; 
 	font-size:12px;
 }
 
 div,table,em,h1,h2,h3,h4,h5,h6,form,fieldset,p,th,td,input,textarea,select,button { 
-	font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; font-size:12px; color:#666; }
+	font-family:'Spoqa Han Sans Neo', '돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; font-size:12px; color:#666; }
 
 fieldset, img { border:0; }
 textarea { width:100%; resize:none; }
@@ -175,7 +176,7 @@ input[type="radio"] { vertical-align:text-bottom; }
 .popwTable tbody td select { padding:2px 0 3px 2px; border:1px solid #dedede; }
 .popwTable tbody td img { margin-left:7px; }
 
-.board {position:relative; width:730px; padding-top:20px; }
+.board {position:relative; width:760px; padding-top:20px; }
 .board h1, 
 .board h2 {/*float:left;*/ color:#333; font-size:16px; font-weight:600; }
 .board h1 {margin-bottom:7px; padding:0 0 1px 25px; background:url(../../../images/egovframework/com/cmm/icon/tit_icon.png) no-repeat left 0px; }
@@ -188,19 +189,19 @@ input[type="radio"] { vertical-align:text-bottom; }
 .search_box ul li img { margin-left:7px; }
 .search_box ul li > div {color:#194e73; font-weight:bold; vertical-align:top; }
 .search_box ul li > label {display:inline-block; height:24px; color:#194e73; font-size:12px; font-weight:bold; line-height:24px; }
-.search_box ul li > input[type=text] {height:22px; } 
-.search_box select {height:24px; /*padding:3px 3px 3px 4px;*/ border:1px solid #dedede; }
+.search_box ul li > input[type=text] {height:28px; } 
+.search_box select {height:30px;padding:3px 3px 3px 4px;border:1px solid #dedede; }
 .search_box input.s_input {width:140px; height:22px; margin-right:3px; padding-left:5px; }
 .search_box input.s_input2 {width:140px; height:22px; margin-right:3px; padding-left:5px; }
-.search_box input.s_btn { height:24px; padding:0 8px; border:none; color:#fff; background:#4688d2; border-radius:2px; cursor:pointer; }
-.search_box input.s_btn:hover { background:#7dabdf; }
+.search_box input.s_btn { height:28px; padding:2px 8px; border:none; color:#fff; background:#363542; border-radius:2px; cursor:pointer; }
+.search_box input.s_btn:hover { background:#18181f; }
 
-.search_box span.s_btn { display:inline-block; vertical-align:top; height:13px; font-size:12px; padding:6px 12px 5px 12px; background:#4688d2; border-radius:2px; cursor:pointer; }
-.search_box span.s_btn:hover { background:#7dabdf;}
+.search_box span.s_btn { display:inline-block; vertical-align:top; height:13px; font-size:12px; padding:6px 12px 5px 12px; background:#363542; border-radius:2px; cursor:pointer; }
+.search_box span.s_btn:hover { background:#18181f;}
 .search_box span.s_btn a { color:#fff;  }
 
-.search_box span.btn_b { display:inline-block; vertical-align:top; height:13px; font-size:12px; padding:3px 0 8px 0; background:#4688d2; border-radius:2px; cursor:pointer; }
-.search_box span.btn_b:hover { background:#7dabdf;}
+.search_box span.btn_b { display:inline-block; vertical-align:top; height:14px; font-size:12px; padding:5px 0 10px 0; background:#363542; border-radius:2px; cursor:pointer; }
+.search_box span.btn_b:hover { background:#18181f;}
 .search_box span.btn_b a { vertical-align:text-top; color:#fff; display:block; line-height:19px; padding:0 8px;}
 
 .search_box .con {display:inline-block; width:40%; margin-bottom:2px; }
@@ -219,7 +220,7 @@ padding-bottom :12px;
 }
 
 /* table style */
-.board_list {width:100%; table-layout:fixed; border-top:2px solid #4688d2; }
+.board_list {width:100%; table-layout:fixed; border-top:2px solid #363542; }
 .board_list caption { display:none; }
 .board_list thead th,
 .board_list tbody th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9; }
@@ -228,7 +229,7 @@ padding-bottom :12px;
 .board_list tbody th { text-align:left; padding-left:14px; }
 .board_list tbody th.vtop { vertical-align:top; }
 .board_list tbody th span.pilsu { color:#d0270b; font-weight:500; margin-left:3px; }
-.board_list tbody td { text-align:center; padding:11px 5px; border-bottom:1px solid #d9d9d9; 
+.board_list tbody td { text-align:center; padding:14px 5px; border-bottom:1px solid #d9d9d9; 
 							word-break:break-all; white-space:-moz-pre-wrap; overflow:hidden; text-overflow:ellipsis;}
 .board_list tbody td.left { text-align:left; padding:6px 8px; }
 .board_list tbody td.leftElli { text-align:left; padding:6px 8px; 
@@ -268,7 +269,7 @@ width:100%;
 .wTableFrm h3 { color:#333;  font-size:14px; font-weight:600; margin:50px 0 10px 0; }
 .wTableFrm h3 b { color:#2277d7; }
 
-.wTable { width:100%; border-top:2px solid #4688d2; }
+.wTable { width:100%; border-top:2px solid #363542; }
 .wTable caption { display:none; }
 .wTable > thead > tr > th,
 .wTable > thead > tr > th { color:#222 ; font-size:13px; font-weight:400; background:#f4f4f4; padding:12px 0; border-bottom:1px solid #d9d9d9; }
@@ -346,7 +347,7 @@ width:100%;
 	.ed_about { background:url('../../../images/egovframework/com/cmm/toolbar/ed_about.gif') 1px top no-repeat; }
 .toolbar select { font-size:11px; }
 
-.reply { width:730px;  clear:both; border-top:2px solid #4688d2; position:relative; }
+.reply { width:730px;  clear:both; border-top:2px solid #363542; position:relative; }
 .reply ul { width:730px;  margin:0; padding:0; }
 .reply ul li { width:690px;  border-bottom:1px solid #d9d9d9; padding:20px 20px 14px; overflow:hidden;}
 .reply .top { height:17px; padding-bottom:12px; }
@@ -369,7 +370,7 @@ width:100%;
 .pagination ul li.prev a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_prev_on.gif') no-repeat; }
 .pagination ul li.next a:hover { background:url('../../../images/egovframework/com/cmm/paging/pagination_next_on.gif/') no-repeat; }
 .pagination ul li.current a,
-.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#4688d2; }
+.pagination ul li a:hover { border:none; color:#fff; font-size:15px; font-weight:600; width:28px; height:28px; line-height:28px; background:#363542; border-radius:8px}
 
 /* pagination by reply */
 .paging { float:left; display:inline; width:730px; font-size:1em; text-align:center; margin:15px 0 20px; position:relative;  }
@@ -383,24 +384,24 @@ width:100%;
 .paging strong { display:block; padding:0 5px; color:#2277d7; }
 
 /* button submit */
-.btn_submit { padding:4px 11px 5px; background:#4688d2; font-weight:600; color:#fff; border-radius:1px; margin-left:4px; cursor:pointer; border:none;}
+.btn_submit { padding:4px 11px 5px; background:#363542; font-weight:600; color:#fff; border-radius:1px; margin-left:4px; cursor:pointer; border:none;}
 .btn_submit:hover { background:#7dabdf; }
 
 /* button style */
-button { padding:5px 12px 7px 12px; background:#4688d2; font-weight:600; color:#fff; border-radius:1px; margin-left:4px; cursor:pointer; }
+button { padding:5px 12px 7px 12px; background:#363542; font-weight:600; color:#fff; border-radius:1px; margin-left:4px; cursor:pointer;border-radius:4px}
 button:hover { background:#7dabdf; }
 
-.btn_s2 { margin:0; padding:0px 12px 2px 12px; line-height:19px; word-spacing:-2px; border-radius:1px; font-weight:normal; background:#4688d2; color:#fff; font-size:11px; cursor:pointer; text-align:right;}
+.btn_s2 { margin:0; padding:0px 12px 2px 12px; line-height:19px; word-spacing:-2px; border-radius:1px; font-weight:normal; background:#363542; color:#fff; font-size:11px; cursor:pointer; text-align:right;}
 .btn_s2:hover { background:#7dabdf; }
 
-.btn_s { padding:3px 10px 6px 11px; background-color:#4688d2; color:#fff; font-size:11px; border-radius:1px; margin-top:4px;}
+.btn_s { padding:3px 10px 6px 11px; background-color:#363542; color:#fff; font-size:11px; border-radius:1px; margin-top:4px;}
 .btn_s:hover { color:#c7dbf1; }
 
-span.btn_s {display:inline-block !important; width:43px !important; height:21px !important; margin-top:0 !important; padding:0 !important; border-radius:1px !important; background:#4688d2 !important; vertical-align:top !important; cursor:pointer; }
+span.btn_s {display:inline-block !important; width:43px !important; height:21px !important; margin-top:0 !important; padding:0 !important; border-radius:1px !important; background:#363542 !important; vertical-align:top !important; cursor:pointer; }
 span.btn_s:hover { background:#7dabdf;}
 span.btn_s a {display:block !important; height:21px !important; color:#fff !important; text-align:center !important; line-height:21px !important; vertical-align:top !important; }
 
-span.btn_s2 {display:inline-block !important; height:21px !important; margin-top:0 !important; padding:0 10px !important; border-radius:1px !important; background:#4688d2 !important; vertical-align:top !important; cursor:pointer; }
+span.btn_s2 {display:inline-block !important; height:21px !important; margin-top:0 !important; padding:0 10px !important; border-radius:1px !important; background:#363542 !important; vertical-align:top !important; cursor:pointer; }
 span.btn_s2:hover { background:#7dabdf;}
 span.btn_s2 a {display:block !important; height:21px !important; color:#fff !important; line-height:21px !important; vertical-align:top !important; }
 
@@ -410,7 +411,7 @@ span.btn_r:hover { background:#7dabdf;}
 span.btn_r a { vertical-align:text-top; color:#fff; display:block; line-height:16px; padding:0px 10px 0px 10px;}
 
 .btn { float:right; margin-top:18px; margin-bottom:15px; font-size:11px; }
-.btn input.s_submit {height:21px; padding:0 10px; border:0 !important; color:#fff; font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; font-size:11px; font-weight:200; background:#4688d2; vertical-align:top; cursor:pointer; }
+.btn input.s_submit {height:21px; padding:0 10px; border:0 !important; color:#fff; font-family:'돋움', '굴림', 'Arial', 'AppleGothic', 'sans-serif'; font-size:11px; font-weight:200; background:#363542; vertical-align:top; cursor:pointer; }
 .btn input.s_submit:hover { background:#7dabdf; }
 
 .blog_title { border-bottom:1px solid #e3e3e3; padding-bottom:10px; }
@@ -441,7 +442,7 @@ cursor :pointer;
   font-size:11px;
   line-height:normal;
   vertical-align:middle;
-  background-color:#4688d2;
+  background-color:#363542;
   cursor:pointer;
   border:1px solid #ebebeb;
   border-bottom-color:#e2e2e2;
@@ -484,7 +485,7 @@ cursor :pointer;
 .search_box2 input[type=text] {height:22px; vertical-align:top; }
 .search_box2 select {height:24px; border:1px solid #dedede; vertical-align:top; }
 .search_box2 > span.t1 {display:inline-block; height:24px; color:#194e73; font-size:16px; font-weight:bold; line-height:24px; vertical-align:top; }
-.search_box2 .btns {height:24px; padding:0 10px; border:none; color:#fff; background:#4688d2; border-radius:2px; cursor:pointer; vertical-align:top; }
+.search_box2 .btns {height:24px; padding:0 10px; border:none; color:#fff; background:#363542; border-radius:2px; cursor:pointer; vertical-align:top; }
 .search_box2 .btns:hover {background:#7dabdf; }
 .search_box2 .btns2 {display:inline-block; height:24px; padding:0 7px; border-radius:2px; color:#fff; font-size:12px; line-height:24px; background:#666; vertical-align:top; }
 
@@ -510,7 +511,7 @@ cursor :pointer;
 .e001 td {height:40px; }
 .e002 td {padding:2px 0; }
 
-.btn_01 {display:inline-block !important; height:24px !important; padding:0 11px !important; border-radius:2px !important; color:#fff !important; font-size:12px !important; line-height:24px !important; background:#4688d2 !important; vertical-align:top !important; }
+.btn_01 {display:inline-block !important; height:24px !important; padding:0 11px !important; border-radius:2px !important; color:#fff !important; font-size:12px !important; line-height:24px !important; background:#363542 !important; vertical-align:top !important; }
 .btn_01:hover {background:#7dabdf !important;}
 .btn_02 {display:inline-block !important; height:18px !important; padding:0 10px !important; border:1px solid #9c9c9c; border-radius:2px !important; color:#000 !important; font-size:11px !important; line-height:18px !important; background:url(../../../images/egovframework/com/cmm/btn/bg_btn_02.jpg) repeat-x !important; vertical-align:top !important; }
 
@@ -524,4 +525,14 @@ cursor :pointer;
 .twit_list li a:hover {text-decoration:underline; }
 .twit_list li img {display:block; margin-top:10px; }
 
+  
+/* 210722 style 수정 */ 
+.board h1{background:none; padding:0; font-size:24px; margin-bottom:20px; font-weight:500;}
+.search_box{background:none; border:0 none;}
+.search_box select,
+.search_box input.s_input,
+.search_box input.s_btn,
+.board_list tbody td select,
+.search_box span.btn_b{border-radius:4px;}
 
+button.s_btn{ margin-bottom:8px;background-color:#fff;border:1px solid #363542;color:#363542}

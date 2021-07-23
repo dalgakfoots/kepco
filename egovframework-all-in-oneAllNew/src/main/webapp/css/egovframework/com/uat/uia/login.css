@@ -34,3 +34,15 @@
 	.login_input ul.btn_idpw { margin-top: 5px; }
 	.login_input ul.btn_idpw li { float: left; padding-right: 9px; border-right: 1px solid #d6d6d6; margin-right: 9px; }
 	.login_input ul.btn_idpw li:last-child { padding-right:0; border-right:0; }
+	
+	
+	
+	
+/* 210722 style 수정 */  
+.login_input ul li{margin-bottom:20px}
+.login_input ul li input[type="password"],
+.login_input ul li input[type="text"] {border-radius:4px;}	
+.login_input ul li label{display:block; margin-bottom:4px;}
+.login_input ul li input.btn_login{border-radius:8px;height:52px;cursor:pointer}
+
+.login_form fieldset > img{display:block; margin:0 auto;}

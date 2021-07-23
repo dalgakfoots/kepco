@@ -112,3 +112,25 @@ th {font-family: "돋움"; font-size: 9pt; color:#000000; font-weight:normal;}
 .table-trans  {BORDER-LEFT: 0px solid;BORDER-RIGHT:0px solid; BORDER-BOTTOM:0px solid; BORDER-TOP:0px solid; border-collapse:collapse;}
   .table-trans td{border:0px solid;padding-top:0;padding-bottom:0;padding-left:0;padding-right:0;border:0px solid;border-collapse: collapse;}
   
+  
+  
+  
+  
+/* 210722 style 수정 */  
+
+* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'!important; }
+
+ul{list-style:none; padding-inline-start:0;}  
+li{display:block;}
+
+.lnb{width:170px; margin:0 15px;overflow-y:auto}
+.lnb h2{border-bottom:1px solid #222; padding-bottom:20px;marign-bottom:20px}
+.lnb-depth1-li{display:block; margin-bottom:12px; border-top:1px solid #ddd}
+.lnb-depth1-li:first-of-type{border-top:0;}
+.lnb-depth1-li:first-of-type a.lnb-depth1-title{padding:0}
+a.lnb-depth1-title{display:block; font-size:16px; font-weight:500; color:#696b6f; padding-top:16px; margin-bottom:10px;}
+.lnb-depth2-ul .lnb-depth2-li{margin-bottom:4px;}
+.lnb-depth2-ul .lnb-depth2-li a{display:block; font-size:13px; color:#838488; font-weight:400; padding:4px 0;cursor:pointer}
+.lnb-depth2-ul .lnb-depth2-li a:before{content:'-'; margin:0 8px 0 1em;}
+.lnb-depth2-ul .lnb-depth2-li a:hover{/* color:#1305c9; */color:#fe0000;font-weight:800;}
+  

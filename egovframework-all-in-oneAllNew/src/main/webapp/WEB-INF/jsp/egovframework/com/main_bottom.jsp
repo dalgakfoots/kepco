@@ -97,10 +97,12 @@ function closeToast(){
     	</ul>
     </div>
     <div id ="snackbar"></div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <script type="text/javascript">
     	/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
-	    var webSocket = new WebSocket("ws://localhost:8081/egovframework-all-in-one/newArticleAlarmReceiver");
+	    var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmReceiver");
 	    webSocket.onopen = function(message) {};
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {console.log('it is error')};
@@ -119,8 +121,29 @@ function closeToast(){
 	      	}
 	      	
 	      	if(bbsNm != ""){
-	      		console.log("새로운 "+bbsNm+" 이(가) 등록되었습니다.");
-	      		showToast(bbsNm);
+	      		/* console.log("새로운 "+bbsNm+" 이(가) 등록되었습니다."); */
+	      		toastr.options = {
+	      			  "closeButton": true,
+	      			  "debug": false,
+	      			  "newestOnTop": false,
+	      			  "progressBar": false,
+	      			  "positionClass": "toast-bottom-center",
+	      			  "preventDuplicates": false,
+	      			  "onclick": null,
+	      			  "showDuration": "300",
+	      			  "hideDuration": "1000",
+	      			  "timeOut": "0",
+	      			  "extendedTimeOut": "0",
+	      			  "showEasing": "swing",
+	      			  "hideEasing": "linear",
+	      			  "showMethod": "fadeIn",
+	      			  "hideMethod": "fadeOut"
+	      		}
+	      		
+	      		toastr["info"]("새로운 "+bbsNm+" 이(가) 등록되었습니다.", "서버로부터 알림이 왔습니다.");
+	      		
+	      		
+	      		//showToast(bbsNm);
 	      	}
 	      	
 	    };

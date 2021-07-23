@@ -1,9 +1,6 @@
 package egovframework.com.train.web;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,11 +10,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.com.cmm.LoginVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.train.service.EgovTrainService;
+import egovframework.com.train.service.EgovTrainTimeSettingVO;
 import egovframework.com.train.service.EgovTrainVO;
 import egovframework.com.vm.service.VmApiService;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
@@ -50,6 +47,8 @@ public class EgovTrainController {
 		 * 
 		 * ast : 사후대응훈련 (After Situation Training)
 		 * 
+		 * srg : 보안규정및지침(Security Regulation Guidelines)
+		 * 
 		 * */
 		param.put("trainType", trainType);
 		// trainType에 맞는 vmGroupId를 가지고 온다.
@@ -64,17 +63,36 @@ public class EgovTrainController {
 		// trainType을 view 쪽으로 던져줌.
 		// vm 리스트를 view 쪽으로 던져줌.
 		if(trainType.equals("pst")) {
-			trainTypeName = "예방보안훈련";
+			trainTypeName = "예방보안";
 		}else if(trainType.equals("mdt")) {
-			trainTypeName = "악성코드탐지대응훈련";
+			trainTypeName = "실시간대응(악성코드)";
 		}else if(trainType.equals("wat")) {
-			trainTypeName = "Web공격대응훈련";
+			trainTypeName = "실시간대응(웹)";
 		}else if(trainType.equals("ast")) {
-			trainTypeName = "사후대응훈련";
+			trainTypeName = "사후대응";
+		}else if(trainType.equals("srg")) {
+			trainTypeName = "보안규정및지침";
 		}
+		
+		//trainType
+		HashMap availCheckMap = new HashMap();
+		availCheckMap.put("value", trainType);
+		String isAvailable = egovTrainService.selectCurrentExamAvailable(availCheckMap);
+		
+		if(isAvailable.equals("N")) {
+			trainType = "none";
+			model.addAttribute("trainType", trainType);
+			model.addAttribute("msg", "지금은 훈련 시간이 아닙니다.");
+			return "egovframework/com/utl/train/EnterTrainingSystem";
+		}
+		
 		model.addAttribute("trainType", trainType);
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("userVmLists", userVmLists);
+		
+		List<HashMap> examList = egovTrainService.selectUserExamList(param);
+		
+		model.addAttribute("examList", examList);
 		
 		return "egovframework/com/utl/train/EnterTrainingSystem";
 	}
@@ -94,37 +112,21 @@ public class EgovTrainController {
 		String trainType = frm.getTrainType();
 		String trainTypeName ="";
 		if(trainType.equals("pst")) {
-			trainTypeName = "예방보안훈련";
+			trainTypeName = "예방보안";
 		}else if(trainType.equals("mdt")) {
-			trainTypeName = "악성코드탐지대응훈련";
+			trainTypeName = "실시간대응(악성코드)";
 		}else if(trainType.equals("wat")) {
-			trainTypeName = "Web공격대응훈련";
+			trainTypeName = "실시간대응(웹)";
 		}else if(trainType.equals("ast")) {
-			trainTypeName = "사후대응훈련";
+			trainTypeName = "사후대응";
+		}else if(trainType.equals("srg")) {
+			trainTypeName = "보안규정및지침";
 		}
 		
 		List<HashMap> examList = null;
-		if(trainType.equals("wat")) {
-			examList = egovTrainService.selectUserWatExamList(param);
-			for(int i = 0 ; i < examList.size() ; i++) {
-				if(examList.get(i).get("LAGTEST") == null) continue;
-				Timestamp origin = (Timestamp) examList.get(i).get("LAGTEST"); // 을 가져와서
-				Timestamp later = new Timestamp(origin.getTime() + (600 * 1000L));
-				int temp = i + 1;
-				if (temp < examList.size()) {
-					examList.get(temp).put("LAGTEST", later);
-					if(later.compareTo((Timestamp) examList.get(temp).get("NOWTIME")) < 0) {
-						examList.get(temp).replace("PRE_EXAM_LAG_YN", "Y");
-					}
-				}
-				//다음에다 10을 더한뒤 넣어줌 
-				
-				
-			}
-			
-		}else {
-			examList = egovTrainService.selectUserExamList(param);
-		}
+		
+		examList = egovTrainService.selectUserExamList(param);
+		
 		model.addAttribute("examList", examList);
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("trainType", trainType);
@@ -215,7 +217,7 @@ public class EgovTrainController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return "forward:/train/enterExam.do";
+		return "forward:/train/enterTrainingSystem.do";
 	}
 	
 	@RequestMapping("/train/finishQuestion.do")
@@ -282,6 +284,8 @@ public class EgovTrainController {
 				trainType = "실시간대응";
 			}else if(trainType.equals("ast")) {
 				trainType = "사후대응";
+			}else if(trainType.equals("srg")) {
+				trainType = "보안규정";
 			}
 			resultMap.put("trainType", trainType);
 			resultMap.put("userId", esntlId);
@@ -296,7 +300,7 @@ public class EgovTrainController {
 		}
 		//풀이완료 했다면
 		model.addAttribute("msg", "해당 문제의 풀이를 완료하였습니다.");
-		return "forward:/train/enterExam.do";
+		return "forward:/train/enterTrainingSystem.do";
 	}
 	
 //	
@@ -325,6 +329,51 @@ public class EgovTrainController {
     	model.addAttribute("url", url);
     	model.addAttribute("vmName", vmName);
     	return "egovframework/com/utl/train/poc";
+	}
+	
+	@RequestMapping("/train/setTrainingTime.do")
+	public String enterTrainingTimeSetting(ModelMap model) throws Exception{
+		HashMap result =  egovTrainService.selectTrainingTimeSetting();
+		List<HashMap> trainingIds = egovTrainService.selectTrainingIdList();
+		model.addAttribute("result", result);
+		model.addAttribute("trainingIds", trainingIds);
+		
+		return "egovframework/com/utl/train/enterTrainingTimeSetting";
+	}
+	
+	@RequestMapping("/train/setTrainingTimeSetting.do")
+	public String setTrainingTimeSetting(@ModelAttribute("frm") EgovTrainTimeSettingVO frm, ModelMap model) throws Exception{
+		egovTrainService.setTrainingTimeSetting(frm);
+		
+		HashMap param = new HashMap();
+		String watStartDateTime = frm.getWatStartDatetime();
+		String[] temp = watStartDateTime.split(":");
+		int hour = Integer.parseInt(temp[0]);
+		int min = Integer.parseInt(temp[1]);
+		
+		int sum = (hour * 60) + min;
+		System.out.println("sum : "+sum);
+		hour = sum / 60;
+		System.out.println("hour : "+hour);
+		min = (sum % 60)+20;
+		
+		hour = min >= 60? hour + 1 : hour;
+		String h = String.valueOf(hour);
+		h = h.length() == 1 ? "0"+h : h; 
+		
+		min = min >= 60 ? min - 60 : min;
+		String minute = String.valueOf(min);
+		System.out.println("min : "+minute);
+		minute = minute.equals("0") ? "00" : minute;
+		
+		
+		watStartDateTime = h + minute;
+		System.out.println(watStartDateTime);
+		param.put("watStartDateTime", watStartDateTime);
+		
+		egovTrainService.updateWatExamOpenTime(param);
+		
+		return "forward:/train/setTrainingTime.do";
 	}
 	
 }

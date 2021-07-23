@@ -81,30 +81,18 @@
 					<c:when test="${trainType eq 'wat'}"><!-- 훈련타입이 웹공격대응일 때,  -->
 					<tr>
 						<td>${status.count}</td>
-						<td><c:if test="${item.IS_EXAM_TIME_YN eq 'Y' || item.PRE_EXAM_SOLVED_YN eq 'Y' || item.PRE_EXAM_LAG_YN eq 'Y'}"><a href="javascript:questionDetail('${item.faq_id}');" style="font-weight : bold;"></c:if>${item.qestn_sj}</a></td>
+						<td><a href="javascript:questionDetail('${item.faq_id}');" style="font-weight : bold;">${item.qestn_sj}</a></td>
 						<td>
 							<c:choose>
-								<c:when test="${item.CNT eq '0' && item.type eq 'QUIZ'}">
+								<c:when test="${item.CNT eq '0'}">
 									미제출
-								</c:when>
-								<c:when test="${item.CNT eq '0' && item.type eq 'QUESTION'}">
-									에이전트 모니터링 방식
 								</c:when>
 								<c:otherwise>
 									<c:out value="${item.CNT }"/>회 제출
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>
-							<c:choose>
-								<c:when test="${not empty item.PRE_EXAM_SJ}">
-									${item.PRE_EXAM_SJ} 문제의 정답 여부 확인 또는<br/>이전문제가 활성화되고 10분이 지난후,<br/>해당 문제가 활성화 됩니다.
-								</c:when>
-								<c:otherwise>
-									20분 후, 해당 문제가 활성화 됩니다.
-								</c:otherwise>
-							</c:choose>
-						</td>
+						<td></td>
 					</tr>
 					</c:when>
 					<c:otherwise>
@@ -121,7 +109,7 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>비고 미구현</td>
+						<td></td>
 					</tr>
 					</c:otherwise>
 				</c:choose>

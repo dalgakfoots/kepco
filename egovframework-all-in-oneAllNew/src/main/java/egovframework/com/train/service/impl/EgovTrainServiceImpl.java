@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.train.service.EgovTrainService;
+import egovframework.com.train.service.EgovTrainTimeSettingVO;
 
 @Service("EgovTrainService")
 public class EgovTrainServiceImpl implements EgovTrainService {
@@ -83,6 +84,32 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 	@Override
 	public List<HashMap> selectUserWatExamList(HashMap param) throws Exception {
 		return egovTrainDAO.selectUserWatExamList(param);
+	}
+
+	@Override
+	public HashMap selectTrainingTimeSetting() throws Exception {
+		return egovTrainDAO.selectTrainingTimeSetting();
+	}
+
+	@Override
+	public List<HashMap> selectTrainingIdList() throws Exception {
+		return egovTrainDAO.selectTrainingIdList();
+	}
+
+	@Override
+	public void setTrainingTimeSetting(EgovTrainTimeSettingVO frm) throws Exception {
+		egovTrainDAO.setTrainingTimeSetting(frm);
+		
+	}
+
+	@Override
+	public String selectCurrentExamAvailable(HashMap trainType) throws Exception {
+		return egovTrainDAO.selectCurrentExamAvailable(trainType);
+	}
+
+	@Override
+	public void updateWatExamOpenTime(HashMap param) throws Exception {
+		egovTrainDAO.updateWatExamOpenTime(param);
 	}
 
 }

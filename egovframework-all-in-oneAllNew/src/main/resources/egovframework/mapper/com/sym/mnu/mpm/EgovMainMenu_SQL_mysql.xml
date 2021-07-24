@@ -39,7 +39,7 @@
 			WHERE  A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from COMTNEMPLYRSCRTYESTBS
 	                                WHERE  SCRTY_DTRMN_TRGET_ID = #{tmpUniqId})
-			ORDER BY B.MENU_ORDR
+			 ORDER BY B.MENU_NO
 		 
 	</select>
 

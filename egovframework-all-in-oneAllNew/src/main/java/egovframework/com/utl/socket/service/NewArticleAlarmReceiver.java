@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -109,6 +110,9 @@ public class NewArticleAlarmReceiver {
 		}
 	}
 
-	
+	@OnError
+	public void handleError(Throwable t){
+        t.printStackTrace();
+    }
 	
 }

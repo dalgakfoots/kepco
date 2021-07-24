@@ -52,7 +52,7 @@ var getContextPath = "${pageContext.request.contextPath}";
     </div>
     </div>
     <div id="new_topnavi">
-        <ul>
+        <ul style="width:90%;">
 			<li><a href="<c:url value='/sym/mnu/mpm/EgovMainMenuHome.do' />" target="_top">HOME</a></li>
 			<c:forEach var="result" items="${list_headmenu}" varStatus="status">
 			   <!-- <li class="gap"> l </li> -->

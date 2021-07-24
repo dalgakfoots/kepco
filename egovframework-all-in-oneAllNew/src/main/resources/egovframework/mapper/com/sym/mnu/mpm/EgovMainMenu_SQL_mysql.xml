@@ -26,8 +26,18 @@
 	</select>
 
 	<select id="selectMainMenuLeft" parameterType="egovframework.com.sym.mnu.mpm.service.MenuManageVO" resultType="egovMap">
-		 
-			SELECT
+		 	SELECT menuNo
+		 	     , menuOrdr
+		 	     , menuNm
+		 	     , upperMenuId
+		 	     , relateImagePath
+		 	     , relateImageNm
+		 	     , chkURL
+		 	     , IFNULL(cnt,0) AS cnt
+       			 , artiCnt
+       			 ,IF(IFNULL(cnt,0) <![CDATA[<]]> artiCNT , 'Y' , 'N') AS isNew
+		 	  FROM
+			(SELECT
 			       B.MENU_NO AS menuNo
 				 , B.MENU_ORDR AS menuOrdr
 				 , B.MENU_NM AS menuNm
@@ -39,8 +49,19 @@
 			WHERE  A.MENU_NO  = B.MENU_NO 
 			AND    A.AUTHOR_CODE = (SELECT AUTHOR_CODE from COMTNEMPLYRSCRTYESTBS
 	                                WHERE  SCRTY_DTRMN_TRGET_ID = #{tmpUniqId})
-			ORDER BY B.MENU_ORDR
-		 
+			 ORDER BY B.MENU_NO) A LEFT OUTER JOIN
+		(SELECT BBS_ID, MBER_ID, COUNT(*) AS CNT
+		 						FROM
+		 						(SELECT BBS_ID,
+                               NTT_ID,
+                               MBER_ID
+                        FROM   USER_ARTICLE_CHK
+                        GROUP  BY BBS_ID,
+                                  NTT_ID,
+                                  MBER_ID)A 
+							   GROUP BY A.BBS_ID, A.MBER_ID) B ON SUBSTRING_INDEX(A.chkURL, 'bbsId=',-1) = B.BBS_ID AND B.MBER_ID = #{tmpId}
+		 	 LEFT OUTER JOIN (SELECT BBS_ID , COUNT(*) AS artiCnt FROM comtnbbs GROUP BY BBS_ID) C ON Substring_index(A.CHKURL, 'bbsId=', -1) = C.BBS_ID
+       		 ORDER BY MENUNO
 	</select>
 
 	<select id="selectLastMenuURL" parameterType="egovframework.com.sym.mnu.mpm.service.MenuManageVO" resultType="String">

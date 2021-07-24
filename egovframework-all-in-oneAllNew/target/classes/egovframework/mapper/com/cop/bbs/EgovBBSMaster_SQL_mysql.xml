@@ -341,4 +341,18 @@
 			
 	</select>
 	
+	<insert id="insertBBSUserLog">
+	
+			INSERT INTO USER_ARTICLE_CHK
+						(BBS_ID,
+						 NTT_ID,
+						 MBER_ID
+						)VALUES(
+						 #{bbsId},
+						 #{nttId},
+						 #{mberId}
+						)
+	
+	</insert>
+	
 </mapper>

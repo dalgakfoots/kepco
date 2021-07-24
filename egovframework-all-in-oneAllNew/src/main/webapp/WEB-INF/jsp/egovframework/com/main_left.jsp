@@ -48,7 +48,7 @@ function fn_main_leftPageMove(menuNo){
 <script language="javascript1.2" src="<c:url value='/js/egovframework/com/sym/mnu/mpm/EgovMenuList.js' />" /></script>
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight= "0">
-<form name="menuListForm" action ="<c:url value='/sym/mnu/mpm/EgovMenuListSelect.do' />" method="get">
+<form name="menuListForm" action ="<c:url value='/sym/mnu/mpm/EgovMenuListSelect.do' />" method="get" target="main_right">
 <input type="hidden" name="menuNo" value="test"/>
 
 <DIV id="main" style="display:">
@@ -59,64 +59,42 @@ function fn_main_leftPageMove(menuNo){
         <div style="width:0px; height:0px;">
         
         
+<%-- 
 		<c:forEach var="result" items="${list_menulist}" varStatus="status" >
 			<input type="hidden" name="tmp_menuNm" value="${result.menuNo}|${result.upperMenuId}|${result.menuNm}|${result.relateImagePath}|${result.relateImageNm}|${pageContext.request.contextPath}/${result.chkURL}|"/>
 		</c:forEach>
 		
-		<!-- 
+	
 			<div class="tree" style="overflow: auto; position: absolute; z-index: 5; padding: 0pt 0pt 0pt 49px; width: 214px; height: 512px;">
+ --%>
+			<c:forEach var="result" items="${list_menulist}" varStatus="status" >
+				<input type="hidden" name="tmp_menuNm" value="${result.menuNo}|${result.upperMenuId}|${result.menuNm}|${result.relateImagePath}|${result.relateImageNm}|${pageContext.request.contextPath}/${result.chkURL}|"/>
+			</c:forEach>
+
 			
-				<script language="javascript">
-					var Tree = new Array;
-					for (var j = 0; j < document.menuListForm.tmp_menuNm.length; j++) {
-						Tree[j] = document.menuListForm.tmp_menuNm[j].value;
-						/* console.log(Tree[j]); */
-					}
-					createTree(Tree, true, '<c:out value="${resultVO.tempInt}"/>'); 	
-				</script>
-			
-			</div> -->
 			
 			<div class="lnb">
-			<h2>보안</h2>
 				<div class="lnb-depth1-ul">
-					<div class="lnb-depth1-li">
-						<a class="lnb-depth1-title" href="/">보안</a>
-						<div class="lnb-depth2-ul">
-							<div class="lnb-depth2-li"><a>권한그룹관리</a></div>
+				<c:forEach var = "item" items = "${list_menulist}">
+					<c:if test="${item.upperMenuId eq '0'}">
+						<div class="lnb-depth1-li">
+							<a class="lnb-depth1-title">${item.menuNm}</a>
+							<div class="lnb-depth2-ul">
+								<c:forEach var ="inner" items="${list_menulist}">
+									<c:if test="${inner.upperMenuId eq item.menuNo }">
+										<div class="lnb-depth2-li"><a href="javascript:fn_main_leftPageMove('${inner.menuNo}')">${inner.menuNm}</a>
+										<c:if test="${inner.upperMenuId eq '13000000' }">
+											<span style="color:red;"><c:if test="${inner.isNew eq 'Y' }">new</c:if></span>
+										</c:if>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
 						</div>
-					</div>
-					<div class="lnb-depth1-li">
-						<a class="lnb-depth1-title" href="/">사용자지원</a>
-						<div class="lnb-depth2-ul">
-							<div class="lnb-depth2-li"><a>사이버위기경보 관리</a></div>
-							<div class="lnb-depth2-li"><a>사이버위협정보공유 관리</a></div>
-							<div class="lnb-depth2-li"><a>일반알림문 관리</a></div>
-							<div class="lnb-depth2-li"><a>안내(금지)사항 관리</a></div>
-							<div class="lnb-depth2-li"><a>대시보드</a></div>
-							<div class="lnb-depth2-li"><a>점수감점</a></div>
-						</div>
-					</div>
-					<div class="lnb-depth1-li">
-						<a class="lnb-depth1-title" href="/">단위관리</a>
-						<div class="lnb-depth2-ul">
-							<div class="lnb-depth2-li"><a>일반회원관리</a></div>
-							<div class="lnb-depth2-li"><a>훈련목록관리</a></div>
-							
-						</div>
-					</div>
-					<div class="lnb-depth1-li">
-						<a class="lnb-depth1-title" href="/">그룹관리</a>
-						<div class="lnb-depth2-ul">
-							<div class="lnb-depth2-li"><a>사용자그룹관리</a></div>
-							<div class="lnb-depth2-li"><a>VM그룹관리</a></div>
-							<div class="lnb-depth2-li"><a>훈련문제그룹관리</a></div>
-							<div class="lnb-depth2-li"><a>훈련매핑관리</a></div>
-						</div>
-					</div>
+					</c:if>
+				</c:forEach>
 				</div>
 			</div> 
-			
 		</div>
 		
    </td>

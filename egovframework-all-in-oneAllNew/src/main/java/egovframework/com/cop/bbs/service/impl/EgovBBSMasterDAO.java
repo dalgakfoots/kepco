@@ -82,4 +82,8 @@ public class EgovBBSMasterDAO extends EgovComAbstractDAO {
 	public HashMap selectCyberThreatAlarm(BoardVO boardVO) {
 		return selectOne("BBSMaster.selectCyberThreatAlarm",boardVO);
 	}
+
+	public void insertBBSUserLog(HashMap logParam) {
+		insert("BBSMaster.insertBBSUserLog", logParam);
+	}
 }

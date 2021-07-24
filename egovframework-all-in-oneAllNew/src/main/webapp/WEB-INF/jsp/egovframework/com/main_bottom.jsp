@@ -11,6 +11,10 @@
 <title><spring:message code="comSymMnuMpm.main_bottom.mainBottomTitle"/></title><!-- 아래메인 -->
 <style type="text/css">
 
+.toast-bottom-center {
+	display : flex;
+}
+
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 500px; /* Set a default minimum width */
@@ -125,7 +129,7 @@ function closeToast(){
 	      		toastr.options = {
 	      			  "closeButton": true,
 	      			  "debug": false,
-	      			  "newestOnTop": false,
+	      			  "newestOnTop": true,
 	      			  "progressBar": false,
 	      			  "positionClass": "toast-bottom-center",
 	      			  "preventDuplicates": false,

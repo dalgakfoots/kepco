@@ -136,6 +136,11 @@ public class Board implements Serializable {
 	 * atchFileId attribute를 리턴한다.
 	 * @return the atchFileId
 	 */
+    
+    
+	/* TODO 게시글 조회 여부 로그를 확인 하기 위해 mberId를 관리함. */
+    private String mberId;
+    
 	public String getAtchFileId() {
 		return atchFileId;
 	}
@@ -569,5 +574,13 @@ public class Board implements Serializable {
 	 */
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getMberId() {
+		return mberId;
+	}
+
+	public void setMberId(String mberId) {
+		this.mberId = mberId;
 	}
 }

@@ -70,7 +70,8 @@
 				<input type="hidden" name="bbsNm" value="<c:out value='${result.bbsNm}'/>"/>
 				<%-- <input type="submit" value="<c:out value="${result.nttSj}"/>"/> --%>
 				<td>${status.count}</td>
-				<td style="text-align:left;"><a href="javascript:selectBBSMasterDetail('${result.nttId}' , '${result.bbsId}' , '${bbsOrder}')">${result.nttSj}</a></td>
+				<td style="text-align:left;"><a href="javascript:selectBBSMasterDetail('${result.nttId}' , '${result.bbsId}' , '${bbsOrder}')">${result.nttSj}</a>
+				<c:if test="${result.cnt <= 0 }"><span style="color:red;">new</span></c:if></td>
 				<td>${result.frstRegisterNm}</td>
 				<td>${result.frstRegisterPnttm}</td>
 			<tr>

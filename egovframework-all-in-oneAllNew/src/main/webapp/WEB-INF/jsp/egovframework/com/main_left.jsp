@@ -73,7 +73,11 @@ function fn_main_leftPageMove(menuNo){
 							<div class="lnb-depth2-ul">
 								<c:forEach var ="inner" items="${list_menulist}">
 									<c:if test="${inner.upperMenuId eq item.menuNo }">
-										<div class="lnb-depth2-li"><a href="javascript:fn_main_leftPageMove('${inner.menuNo}')">${inner.menuNm}</a></div>
+										<div class="lnb-depth2-li"><a href="javascript:fn_main_leftPageMove('${inner.menuNo}')">${inner.menuNm}</a>
+										<c:if test="${inner.upperMenuId eq '13000000' }">
+											<span style="color:red;"><c:if test="${inner.isNew eq 'Y' }">new</c:if></span>
+										</c:if>
+										</div>
 									</c:if>
 								</c:forEach>
 							</div>

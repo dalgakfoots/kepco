@@ -117,6 +117,9 @@ public class BoardVO extends Board implements Serializable {
     /** 비밀글 여부 */
     private String secretAt;
     
+	/* 사용자의 해당 글 조회 횟수 확인 용 */
+    private int cnt;
+    
     /**
      * searchBgnDe attribute를 리턴한다.
      * 
@@ -668,6 +671,14 @@ public class BoardVO extends Board implements Serializable {
 
 	public void setSecretAt(String secretAt) {
 		this.secretAt = secretAt;
+	}
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
 	}
 
 

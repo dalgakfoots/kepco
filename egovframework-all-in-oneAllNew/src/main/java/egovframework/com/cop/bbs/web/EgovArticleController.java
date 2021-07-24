@@ -191,7 +191,10 @@ public class EgovArticleController {
 		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-	
+		
+		// 사용자의 아이디를 통하여 사용자의 게시글 조회 여부를 확인하기 위해 세팅
+		boardVO.setMberId(user.getId());
+		
 		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
 		int totCnt = Integer.parseInt((String)map.get("resultCnt"));
 		
@@ -255,7 +258,10 @@ public class EgovArticleController {
 		boardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		boardVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		boardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-	
+		
+		// 사용자의 아이디를 통하여 사용자의 게시글 조회 여부를 확인하기 위해 세팅
+		boardVO.setMberId(user.getId());
+		
 		Map<String, Object> map = egovArticleService.selectArticleList(boardVO);
 		
 		model.addAttribute("resultList", map.get("resultList"));
@@ -337,6 +343,14 @@ public class EgovArticleController {
 		HashMap userRole = egovAuthorGroupService.selectUserRole(param);
 		model.addAttribute("userRole", userRole);
 		/* end */
+		
+		/* TODO 게시판 ID, 게시글 ID, 사용자 ID를 가지고, 게시글조회 log를 쌓는다. */
+		HashMap logParam = new HashMap();
+		logParam.put("bbsId", vo.getBbsId());
+		logParam.put("nttId", vo.getNttId());
+		logParam.put("mberId", user.getId());
+		
+		egovBBSMasterService.insertBBSUserLog(logParam);
 		
 		return "egovframework/com/cop/bbs/EgovArticleDetail";
     }

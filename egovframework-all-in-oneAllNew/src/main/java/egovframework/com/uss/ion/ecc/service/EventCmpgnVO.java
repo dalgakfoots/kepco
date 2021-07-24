@@ -38,15 +38,7 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	 */
 	private String bsnsCode = "";
 
-	/**
-	 * 행사시작일자
-	 */
-	private String eventSvcBeginDe = "";
-
-	/**
-	 * 행사시작시간
-	 */
-	private String eventSvcBeginTime = "";
+	
 
 	/**
 	 * 서비스이용 인원수
@@ -62,16 +54,6 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	 * 행사내용
 	 */
 	private String eventCn = "";
-
-	/**
-	 * 행사종료일자
-	 */
-	private String eventSvcEndDe = "";
-	
-	/**
-	 * 행사종료시간 
-	 */
-	private String eventSvcEndTime = "";
 
 
 	/**
@@ -124,8 +106,33 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	 * 행사/이벤트 승인일
 	 */
 	private String eventConfmDe = "";
+	
+	
+	
+	
+	/**
+	 * 행사종료일자
+	 */
+	private String eventSvcEndDe = "";
+	
+	/**
+	 * 행사종료시간 
+	 */
+	private String eventSvcEndTime = "";
+/**
+	 * 행사시작일자
+	 */
+	private String eventSvcBeginDe = "";
 
-
+	/**
+	 * 행사시작시간
+	 */
+	private String eventSvcBeginTime = "";
+	
+	
+	
+	
+	
 	/**
 	 * eventConfmDe attribute 를 리턴한다.
 	 * @return the String
@@ -199,20 +206,7 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	public void setBsnsCode(String bsnsCode) {
 		this.bsnsCode = bsnsCode;
 	}
-	/**
-	 * eventSvcBeginDe attribute 를 리턴한다.
-	 * @return the String
-	 */
-	public String getEventSvcBeginDe() {
-		return eventSvcBeginDe;
-	}
-	/**
-	 * eventSvcBeginDe attribute 값을 설정한다.
-	 * @return eventSvcBeginDe String
-	 */
-	public void setEventSvcBeginDe(String eventSvcBeginDe) {
-		this.eventSvcBeginDe = eventSvcBeginDe;
-	}
+	
 	/**
 	 * svcUseNmprCo attribute 를 리턴한다.
 	 * @return the int
@@ -255,20 +249,7 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 	public void setEventCn(String eventCn) {
 		this.eventCn = eventCn;
 	}
-	/**
-	 * eventSvcEndDe attribute 를 리턴한다.
-	 * @return the String
-	 */
-	public String getEventSvcEndDe() {
-		return eventSvcEndDe;
-	}
-	/**
-	 * eventSvcEndDe attribute 값을 설정한다.
-	 * @return eventSvcEndDe String
-	 */
-	public void setEventSvcEndDe(String eventSvcEndDe) {
-		this.eventSvcEndDe = eventSvcEndDe;
-	}
+
 	/**
 	 * eventTyCode attribute 를 리턴한다.
 	 * @return the String
@@ -409,6 +390,33 @@ public class EventCmpgnVO extends ComDefaultVO implements Serializable {
 		this.eventSvcEndTime = eventSvcEndTime;
 	}
 
-
+	/**
+	 * eventSvcBeginDe attribute 를 리턴한다.
+	 * @return the String
+	 */
+	public String getEventSvcBeginDe() {
+		return eventSvcBeginDe;
+	}
+	/**
+	 * eventSvcBeginDe attribute 값을 설정한다.
+	 * @return eventSvcBeginDe String
+	 */
+	public void setEventSvcBeginDe(String eventSvcBeginDe) {
+		this.eventSvcBeginDe = eventSvcBeginDe;
+	}
+	/**
+	 * eventSvcEndDe attribute 를 리턴한다.
+	 * @return the String
+	 */
+	public String getEventSvcEndDe() {
+		return eventSvcEndDe;
+	}
+	/**
+	 * eventSvcEndDe attribute 값을 설정한다.
+	 * @return eventSvcEndDe String
+	 */
+	public void setEventSvcEndDe(String eventSvcEndDe) {
+		this.eventSvcEndDe = eventSvcEndDe;
+	}
 
 }

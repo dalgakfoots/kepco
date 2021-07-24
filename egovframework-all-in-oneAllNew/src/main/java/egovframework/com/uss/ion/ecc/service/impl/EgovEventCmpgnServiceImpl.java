@@ -57,17 +57,17 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 		String eventId = idgenService1.getNextStringId();
 		eventCmpgnVO.setEventId(eventId);
 		
-		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date tempDate = null;
-		
-		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
-		tempDate = dateForm1.parse(startDatetime);
-		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
-		
-		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
-		tempDate = dateForm1.parse(endDatatime);
-		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
+//		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Date tempDate = null;
+//		
+//		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
+//		tempDate = dateForm1.parse(startDatetime);
+//		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
+//		
+//		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
+//		tempDate = dateForm1.parse(endDatatime);
+//		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
 		
 		egovEventCmpgnDao.insertEventCmpgn(eventCmpgnVO);
 		
@@ -127,17 +127,17 @@ public class EgovEventCmpgnServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public void updateEventCmpgn(EventCmpgnVO eventCmpgnVO) throws ParseException {
 		
-		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date tempDate = null;
-		
-		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
-		tempDate = dateForm1.parse(startDatetime);
-		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
-		
-		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
-		tempDate = dateForm1.parse(endDatatime);
-		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
+//		SimpleDateFormat dateForm1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//		SimpleDateFormat dateForm2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		Date tempDate = null;
+//		
+//		String startDatetime = eventCmpgnVO.getEventSvcBeginDe() + " " + eventCmpgnVO.getEventSvcBeginTime();
+//		tempDate = dateForm1.parse(startDatetime);
+//		eventCmpgnVO.setEventSvcBeginDe(dateForm2.format(tempDate));
+//		
+//		String endDatatime = eventCmpgnVO.getEventSvcEndDe() + " " + eventCmpgnVO.getEventSvcEndTime();
+//		tempDate = dateForm1.parse(endDatatime);
+//		eventCmpgnVO.setEventSvcEndDe(dateForm2.format(tempDate));
 		egovEventCmpgnDao.updateEventCmpgn(eventCmpgnVO);
 	}
 

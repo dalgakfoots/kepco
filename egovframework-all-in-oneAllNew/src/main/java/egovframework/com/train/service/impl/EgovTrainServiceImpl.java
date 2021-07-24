@@ -1,11 +1,16 @@
 package egovframework.com.train.service.impl;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
+import com.ibm.icu.text.SimpleDateFormat;
 
 import egovframework.com.train.service.EgovTrainService;
 import egovframework.com.train.service.EgovTrainTimeSettingVO;
@@ -98,8 +103,62 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 
 	@Override
 	public void setTrainingTimeSetting(EgovTrainTimeSettingVO frm) throws Exception {
+		frm = setTrainingTotalTime(frm);
 		egovTrainDAO.setTrainingTimeSetting(frm);
+	}
+	
+	
+	private EgovTrainTimeSettingVO setTrainingTotalTime(EgovTrainTimeSettingVO frm) throws Exception {
+
+		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+
+		List<String> startTempTimeList = new ArrayList();
+		startTempTimeList.add(frm.getPstStartDatetime());
+		startTempTimeList.add(frm.getMdtStartDatetime());
+		startTempTimeList.add(frm.getWatStartDatetime());
+		startTempTimeList.add(frm.getAstStartDatetime());
+		startTempTimeList.add(frm.getSrgStartDatetime());
 		
+		String startTempTime = "23:59";
+		for (String startTime : startTempTimeList) {
+			int compare = time.parse(startTempTime).compareTo(time.parse(startTime));
+			if (compare > 0) {
+				startTempTime = startTime;
+			}
+		}
+		
+		List<String> endTempTimeList = new ArrayList();
+		endTempTimeList.add(frm.getPstEndDatetime());
+		endTempTimeList.add(frm.getMdtEndDatetime());
+		endTempTimeList.add(frm.getWatEndDatetime());
+		endTempTimeList.add(frm.getAstEndDatetime());
+		endTempTimeList.add(frm.getSrgEndDatetime());
+		
+		String endTempTime = "00:00";
+		for (String endTime : endTempTimeList) {
+			int compare = time.parse(endTempTime).compareTo(time.parse(endTime));
+			if (compare < 0) {
+				endTempTime = endTime;
+			}
+		}
+	
+		
+		SimpleDateFormat dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat dateTime2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		String trainingDate = frm.getTrainingDate();
+		
+		System.out.println("frm.getTrainingDate() : " + frm.getTrainingDate());
+		
+		Date startDatetime = dateTime.parse(trainingDate+" "+startTempTime);
+		Date endDatetime = dateTime.parse(trainingDate+" "+endTempTime);
+		
+		frm.setStartDatetime(dateTime2.format(startDatetime));
+		frm.setEndDatetime(dateTime2.format(endDatetime));
+		
+		System.out.println("dateTime2.format(startDatetime) : " + dateTime2.format(startDatetime));
+		System.out.println("dateTime2.format(endDatetime) : " + dateTime2.format(endDatetime));
+		return frm;
 	}
 
 	@Override

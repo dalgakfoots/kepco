@@ -191,7 +191,13 @@
 		
 		
 		<select id="selectTrainingTimeByTrainingId" parameterType="String" resultType="java.util.HashMap">
-			SELECT
+		
+			SELECT 
+				start_datetime, 
+				end_datetime
+			FROM kepco_test.kepco_training_time 
+			WHERE training_id=#{trainingId};
+	<!-- 		SELECT
 				A.EVENT_SVC_BGNDE,
 				A.EVENT_SVC_ENDDE
 			
@@ -200,7 +206,7 @@
 					(SELECT CODE_ID, CODE, CODE_NM FROM 
 						COMTCCMMNDETAILCODE WHERE CODE_ID = 'COM035' AND USE_AT='Y') b
 					ON a.EVENT_TY_CODE = b.CODE
-			WHERE A.event_id = #{trainingId}
+			WHERE A.event_id = #{trainingId} -->
 		</select> 
 		
 		<insert id="insertDashScore" parameterType="java.util.HashMap">

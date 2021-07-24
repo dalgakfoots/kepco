@@ -7,6 +7,9 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	private static final long serialVersionUID = 1L;
 
 	private String trainingId;
+	private String trainingDate;
+	private String startDatetime;
+	private String endDatetime;
 	
 	private String pstStartDatetime;
 	private String pstEndDatetime;
@@ -86,6 +89,26 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	}
 	public void setSrgEndDatetime(String srgEndDatetime) {
 		this.srgEndDatetime = srgEndDatetime;
+	}
+	
+	
+	public String getTrainingDate() {
+		return trainingDate;
+	}
+	public void setTrainingDate(String trainingDate) {
+		this.trainingDate = trainingDate;
+	}
+	public String getStartDatetime() {
+		return startDatetime;
+	}
+	public void setStartDatetime(String startDatetime) {
+		this.startDatetime = startDatetime;
+	}
+	public String getEndDatetime() {
+		return endDatetime;
+	}
+	public void setEndDatetime(String endDatetime) {
+		this.endDatetime = endDatetime;
 	}
 	
 	

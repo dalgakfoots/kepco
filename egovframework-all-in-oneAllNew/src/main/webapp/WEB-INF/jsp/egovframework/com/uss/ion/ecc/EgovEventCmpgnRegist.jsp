@@ -99,17 +99,6 @@ function fn_egov_init(){
  ******************************************************** */
 function fn_egov_regist_event(form){
 	
-	var eventSvcBeginTime = document.getElementById("eventSvcBeginTime").value;
-	var eventSvcEndTime =document.getElementById("eventSvcEndTime").value;
-	if (eventSvcBeginTime === "") {
-		alert("훈련시작시간은 필수 항목입니다.");
-		return false;
-	} else if (eventSvcEndTime === "") {
-		alert("훈련종료시간은 필수 항목입니다.");
-		return false;
-	}
-	
-	
 	//input item Client-Side validate
 	if (!validateEventCmpgnVO(form)) {	
 		return false;
@@ -195,76 +184,10 @@ function fnSelectTeam() {
 				<div><form:errors path="eventCn" cssClass="error" /></div>  
 			</td>
 		</tr>
-		<!-- 행사시작일자  -->
-		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe"/> --%>훈련시작일 </c:set>
-		<tr>
-			<th><label for="eventSvcBeginDe">${title} <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcBeginDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
-				<div><form:errors path="eventSvcBeginDe" cssClass="error" /></div>       
-			</td>
-			
-			<th><label for="eventSvcBeginTime">훈련시작시간 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcBeginTime" id="eventSvcBeginTime" type="time" style="width:100px;"/>
-			</td>
-		</tr>
-		
-		<!-- 행사종료일자  -->
-		<c:set var="title"><%-- <spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe"/> --%>훈련종료일 </c:set>
-		<tr>
-			<th><label for="eventSvcEndDe">${title} <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcEndDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
-				<div><form:errors path="eventSvcEndDe" cssClass="error" /></div>       
-			</td>
-			
-			<th><label for="eventSvcEndTime">훈련종료시간 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcEndTime" id="eventSvcEndTime" type="time" style="width:100px;"/>
-			</td>
-		</tr>
-		
 	</tbody>
 	</table>
 	<br/><br/><br/>
-<%-- <table class="wTable" summary="<spring:message code="common.summary.list" arguments="${pageTitle}" />">
-	<caption>훈련 <spring:message code="title.create" /></caption>
-	<colgroup>
-		<col style="width: 20%;">
-		<col style="width: 30%;">
-	</colgroup> 
-	<tbody>
-		<!-- 행사시작일자  -->
-		<tr>
-			<th><label for="eventSvcBeginDe">예방보안 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="pst" id="pst" type="time" style="width:150px;"/>       
-			</td>
-		</tr>
-		<tr>
-			<th><label for="eventSvcBeginTime">실시간대응(Web)<span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="wst" id="wst" type="time" style="width:150px;"/>
-			</td>
-		</tr>
-		
-		<!-- 행사종료일자  -->
-		<tr>
-			<th><label for="eventSvcEndDe">실시강대응(악성코드) <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="mst" id="mst" type="time" style="width:150px;"/>
-			</td>
-		</tr>
-		<tr>
-			<th><label for="eventSvcEndTime"> 사후대응 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="ast" id="ast" type="time" style="width:150px;"/>
-			</td>
-		</tr>
-		
-	</tbody>
-	</table> --%>
+
 	
 	<!-- 하단 버튼 -->
 	<div class="btn">

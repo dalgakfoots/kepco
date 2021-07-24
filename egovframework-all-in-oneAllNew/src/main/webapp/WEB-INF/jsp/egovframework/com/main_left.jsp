@@ -63,8 +63,8 @@ function fn_main_leftPageMove(menuNo){
 			<input type="hidden" name="tmp_menuNm" value="${result.menuNo}|${result.upperMenuId}|${result.menuNm}|${result.relateImagePath}|${result.relateImageNm}|${pageContext.request.contextPath}/${result.chkURL}|"/>
 		</c:forEach>
 		
-		
-			<!-- <div class="tree" style="overflow: auto; position: absolute; z-index: 5; padding: 0pt 0pt 0pt 49px; width: 214px; height: 512px;">
+		<!-- 
+			<div class="tree" style="overflow: auto; position: absolute; z-index: 5; padding: 0pt 0pt 0pt 49px; width: 214px; height: 512px;">
 			
 				<script language="javascript">
 					var Tree = new Array;
@@ -115,7 +115,7 @@ function fn_main_leftPageMove(menuNo){
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> 
 			
 		</div>
 		

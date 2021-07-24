@@ -93,8 +93,8 @@
                   	<th>번호</th>
                     <th>훈련내용</th>
                     <th>훈련유형</th>
-                    <th>훈련시작일</th>
-                    <th>훈련종료일</th>
+                    <!-- <th>훈련시작일</th>
+                    <th>훈련종료일</th> -->
                     <th>등록일</th>
                   </tr>
                 </thead>
@@ -113,8 +113,8 @@
 								</a>
 							</td>
 							<td><c:out value='${resultInfo.eventTyCodeNm}'/></td>
-							<td><c:out value='${resultInfo.eventSvcBeginDe}'/></td>
-							<td><c:out value='${resultInfo.eventSvcEndDe}'/></td>
+							<%-- <td><c:out value='${resultInfo.eventSvcBeginDe}'/></td>
+							<td><c:out value='${resultInfo.eventSvcEndDe}'/></td> --%>
 							<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
 						
 							

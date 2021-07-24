@@ -78,8 +78,8 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			
 			
 			Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
-			Date standardTime = dateTime.parse(trainingTime.get("EVENT_SVC_BGNDE").toString());
-			Date endtime = dateTime.parse(trainingTime.get("EVENT_SVC_ENDDE").toString());
+			Date standardTime = dateTime.parse(trainingTime.get("start_datetime").toString());
+			Date endtime = dateTime.parse(trainingTime.get("end_datetime").toString());
 			Date today = new Date();
 //			System.out.println("standardTime : "+ standardTime);
 //			System.out.println("endtime : "+ endtime);

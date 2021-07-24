@@ -22,74 +22,74 @@
 		<form name="frm" method="post" action="<c:url value='/train/setTrainingTimeSetting.do'/>">
 		<div class="wTableFrm">
 			<table class="wTable">
+			<colgroup>
+				<col style="width : 30%">
+				<col style="width : 20%">
+				<col style="width : 30%">
+				<col style="width : 20%">
+			</colgroup>
 			<tbody>
 				<tr>
 					<th>훈련명</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<select name="trainingId">
 							<c:forEach var="item" items="${trainingIds}">
 								<option value="${item.EVENT_ID}">${item.EVENT_CN}</option>
 							</c:forEach>
 						</select>
 					</td>
-				</tr>
-				<tr>
-					<th>예방보안 시작시간</th>
-					<td class="left" colspan="3">
-						<input id="pstStartDatetime" name="pstStartDatetime" style="width:100px;" type="time" value="${result.PST_START_DATETIME}">
+					<th>훈련날짜</th>
+					<td class="left" >
+						<input id="trainingDate" name="trainingDate" style="width:150px;" type="date" value="${result.TRAINING_DATE}">
 					</td>
 				</tr>
 				<tr>
+					<th>예방보안 시작시간</th>
+					<td class="left">
+						<input id="pstStartDatetime" name="pstStartDatetime" style="width:100px;" type="time" value="${result.PST_START_DATETIME}">
+					</td>
 					<th>예방보안 종료시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="pstEndDatetime" name="pstEndDatetime" style="width:100px;" type="time" value="${result.PST_END_DATETIME}">
 					</td>
 				</tr>
 				<tr>
 					<th>실시간대응(악성코드) 시작시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="mdtStartDatetime" name="mdtStartDatetime" style="width:100px;" type="time" value="${result.MDT_START_DATETIME}">
 					</td>
-				</tr>
-				<tr>
 					<th>실시간대응(악성코드) 종료시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="mdtEndDatetime" name="mdtEndDatetime" style="width:100px;" type="time" value="${result.MDT_END_DATETIME}">
 					</td>
 				</tr>
 				<tr>
 					<th>실시간대응(웹) 시작시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="watStartDatetime" name="watStartDatetime" style="width:100px;" type="time" value="${result.WAT_START_DATETIME}">
 					</td>
-				</tr>
-				<tr>
 					<th>실시간대응(웹) 종료시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="watEndDatetime" name="watEndDatetime" style="width:100px;" type="time" value="${result.WAT_END_DATETIME}">
 					</td>
 				</tr>
 				<tr>
 					<th>사후대응 시작시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="astStartDatetime" name="astStartDatetime" style="width:100px;" type="time" value="${result.AST_START_DATETIME}">
 					</td>
-				</tr>
-				<tr>
 					<th>사후대응 종료시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="astEndDatetime" name="astEndDatetime" style="width:100px;" type="time" value="${result.AST_END_DATETIME}">
 					</td>
 				</tr>
 				<tr>
 					<th>보안규정및지침 시작시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="srgStartDatetime" name="srgStartDatetime" style="width:100px;" type="time" value="${result.SRG_START_DATETIME}">
 					</td>
-				</tr>
-				<tr>
 					<th>보안규정및지침 종료시간</th>
-					<td class="left" colspan="3">
+					<td class="left">
 						<input id="srgEndDatetime" name="srgEndDatetime" style="width:100px;" type="time" value="${result.SRG_END_DATETIME}">
 					</td>
 				</tr>

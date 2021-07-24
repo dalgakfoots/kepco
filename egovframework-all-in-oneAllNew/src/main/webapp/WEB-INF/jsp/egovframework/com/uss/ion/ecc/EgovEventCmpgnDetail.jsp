@@ -79,26 +79,7 @@
 				<c:out value="${fn:replace(result.eventCn , crlf , '<br/>')}" escapeXml="false" />
 			</td>
 		</tr>
-		
-		<!-- 훈련시작일자 -->
-		<tr>
-			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" /></th> --%>
-			<th>훈련시작일자</th>
-			<td class="left"><c:out value="${result.eventSvcBeginDe}"/></td>
-			<th>훈련시작시간</th>
-			<td class="left"><c:out value="${result.eventSvcBeginTime}"/></td>
-			
-		</tr>
-		
-		<!-- 훈련종료일자 -->
-		<tr>
-			<%-- <th class="vtop"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe" /></th> --%>
-			<th>훈련종료일자</th>
-			<td class="left"><c:out value="${result.eventSvcEndDe}"/></td>
-			
-			<th>훈련종료시간</th>
-			<td class="left"><c:out value="${result.eventSvcEndTime}"/></td>
-		</tr>
+	
 	</tbody>
 	</table>
 	<!-- 하단 버튼 -->

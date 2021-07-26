@@ -91,6 +91,10 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		return selectOne("egovTrainDAO.selectRealAnswer",param);
 	}
 
+	public List selectSrgRealAnswer(HashMap param) {
+		return selectList("egovTrainDAO.selectSrgRealAnswer", param);
+	}
+
 	
 
 }

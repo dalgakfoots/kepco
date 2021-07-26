@@ -227,7 +227,8 @@
 			       INNER JOIN (SELECT  SRG_EXAM_ID AS faq_id
 			       					  ,QUESTION_SJ AS qestn_sj
 			       					  ,`type`
-			       				 FROM SRG_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       				 FROM SRG_EXAM_MST
+			       				GROUP BY SRG_EXAM_ID , QUESTION_SJ, `TYPE`) E ON D.FAQ_ID = E.FAQ_ID
 		            </when>
 		       </choose>
 		       LEFT OUTER JOIN (SELECT quiz_id,
@@ -386,11 +387,12 @@
 			               `type`,
 			               question_sj AS QESTN_SJ,
 			               question_cn AS QESTN_CN,
-			               answer_cn,
+			               'temp' as answer_cn,
 			               score,
 			               max_submit_cnt,
 			               deduct_score
-			        FROM   srg_exam_mst) A
+			        FROM   srg_exam_mst
+			    GROUP BY   srg_exam_id, `TYPE`, question_sj, question_cn, score, max_submit_cnt, deduct_score) A
 			WHERE  A.faq_id = #{faqId}
 			
 	</select>
@@ -427,7 +429,7 @@
 			   
 	</select>
 	
-	<select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
+	<!-- <select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
 			
 			SELECT A.QUIZ_ID,
 			       A.GROUP_ID,
@@ -466,6 +468,46 @@
 			                               SCORE,
 			                               DEDUCT_SCORE
 			                        FROM   SRG_EXAM_MST) B
+			                    ON A.QUIZ_ID = B.QUIZ_ID
+			WHERE  A.QUIZ_ID = #{faqId}
+			       AND A.GROUP_ID = #{groupId}
+			GROUP  BY A.QUIZ_ID,
+			          A.GROUP_ID 
+			
+	</select> -->
+	
+	<select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
+			
+			SELECT A.QUIZ_ID,
+			       A.GROUP_ID,
+			       SCORE,
+			       DEDUCT_SCORE * ( COUNT(*) - 1 ) AS DEDUCT_SCORE
+			FROM   QUIZ_USER_ANSWER A
+			       LEFT OUTER JOIN (SELECT PST_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   PST_EXAM_MST
+			                        UNION ALL
+			                        SELECT MDT_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   MDT_EXAM_MST
+			                        UNION ALL
+			                        SELECT WAT_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   WAT_EXAM_MST
+			                        UNION ALL
+			                        SELECT AST_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   AST_EXAM_MST
+			                        UNION ALL
+			                        SELECT SRG_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   SRG_EXAM_MST
+			                    GROUP BY   SRG_EXAM_ID, SCORE,DEDUCT_SCORE) B
 			                    ON A.QUIZ_ID = B.QUIZ_ID
 			WHERE  A.QUIZ_ID = #{faqId}
 			       AND A.GROUP_ID = #{groupId}
@@ -578,6 +620,14 @@
 			WHERE  A.TYPE = 'QUIZ'
 			       AND A.EXAM_ID = #{faqId} 
 			
+	</select>
+	
+	<select id ="selectSrgRealAnswer" resultType="String">
+			
+			SELECT ANSWER_CN
+			  FROM SRG_EXAM_MST
+			 WHERE SRG_EXAM_ID = #{faqId}
+	
 	</select>
 	
 	<!-- inserts  -->

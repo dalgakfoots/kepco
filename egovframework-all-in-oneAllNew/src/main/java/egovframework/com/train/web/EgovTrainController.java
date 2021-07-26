@@ -344,10 +344,22 @@ public class EgovTrainController {
 				if(maxSubmitCnt > userSubmitCnt && questionType.equals("QUIZ")) {
 					egovTrainService.insertUserAnswer(param);
 					// 그 풀이 로그를 가지고 와서 정답인지 아닌지 확인한다.
-					String realAnswer = egovTrainService.selectRealAnswer(param);
+					String realAnswer = "";
+					List srgRealAnswers = null;
+					
 					answer = answer.equals("")? "공백" : answer;
 					
-					if(realAnswer.equals(answer)) {
+					boolean isAnswer = false;
+					
+					if(frm.getTrainType().equals("srg")) {
+						srgRealAnswers = egovTrainService.selectSrgRealAnswer(param); // 보안규정 문제의 경우 답안이 여러개 가능할 수 있어 별도로 처리
+						isAnswer = srgRealAnswers.contains(answer);
+					}else {
+						realAnswer = egovTrainService.selectRealAnswer(param);
+						isAnswer = realAnswer.equals(answer);
+					}
+					
+					if(isAnswer) {
 						//현재 사용자가 속한 그룹이 해당 문제를 푼 것에 대한 점수 계산 로직
 						HashMap resultMap = egovTrainService.selectUserGroupQuestionScore(param);
 						/*
@@ -355,12 +367,17 @@ public class EgovTrainController {
 						 * "QUIZ_ID" , "GROUP_ID", "SCORE", "DEDUCT_SCORE"
 						 * 
 						 * */
-						Long temp = (long)resultMap.get("SCORE");
-						int score = temp.intValue();
-						temp = (long)resultMap.get("DEDUCT_SCORE");
+//						Long temp = (long)resultMap.get("SCORE");
+//						int score = temp.intValue();
+						
+						
+						int score = (int)resultMap.get("SCORE");
+						Long temp = (long)resultMap.get("DEDUCT_SCORE");
+						
 						String trainType = frm.getTrainType();
 						
 						int deductScore = temp.intValue();
+						
 						int tot = score - deductScore;
 						tot = tot < 0 ? 0 : tot;
 						resultMap.put("trainId", trainingId);

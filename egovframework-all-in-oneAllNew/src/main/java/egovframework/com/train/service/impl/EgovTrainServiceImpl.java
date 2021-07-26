@@ -176,4 +176,9 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		return egovTrainDAO.selectRealAnswer(param);
 	}
 
+	@Override
+	public List selectSrgRealAnswer(HashMap param) throws Exception {
+		return egovTrainDAO.selectSrgRealAnswer(param);
+	}
+
 }

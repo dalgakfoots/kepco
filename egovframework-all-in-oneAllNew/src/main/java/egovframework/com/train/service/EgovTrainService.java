@@ -45,6 +45,8 @@ public interface EgovTrainService {
 
 	String selectRealAnswer(HashMap param) throws Exception;
 
+	List selectSrgRealAnswer(HashMap param) throws Exception;
+
 
 
 }

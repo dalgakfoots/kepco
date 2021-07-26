@@ -87,6 +87,10 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		update("egovTrainDAO.updateWatExamOpenTime", param);
 	}
 
+	public String selectRealAnswer(HashMap param) {
+		return selectOne("egovTrainDAO.selectRealAnswer",param);
+	}
+
 	
 
 }

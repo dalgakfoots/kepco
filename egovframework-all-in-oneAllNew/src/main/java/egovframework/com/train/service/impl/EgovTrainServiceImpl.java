@@ -171,4 +171,9 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		egovTrainDAO.updateWatExamOpenTime(param);
 	}
 
+	@Override
+	public String selectRealAnswer(HashMap param) throws Exception {
+		return egovTrainDAO.selectRealAnswer(param);
+	}
+
 }

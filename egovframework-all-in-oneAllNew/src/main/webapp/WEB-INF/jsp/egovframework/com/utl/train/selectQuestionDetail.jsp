@@ -11,24 +11,17 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/com.css' />">
 <title>문제</title>
 <script>
+	
+	
 	function submitAnswer(){
 		
 		if(confirm('풀이 제한이 있을 경우 답변 제출을 하면 \n이후에는 답변 제출을 못할 수도 있습니다.')){
 			var form = document.frm;
-			form.action = "<c:url value='/train/submitAnswer.do'/>"
+			form.action = "<c:url value='/train/submitAndFinishQuestion.do'/>"
 			form.answer.value = document.getElementById("answer").value;
 			form.submit();
 		}
-	}
-	
-	function finishQuestion(){
-		
-		if(confirm("문제풀이완료를 실행 할 경우 해당 문제를 더 이상 제출할 수 없습니다.\n진행하시겠습니까?")){
-		var form = document.frm;
-		form.action = "<c:url value='/train/finishQuestion.do'/>";
-		form.submit();
-		}
-	}
+	}	
 	
 	function examList(){
 		
@@ -61,7 +54,6 @@
 					<textarea id="answer" placeholder="답변 입력">${userAnswer}</textarea>
 					<c:if test="${isFinish eq '' || isFinish eq 'N'}">
 						<button type="button" onclick="javascript:submitAnswer()">답변제출</button>
-						<button type="button" onclick="javascript:finishQuestion()">문제풀이완료</button>
 					</c:if>
 				</c:if>
 				<button type="button" onclick="javascript:examList()">뒤로가기</button>

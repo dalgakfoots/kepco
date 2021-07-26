@@ -43,6 +43,8 @@ public interface EgovTrainService {
 
 	void updateWatExamOpenTime(HashMap param) throws Exception;
 
+	String selectRealAnswer(HashMap param) throws Exception;
+
 
 
 }

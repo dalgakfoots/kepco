@@ -66,6 +66,7 @@
 			   MDT_EXAM_GROUP_ID,
 			   WAT_VM_ID,
 			   WAT_EXAM_GROUP_ID,
+			   AST_VM_ID,
 			   AST_EXAM_GROUP_ID
 	      FROM KEPCO_TRAINING_TEAM_VMGROUP
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}

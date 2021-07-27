@@ -501,8 +501,9 @@ function save(insertRow , updateRow, deleteRow){
 				</tbody>
 			</table>
 		</div>
+		
 		<%-- <c:if test="${!empty trainGroupVmVO.pageIndex }">
-			
+		
 		</c:if> --%>
 		<!-- paging navigation -->
 		<div class="pagination">

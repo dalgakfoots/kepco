@@ -33,7 +33,7 @@
             <if test="searchCondition == 1">AND
                 GROUP_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             </if>
-            ORDER BY GROUP_CREAT_DE DESC
+            ORDER BY GROUP_ID
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     

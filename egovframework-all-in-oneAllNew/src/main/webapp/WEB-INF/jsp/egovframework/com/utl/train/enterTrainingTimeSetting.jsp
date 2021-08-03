@@ -32,11 +32,8 @@
 				<tr>
 					<th>훈련명</th>
 					<td class="left">
-						<select name="trainingId">
-							<c:forEach var="item" items="${trainingIds}">
-								<option value="${item.EVENT_ID}">${item.EVENT_CN}</option>
-							</c:forEach>
-						</select>
+						<input type="hidden" name="trainingId" value="${result.TRAINING_ID}">
+						<c:out value="${result.EVENT_CN }"/>
 					</td>
 					<th>훈련날짜</th>
 					<td class="left" >

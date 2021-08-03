@@ -92,8 +92,8 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 	}
 
 	@Override
-	public HashMap selectTrainingTimeSetting() throws Exception {
-		return egovTrainDAO.selectTrainingTimeSetting();
+	public HashMap selectTrainingTimeSetting(String trainingId) throws Exception {
+		return egovTrainDAO.selectTrainingTimeSetting(trainingId);
 	}
 
 	@Override

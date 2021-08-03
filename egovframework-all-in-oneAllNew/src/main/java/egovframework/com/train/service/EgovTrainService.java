@@ -33,7 +33,7 @@ public interface EgovTrainService {
 
 	List<HashMap> selectUserWatExamList(HashMap param) throws Exception;
 
-	HashMap selectTrainingTimeSetting() throws Exception;
+	HashMap selectTrainingTimeSetting(String trainingId) throws Exception;
 
 	List<HashMap> selectTrainingIdList() throws Exception;
 

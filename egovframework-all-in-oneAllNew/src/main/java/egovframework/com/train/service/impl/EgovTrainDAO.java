@@ -67,8 +67,8 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		return selectList("egovTrainDAO.selectUserWatExamList",param);
 	}
 
-	public HashMap selectTrainingTimeSetting() {
-		return selectOne("egovTrainDAO.selectTrainingTimeSetting");
+	public HashMap selectTrainingTimeSetting(String trainingId) {
+		return selectOne("egovTrainDAO.selectTrainingTimeSetting",trainingId);
 	}
 
 	public List<HashMap> selectTrainingIdList() {

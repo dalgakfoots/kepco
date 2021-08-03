@@ -16,8 +16,12 @@ import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.train.service.EgovTrainService;
 import egovframework.com.train.service.EgovTrainTimeSettingVO;
 import egovframework.com.train.service.EgovTrainVO;
+import egovframework.com.uss.ion.ecc.service.EgovEventCmpgnService;
+import egovframework.com.uss.ion.ecc.service.EventCmpgnVO;
 import egovframework.com.vm.service.VmApiService;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
+import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class EgovTrainController {
@@ -25,6 +29,12 @@ public class EgovTrainController {
 	
 	@Resource(name="EgovTrainService")
 	EgovTrainService egovTrainService;
+	
+	@Resource(name = "EgovEventCmpgnService")
+	private EgovEventCmpgnService egovEventCmpgnService;
+	
+	 @Resource(name = "propertiesService")
+	 protected EgovPropertyService propertiesService;
 	
 	@Resource(name = "egovQuizUserAnswerManageIdGnrService")
 	private EgovIdGnrService egovQuizUserAnswerManageIdGnrService;
@@ -477,12 +487,36 @@ public class EgovTrainController {
     	return "egovframework/com/utl/train/poc";
 	}
 	
+	@RequestMapping("/train/enterSetTrainingTimePage.do")
+	public String enterSetTrainingTimePage(@ModelAttribute("searchVO") EventCmpgnVO searchVO, ModelMap model) throws Exception{
+		/** EgovPropertyService.sample */
+    	searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+    	searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+    	/** pageing */
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+        List<?> sampleList = egovEventCmpgnService.selectEventCmpgnList(searchVO);
+        model.addAttribute("resultList", sampleList);
+
+        int totCnt = egovEventCmpgnService.selectEventCmpgnListCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+        model.addAttribute("paginationInfo", paginationInfo);
+		
+		return "egovframework/com/utl/train/enterSetTrainingTimePage";
+	}
+	
 	@RequestMapping("/train/setTrainingTime.do")
-	public String enterTrainingTimeSetting(ModelMap model) throws Exception{
-		HashMap result =  egovTrainService.selectTrainingTimeSetting();
-		List<HashMap> trainingIds = egovTrainService.selectTrainingIdList();
+	public String enterTrainingTimeSetting(@RequestParam("trainingId") String trainingId ,ModelMap model) throws Exception{
+		HashMap result =  egovTrainService.selectTrainingTimeSetting(trainingId);
 		model.addAttribute("result", result);
-		model.addAttribute("trainingIds", trainingIds);
 		
 		return "egovframework/com/utl/train/enterTrainingTimeSetting";
 	}

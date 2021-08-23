@@ -12,6 +12,7 @@ import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -215,6 +216,7 @@ public class EgovGroupManageController {
 			String [] userArr = addedUser.split(",");
 	        HashMap map = null;
 	        for(String userId : userArr) {
+				 if(userId.equals("") || userId == null) continue;
 	        	 map = new HashMap();
 	        	 map.put("groupId", groupManage.getGroupId());
 	        	 map.put("userId", userId);

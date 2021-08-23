@@ -82,13 +82,17 @@ function fncGroupDelete() {
 
 function fnSelectTeam() {
     var checkField = document.getElementById('groupManage').chkYn;
-    var id = document.getElementById('groupManage').userId;
+	var id = document.getElementById('groupManage').userId;
     
     var checkedIds = "";
     var checkedCount = 0;
-    if(checkField) {
-    	if(checkField.length > 1) {
-            for(var i=0; i < checkField.length; i++) {
+    if(checkField.checked){ // 체크된 행이 한 개 일 경우에만 실행 됨.
+		checkedIds = id.value;
+	}
+
+    if(checkField) { // 체크된 행이 두 개 이상일 경우에만 실행 됨.
+		if(checkField.length > 1) {
+    		for(var i=0; i < checkField.length; i++) {
                 if(checkField[i].checked) {
                 	checkedIds += ((checkedCount==0? "" : ",") + id[i].value);
                     checkedCount++;

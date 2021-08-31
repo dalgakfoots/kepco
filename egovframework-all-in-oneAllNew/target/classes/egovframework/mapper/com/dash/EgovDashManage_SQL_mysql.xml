@@ -100,7 +100,6 @@
 			FROM kepco_training_team_vmgroup kttv
             WHERE kttv.training_id = #{value}
 			order by total desc
-			limit 10
 		</select>
 		
 		<select id="selectTeamTotalScoreByDateTime" parameterType="java.util.HashMap" resultType="int">

@@ -246,7 +246,7 @@
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown no-arrow">
-      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
+      	<%-- <a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a> --%>
       </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>

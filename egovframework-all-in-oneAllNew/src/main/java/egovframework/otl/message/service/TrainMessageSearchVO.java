@@ -1,13 +1,9 @@
-package egovframework.otl.report.service;
-/*
-보고서 LIST 검색용 VO
- */
-public class AbbreviatedReportSearchVO {
+package egovframework.otl.message.service;
 
-    private String type;
+public class TrainMessageSearchVO {
+
+    private String team;
     private String title;
-    private String status;
-    private String teamName;
 
     private int pageIndex = 1;
     private int pageUnit = 10;
@@ -16,13 +12,12 @@ public class AbbreviatedReportSearchVO {
     private int lastIndex = 1;
     private int recordCountPerPage = 10;
 
-
-    public String getType() {
-        return type;
+    public String getTeam() {
+        return team;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTeam(String team) {
+        this.team = team;
     }
 
     public String getTitle() {
@@ -31,22 +26,6 @@ public class AbbreviatedReportSearchVO {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
     }
 
     public int getPageIndex() {
@@ -99,11 +78,9 @@ public class AbbreviatedReportSearchVO {
 
     @Override
     public String toString() {
-        return "AbbreviatedReportSearchVO{" +
-                "type='" + type + '\'' +
+        return "TrainMessageSearchVO{" +
+                "team='" + team + '\'' +
                 ", title='" + title + '\'' +
-                ", status='" + status + '\'' +
-                ", teamName='" + teamName + '\'' +
                 ", pageIndex=" + pageIndex +
                 ", pageUnit=" + pageUnit +
                 ", pageSize=" + pageSize +

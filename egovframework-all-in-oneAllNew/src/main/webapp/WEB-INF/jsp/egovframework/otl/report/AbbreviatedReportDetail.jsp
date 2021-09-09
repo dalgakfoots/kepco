@@ -114,7 +114,7 @@
                         <span class="btn_b"><a href="javascript:giveScoreToReport();">점수부여</a></span>
                     </li>
                     <li>
-                        <span class="btn_b"><a href="javascript:document.rejectReport.submit()">재검토요청</a></span>
+                        <span class="btn_b"><a href="javascript:rejectReport()">재검토요청</a></span>
                     </li>
                 </c:if>
             </c:when>
@@ -135,6 +135,7 @@
     <c:if test="${role.get('author_code') eq 'ROLE_ADMIN'}">
     <form name="rejectReport" method="post" action="<c:url value='/report/abbreviatedReportReject.do'/>">
         <input type="hidden" name="reportId" value="${reportVO.reportId}"/>
+        <input type="hidden" name="teamId" value="${reportVO.teamId}"/>
     </form>
 
     <form name="giveScoreToReport" method="post" action="<c:url value='/report/abbreviatedReportGiveScore.do'/>">
@@ -161,6 +162,12 @@
         function undoGiveScore(){
             if (confirm("점수부여취소 하시겠습니까?")) {
                 document.undoGiveScore.submit();
+            }
+        }
+
+        function rejectReport() {
+            if (confirm("재검토요청 하시겠습니까?")) {
+                document.rejectReport.submit();
             }
         }
     </script>

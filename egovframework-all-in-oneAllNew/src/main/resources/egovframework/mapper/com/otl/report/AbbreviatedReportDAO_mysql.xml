@@ -38,7 +38,7 @@
 					</when>
 				</choose>
 				<if test="reportTitle != null and reportTitle != ''">
-					AND REPORT_TITLE = #{reportTitle}
+					AND REPORT_TITLE LIKE CONCAT('%',#{reportTitle},'%')
 				</if>
 				<if test="reportStatus != null and reportStatus != ''">
 					AND REPORT_STATUS = #{reportStatus}
@@ -68,7 +68,7 @@
 					</when>
 				</choose>
 				<if test="reportTitle != null and reportTitle != ''">
-					AND REPORT_TITLE = #{reportTitle}
+					AND REPORT_TITLE LIKE CONCAT('%',#{reportTitle},'%')
 				</if>
 				<if test="reportStatus != null and reportStatus != ''">
 					AND REPORT_STATUS = #{reportStatus}

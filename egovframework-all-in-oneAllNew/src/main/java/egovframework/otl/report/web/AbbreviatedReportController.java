@@ -7,6 +7,7 @@ import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.com.cop.bbs.service.BoardVO;
 import egovframework.com.sec.rgm.service.EgovAuthorGroupService;
+import egovframework.com.train.service.EgovTrainService;
 import egovframework.otl.report.service.AbbreviatedReportSearchVO;
 import egovframework.otl.report.service.AbbreviatedReportService;
 import egovframework.otl.report.service.AbbreviatedReportVO;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class AbbreviatedReportController {
 
     @Resource(name = "egovAuthorGroupService")
     private EgovAuthorGroupService egovAuthorGroupService;
+
+    @Resource(name="EgovTrainService")
+    private EgovTrainService egovTrainService;
 
     @Resource(name = "EgovFileMngService")
     private EgovFileMngService fileMngService;
@@ -66,24 +71,31 @@ public class AbbreviatedReportController {
         parameterMap.put("firstIndex", paginationInfo.getFirstRecordIndex());
 
         /*검색용 파라미터*/
-        parameterMap.put("reportType", searchVO.getReportType());
-        parameterMap.put("reportTitle", searchVO.getReportTitle());
-        parameterMap.put("reportStatus", searchVO.getReportStatus());
-        if(searchVO.getTeamId() != "" && searchVO.getTeamId() != null) {
-            parameterMap.put("teamId", searchVO.getTeamId());
-        }
+        parameterMap.put("reportType", searchVO.getType());
+        parameterMap.put("reportTitle", searchVO.getTitle());
+        parameterMap.put("reportStatus", searchVO.getStatus());
 
-        List<AbbreviatedReportVO> reportList = abbreviatedReportService.abbreviatedReportList(parameterMap);
-        HashMap role = egovAuthorGroupService.selectUserRole(parameterMap);
-        int totalRecordCount = abbreviatedReportService.abbreviatedReportCount(parameterMap);
-        paginationInfo.setTotalRecordCount(totalRecordCount);
+        System.out.println("searchVO.getTeamId() = " + searchVO.getTeamName());
 
-        model.addAttribute("reportList", reportList);
-        if(role.get("author_code").equals("ROLE_ADMIN")) {
-            model.addAttribute("teamIdList", abbreviatedReportService.searchTeamIdList(reportList.get(0).getTrainId()));
+        if(searchVO.getTeamName() != "" && searchVO.getTeamName() != null) {
+            parameterMap.put("teamId", searchVO.getTeamName());
         }
-        model.addAttribute("role", role);
-        model.addAttribute("paginationInfo", paginationInfo);
+        try {
+            List<AbbreviatedReportVO> reportList = abbreviatedReportService.abbreviatedReportList(parameterMap);
+            HashMap role = egovAuthorGroupService.selectUserRole(parameterMap);
+            int totalRecordCount = abbreviatedReportService.abbreviatedReportCount(parameterMap);
+            paginationInfo.setTotalRecordCount(totalRecordCount);
+
+            model.addAttribute("reportList", reportList);
+            if (role.get("author_code").equals("ROLE_ADMIN")) {
+                model.addAttribute("teamIdList", abbreviatedReportService.searchTeamIdList((String) egovTrainService.selectTrainingIdList().get(0).get("EVENT_ID")));
+            }
+            model.addAttribute("role", role);
+            model.addAttribute("paginationInfo", paginationInfo);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
         // 사용자가 속한 팀이 작성한 보고서 객체 리스트를 전달
         return "egovframework/otl/report/AbbreviatedReportList";
     }
@@ -185,15 +197,15 @@ public class AbbreviatedReportController {
 
     // 관리자의 사용자 보고서 재검토 요청
     @RequestMapping(value = "/report/abbreviatedReportReject.do")
-    public String abbreviatedReportReject(@ModelAttribute("rejectReport") AbbreviatedReportVO vo) throws Exception {
+    public String abbreviatedReportReject(HttpServletRequest request, @ModelAttribute("rejectReport") AbbreviatedReportVO vo) throws Exception {
         abbreviatedReportService.abbreviatedReportReject(vo);
-        // TODO 메시지전송 기능 개발 완료 시, 메시지전송 기능 화면으로 return 해줘야 함.
-        return "forward:/report/abbreviatedReportList.do";
+        request.setAttribute("selectedTeamId",vo.getTeamId());
+        return "forward:/message/trainMessageWrite.do"; // 재검토 처리 이후, 메세지 작성 폼으로 forward
     }
 
     // 관리자의 사용자 보고서 검토 이후 점수 부여 요청
     @RequestMapping(value = "/report/abbreviatedReportGiveScore.do")
-    public String abbreviatedReportGiveScore(@RequestParam(value = "score", required = false, defaultValue = "0") int score, @ModelAttribute("giveScoreToReport") AbbreviatedReportVO vo) throws Exception {
+    public String abbreviatedReportGiveScore(@RequestParam(value = "score", required = false, defaultValue = "0") int score, @ModelAttribute("giveScoreToReport") AbbreviatedReportVO vo, ModelMap model) throws Exception {
         abbreviatedReportService.abbreviatedReportGiveScore(vo, score);
         return "forward:/report/abbreviatedReportList.do";
     }

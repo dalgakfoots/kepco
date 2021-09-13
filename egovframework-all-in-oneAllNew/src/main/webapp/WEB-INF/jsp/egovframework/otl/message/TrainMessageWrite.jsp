@@ -32,6 +32,7 @@
 
         function messageVOSubmit() {
             if(confirm("메시지를 전송하시겠습니까?")){
+                sendMessage();
                 document.messageVO.submit();
             }
         }
@@ -41,6 +42,9 @@
 </head>
 <body>
 <form name="messageVO" onsubmit="return confirm('메시지를 전송하시겠습니까?')" method="post" action="<c:url value="/message/trainMessageSubmit.do" />">
+    <c:if test="${selectedTeamId ne null and selectedTeamId ne ''}">
+        <input type="hidden" id="teamId" name="teamId" value="${selectedTeamId}"/>
+    </c:if>
     <div class="wTableFrm">
         <h2>메시지 작성</h2>
         <table class="wTable">
@@ -48,7 +52,7 @@
                 <tr>
                     <th>메시지<br/>수신팀</th>
                     <td>
-                        <select name="teamId" style="width: 100%;">
+                        <select name="teamId" style="width: 100%;" <c:if test="${selectedTeamId ne null and selectedTeamId ne ''}">disabled</c:if>>
                             <c:forEach items="${teamList}" var="team">
                                 <option value="${team.TEAM_ID}" <c:if test="${selectedTeamId eq team.TEAM_ID}">selected</c:if> >
                                         ${team.TEAM_NM}
@@ -90,5 +94,23 @@
     </div>
 
 </form>
+<script type="text/javascript">
+    var webSocket = new WebSocket("ws://localhost:8080/trainMessageSender");
+
+    webSocket.onopen = function(message){console.log("messageSender open")};
+
+    webSocket.onclose = function(message) {};
+
+    function sendMessage(){
+        let message = document.messageVO.teamId.value;
+        <c:if test="${selectedTeamId ne null and selectedTeamId ne ''}">
+            message = document.getElementById("teamId").value;
+        </c:if>
+        console.log("message = "+message);
+        webSocket.send(message);
+
+    }
+</script>
+
 </body>
 </html>

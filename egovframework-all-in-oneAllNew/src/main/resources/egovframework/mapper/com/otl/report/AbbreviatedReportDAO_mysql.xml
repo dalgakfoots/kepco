@@ -51,6 +51,7 @@
 		WHERE  TEAM_ID = #{teamId}
 			</otherwise>
 		</choose>
+		ORDER BY REPORT_ID DESC
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 

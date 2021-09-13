@@ -61,7 +61,7 @@
                     <c:if test="${role.get('author_code') eq 'ROLE_ADMIN'}">
                     <li>
                         <select name="type">
-                            <option value="">전체 선택</option>
+                            <option value="">보고서유형</option>
                             <option value="MDR" <c:if test="${searchVO.reportType eq 'MDR'}">selected</c:if> > 악성 코드 식별</option>
                             <option value="WDR" <c:if test="${searchVO.reportType eq 'WDR'}">selected</c:if> >웹 공격 식별</option>
                         </select>
@@ -71,7 +71,7 @@
                     </li>
                     <li>
                         <select name="status">
-                            <option value="">전체 선택</option>
+                            <option value="">상태</option>
                             <option value="100" <c:if test="${searchVO.reportStatus eq '100'}">selected</c:if> >작성중</option>
                             <option value="200" <c:if test="${searchVO.reportStatus eq '200'}">selected</c:if>>제출 후 관리자 검토 중</option>
                             <option value="300" <c:if test="${searchVO.reportStatus eq '300'}">selected</c:if>>관리자가 재검토 요청</option>
@@ -159,9 +159,8 @@
                     </tr>
                 </c:forEach>
                 <c:if test="${fn:length(reportList) == 0}">
-                    <!-- 글이 없는 경우 -->
                     <tr>
-                        <td colspan="3"><spring:message code="common.nodata.msg" /></td>
+                        <td colspan="3"><c:out value="자료가 없습니다."/></td>
                     </tr>
                 </c:if>
             </tbody>

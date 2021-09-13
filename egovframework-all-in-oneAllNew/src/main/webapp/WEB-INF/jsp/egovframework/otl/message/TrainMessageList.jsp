@@ -85,6 +85,11 @@
                             </td>
                         </tr>
                     </c:forEach>
+                    <c:if test="${fn:length(messageList) == 0}">
+                        <tr>
+                            <td colspan="4"><c:out value="받은 메시지가 없습니다."/></td>
+                        </tr>
+                    </c:if>
                 </tbody>
             </table>
         <div class="pagination">

@@ -29,7 +29,7 @@
     <div id="top_logo"><a href="<c:url value='/sym/mnu/mpm/EgovMainMenuHome.do' />" target=_top><img src="<c:url value='/images/egovframework/com/cmm/main/kepco_logo.jpg' />" alt="kepco" / width="350", height="60"></a></div>
     <div id="use_descri">
             <ul>
-                <li><spring:message code="comSymMnuMpm.head.head"/></li><!-- 공통서비스 테스트 사이트 -->
+                <li><c:out value="${userTeamName}"/></li><!-- 공통서비스 테스트 사이트 -->
                 <li><a href="javascript:actionLogout()"><img src="<c:url value='/images/egovframework/com/cmm/main/logout_btn.gif' />" alt="로그아웃" /></a></li>
             </ul>
     </div>

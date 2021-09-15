@@ -90,6 +90,7 @@ public class AbbreviatedReportController {
             if (role.get("author_code").equals("ROLE_ADMIN")) {
                 model.addAttribute("teamIdList", abbreviatedReportService.searchTeamIdList((String) egovTrainService.selectTrainingIdList().get(0).get("EVENT_ID")));
             }
+            model.addAttribute("searchVO", searchVO);
             model.addAttribute("role", role);
             model.addAttribute("paginationInfo", paginationInfo);
         }catch (Exception e){

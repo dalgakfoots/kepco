@@ -34,6 +34,10 @@
     this.elemInput = element;
     this._elemInput = $(element);
 
+    // test
+    this.count = 0;
+    // test
+
     this.init();
   }
 
@@ -402,8 +406,13 @@
       tmpTitle = this._selectedItem.title;
     }
 
-    this._elemInput.val(tmpTitle);
+    // 조회 시 사용한 팀명 조건을 유지하기 위해 사용
+    if(this.count != 0){
+      this._elemInput.val(tmpTitle);
+    }
+    // this._elemInput.val(tmpTitle);
     this._elemInput.trigger('change');
+    this.count++; // 조회 시 사용한 팀명 조건을 유지하기 위해 사용
 
     if (this.changeHandler)
       this.changeHandler();

@@ -62,24 +62,24 @@
                     <li>
                         <select name="type">
                             <option value="">보고서유형</option>
-                            <option value="MDR" <c:if test="${searchVO.reportType eq 'MDR'}">selected</c:if> > 악성 코드 식별</option>
-                            <option value="WDR" <c:if test="${searchVO.reportType eq 'WDR'}">selected</c:if> >웹 공격 식별</option>
+                            <option value="MDR" <c:if test="${searchVO.type eq 'MDR'}">selected</c:if> > 악성 코드 식별</option>
+                            <option value="WDR" <c:if test="${searchVO.type eq 'WDR'}">selected</c:if> >웹 공격 식별</option>
                         </select>
                     </li>
                     <li style="width: 35%;">
-                        <input class="s_input" name="title" type="text" maxlength="100" style="width: 100%;" value="${searchVO.reportTitle}">
+                        <input class="s_input" name="title" type="text" maxlength="100" style="width: 100%;" value="${searchVO.title}">
                     </li>
                     <li>
                         <select name="status">
                             <option value="">상태</option>
-                            <option value="100" <c:if test="${searchVO.reportStatus eq '100'}">selected</c:if> >작성중</option>
-                            <option value="200" <c:if test="${searchVO.reportStatus eq '200'}">selected</c:if>>제출 후 관리자 검토 중</option>
-                            <option value="300" <c:if test="${searchVO.reportStatus eq '300'}">selected</c:if>>관리자가 재검토 요청</option>
-                            <option value="400" <c:if test="${searchVO.reportStatus eq '400'}">selected</c:if>>관리자 검토 완료</option>
+                            <option value="100" <c:if test="${searchVO.status eq '100'}">selected</c:if> >작성중</option>
+                            <option value="200" <c:if test="${searchVO.status eq '200'}">selected</c:if>>제출 후 관리자 검토 중</option>
+                            <option value="300" <c:if test="${searchVO.status eq '300'}">selected</c:if>>관리자가 재검토 요청</option>
+                            <option value="400" <c:if test="${searchVO.status eq '400'}">selected</c:if>>관리자 검토 완료</option>
                         </select>
                     </li>
                     <li style="width: 21%;">
-                        <input type="text" id="teamIds" name="teamName" class="comboTreeInputBox" autocomplete="off" value="${searchVO.teamId}">
+                        <input type="text" id="teamIds" name="teamName" class="comboTreeInputBox" autocomplete="off" value="${searchVO.teamName}">
                     </li>
                     <li>
                         <input type="submit" class="s_btn" value="조회" /><!-- 조회 -->

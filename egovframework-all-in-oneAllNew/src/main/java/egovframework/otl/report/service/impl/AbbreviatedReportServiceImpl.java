@@ -57,7 +57,7 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
     @Override
     public void abbreviatedReportInsert(AbbreviatedReportVO vo) throws Exception {
         vo.setReportId(abbreviatedReportIdService.getNextStringId());
-        vo.setReportStatus("100"); // 100 : 작성중
+        vo.setReportStatus("200"); // 200 : 제출 후 관리자 검토 중
         abbreviatedReportDAO.abbreviatedReportInsert(vo);
     }
 

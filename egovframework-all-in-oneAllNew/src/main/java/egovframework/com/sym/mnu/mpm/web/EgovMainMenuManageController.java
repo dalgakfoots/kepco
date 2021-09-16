@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import egovframework.otl.common.service.impl.OnTheLiveCommonDAO;
+import egovframework.otl.message.service.impl.TrainMessageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,12 @@ public class EgovMainMenuManageController {
     /** EgovMenuManageService */
 	@Resource(name = "meunManageService")
     private EgovMenuManageService menuManageService;
+
+	@Resource(name= "TrainMessageDAO")
+	TrainMessageDAO trainMessageDAO;
+
+	@Resource(name = "OnTheLiveCommonDAO")
+	OnTheLiveCommonDAO onTheLiveCommonDAO;
 
     /** EgovFileMngService */
 	//@Resource(name="EgovFileMngService")
@@ -112,6 +120,7 @@ public class EgovMainMenuManageController {
         model.addAttribute("list_headmenu", list_headmenu);
 		if (!(user == null ? "" : EgovStringUtil.isNullToString(user.getId())).equals("")) {
         	// 메인 페이지 이동
+			model.addAttribute("userTeamName",getUserTeamName(getUserTeamId(user.getUniqId())));
 	    		return "egovframework/com/EgovMainView";
         } else {
         	// 오류 페이지 이동
@@ -146,6 +155,7 @@ public class EgovMainMenuManageController {
         model.addAttribute("list_headmenu", list_headmenu);
 		if (!(user == null ? "" : EgovStringUtil.isNullToString(user.getUniqId())).equals("")) {
         	// 메인 페이지 이동
+				model.addAttribute("userTeamName",getUserTeamName(getUserTeamId(user.getUniqId())));
         		return "egovframework/com/main_head";
         } else {
         	// 오류 페이지 이동
@@ -248,6 +258,14 @@ public class EgovMainMenuManageController {
 
 		if (!user.getId().equals("")) {
         	// 메인 페이지 이동
+			try{
+				// main_bottom에 있는 /trainMessageSender 를 위한 teamId 세팅
+				String userTeamId = trainMessageDAO.searchUsersTeamId(user.getUniqId()).getTeamId();
+				model.addAttribute("userTeamId", userTeamId);
+				model.addAttribute("userTeamName", onTheLiveCommonDAO.getUserTeamName(userTeamId));
+			}catch (NullPointerException e){
+				model.addAttribute("userTeamId","");
+			}
 			return "egovframework/com/EgovMainView";
         
         } else {
@@ -255,4 +273,25 @@ public class EgovMainMenuManageController {
         	return "egovframework/com/cmm/error/egovError";
         }
     }
+
+	private String getUserTeamId(String esntlId) {
+		String userTeamId = "";
+		try{
+			userTeamId = trainMessageDAO.searchUsersTeamId(esntlId).getTeamId();
+		}catch (NullPointerException e){
+			userTeamId = "";
+		}
+		return userTeamId;
+	}
+
+	private String getUserTeamName(String teamId) {
+		String userTeamName = "";
+		try{
+			userTeamName = onTheLiveCommonDAO.getUserTeamName(teamId);
+		}catch (NullPointerException e){
+			userTeamName = "";
+		}
+		return userTeamName;
+	}
+
 }

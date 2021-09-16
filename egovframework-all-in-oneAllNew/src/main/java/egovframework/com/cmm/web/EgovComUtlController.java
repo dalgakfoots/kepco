@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.otl.common.service.impl.OnTheLiveCommonDAO;
+import egovframework.otl.message.service.impl.TrainMessageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,11 +50,17 @@ public class EgovComUtlController {
     @Resource(name = "propertiesService")
     protected EgovPropertyService propertiesService;
 
+	@Resource(name= "TrainMessageDAO")
+	TrainMessageDAO trainMessageDAO;
+
+	@Resource(name = "OnTheLiveCommonDAO")
+	OnTheLiveCommonDAO onTheLiveCommonDAO;
+
     /**
 	 * JSP 호출작업만 처리하는 공통 함수
 	 */
 	@RequestMapping(value="/EgovPageLink.do")
-	public String moveToPage(@RequestParam("link") String linkPage){
+	public String moveToPage(@RequestParam("link") String linkPage, ModelMap model){
 		String link = linkPage;
 		link = link.replace(";", "");
 		link = link.replace(".", "");
@@ -65,7 +76,15 @@ public class EgovComUtlController {
 			LOGGER.debug("Page Link WhiteList Error! Please check whitelist!");
 			link="egovframework/com/cmm/egovError";
 		}
-		
+
+		// main_bottom에 있는 /trainMessageSender 를 위한 teamId 세팅
+		if (link.equals("/egovframework/com/main_bottom")) {
+			LoginVO user = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+			String teamId = getUserTeamId(user.getUniqId());
+
+			model.addAttribute("userTeamId", teamId);
+		}
+
 		// 안전한 경로 문자열로 조치
 		link = EgovWebUtil.filePathBlackList(link);
 		
@@ -90,4 +109,13 @@ public class EgovComUtlController {
 		return "egovframework/com/cmm/validator";
 	}
 
+	private String getUserTeamId(String esntlId) {
+		String userTeamId = "";
+		try{
+			userTeamId = trainMessageDAO.searchUsersTeamId(esntlId).getTeamId();
+		}catch (NullPointerException e){
+			userTeamId = "";
+		}
+		return userTeamId;
+	}
 }

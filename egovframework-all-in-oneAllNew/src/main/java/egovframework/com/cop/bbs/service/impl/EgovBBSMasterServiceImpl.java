@@ -179,5 +179,10 @@ public class EgovBBSMasterServiceImpl extends EgovAbstractServiceImpl implements
 	public HashMap selectCyberThreatAlarm(BoardVO boardVO) throws Exception {
 		return egovBBSMasterDao.selectCyberThreatAlarm(boardVO);
 	}
+
+	@Override
+	public void insertBBSUserLog(HashMap logParam) throws Exception {
+		egovBBSMasterDao.insertBBSUserLog(logParam);
+	}
 	
 }

@@ -33,7 +33,7 @@ public interface EgovTrainService {
 
 	List<HashMap> selectUserWatExamList(HashMap param) throws Exception;
 
-	HashMap selectTrainingTimeSetting() throws Exception;
+	HashMap selectTrainingTimeSetting(String trainingId) throws Exception;
 
 	List<HashMap> selectTrainingIdList() throws Exception;
 
@@ -42,6 +42,10 @@ public interface EgovTrainService {
 	String selectCurrentExamAvailable(HashMap availCheckMap) throws Exception;
 
 	void updateWatExamOpenTime(HashMap param) throws Exception;
+
+	String selectRealAnswer(HashMap param) throws Exception;
+
+	List selectSrgRealAnswer(HashMap param) throws Exception;
 
 
 

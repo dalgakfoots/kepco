@@ -93,15 +93,6 @@ function fn_egov_init() {
  * 저장처리화면
  ******************************************************** */
 function fn_egov_updt_event(form) {
-	var eventSvcBeginTime = document.getElementById("eventSvcBeginTime").value;
-	var eventSvcEndTime =document.getElementById("eventSvcEndTime").value;
-	if (eventSvcBeginTime === "") {
-		alert("훈련시작시간은 필수 항목입니다.");
-		return false;
-	} else if (eventSvcEndTime === "") {
-		alert("훈련종료시간은 필수 항목입니다.");
-		return false;
-	}
 	
 	if (!validateEventCmpgnVO(form)) {
 		return false;
@@ -192,36 +183,6 @@ function fnSelectTeam() {
 			<td class="nopd" colspan="3">
 				<form:textarea path="eventCn" title="${title} ${inputTxt}" cols="300" rows="20" />   
 				<div><form:errors path="eventCn" cssClass="error" /></div>  
-			</td>
-		</tr>
-		
-		<!-- 행사시작일자  -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe"/> </c:set>
-		<tr>
-			<th><label for="eventSvcBeginDe">훈련시작일<span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcBeginDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
-				<div><form:errors path="eventSvcBeginDe" cssClass="error" /></div>       
-			</td>
-			<th><label for="eventSvcBeginTime">훈련시작시간 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcBeginTime" id="eventSvcBeginTime" type="time" style="width:100px;"/>
-			</td>
-			
-		</tr>
-		
-		<!-- 행사종료일자  -->
-		<c:set var="title"><spring:message code="comUssIonEcc.eventCmpgnVO.eventSvcEndDe"/> </c:set>
-		<tr>
-			<th><label for="eventSvcEndDe">훈련종료일 <span class="pilsu">*</span></label></th>
-			<td class="left"">
-				<form:input path="eventSvcEndDe" title="${title} ${inputTxt}" size="70" maxlength="70" style="width:70px;"/>
-				<div><form:errors path="eventSvcEndDe" cssClass="error" /></div>       
-			</td>
-			
-			<th><label for="eventSvcEndTime">훈련종료시간 <span class="pilsu">*</span></label></th>
-			<td class="left">
-				<form:input path="eventSvcEndTime" id="eventSvcEndTime" type="time" style="width:100px;"/>
 			</td>
 		</tr>
 		</tbody>

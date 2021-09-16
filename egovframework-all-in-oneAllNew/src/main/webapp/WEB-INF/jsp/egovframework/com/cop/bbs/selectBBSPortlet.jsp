@@ -21,8 +21,10 @@
   *
   */
 %>
+
 <script>
-	function selectBBSMasterDetail(bbsOrder,param){
+	/* function selectBBSMasterDetail(bbsOrder,param){
+		console.log('bbsOrder, param : '+bbsOrder+ " , "+param);
 		var options = 'top=10, left=10, width=760, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 		var num = 0;
 		var newWin = window.open("about:blank","winName",options);
@@ -35,22 +37,45 @@
 		document.body.appendChild(clone);
 		clone.submit();
 		document.body.removeChild(clone);
+	} */
+	function selectBBSMasterDetail(nttId , bbsId, bbsOrder){
+		console.log("nttId , bbsId : "+ nttId+" , "+bbsId);
+		var options = 'top=10, left=10, width=760, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+		var toGo = "<c:url value='/cop/bbs/selectArticleDetail.do?'/>"+"bbsId="+bbsId+"&nttId="+nttId;
+		var newWin = window.open(toGo,"winName",options);
+		
+		
 	}
 </script>
-<ul>
-<% int cnt = 0;
-   request.setAttribute("cnt", cnt);
-%>
-<c:forEach var="result" items="${resultList}" varStatus="status">
-   	<li style="padding-top:5px">
-		<%-- <form name="blogForm" method="post"  action="<c:url value='/cop/bbs/selectBBSMasterDetail.do'/>" > --%>
-		<form name="blogForm${bbsOrder}" method="post"  action="javascript:selectBBSMasterDetail(${bbsOrder },${cnt})" >
-		<input type="hidden" name="nttId" value="<c:out value='${result.nttId}'/>"/>
-		<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>"/>
-		<input type="hidden" name="bbsNm" value="<c:out value='${result.bbsNm}'/>"/>
-		<input type="submit" value="<c:out value="${result.nttSj}"/>"/>
-		</form>
-	</li>
-	<c:set var="cnt" value="${cnt + 1}"/>
-</c:forEach>
-</ul>
+
+<div class="board" style="width:100%;">
+	<table class="board_list">
+		<colgroup>
+			<col style="width:10%;">
+			<col style="width:40%;">
+			<col style="width:10%;">
+			<col style="width:20%;">
+		</colgroup>
+		<thead>
+			<th>번호</th>
+			<th>제목</th>
+			<th>등록자</th>
+			<th>등록일</th>
+		</thead>
+		<tbody>
+		<c:forEach var="result" items="${resultList}" varStatus="status">
+		   	<tr style="text-align:center;">
+				<input type="hidden" name="nttId" value="<c:out value='${result.nttId}'/>"/>
+				<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>"/>
+				<input type="hidden" name="bbsNm" value="<c:out value='${result.bbsNm}'/>"/>
+				<%-- <input type="submit" value="<c:out value="${result.nttSj}"/>"/> --%>
+				<td>${status.count}</td>
+				<td style="text-align:left;"><a href="javascript:selectBBSMasterDetail('${result.nttId}' , '${result.bbsId}' , '${bbsOrder}')">${result.nttSj}</a>
+				<c:if test="${result.cnt <= 0 }"><span style="color:red;">new</span></c:if></td>
+				<td>${result.frstRegisterNm}</td>
+				<td>${result.frstRegisterPnttm}</td>
+			<tr>
+		</c:forEach>
+		</tbody>
+	</table>
+</div>

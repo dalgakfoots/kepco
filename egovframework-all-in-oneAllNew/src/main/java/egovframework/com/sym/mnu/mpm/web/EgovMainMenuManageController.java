@@ -181,7 +181,7 @@ public class EgovMainMenuManageController {
     	menuManageVO.setTmpEmail(user == null ? "" : EgovStringUtil.isNullToString(user.getEmail()));
     	menuManageVO.setTmpOrgnztId(user == null ? "" : EgovStringUtil.isNullToString(user.getOrgnztId()));
     	menuManageVO.setTmpUniqId(user == null ? "" : EgovStringUtil.isNullToString(user.getUniqId()));
-
+    	
     	List<?> list_menulist = menuManageService.selectMainMenuLeft(menuManageVO);
         model.addAttribute("list_menulist", list_menulist);
       	return "egovframework/com/main_left";

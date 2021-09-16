@@ -21,7 +21,7 @@
 				</var>
 			</field> 
 			
-			<field property="eventSvcBeginDe" depends="required, date">
+	<!-- 		<field property="eventSvcBeginDe" depends="required, date">
         		<arg0 key="comUssIonEcc.eventCmpgnVO.eventSvcBeginDe" resource="true"/>
 				<var>
 				<var-name>datePatternStrict</var-name>
@@ -34,7 +34,7 @@
 				<var-name>datePatternStrict</var-name>
 				<var-value>yyyy-MM-dd</var-value> 
 				</var>
-			</field> 
+			</field>  -->
 			<!-- 
 			<field property="svcUseNmprCo" depends="maxlength, integer">
         		<arg0 key="comUssIonEcc.eventCmpgnVO.svcUseNmprCo" resource="true"/>

@@ -33,7 +33,7 @@
             <if test="searchCondition == 1">AND
                 GROUP_NM LIKE CONCAT('%' , #{searchKeyword}, '%')
             </if>
-            ORDER BY GROUP_CREAT_DE DESC
+            ORDER BY GROUP_ID
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     
@@ -66,6 +66,7 @@
 			   MDT_EXAM_GROUP_ID,
 			   WAT_VM_ID,
 			   WAT_EXAM_GROUP_ID,
+			   AST_VM_ID,
 			   AST_EXAM_GROUP_ID
 	      FROM KEPCO_TRAINING_TEAM_VMGROUP
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}

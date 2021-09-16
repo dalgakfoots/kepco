@@ -96,8 +96,8 @@ function fn_egov_inquire_eventdetail(eventId) {
 		<col style="width: 9%;">
 		<col style="width: 13%;">
 		<col style="width: 40%;">
-		<col style="width: 12%;">
-		<col style="width: 12%;">
+		<%-- <col style="width: 12%;">
+		<col style="width: 12%;"> --%>
 		<col style="width: 12%;">
 	</colgroup>
 	<thead>
@@ -105,8 +105,8 @@ function fn_egov_inquire_eventdetail(eventId) {
 		<th><spring:message code="table.num" /></th><!-- 번호 -->
 		<th>훈련유형</th>
 		<th class="board_th_link">훈련내용</th>
-		<th>훈련시작일</th>
-		<th>훈련종료일</th>
+		<!-- <th>훈련시작일</th>
+		<th>훈련종료일</th> -->
 		<th><spring:message code="table.regdate" /></th><!-- 등록일자 -->
 	</tr>
 	</thead>
@@ -121,8 +121,8 @@ function fn_egov_inquire_eventdetail(eventId) {
 		<td><c:out value="${(searchVO.pageIndex-1) * searchVO.pageSize + status.count}"/></td>
 		<td><c:out value='${resultInfo.eventTyCodeNm}'/></td>
 		<td class="left"><a href="<c:url value='/dash/EgovDeductionScoreDetail.do?trainingId=${resultInfo.eventId}'/>"><c:out value='${fn:substring(resultInfo.eventCn, 0, 40)}'/></a></td>
-		<td><c:out value='${resultInfo.eventSvcBeginDe}'/></td>
-		<td><c:out value='${resultInfo.eventSvcEndDe}'/></td>
+		<%-- <td><c:out value='${resultInfo.eventSvcBeginDe}'/></td>
+		<td><c:out value='${resultInfo.eventSvcEndDe}'/></td> --%>
 		<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
 	</tr>
 	</c:forEach>

@@ -16,6 +16,7 @@
 
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
+  <link href="<c:url value='/css/egovframework/com/dash/css/dashboard.css'/>" rel="stylesheet">
   
   <script type="text/javaScript" language="javascript">
   
@@ -199,6 +200,7 @@
   	  	  			const newCell6 = newRow.insertCell(5);
   	  	  			const newCell7 = newRow.insertCell(6);
   	  	  			const newCell8 = newRow.insertCell(7);
+  	  	  			const newCell9 = newRow.insertCell(8);
   	  	  			newCell1.innerText = parseInt(i)+1;
   	  	  			newCell2.innerText = rankList[i].team_name;
   	  	  			newCell3.innerText = rankList[i].type_1;
@@ -206,7 +208,8 @@
   	  	  			newCell5.innerText = rankList[i].type_3;
   	  	  			newCell6.innerText = rankList[i].type_4;
   	  	  			newCell7.innerText = rankList[i].type_5;
-  	  	  			newCell8.innerText = rankList[i].total;	
+  	  	  			newCell8.innerText = rankList[i].type_6;
+  	  	  			newCell9.innerText = rankList[i].total;	
   			}
   	}
   
@@ -244,7 +247,7 @@
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown no-arrow">
-      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
+      	<%-- <a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a> --%>
       </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>
@@ -275,18 +278,24 @@
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
-          </li>
-        <li class="breadcrumb-item active"><c:out value="${training_name}"/></li>
-        </ol>
+          <div class="card-header">
+            <!-- <i class="fas fa-chart-area"></i> -->
+            <span class="card-header-title"><c:out value="${training_name}"/></span>
+	            <ol class="breadcrumb">
+	          <li class="breadcrumb-item">
+	            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
+	          </li>
+	        <li class="breadcrumb-item active"><c:out value="${training_name}"/></li>
+	        </ol>
+          </div>
+        
 
         <!-- Area Chart Example-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Area Chart</div>
+        <div class="card mb-3 card-chart">
+          <div class="card-header2">
+           <!-- <span class="titleIcon"><i class="fas fa-chart-area"></i></span> --> 
+            <span class="card-header-title">Area Chart</span>
+            </div>
           <div class="card-body">
             <canvas id="myAreaChart" width="100%" height="30"></canvas>
           </div>
@@ -295,9 +304,10 @@
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            실시간 훈련 순위</div>
+          <div class="card-header2">
+            <!-- <span class="titleIcon"><i class="fas fa-table"></i></span> -->
+            <span class="card-header-title">실시간 훈련 순위</span>
+            </div>
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           <div class="card-body">
             <div class="table-responsive">
@@ -309,23 +319,27 @@
                     <th>예방보안</th>
                     <th>실시간대응</th>
                     <th>사후대응</th>
+                    <th>보안규정</th>
                     <th>VM복구</th>
                     <th>가용성</th>
                     <th>총점</th>
+                    
                   </tr>
                 </thead>
-                <tfoot>
+               <!--  <tfoot>
                   <tr>
                     <th>순위</th>
                     <th>팀명</th>
                     <th>예방보안</th>
                     <th>실시간대응</th>
                     <th>사후대응</th>
+                    <th>보안규정</th>
                     <th>VM복구</th>
                     <th>가용성</th>
                     <th>총점</th>
+                    
                   </tr>
-                </tfoot>
+                </tfoot> -->
                 <tbody id="list_body">
              
             	<c:forEach var="item" items="${rankList}" varStatus="status">
@@ -337,6 +351,7 @@
 	                    <td><c:out value="${item.type_3}"/></td>
 	                    <td><c:out value="${item.type_4}"/></td>
 	                    <td><c:out value="${item.type_5}"/></td>
+	                    <td><c:out value="${item.type_6}"/></td>
 	                    <td><c:out value="${item.total}"/></td>
 					</tr>
 				</c:forEach>

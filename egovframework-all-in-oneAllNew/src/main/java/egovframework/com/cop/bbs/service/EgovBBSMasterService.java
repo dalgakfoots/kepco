@@ -41,4 +41,6 @@ public interface EgovBBSMasterService {
 
 	HashMap selectCyberThreatAlarm(BoardVO boardVO) throws Exception;
 
+	void insertBBSUserLog(HashMap logParam) throws Exception;
+
 }

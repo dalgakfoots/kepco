@@ -78,8 +78,8 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			
 			
 			Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
-			Date standardTime = dateTime.parse(trainingTime.get("EVENT_SVC_BGNDE").toString());
-			Date endtime = dateTime.parse(trainingTime.get("EVENT_SVC_ENDDE").toString());
+			Date standardTime = dateTime.parse(trainingTime.get("start_datetime").toString());
+			Date endtime = dateTime.parse(trainingTime.get("end_datetime").toString());
 			Date today = new Date();
 //			System.out.println("standardTime : "+ standardTime);
 //			System.out.println("endtime : "+ endtime);
@@ -168,11 +168,20 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 	
 	@Override
+	public List<Map> selectScoreLogListForDeduction(String trainingId) throws Exception {
+		final List<Map> scoreLogList = egovDashManageDAO.selectScoreLogListForDeduction(trainingId, "vm복구");
+		return scoreLogList;
+	}
+	
+	@Override
 	public Map selectCurrentScore(String trainingId, String teamId) throws Exception {
 		final Map currentScore = egovDashManageDAO.selectDashTable(trainingId, teamId);
 		return currentScore;
 	}
-	
+	@Override
+	public void insertEgovDeductionScore(String trainingId, String teamId, String score) {
+		egovDashManageDAO.insertEgovDeductionScore(trainingId, teamId, score);
+	}
 	
 	
 	

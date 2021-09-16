@@ -67,8 +67,8 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 		return selectList("egovTrainDAO.selectUserWatExamList",param);
 	}
 
-	public HashMap selectTrainingTimeSetting() {
-		return selectOne("egovTrainDAO.selectTrainingTimeSetting");
+	public HashMap selectTrainingTimeSetting(String trainingId) {
+		return selectOne("egovTrainDAO.selectTrainingTimeSetting",trainingId);
 	}
 
 	public List<HashMap> selectTrainingIdList() {
@@ -85,6 +85,14 @@ public class EgovTrainDAO extends EgovComAbstractDAO {
 
 	public void updateWatExamOpenTime(HashMap param) {
 		update("egovTrainDAO.updateWatExamOpenTime", param);
+	}
+
+	public String selectRealAnswer(HashMap param) {
+		return selectOne("egovTrainDAO.selectRealAnswer",param);
+	}
+
+	public List selectSrgRealAnswer(HashMap param) {
+		return selectList("egovTrainDAO.selectSrgRealAnswer", param);
 	}
 
 	

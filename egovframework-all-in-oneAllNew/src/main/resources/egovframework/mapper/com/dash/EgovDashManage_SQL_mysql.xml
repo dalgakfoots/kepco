@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="EgovDashManageDAO">
 		<select id="selectTrainingTeams" parameterType="String" resultType="java.util.HashMap">
-						SELECT 
+			SELECT 
 				kttv.training_id, 
 			    a.event_cn as training_name,
 			    kttv.team_id, 
@@ -41,16 +41,22 @@
 			        where training_id = #{trainingId}
 			        and team_id = #{teamId}
 			        and training_type = '사후대응') as type_3,
-				(select ifnull(sum(score), 0)
-					from kepco_training_team_scores 
-			        where training_id = #{trainingId}
-			        and team_id = #{teamId}
-			        and training_type = 'vm복구') as type_4,
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where training_id = #{trainingId}
 			        and team_id = #{teamId}
-			        and training_type = '가용성') as type_5,
+			        and training_type = '보안규정') as type_4,
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = 'vm복구') as type_5,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where training_id = #{trainingId}
+			        and team_id = #{teamId}
+			        and training_type = '가용성') as type_6,
+			    
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where training_id = #{trainingId}
@@ -76,21 +82,24 @@
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id
 			        and training_type = '사후대응') as type_3,
-				(select ifnull(sum(score), 0)
-					from kepco_training_team_scores 
-			        where team_id = kttv.team_id
-			        and training_type = 'vm복구') as type_4,
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id
-			        and training_type = '가용성') as type_5,
+			        and training_type = '보안규정') as type_4,   
+				(select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = 'vm복구') as type_5,
+			    (select ifnull(sum(score), 0)
+					from kepco_training_team_scores 
+			        where team_id = kttv.team_id
+			        and training_type = '가용성') as type_6,
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id) as total
 			FROM kepco_training_team_vmgroup kttv
             WHERE kttv.training_id = #{value}
 			order by total desc
-			limit 10
 		</select>
 		
 		<select id="selectTeamTotalScoreByDateTime" parameterType="java.util.HashMap" resultType="int">
@@ -159,8 +168,35 @@
 			AND team_id = #{teamId}
 			order by created_datetime desc
 		</select>
+		
+		
+		<select id="selectScoreLogListForDeduction" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+			SELECT 
+				ktts.training_id,
+			    ktts.team_id, 
+			    ktts.question_id,
+			    ktts.score_id,
+			    ktts.training_type,
+			    ktts.score,
+			    ktts.created_datetime,
+			    ktts.updated_datetime,
+			    a.group_nm as team_name
+			FROM kepco_training_team_scores ktts
+			inner join COMTNAUTHORGROUPINFO a on a.group_id = ktts.team_id 
+			WHERE training_id = #{trainingId}
+			AND training_type = #{trainingType}
+			order by created_datetime desc
+		</select>
+		
+		
 		<select id="selectTrainingTimeByTrainingId" parameterType="String" resultType="java.util.HashMap">
-			SELECT
+		
+			SELECT 
+				start_datetime, 
+				end_datetime
+			FROM kepco_test.kepco_training_time 
+			WHERE training_id=#{trainingId};
+	<!-- 		SELECT
 				A.EVENT_SVC_BGNDE,
 				A.EVENT_SVC_ENDDE
 			
@@ -169,7 +205,7 @@
 					(SELECT CODE_ID, CODE, CODE_NM FROM 
 						COMTCCMMNDETAILCODE WHERE CODE_ID = 'COM035' AND USE_AT='Y') b
 					ON a.EVENT_TY_CODE = b.CODE
-			WHERE A.event_id = #{trainingId}
+			WHERE A.event_id = #{trainingId} -->
 		</select> 
 		
 		<insert id="insertDashScore" parameterType="java.util.HashMap">

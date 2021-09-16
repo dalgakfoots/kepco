@@ -217,8 +217,12 @@ function fn_egov_inquire_articledetail(bbsId, nttId) {
 		    	<form name="subForm" method="post" action="<c:url value='/cop/bbs/selectArticleDetail.do'/>">
 					    <input name="nttId" type="hidden" value="<c:out value="${resultInfo.nttId}"/>">
 					    <input name="bbsId" type="hidden" value="<c:out value="${resultInfo.bbsId}"/>">
-					    <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
-					    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}">	<c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;"></span>
+					    <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/> 
+					    <!-- check here  -->
+					    <c:if test="${resultInfo.cnt <= 0 }"><span style="color:red;">new</span></c:if>
+					    <span class="link"><c:if test="${resultInfo.replyLc!=0}"><c:forEach begin="0" end="${resultInfo.replyLc}" step="1">&nbsp;	</c:forEach><img src="<c:url value='/images/egovframework/com/cop/bbs/icon_reply.png'/>" alt="secret"></c:if><input type="submit" value="<c:out value='${fn:substring(resultInfo.nttSj, 0, 40)}'/><c:if test="${resultInfo.commentCo != ''}"> <c:out value='[${resultInfo.commentCo}]'/></c:if>" style="border:0px solid #e0e0e0;">
+					    </span>
+					    
 				</form>
 			</c:otherwise>
 			</c:choose>

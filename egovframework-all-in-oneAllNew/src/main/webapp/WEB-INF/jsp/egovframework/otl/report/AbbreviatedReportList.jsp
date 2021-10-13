@@ -62,8 +62,11 @@
                     <li>
                         <select name="type">
                             <option value="">보고서유형</option>
-                            <option value="MDR" <c:if test="${searchVO.type eq 'MDR'}">selected</c:if> > 악성 코드 식별</option>
-                            <option value="WDR" <c:if test="${searchVO.type eq 'WDR'}">selected</c:if> >웹 공격 식별</option>
+                            <option value="APT1" <c:if test="${searchVO.type eq 'APT1'}">selected</c:if> > APT#1 보고서</option>
+                            <option value="APT2" <c:if test="${searchVO.type eq 'APT2'}">selected</c:if> >APT#2 보고서</option>
+                            <option value="RANSOM" <c:if test="${searchVO.type eq 'RANSOM'}">selected</c:if> >랜섬웨어 보고서</option>
+                            <option value="WEB" <c:if test="${searchVO.type eq 'WEB'}">selected</c:if> >웹해킹 보고서</option>
+                            <option value="DDOS" <c:if test="${searchVO.type eq 'DDOS'}">selected</c:if> >DDoS 보고서</option>
                         </select>
                     </li>
                     <li style="width: 35%;">
@@ -119,11 +122,20 @@
                         </c:if>
                         <td>
                             <c:choose>
-                                <c:when test="${vo.reportType eq 'MDR'}">
-                                    <c:out value="악성 코드 식별"/>
+                                <c:when test="${vo.reportType eq 'APT1'}">
+                                    <c:out value="APT#1 보고서"/>
                                 </c:when>
-                                <c:when test="${vo.reportType eq 'WDR'}">
-                                    <c:out value="웹 공격 식별"/>
+                                <c:when test="${vo.reportType eq 'APT2'}">
+                                    <c:out value="APT#2 보고서"/>
+                                </c:when>
+                                <c:when test="${vo.reportType eq 'RANSOM'}">
+                                    <c:out value="랜섬웨어 보고서"/>
+                                </c:when>
+                                <c:when test="${vo.reportType eq 'WEB'}">
+                                    <c:out value="웹해킹 보고서"/>
+                                </c:when>
+                                <c:when test="${vo.reportType eq 'DDOS'}">
+                                    <c:out value="DDoS 보고서"/>
                                 </c:when>
                             </c:choose>
                         </td>

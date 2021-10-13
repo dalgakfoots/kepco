@@ -31,7 +31,7 @@
 			<when test="role == 'ROLE_ADMIN'">
 				<choose>
 					<when test="reportType == null or reportType == ''">
-					WHERE REPORT_TYPE IN ('MDR','WDR')
+					WHERE REPORT_TYPE IN ('APT1','APT2','WEB','DDOS','RANSOM')
 					</when>
 					<when test="reportType != null and reportType != ''">
 					WHERE REPORT_TYPE = #{reportType}
@@ -62,7 +62,7 @@
 			<when test="role == 'ROLE_ADMIN'">
 				<choose>
 					<when test="reportType == null or reportType == ''">
-						WHERE REPORT_TYPE IN ('MDR','WDR')
+						WHERE REPORT_TYPE IN ('APT1','APT2','WEB','DDOS','RANSOM')
 					</when>
 					<when test="reportType != null and reportType != ''">
 						WHERE REPORT_TYPE = #{reportType}

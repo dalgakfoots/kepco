@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovTrainDAO">
+    
+    <!-- selects -->
+    
+    <select id="selectUserVmGroupId" resultType="java.util.HashMap">
+    	SELECT A.MBER_ID,
+    		   A.ESNTL_ID,
+    		   A.GROUP_ID,
+    		   B.TRAINING_ID
+    	<choose>
+    		<when test='trainType == "pst"'>
+    		   ,B.PST_VM_ID AS VM_GROUP_ID
+    		</when>
+    		<when test='trainType == "mdt"'>
+    		   ,B.MDT_VM_ID AS VM_GROUP_ID
+    		</when>
+    		<when test='trainType == "wat"'>
+    		   ,B.WAT_VM_ID AS VM_GROUP_ID
+    		</when>
+    		<when test='trainType == "ast"'>
+    		   ,B.AST_VM_ID AS VM_GROUP_ID
+    		</when>
+    	</choose>
+		FROM   comtngnrlmber A
+		       LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                    ON A.group_id = B.team_id
+		WHERE  A.esntl_id = #{esntlId}
+    </select>
+    
+	<select id="selectUserVMLists" resultType="java.util.HashMap">
+
+		SELECT mber_id,
+		       group_id,
+		       vm_group_id,
+		       name,
+		       ip,
+		       user_name,
+		       user_password,
+		       vm_type_id,
+		       vm_group_type_id,
+		       `type`,
+		       url,
+               id
+		FROM   (
+        SELECT A.mber_id,
+		               A.group_id,
+		               B.pst_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
+		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
+		               C.url,
+                       C.id
+		        FROM   comtngnrlmber A
+		               LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                            ON A.group_id = B.team_id
+		               LEFT OUTER JOIN kepco_vm_group_types C
+		                            ON B.pst_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
+		        WHERE  A.esntl_id = #{esntlId}
+		        UNION ALL
+		        SELECT A.mber_id,
+		               A.group_id,
+		               B.mdt_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
+		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
+		               C.url,
+                       C.id
+		        FROM   comtngnrlmber A
+		               LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                            ON A.group_id = B.team_id
+		               LEFT OUTER JOIN kepco_vm_group_types C
+		                            ON B.mdt_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
+		        WHERE  A.esntl_id = #{esntlId}
+		        UNION ALL
+		        SELECT A.mber_id,
+		               A.group_id,
+		               B.wat_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
+		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
+		               C.url,
+                       C.id
+		        FROM   comtngnrlmber A
+		               LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                            ON A.group_id = B.team_id
+		               LEFT OUTER JOIN kepco_vm_group_types C
+		                            ON B.wat_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
+		        WHERE  A.esntl_id = #{esntlId}
+		        UNION ALL
+		        SELECT A.mber_id,
+		               A.group_id,
+		               B.ast_vm_id AS VM_GROUP_ID,
+		               C.name,
+		               C.ip,
+		               C.user_name,
+		               C.user_password,
+		               C.vm_type_id,
+		               C.vm_group_type_id,
+		               D.`type`,
+		               C.url,
+                       C.id
+		        FROM   comtngnrlmber A
+		               LEFT OUTER JOIN kepco_training_team_vmgroup B
+		                            ON A.group_id = B.team_id
+		               LEFT OUTER JOIN kepco_vm_group_types C
+		                            ON B.ast_vm_id = C.vm_group_id
+		               LEFT OUTER JOIN kepco_vm_types D
+		               				ON C.vm_type_id = D.id
+		        WHERE  A.esntl_id = #{esntlId}) A 
+		WHERE	VM_GROUP_ID = #{vmGroupId}
+	</select>
+	
+	<select id="selectUserExamList" resultType="java.util.HashMap">
+	
+	  SELECT   A.group_id,
+		       B.group_nm,
+		       <choose>
+		       		<when test="trainType == 'pst'">
+		       			C.pst_exam_group_id,		
+		       		</when>
+		       		<when test="trainType == 'mdt'">
+		       			C.mdt_exam_group_id,
+		       			E.PRE_EXAM_ID,
+      				    H.QUESTION_ID AS SOLVED_PRE_EXAM_ID,
+       					IF(((IFNULL(E.PRE_EXAM_ID, "") = IFNULL(H.QUESTION_ID, "") AND H.SCORE <![CDATA[>]]> 0)  OR E.PRE_EXAM_ID IS NULL) , 'Y', 'N') AS PRE_EXAM_SOLVED_YN,
+       					I.QUESTION_SJ AS PRE_EXAM_SJ,
+		       		</when>
+		       		<when test="trainType == 'wat'">
+		       			C.wat_exam_group_id,
+		       			E.EXAM_OPEN_TIME,
+				        DATE_FORMAT(NOW(),'%H%i') AS NOWTIME,
+				        IF(E.EXAM_OPEN_TIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H%i') , 'Y', 'N') AS IS_EXAM_TIME_YN,
+						E.PRE_EXAM_ID,
+				        H.QUESTION_ID AS SOLVED_PRE_EXAM_ID,
+				        IF(IFNULL(E.PRE_EXAM_ID,"") = IFNULL(H.QUESTION_ID,"") , 'Y' , 'N') AS PRE_EXAM_SOLVED_YN,
+				        I.QUESTION_SJ AS PRE_EXAM_SJ,
+				        H.PRE_EXAM_CREATED_TIME,
+					    CASE
+					   		WHEN IF(Ifnull(E.pre_exam_id, "") = Ifnull(H.question_id, ""), 'Y', 'N') = 'N'
+					   	 	THEN '10'
+					   	 END AS NEED_TO_ADD,
+		       		</when>
+		       		<when test="trainType == 'ast'">
+		       			C.ast_exam_group_id,
+		       		</when>
+		       		<when test="trainType == 'srg'">
+		       			'FAQG_00000000000061' as srg_exam_group_id, <!--TODO 임시로 처리 중. 추후 반드시 별도 컬럼으로 관리되어야 함.  -->
+		       		</when>
+		       </choose>
+		       E.faq_id,
+		       E.qestn_sj,
+		       E.TYPE,
+		       Ifnull(F.cnt, '0') AS CNT
+		FROM   comtngnrlmber A
+		       LEFT OUTER JOIN comtnauthorgroupinfo B
+		                    ON A.group_id = B.group_id
+		       LEFT OUTER JOIN kepco_training_team_vmgroup C
+		                    ON B.group_id = C.team_id
+		       <choose>
+		       		<when test="trainType == 'pst'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.pst_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  PST_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM PST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID AND E.`TYPE` = 'QUIZ'
+		            </when>
+		            <when test="trainType == 'mdt'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.mdt_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  MDT_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,pre_exam_id
+			       					  ,`type`
+			       				 FROM MDT_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       LEFT OUTER JOIN (SELECT TRAINING_ID, TEAM_ID, QUESTION_ID , MAX(SCORE) AS SCORE
+			                          FROM KEPCO_TRAINING_TEAM_SCORES
+			                         GROUP BY TRAINING_ID, TEAM_ID, QUESTION_ID) H ON E.PRE_EXAM_ID = H.QUESTION_ID AND C.TEAM_ID = H.TEAM_ID
+			       LEFT OUTER JOIN MDT_EXAM_MST I ON E.PRE_EXAM_ID = I.MDT_EXAM_ID <!-- 이전 문제 제목 확인 용  -->
+			        </when>
+		            <when test="trainType == 'wat'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.wat_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  WAT_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,PRE_EXAM_ID
+                          			  ,EXAM_OPEN_TIME
+			       					  ,`type`
+			       				 FROM WAT_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+			       LEFT OUTER JOIN (SELECT TRAINING_ID, TEAM_ID, QUESTION_ID , MAX(CREATED_DATETIME) AS PRE_EXAM_CREATED_TIME
+			                          FROM KEPCO_TRAINING_TEAM_SCORES
+			                         GROUP BY TRAINING_ID, TEAM_ID, QUESTION_ID) H ON E.PRE_EXAM_ID = H.QUESTION_ID
+			       LEFT OUTER JOIN WAT_EXAM_MST I ON E.PRE_EXAM_ID = I.WAT_EXAM_ID
+		            </when>
+		            <when test="trainType == 'ast'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON C.ast_exam_group_id = D.faq_group_id
+			       INNER JOIN (SELECT  AST_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM AST_EXAM_MST) E ON D.FAQ_ID = E.FAQ_ID
+		            </when>
+		            <when test="trainType == 'srg'">
+			       INNER JOIN kepco_exam_group_faqinfo D
+			                    ON 'FAQG_00000000000061' = D.faq_group_id <!--TODO 임시로 처리 중. 추후 반드시 별도 컬럼으로 관리되어야 함.  -->
+			       INNER JOIN (SELECT  SRG_EXAM_ID AS faq_id
+			       					  ,QUESTION_SJ AS qestn_sj
+			       					  ,`type`
+			       				 FROM SRG_EXAM_MST
+			       				GROUP BY SRG_EXAM_ID , QUESTION_SJ, `TYPE`) E ON D.FAQ_ID = E.FAQ_ID
+		            </when>
+		       </choose>
+		       LEFT OUTER JOIN (SELECT quiz_id,
+		                               group_id,
+		                               Count(*) AS CNT
+		                        FROM   quiz_user_answer
+		                        GROUP  BY quiz_id,
+		                                  group_id) F
+		                    ON A.group_id = F.group_id
+		                       AND E.faq_id = F.quiz_id		                    
+		WHERE  A.esntl_id = #{esntlId}
+		ORDER BY E.faq_id
+
+	</select>
+	
+	<select id="selectUserWatExamList" resultType="java.util.HashMap">
+			WITH temp
+			AS
+			  (
+			                  SELECT          a.group_id,
+			                                  b.group_nm,
+			                                  c.wat_exam_group_id,
+			                                  e.exam_open_time,
+			                                  date_format(now(), '%H%i')                                   AS nowtime,
+			                                  IF(e.exam_open_time <![CDATA[<=]]> date_format(now(), '%H%i'), 'Y', 'N') AS is_exam_time_yn,
+			                                  e.pre_exam_id,
+			                                  h.question_id                                                       AS solved_pre_exam_id,
+			                                  IF(ifnull(e.pre_exam_id, "") = ifnull(h.question_id, ""), 'Y', 'N') AS pre_exam_solved_yn,
+			                                  i.question_sj                                                       AS pre_exam_sj,
+			                                  h.pre_exam_created_time,
+			                                  CASE
+			                                                  WHEN IF(ifnull(e.pre_exam_id, "") = ifnull(h.question_id, ""), 'Y', 'N') = 'N' THEN '10'
+			                                  end AS need_to_add,
+			                                  e.faq_id,
+			                                  e.qestn_sj,
+			                                  e.type,
+			                                  ifnull(f.cnt, '0') AS cnt
+			                  FROM            comtngnrlmber a
+			                  LEFT OUTER JOIN comtnauthorgroupinfo b
+			                  ON              a.group_id = b.group_id
+			                  LEFT OUTER JOIN kepco_training_team_vmgroup c
+			                  ON              b.group_id = c.team_id
+			                  INNER JOIN      kepco_exam_group_faqinfo d
+			                  ON              c.wat_exam_group_id = d.faq_group_id
+			                  INNER JOIN
+			                                  (
+			                                         SELECT wat_exam_id AS faq_id,
+			                                                question_sj AS qestn_sj,
+			                                                pre_exam_id,
+			                                                exam_open_time,
+			                                                `type`
+			                                         FROM   wat_exam_mst) e
+			                  ON              d.faq_id = e.faq_id
+			                  LEFT OUTER JOIN
+			                                  (
+			                                           SELECT   training_id,
+			                                                    team_id,
+			                                                    question_id,
+			                                                    max(created_datetime) AS pre_exam_created_time
+			                                           FROM     kepco_training_team_scores
+			                                           GROUP BY training_id,
+			                                                    team_id,
+			                                                    question_id) h
+			                  ON              e.pre_exam_id = h.question_id
+			                  LEFT OUTER JOIN wat_exam_mst i
+			                  ON              e.pre_exam_id = i.wat_exam_id
+			                  LEFT OUTER JOIN
+			                                  (
+			                                           SELECT   quiz_id,
+			                                                    group_id,
+			                                                    count(*) AS cnt
+			                                           FROM     quiz_user_answer
+			                                           GROUP BY quiz_id,
+			                                                    group_id) f
+			                  ON              a.group_id = f.group_id
+			                  AND             e.faq_id = f.quiz_id
+			                  WHERE           a.esntl_id = #{esntlId}
+			                  ORDER BY        e.faq_id ),
+			  temp2
+			AS
+			  (
+			           SELECT   faq_id ,
+			                    qestn_sj ,
+			                    pre_exam_sj,
+			                    `type` ,
+			                    cnt ,
+			                    is_exam_time_yn,
+			                    pre_exam_solved_yn,
+			                    pre_exam_created_time,
+			                    date_add(lag(pre_exam_created_time) over (ORDER BY faq_id) , INTERVAL 10 minute)AS lagtest
+			           FROM     temp
+			           GROUP BY faq_id)
+			  SELECT faq_id ,
+			         qestn_sj ,
+			         PRE_EXAM_SJ,
+			         `type`,
+			         CNT ,
+			         IS_EXAM_TIME_YN ,
+			         PRE_EXAM_SOLVED_YN ,
+			         IF(lagtest <![CDATA[<=]]> now() , 'Y' , 'N') AS PRE_EXAM_LAG_YN ,
+			         LAGTEST,
+			         now() AS NOWTIME
+			  FROM   temp2
+	</select>
+	
+	<select id="selectQuestionDetail" resultType="java.util.HashMap">
+			
+			SELECT FAQ_ID,
+			       `TYPE`,
+			       QESTN_SJ,
+			       QESTN_CN,
+			       SCORE,
+			       MAX_SUBMIT_CNT,
+			       DEDUCT_SCORE
+			FROM   (SELECT pst_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   pst_exam_mst
+			        UNION ALL
+			        SELECT mdt_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   mdt_exam_mst
+			        UNION ALL
+			        SELECT wat_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   wat_exam_mst
+			        UNION ALL
+			        SELECT ast_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   ast_exam_mst
+			        UNION ALL
+			        SELECT srg_exam_id AS FAQ_ID,
+			               `type`,
+			               question_sj AS QESTN_SJ,
+			               question_cn AS QESTN_CN,
+			               'temp' as answer_cn,
+			               score,
+			               max_submit_cnt,
+			               deduct_score
+			        FROM   srg_exam_mst
+			    GROUP BY   srg_exam_id, `TYPE`, question_sj, question_cn, score, max_submit_cnt, deduct_score) A
+			WHERE  A.faq_id = #{faqId}
+			
+	</select>
+	
+	<select id="selectSubmitCnt" resultType="String">
+			SELECT Count(*) AS CNT
+			FROM   comtngnrlmber A
+			       LEFT OUTER JOIN quiz_user_answer B
+			                    ON A.group_id = B.group_id
+			WHERE  a.esntl_id = #{esntlId} AND b.quiz_id = #{quizId}
+	</select>
+	
+	<select id="selectUserAnswer" resultType="String">
+		SELECT ANSWER
+		  FROM QUIZ_USER_ANSWER
+		 WHERE QUIZ_ID = #{quizId}
+		   AND USER_ID = #{esntlId}
+		 ORDER BY ID DESC LIMIT 1
+	</select>
+	
+	<select id="selectQuestionFinishYn" resultType="String">
+		SELECT FINISH_YN
+		  FROM KEPCO_GROUP_QUIZ_INFO
+		 WHERE GROUP_ID = #{groupId}
+		   AND QUIZ_ID = #{quizId}
+	</select>
+	
+	<select id="selectQuestionFinishYnByUserId" resultType="String">
+			
+			SELECT IFNULL(FINISH_YN,'N') AS FINISH_YN
+			  FROM COMTNGNRLMBER A LEFT OUTER JOIN 
+			       KEPCO_GROUP_QUIZ_INFO B ON A.GROUP_ID = B.GROUP_ID
+			 WHERE A.ESNTL_ID = #{esntlId} AND B.QUIZ_ID = #{quizId}
+			   
+	</select>
+	
+	<!-- <select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
+			
+			SELECT A.QUIZ_ID,
+			       A.GROUP_ID,
+			       MAX(CASE
+			             WHEN A.ANSWER = B.ANSWER_CN THEN SCORE
+			             ELSE 0
+			           end)                        AS SCORE,
+			       DEDUCT_SCORE * ( COUNT(*) - 1 ) AS DEDUCT_SCORE
+			FROM   QUIZ_USER_ANSWER A
+			       LEFT OUTER JOIN (SELECT PST_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   PST_EXAM_MST
+			                        UNION ALL
+			                        SELECT MDT_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   MDT_EXAM_MST
+			                        UNION ALL
+			                        SELECT WAT_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   WAT_EXAM_MST
+			                        UNION ALL
+			                        SELECT AST_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   AST_EXAM_MST
+			                        UNION ALL
+			                        SELECT SRG_EXAM_ID AS QUIZ_ID,
+			                               ANSWER_CN,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   SRG_EXAM_MST) B
+			                    ON A.QUIZ_ID = B.QUIZ_ID
+			WHERE  A.QUIZ_ID = #{faqId}
+			       AND A.GROUP_ID = #{groupId}
+			GROUP  BY A.QUIZ_ID,
+			          A.GROUP_ID 
+			
+	</select> -->
+	
+	<select id="selectUserGroupQuestionScore" resultType="java.util.HashMap">
+			
+			SELECT A.QUIZ_ID,
+			       A.GROUP_ID,
+			       SCORE,
+			       DEDUCT_SCORE * ( COUNT(*) - 1 ) AS DEDUCT_SCORE
+			FROM   QUIZ_USER_ANSWER A
+			       LEFT OUTER JOIN (SELECT PST_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   PST_EXAM_MST
+			                        UNION ALL
+			                        SELECT MDT_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   MDT_EXAM_MST
+			                        UNION ALL
+			                        SELECT WAT_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   WAT_EXAM_MST
+			                        UNION ALL
+			                        SELECT AST_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   AST_EXAM_MST
+			                        UNION ALL
+			                        SELECT SRG_EXAM_ID AS QUIZ_ID,
+			                               SCORE,
+			                               DEDUCT_SCORE
+			                        FROM   SRG_EXAM_MST
+			                    GROUP BY   SRG_EXAM_ID, SCORE,DEDUCT_SCORE) B
+			                    ON A.QUIZ_ID = B.QUIZ_ID
+			WHERE  A.QUIZ_ID = #{faqId}
+			       AND A.GROUP_ID = #{groupId}
+			GROUP  BY A.QUIZ_ID,
+			          A.GROUP_ID 
+			
+	</select>
+	
+	<select id="selectWatAdditionalScore" resultType="java.util.HashMap">
+	
+			SELECT B.training_id,
+			       B.team_id,
+			       B.question_id,
+			       Date_format(B.created_datetime, '%H') AS CREATED_HOUR,
+			       Date_format(B.created_datetime, '%i') AS CREATED_MIN,
+			       C.wat_exam_id,
+			       Substr(C.exam_open_time, 1, 2)        AS EXAM_OPEN_HOUR,
+			       Substr(C.exam_open_time, 3, 4)        AS EXAM_OPEN_MIN
+			FROM   kepco_training_team_vmgroup A
+			       LEFT OUTER JOIN kepco_training_team_scores B
+			                    ON A.team_id = B.team_id
+			       LEFT OUTER JOIN wat_exam_mst C
+			                    ON B.question_id = C.wat_exam_id
+			WHERE  A.team_id = #{groupId}
+			       AND B.question_id = #{quizId} 
+	
+	</select>
+	
+	<select id="selectTrainingTimeSetting" resultType="java.util.HashMap">
+	
+		SELECT B.EVENT_CN,
+			   A.TRAINING_ID,
+			   A.PST_START_DATETIME,
+			   A.PST_END_DATETIME,
+			   A.WAT_START_DATETIME,
+			   A.WAT_END_DATETIME,
+				A.MDT_START_DATETIME,
+				A.MDT_END_DATETIME,
+				A.AST_START_DATETIME,
+				A.AST_END_DATETIME,
+				A.SRG_START_DATETIME,
+				A.SRG_END_DATETIME,
+				DATE_FORMAT(A.START_DATETIME,'%Y-%m-%d') TRAINING_DATE	
+		 FROM kepco_training_time A INNER JOIN COMTNEVENTINFO B ON A.TRAINING_ID = B.EVENT_ID
+		WHERE TRAINING_ID = #{value}
+		ORDER BY TRAINING_ID DESC
+	
+	</select>
+	
+	<select id="selectTrainingIdList" resultType="java.util.HashMap">
+	
+		SELECT EVENT_ID,EVENT_CN FROM comtneventinfo
+		ORDER BY EVENT_ID DESC
+		LIMIT 1
+		 
+	</select>
+	
+	<select id="selectCurrentExamAvailable" resultType="String">
+	
+		SELECT 
+			<choose>
+				<when test='value == "pst"'>
+					IF( (PST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( PST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "mdt"'>
+					IF( (MDT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( MDT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "wat"'>
+					IF( (WAT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( WAT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "ast"'>
+					IF( (AST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( AST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+				<when test='value == "srg"'>
+					IF( (SRG_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( SRG_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
+				</when>
+			</choose>
+		  FROM KEPCO_TRAINING_TIME
+	
+		<!-- KEPCO_TRAINING_TIME 테이블이 현재 최신 훈련 ROW 하나만 들고 있기 때문에 가능함. 추후 반드시 변경해야함. -->
+	
+	</select>
+	
+	<select id="selectRealAnswer" resultType="String">
+			
+			SELECT ANSWER_CN
+			FROM   (SELECT PST_EXAM_ID AS EXAM_ID,
+			               ANSWER_CN,
+			               `TYPE`
+			        FROM   PST_EXAM_MST
+			        UNION ALL
+			        SELECT MDT_EXAM_ID AS EXAM_ID,
+			               ANSWER_CN,
+			               `TYPE`
+			        FROM   MDT_EXAM_MST
+			        UNION ALL
+			        SELECT WAT_EXAM_ID AS EXAM_ID,
+			               ANSWER_CN,
+			               `TYPE`
+			        FROM   WAT_EXAM_MST
+			        UNION ALL
+			        SELECT AST_EXAM_ID AS EXAM_ID,
+			               ANSWER_CN,
+			               `TYPE`
+			        FROM   AST_EXAM_MST
+			        UNION ALL
+			        SELECT SRG_EXAM_ID AS EXAM_ID,
+			               ANSWER_CN,
+			               `TYPE`
+			        FROM   SRG_EXAM_MST) A
+			WHERE  A.TYPE = 'QUIZ'
+			       AND A.EXAM_ID = #{faqId} 
+			
+	</select>
+	
+	<select id ="selectSrgRealAnswer" resultType="String">
+			
+			SELECT ANSWER_CN
+			  FROM SRG_EXAM_MST
+			 WHERE SRG_EXAM_ID = #{faqId}
+	
+	</select>
+	
+	<!-- inserts  -->
+	
+	<insert id="insertUserAnswer">
+	
+			INSERT INTO quiz_user_answer
+			            (id,
+			             quiz_id,
+			             group_id,
+			             user_id,
+			             answer)
+			VALUES     ( #{id},
+						 #{faqId},
+						 #{groupId},
+			             #{esntlId},
+			             #{answer} ) 
+	</insert>
+	
+	<insert id="insertUserGroupQuestionScore">
+			INSERT INTO KEPCO_TRAINING_TEAM_SCORES
+						(TRAINING_ID,
+						 TEAM_ID,
+						 QUESTION_ID,
+						 SCORE_ID,
+						 TRAINING_TYPE,
+						 SCORE,
+						 USER_ID
+						)VALUES(
+						 #{trainId},
+						 #{GROUP_ID},
+						 #{QUIZ_ID},
+						 #{scoreId},
+						 #{trainType},
+						 #{TOT},
+						 #{userId}
+						) ON DUPLICATE KEY UPDATE
+							SCORE = #{TOT}
+	</insert>
+	
+	<insert id="insertQuestionFinishYn">
+			INSERT INTO KEPCO_GROUP_QUIZ_INFO
+					   (GROUP_ID,
+					    QUIZ_ID,
+					    FINISH_YN
+					   )VALUES(
+					    #{GROUP_ID},
+					    #{QUIZ_ID},
+					    'Y'
+					   )
+	</insert>
+	
+	<insert id="setTrainingTimeSetting">
+	
+			INSERT INTO KEPCO_TRAINING_TIME
+						(TRAINING_ID,
+						 START_DATETIME,
+						 END_DATETIME,
+						 PST_START_DATETIME,
+						 PST_END_DATETIME,
+						 MDT_START_DATETIME,
+						 MDT_END_DATETIME,
+						 WAT_START_DATETIME,
+						 WAT_END_DATETIME,
+						 AST_START_DATETIME,
+						 AST_END_DATETIME,
+						 SRG_START_DATETIME,
+						 SRG_END_DATETIME
+						)VALUES(
+						 #{trainingId},
+						 #{startDatetime},
+						 #{endDatetime},
+						 
+						 #{pstStartDatetime},
+						 #{pstEndDatetime},
+						 #{mdtStartDatetime},
+						 #{mdtEndDatetime},
+						 #{watStartDatetime},
+						 #{watEndDatetime},
+						 #{astStartDatetime},
+						 #{astEndDatetime},
+						 #{srgStartDatetime},
+						 #{srgEndDatetime}
+						) ON DUPLICATE KEY UPDATE
+						 START_DATETIME = #{startDatetime},
+						 END_DATETIME = #{endDatetime},
+						 PST_START_DATETIME = #{pstStartDatetime},
+						 PST_END_DATETIME = #{pstEndDatetime},
+						 MDT_START_DATETIME = #{mdtStartDatetime},
+						 MDT_END_DATETIME = #{mdtEndDatetime},
+						 WAT_START_DATETIME = #{watStartDatetime},
+						 WAT_END_DATETIME = #{watEndDatetime},
+						 AST_START_DATETIME = #{astStartDatetime},
+						 AST_END_DATETIME = #{astEndDatetime},
+						 SRG_START_DATETIME = #{srgStartDatetime},
+						 SRG_END_DATETIME= #{srgEndDatetime}
+	
+	</insert>
+	
+	<!-- updates  -->
+	<update id = "updateWatExamOpenTime">
+	
+			UPDATE WAT_EXAM_MST
+			   SET EXAM_OPEN_TIME = #{watStartDateTime}
+	
+	</update>
+</mapper>

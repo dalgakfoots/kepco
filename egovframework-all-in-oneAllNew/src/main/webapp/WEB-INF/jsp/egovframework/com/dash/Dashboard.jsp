@@ -19,13 +19,14 @@
   <link href="<c:url value='/css/egovframework/com/dash/css/dashboard.css'/>" rel="stylesheet">
   
   <script type="text/javaScript" language="javascript">
-  
+  var myLineChart = null;
   function loadChart(rslt) {
 
 	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	  Chart.defaults.global.defaultFontColor = '#292b2c';
-	  
+	  document.getElementById("myAreaChart").value = "";
 	  var ctx = document.getElementById("myAreaChart");
+	  
 
 	  const backgroundColor = [
 		  'rgba(255, 0, 0, 0)',
@@ -51,11 +52,54 @@
 		  'rgba(153, 204, 153, 1)',
 		  'rgba(000, 255, 255, 1)',
       ];
-	  
-	  var myLineChart = new Chart(ctx, {
+      
+      var maxData = 0;
+      
+      rslt.graghList.forEach(team => {
+    	  var data = team.data;
+    	  if (maxData < data[data.length-1]) {
+    		  maxData = data[data.length-1];
+    	  }
+      });
+     
+      /* var yLimit = 5000; */
+     
+     
+     	var yLimit = (Math.trunc(maxData / 5000)+1) * 5000;
+     
+/*      switch (Math.trunc(maxData / 5000)){
+     	case 0 : yLimit = 5000; break;
+     	case 1 : yLimit = 10000; break;
+     	case 2 : yLimit = 15000; break;
+     	case 3 : yLimit = 20000; break;
+     	case 4 : yLimit = 25000; break;
+     	case 5 : yLimit = 30000; break;
+     	case 6 : yLimit = 35000; break;
+     	default : yLimit = 35000; break;
+     }  */
+       
+     
+     
+ 
+     if (myLineChart) myLineChart.destroy();
+
+   myLineChart = new Chart(ctx, {
 	    type: 'line',
 	    data: {
-	      labels: rslt.dateList,
+	      labels: 
+	    	  rslt.dateList.filter((e, i) => {
+	    		  console.log("i : ", i);
+    			  console.log("e : ", e);
+    			  console.log("rslt.dateList.length - rslt.dateList.length % 5  : " , rslt.dateList.length - (rslt.dateList.length-1) % 5 );
+    			  console.log("rslt.dateList.length: " , rslt.dateList.length);
+    			  console.log("rslt.dateList.length % 5  : " , rslt.dateList.length % 5 );
+	    		  if (i%5 === 0 ) {
+	    			  return e;
+	    		  } else if (rslt.dateList.length - rslt.dateList.length % 5 < i) {
+	    			  
+	    			  return e;
+	    		  }
+	      		}),
 	      datasets: rslt.graghList.map( (e, index) => {
 	    	  return {
 	    		label: e.team_name,
@@ -63,48 +107,59 @@
 	  	        backgroundColor: backgroundColor[index],
 	            borderColor: borderColor[index],
 	            borderWidth: 2,
-	  	        pointRadius: 3,
+	  	        pointRadius: 1,
 	  	      	pointHoverRadius: 3,
 	  	      	
 	  	        pointBackgroundColor: borderColor[index],
 	  	        pointBorderColor: "rgba(255,255,255,0.8)",
 	  	        pointHoverBackgroundColor: borderColor[index],
-	  	        pointHitRadius: 50,
+	  	        pointHitRadius: 50, 
 	  	        pointBorderWidth: 0.5,
-	  	        data: e.data,
+	  	        data: e.data.filter((d, i) => {
+		    		  if (i%5 === 0 ) {
+		    			  return d;
+		    		  } else if (e.data.length -e.data.length % 5 < i) {
+		    			  return d;
+		    		  }
+		      		}),
 	    	  }
 	      })
 	    },
 	    options: {
-	     scales: {
-	        xAxes: [{
-	          time: {
-	            unit: 'date'
-	          },
-	          gridLines: {
-	            display: false
-	          },
-	          ticks: {
-	            maxTicksLimit: 10
-	          }
-	        }],
-	        yAxes: [{
-	          ticks: {
-	            min: 0,
-	            max: 35000,
-	            maxTicksLimit: 20
-	          },
-	          gridLines: {
-	            color: "rgba(0, 0, 0, .125)",
-	          }
-	        }],
-	      },
-	   
-	      legend: {
-	    	  display: true,
-	    	  position : "bottom",
-	    	  align : "center",
-	      }
+		     scales: {
+		        xAxes: [{
+		          time: {
+		            unit: 'date'
+		          },
+		          gridLines: {
+		            display: false
+		          },
+		          ticks: {
+		            maxTicksLimit: 10
+		          }
+		        }],
+		        yAxes: [{
+		          ticks: {
+		            min: 0,
+		            max: yLimit,
+		            maxTicksLimit: 10
+		          },
+		          gridLines: {
+		            color: "rgba(0, 0, 0, .125)",
+		          }
+		        }],
+		      },
+		      plugins: {
+			      legend: {
+			    	  display: true,
+			    	  position : "top",
+			    	  align : "center",
+			    	  labels: {
+		                  color: 'rgb(255, 99, 132)',
+		                  /* usePointStyle: true, */
+		              }
+			      }
+		      }
 	    } 
 	  });
   }
@@ -150,8 +205,8 @@
   		} else {
   			/* removeTableByNull(rankList); */
   		}
-  		
   	}
+  	
   	/* 
  	function removeTableByNull(rankList) {
   		var table = document.getElementById("list_body");
@@ -247,7 +302,7 @@
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown no-arrow">
-      	<%-- <a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a> --%>
+      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
       </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>

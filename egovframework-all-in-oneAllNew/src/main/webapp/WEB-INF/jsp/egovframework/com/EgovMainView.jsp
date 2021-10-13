@@ -54,15 +54,6 @@ function chk_all(val) {
 				<c:import charEncoding="utf-8" url="/cop/bbs/selectBBSPortlet.do?bbsId=BBSMSTR_000000000032&bbsOrder=1"/>
 			</div>
 			
-			<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectCommuMasterListPortlet"/></h3><!-- 생성된 커뮤니티 목록 -->
-			<div style="height:150px">
-				<c:import url="/cop/cmy/selectCommuMasterListPortlet.do" />
-			</div>
-			
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.selectBlogListPortlet"/></h3><!-- 생성된 블로그 목록 -->
-			<div style="height:181px">
-				<c:import url="/cop/bbs/selectBlogListPortlet.do" />
-			</div> --%>
 		</div>
 		
 		<div class="r"><!-- right layout -->
@@ -80,25 +71,9 @@ function chk_all(val) {
 			<h3 class="m_tit01 mt15">사이버위기경보 단계</h3>
 				<c:import charEncoding="utf-8" url="/sym/mnu/mpm/SelectCyberThreatAlert.do" ></c:import>
 			</div>
-			
-			<%-- <!-- 나의일정관리 -->
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.indvdlSchdulManageMainList"/></h3><!-- 나의일정관리 -->
-			<div style="height:150px">
-			<c:import charEncoding="utf-8" url="/cop/smt/sim/EgovIndvdlSchdulManageMainList.do" ></c:import>
-			</div>
-			
-			<h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.exchangeRateInformation"/></h3><!-- 환율정보 -->
-			<iframe src="http://fx.kebhana.com/fxportal/jsp/RS/DEPLOY_EXRATE/fxrate_all.html" width="100%" height="181" border="0" frameborder="no" scrolling="no" marginwidth="0" hspace="0" vspace="0"></iframe> --%>
 		</div>
 	</div>
 	
-	<!-- 배너 -->
-	<%-- <h3 class="m_tit01 mt15"><spring:message code="comSymMnuMpm.mainView.getBannerImage"/></h3><!-- 배너 -->
-	<div class="mp_bn">
-		<c:import url="/uss/ion/bnr/getBannerImage.do" charEncoding="utf-8">
-			<c:param name="atchFileId" value="${banner.bannerImageFile}" />
-		</c:import>
-	</div> --%>
 
 <!-- bottom -->
 <c:import url="./main_bottom.jsp" />

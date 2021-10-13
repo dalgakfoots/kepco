@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+/* 210906 style 수정 */
+
+.card{border:0 none;}
+.card-header{background-color:#fff; font-size:20px; padding:1.25rem 1.25rem 1.25rem 0.3rem; display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;border-bottom:4px solid #087afd;}
+.card-header .breadcrumb{ padding:0; margin:0;background-color:#fff; display:flex;align-items:center; font-size:14px}
+.card-header .breadcrumb-item a{font-size:14px;color:#333;}
+.card-header .card-header-title{color:#047afe; font-weight:600; font-size:22px}
+.card-body{padding:1.5rem 0;}
+
+.card-header2{font-size:20px; font-weight:600; color:#08366d;}
+.titleIcon{border-radius:50px; background-color:#08366d; color:#fff;display:inline-block; padding:6px; margin-right:4px;}
+
+table.dataTable thead > tr > th.sorting_asc, 
+table.dataTable thead > tr > th.sorting_desc, 
+table.dataTable thead > tr > th.sorting,
+table.dataTable thead > tr > td.sorting_asc,
+table.dataTable thead > tr > td.sorting_desc,
+table.dataTable thead > tr > td.sorting{background-color:#fff; border:0 none;}
+
+
+.table-bordered{border-width:1px 0;}
+.table-bordered th{font-size:16px; font-weight:400; color:#83919c;border-bottom-color:#a0a9b1;}
+.table-bordered th, .table-bordered td{border-right-width:0; border-left-width:0;}
+.table-bordered tbody tr:hover{background-color:#f5f5f5;}
+
+.dataTables_info{display:none;}
+
+.pagination{ margin-top:14px!important;}
+.page-link{ border:0 none; border-radius:6px;}
+#dataTable_previous,
+#dataTable_next{font-size:14px;}
+
+.card-chart{margin-bottom:40px!important;}

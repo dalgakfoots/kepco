@@ -16,6 +16,7 @@
 
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
+  <link href="<c:url value='/css/egovframework/com/dash/css/dashboard.css'/>" rel="stylesheet">
   
   <script type="text/javaScript" language="javascript">
   var myLineChart = null;
@@ -332,18 +333,24 @@
       <div class="container-fluid">
 
         <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
-          </li>
-        <li class="breadcrumb-item active"><c:out value="${training_name}"/></li>
-        </ol>
+          <div class="card-header">
+            <!-- <i class="fas fa-chart-area"></i> -->
+            <span class="card-header-title"><c:out value="${training_name}"/></span>
+	            <ol class="breadcrumb">
+	          <li class="breadcrumb-item">
+	            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
+	          </li>
+	        <li class="breadcrumb-item active"><c:out value="${training_name}"/></li>
+	        </ol>
+          </div>
+        
 
         <!-- Area Chart Example-->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Area Chart</div>
+        <div class="card mb-3 card-chart">
+          <div class="card-header2">
+           <!-- <span class="titleIcon"><i class="fas fa-chart-area"></i></span> --> 
+            <span class="card-header-title">Area Chart</span>
+            </div>
           <div class="card-body">
             <canvas id="myAreaChart" width="100%" height="30"></canvas>
           </div>
@@ -352,9 +359,10 @@
 
         <!-- DataTables Example -->
         <div class="card mb-3">
-          <div class="card-header">
-            <i class="fas fa-table"></i>
-            실시간 훈련 순위</div>
+          <div class="card-header2">
+            <!-- <span class="titleIcon"><i class="fas fa-table"></i></span> -->
+            <span class="card-header-title">실시간 훈련 순위</span>
+            </div>
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           <div class="card-body">
             <div class="table-responsive">
@@ -373,7 +381,7 @@
                     
                   </tr>
                 </thead>
-                <tfoot>
+               <!--  <tfoot>
                   <tr>
                     <th>순위</th>
                     <th>팀명</th>
@@ -386,7 +394,7 @@
                     <th>총점</th>
                     
                   </tr>
-                </tfoot>
+                </tfoot> -->
                 <tbody id="list_body">
              
             	<c:forEach var="item" items="${rankList}" varStatus="status">

@@ -63,25 +63,6 @@
 }
 
 </style>
-<script>
-function showToast(bbsNm) {
-	  // Get the snackbar DIV
-	  var x = document.getElementById("snackbar");
-
-	  // Add the "show" class to DIV
-	  x.className = "show";
-	  x.innerHTML = "새로운 "+bbsNm+" 이(가) 등록되었습니다." + "<p><span onclick='javascript:closeToast();' style='cursor:pointer'>[닫기]</span></p>";
-	  
-	  // After 3 seconds, remove the show class from DIV
-	  // setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-
-function closeToast(){
-	console.log('close');
-	var x = document.getElementById("snackbar");
-	x.className = x.className.replace("show", "");
-}
-</script>
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight= "0">
     <div id="new_footer">
@@ -106,8 +87,8 @@ function closeToast(){
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <script type="text/javascript">
     	/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
-	    var webSocket = new WebSocket("ws://localhost:8088/egovframework-all-in-one/newArticleAlarmReceiver");
-	    webSocket.onopen = function(message) {};
+	    var webSocket = new WebSocket("ws://localhost:8080/newArticleAlarmReceiver");
+	    webSocket.onopen = function(message) {console.log("alarmReceiver open")};
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {console.log('it is error')};
 	    // 서버로 부터 메시지가 오면
@@ -152,5 +133,44 @@ function closeToast(){
 	      	
 	    };
     </script>
+	<script type="text/javascript">
+		/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
+		var webSocket = new WebSocket("ws://localhost:8080/trainMessageReceiver");
+		webSocket.onopen = function(message) {console.log("messageReceiver open")};
+		webSocket.onclose = function(message) {};
+		webSocket.onerror = function(message) {console.log('it is error(from messageReceiver)')};
+		// 서버로 부터 메시지가 오면
+		webSocket.onmessage = function(message) {
+			var messageTeamId = message.data;
+			var userTeamId = "<c:out value='${userTeamId}' escapeXml="false"/>";
+
+			console.log(messageTeamId);
+			console.log(userTeamId);
+
+			if(messageTeamId == userTeamId){
+				toastr.options = {
+					"closeButton": true,
+					"debug": false,
+					"newestOnTop": true,
+					"progressBar": false,
+					"positionClass": "toast-bottom-center",
+					"preventDuplicates": false,
+					"onclick": null,
+					"showDuration": "300",
+					"hideDuration": "1000",
+					"timeOut": "0",
+					"extendedTimeOut": "0",
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut"
+				}
+
+				toastr["warning"]("메시지 메뉴에서 확인해주세요.", "운영자로부터 메시지가 왔습니다.");
+
+			}
+
+		};
+	</script>
 </body>
 </html>

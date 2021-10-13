@@ -15,6 +15,7 @@
 
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
+  <link href="<c:url value='/css/egovframework/com/dash/css/dashboard.css'/>" rel="stylesheet">
   <script type="text/javaScript" language="javascript">
 	function logout() {
 		$("#sessionInfo").hide();
@@ -73,17 +74,19 @@
     <div id="content-wrapper">
       <div class="container-fluid">
         <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
-          </li>
-        </ol>
+        
 
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fas fa-table"></i>
-            훈련 리스트</div>
+            <!-- <i class="fas fa-table"></i> -->
+            <span class="card-header-title">훈련 리스트</span>
+            <ol class="breadcrumb">
+	          <li class="breadcrumb-item">
+	            <a href="<c:url value='/dash/DashboardTraining.do' />">Dashboard</a>
+	          </li>
+	        </ol>
+          </div>
             <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
           <div class="card-body">
             <div class="table-responsive">
@@ -116,8 +119,6 @@
 							<%-- <td><c:out value='${resultInfo.eventSvcBeginDe}'/></td>
 							<td><c:out value='${resultInfo.eventSvcEndDe}'/></td> --%>
 							<td><c:out value='${resultInfo.frstRegisterPnttm}'/></td>
-						
-							
 						</tr>
 					</c:forEach>
                 </tbody>
@@ -131,13 +132,13 @@
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
-      <footer class="sticky-footer">
+	  <footer class="sticky-footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright © Your Website 2021</span>
           </div>
         </div>
-      </footer>
+      </footer> 
 
     </div>
     <!-- /.content-wrapper -->

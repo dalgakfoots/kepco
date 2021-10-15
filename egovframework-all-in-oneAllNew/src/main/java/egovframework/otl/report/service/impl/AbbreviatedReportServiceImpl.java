@@ -106,10 +106,13 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
         HashMap param = new HashMap();
         param.put("trainingId", vo.getTrainId());
         param.put("teamId", vo.getTeamId());
+
         param.put("questionId", vo.getReportId());
+
         param.put("scoreId", 0);
+
         /* TODO trainingType은 대시보드(리더보드)에서 집계할 시 분류를 위한 키로 사용됨. 변경 가능성 높음.*/
-        param.put("trainingType", vo.getReportType());
+        param.put("trainingType", selectQustionId(vo.getReportType()));
         param.put("score", score);
         abbreviatedReportDAO.abbreviatedReportGiveScore(param);
 
@@ -132,6 +135,28 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
     @Override
     public List<HashMap> searchTeamIdList(String trainId) throws Exception {
         return abbreviatedReportDAO.searchTeamIdList(trainId);
+    }
+
+    /**
+     * 보고서 타입에 따라 kepco_training_team_scores.training_type에 들어갈 값을 정한다.
+     * @param reportType
+     * @return String result
+     */
+    private String selectQustionId(String reportType) {
+        String result = "err";
+        if (reportType.equals("APT1")) {
+            result = "APT";
+        } else if (reportType.equals("APT2")) {
+            result = "APT";
+        } else if (reportType.equals("RANSOM")) {
+            result = "RANSOM";
+        } else if (reportType.equals("WEB")) {
+            result = "WEB";
+        } else if (reportType.equals("DDOS")) {
+            result = "DDOS";
+        }
+
+        return result;
     }
 
 }

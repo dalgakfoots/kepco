@@ -126,18 +126,11 @@ public class EgovTrainGroupVmManageController {
 				updateMap.put("training_id", elements[1]);
 				updateMap.put("team_id", elements[2]);
 				
-				updateMap.put("pstVmGroupId", elements[3]);
-				updateMap.put("pstExamGroupId", elements[4]);
-				
-				updateMap.put("mdtVmGroupId", elements[5]);
-				updateMap.put("mdtExamGroupId", elements[6]);
-				
-				updateMap.put("watVmGroupId", elements[7]);
-				updateMap.put("watExamGroupId", elements[8]);
-				
-				updateMap.put("astVmGroupId", elements[9]);
-				updateMap.put("astExamGroupId", elements[10]);
-				
+				updateMap.put("aptVmGroupId", elements[3]);
+				updateMap.put("ransomVmGroupId", elements[4]);
+				updateMap.put("webVmGroupId", elements[5]);
+				updateMap.put("ddosVmGroupId", elements[6]);
+
 				egovGroupManageService.updateTrainGroupVmManage(updateMap);
 			}
 		}
@@ -152,18 +145,11 @@ public class EgovTrainGroupVmManageController {
 				deleteMap.put("training_id", elements[1]);
 				deleteMap.put("team_id", elements[2]);
 				
-				deleteMap.put("pstVmGroupId", elements[3]);
-				deleteMap.put("pstExamGroupId", elements[4]);
-				
-				deleteMap.put("mdtVmGroupId", elements[5]);
-				deleteMap.put("mdtExamGroupId", elements[6]);
-				
-				deleteMap.put("watVmGroupId", elements[7]);
-				deleteMap.put("watExamGroupId", elements[8]);
-				
-				deleteMap.put("astVmGroupId", elements[9]);
-				deleteMap.put("astExamGroupId", elements[10]);
-				
+				deleteMap.put("aptVmGroupId", elements[3]);
+				deleteMap.put("ransomVmGroupId", elements[4]);
+				deleteMap.put("webVmGroupId", elements[5]);
+				deleteMap.put("ddosVmGroupId", elements[6]);
+
 				egovGroupManageService.deleteTrainGroupVmManage(deleteMap);
 			}
 		}
@@ -178,17 +164,10 @@ public class EgovTrainGroupVmManageController {
 				insertMap.put("training_id", elements[1]);
 				insertMap.put("team_id", elements[2]);
 				
-				insertMap.put("pstVmGroupId", elements[3]);
-				insertMap.put("pstExamGroupId", elements[4]);
-				
-				insertMap.put("mdtVmGroupId", elements[5]);
-				insertMap.put("mdtExamGroupId", elements[6]);
-				
-				insertMap.put("watVmGroupId", elements[7]);
-				insertMap.put("watExamGroupId", elements[8]);
-				
-				insertMap.put("astVmGroupId", elements[9]);
-				insertMap.put("astExamGroupId", elements[10]);
+				insertMap.put("aptVmGroupId", elements[3]);
+				insertMap.put("ransomVmGroupId", elements[4]);
+				insertMap.put("webVmGroupId", elements[5]);
+				insertMap.put("ddosVmGroupId", elements[6]);
 				egovGroupManageService.insertTrainGroupVmManage(insertMap);
 			}
 			

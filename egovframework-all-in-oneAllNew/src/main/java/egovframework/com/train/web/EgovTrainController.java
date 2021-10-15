@@ -51,58 +51,39 @@ public class EgovTrainController {
 		param.put("esntlId", esntlId);
 		/*
 		 * trainType
-		 * pst : 예방보안훈련 (Prevention Security Training)
-		 * mdt : 악성코드탐지대응훈련 (Malware Detection Training)
-		 * wat : 웹공격대응훈련 (Web Attack response Training)
-		 * 
-		 * ast : 사후대응훈련 (After Situation Training)
-		 * 
-		 * srg : 보안규정및지침(Security Regulation Guidelines)
-		 * 
+		 * {
+		 * apt : APT 시나리오 훈련
+		 * ransom : 랜섬웨어 훈련
+		 * web : 웹해킹 훈련
+		 * ddos : DDoS 훈련
+		 * }
 		 * */
 		param.put("trainType", trainType);
 		// trainType에 맞는 vmGroupId를 가지고 온다.
 		param.put("vmGroupId", egovTrainService.selectUserVmGroupId(param).get("VM_GROUP_ID"));
 		/*Service 기능*/
 		// 1. group_id를 조회
-		// 2. 조회된 group_id, trainType을 통해 해당하는  pst , mdt, wat vm그룹-vm 리스트를 가지고옴.
+		// 2. 조회된 group_id, trainType을 통해 해당하는  apt , ransom, web, ddos vm그룹-vm 리스트를 가지고옴.
 		List<HashMap> userVmLists = egovTrainService.selectUserVmLists(param);
 		
 		String trainTypeName = "";
 		
 		// trainType을 view 쪽으로 던져줌.
 		// vm 리스트를 view 쪽으로 던져줌.
-		if(trainType.equals("pst")) {
-			trainTypeName = "예방보안";
-		}else if(trainType.equals("mdt")) {
-			trainTypeName = "실시간대응(악성코드)";
-		}else if(trainType.equals("wat")) {
-			trainTypeName = "실시간대응(웹)";
-		}else if(trainType.equals("ast")) {
-			trainTypeName = "사후대응";
-		}else if(trainType.equals("srg")) {
-			trainTypeName = "보안규정및지침";
+		if(trainType.equals("apt")) {
+			trainTypeName = "APT";
+		}else if(trainType.equals("ransom")) {
+			trainTypeName = "랜섬웨어";
+		}else if(trainType.equals("web")) {
+			trainTypeName = "웹해킹";
+		}else if(trainType.equals("ddos")) {
+			trainTypeName = "DDoS";
 		}
-		
-		//trainType
-		HashMap availCheckMap = new HashMap();
-		availCheckMap.put("value", trainType);
-		String isAvailable = egovTrainService.selectCurrentExamAvailable(availCheckMap);
-		
-		if(isAvailable.equals("N")) {
-			trainType = "none";
-			model.addAttribute("trainType", trainType);
-			model.addAttribute("msg", "지금은 훈련 시간이 아닙니다.");
-			return "egovframework/com/utl/train/EnterTrainingSystem";
-		}
-		
+
 		model.addAttribute("trainType", trainType);
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("userVmLists", userVmLists);
-		
-		List<HashMap> examList = egovTrainService.selectUserExamList(param);
-		
-		model.addAttribute("examList", examList);
+
 		
 		return "egovframework/com/utl/train/EnterTrainingSystem";
 	}

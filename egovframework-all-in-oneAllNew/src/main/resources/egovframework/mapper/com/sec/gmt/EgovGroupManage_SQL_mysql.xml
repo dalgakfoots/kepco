@@ -60,14 +60,10 @@
 		SELECT ID,
 			   TRAINING_ID,
 			   TEAM_ID,
-			   PST_VM_ID,
-			   PST_EXAM_GROUP_ID,
-			   MDT_VM_ID,
-			   MDT_EXAM_GROUP_ID,
-			   WAT_VM_ID,
-			   WAT_EXAM_GROUP_ID,
-			   AST_VM_ID,
-			   AST_EXAM_GROUP_ID
+			   APT_VM_ID,
+		       RANSOM_VM_ID,
+		       WEB_VM_ID,
+		       DDOS_VM_ID
 	      FROM KEPCO_TRAINING_TEAM_VMGROUP
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
@@ -156,14 +152,10 @@
 			UPDATE KEPCO_TRAINING_TEAM_VMGROUP
 			   SET TRAINING_ID = #{training_id},
 			   	   TEAM_ID = #{team_id},
-			   	   PST_VM_ID = #{pstVmGroupId},
-			   	   PST_EXAM_GROUP_ID = #{pstExamGroupId},
-			   	   MDT_VM_ID = #{mdtVmGroupId},
-			   	   MDT_EXAM_GROUP_ID = #{mdtExamGroupId},
-			   	   WAT_VM_ID = #{watVmGroupId},
-			   	   WAT_EXAM_GROUP_ID = #{watExamGroupId},
-			   	   AST_VM_ID = #{astVmGroupId},
-			   	   AST_EXAM_GROUP_ID = #{astExamGroupId}
+			   	   APT_VM_ID = #{aptVmGroupId},
+			       RANSOM_VM_ID = #{ransomVmGroupId},
+			       WEB_VM_ID = #{webVmGroupId},
+			       DDOS_VM_ID = #{ddosVmGroupId}
 			 WHERE ID = #{id}
 	</update>
 	
@@ -225,26 +217,18 @@
 			   		(ID,
 			   		 TRAINING_ID,
 			   		 TEAM_ID,
-			   		 PST_VM_ID,
-			   		 PST_EXAM_GROUP_ID,
-			   		 MDT_VM_ID,
-			   		 MDT_EXAM_GROUP_ID,
-			   		 WAT_VM_ID,
-			   		 WAT_EXAM_GROUP_ID,
-			   		 AST_VM_ID,
-			   		 AST_EXAM_GROUP_ID
+			   		 APT_VM_ID,
+			   		 RANSOM_VM_ID,
+			   		 WEB_VM_ID,
+			   		 DDOS_VM_ID
 			 		)VALUES(
 			   		 #{id},
 			   		 #{training_id},
 			   		 #{team_id},
-			   		 #{pstVmGroupId},
-			   		 #{pstExamGroupId},
-			   		 #{mdtVmGroupId},
-			   		 #{mdtExamGroupId},
-			   		 #{watVmGroupId},
-			   		 #{watExamGroupId},
-			   		 #{astVmGroupId},
-			   		 #{astExamGroupId}
+			   		 #{aptVmGroupId},
+			   		 #{ransomVmGroupId},
+			   		 #{webVmGroupId},
+			   		 #{ddosVmGroupId}
 			   		)
 	</insert>
 	

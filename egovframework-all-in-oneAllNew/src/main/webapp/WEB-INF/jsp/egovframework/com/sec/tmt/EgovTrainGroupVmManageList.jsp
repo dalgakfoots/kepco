@@ -81,13 +81,7 @@ function deleteRow(){
 
 //행추가(이게 첫행임)
 function insertRow(){
-	/* var board = document.getElementById('board');
-	var rowsLength = board.rows.length;
-	
-	if(rowsLength > 1){
-		insertRowCopy();
-		return;
-	}else{ */
+
 	var tbody = board.getElementsByTagName('tbody')[0];
 	var rowToInsert = tbody.insertRow(-1);
 	cell0 = rowToInsert.insertCell();
@@ -172,10 +166,10 @@ function insertRow(){
 	
 	var pstlist = new Array(); // 키값들을 담아둘 list
 	
-	// 예방보안훈련VMGroup
+	// APT VMGroup
 	cell8 = rowToInsert.insertCell();
 	
-	var pstSelect = "<select name='pstVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	var pstSelect = "<select name='aptVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
 		
 	for(var item of pstkeySets)
 	{
@@ -184,20 +178,10 @@ function insertRow(){
 	}
 	pstSelect += "</select>";
 	cell8.innerHTML = pstSelect;
-	
-	// 예방보안훈련문제Group
-	cell11 = rowToInsert.insertCell();
-	var pstExamSelect = "<select name='pstExamGroupId' onchange='javascript:updatedRowSelect(this)'>";
-	for(var item of pstExamKeySets)
-	{
-		pstExamSelect += ("<option value='"+item+"'>"+examMap.get(item)+"</option>");
-	}
-	pstExamSelect += "</select>";
-	cell11.innerHTML = pstExamSelect;
-	
-	// 악성코드탐지대응VMGroup
+
+	// RANSOM VMGroup
 	cell9 = rowToInsert.insertCell();
-	var mdtSelect = "<select name='mdtVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	var mdtSelect = "<select name='ransomVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
 	
 	for(var item of mdtkeySets)
 	{
@@ -206,20 +190,10 @@ function insertRow(){
 	}
 	mdtSelect += "</select>";
 	cell9.innerHTML = mdtSelect;
-	
-	// 악성코드탐지대응문제Group
-	cell12 = rowToInsert.insertCell();
-	var mdtExamSelect = "<select name='mdtExamGroupId' onchange='javascript:updatedRowSelect(this)'>";
-	for(var item of mdtExamKeySets)
-	{
-		mdtExamSelect += ("<option value='"+item+"'>"+examMap.get(item)+"</option>");
-	}
-	mdtExamSelect += "</select>";
-	cell12.innerHTML = mdtExamSelect;
-	
-	// 웹공격대응훈련VMGroup
+
+	// web VMGroup
 	cell10 = rowToInsert.insertCell();
-	var watSelect = "<select name='watVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	var watSelect = "<select name='webVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
 	
 	for(var item of watkeySets)
 	{
@@ -229,19 +203,10 @@ function insertRow(){
 	watSelect += "</select>";
 	cell10.innerHTML = watSelect;
 	
-	// 웹공격대응훈련문제Group
-	cell13 = rowToInsert.insertCell();
-	var watExamSelect = "<select name='watExamGroupId' onchange='javascript:updatedRowSelect(this)'>";
-	for(var item of watExamKeySets)
-	{
-		watExamSelect += ("<option value='"+item+"'>"+examMap.get(item)+"</option>");
-	}
-	watExamSelect += "</select>";
-	cell13.innerHTML = watExamSelect;
-	
-	// 사후대응훈련VMGroup
+
+	// DDoS VMGroup
 	cell15 = rowToInsert.insertCell();
-	var astSelect = "<select name='astVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
+	var astSelect = "<select name='ddosVmGroupId' onchange='javascript:updatedRowSelect(this)'>";
 	
 	for(var item of astKeySets)
 	{
@@ -250,51 +215,9 @@ function insertRow(){
 	}
 	astSelect += "</select>";
 	cell15.innerHTML = astSelect;
-	
-	// 사후대응훈련문제Group
-	cell14 = rowToInsert.insertCell();
-	var astExamSelect = "<select name='astExamGroupId' onchange='javascript:updatedRowSelect(this)'>";
-	for(var item of astExamKeySets)
-	{
-		astExamSelect += ("<option value='"+item+"'>"+examMap.get(item)+"</option>");
-	}
-	astExamSelect += "</select>";
-	cell14.innerHTML = astExamSelect;
-	
+
 	/* VM그룹명, VM그룹ID 설정 끝 */
 	
-}
-
-
-//행추가(위의 행 복사)
-function insertRowCopy(){
-	var board = document.getElementById('board');
-	var rowsLength = board.rows.length;
-	var rowToClone = board.rows[rowsLength - 1];
-	var cellsToClone = rowToClone.cells;
-	
-	var rowToInsert = board.insertRow(-1);
-	for(var i = 0 ; i < cellsToClone.length; i++){
-		cellToClone = cellsToClone[i];
-		cellToInsert = rowToInsert.insertCell();
-		cellToInsert.innerHTML = cellToClone.innerHTML;
-	}
-	
-	afterInsertRow()
-}
-
-//행추가 이후 체크박스 체크 및 상태값 I로 변경
-function afterInsertRow(){
-	var board = document.getElementById('board');
-	var rowsLength = board.rows.length;
-	var rowidx = rowsLength - 1;
-	
-	var boardRows = document.getElementById('board').rows;
-	var selectedRow = boardRows[rowidx]
-	
-	var cellsInSelectedRow = selectedRow.getElementsByTagName("td");
-	cellsInSelectedRow[1].firstElementChild.checked = 'checked'; // 1:체크박스 위치. 체크 해제
-	cellsInSelectedRow[2].innerText = 'I'; // 2:상태값 위치. 상태값 U로 변경
 }
 
 /* 페이지네이션용 함수  */
@@ -348,6 +271,11 @@ function beforeSave(){
 			}
 		}
 	}
+
+	// console.log(insertRow);
+	// console.log(updateRow);
+	// console.log(deleteRow);
+
 	save(insertRow, updateRow, deleteRow);
 }
 
@@ -374,7 +302,7 @@ function save(insertRow , updateRow, deleteRow){
 				</li>
 			</ul>
 		</div>
-		<span class="btn_s" style="text-align:center;"" onclick="javascript:insertRow();">행추가</span>
+		<span class="btn_s" style="text-align:center;" onclick="javascript:insertRow();">행추가</span>
 		<span class="btn_s" style="text-align:center;" onclick="javascript:deleteRow();">행삭제</span>
 		<div style="overflow-x:auto;">
 			<table id="board" class="board_list">
@@ -384,10 +312,6 @@ function save(insertRow , updateRow, deleteRow){
 					<col style="width: 32px;">
 					<col style="width: 64px;">
 					<col style="width: 1px;">
-					<col style="width: 150px;">
-					<col style="width: 150px;">
-					<col style="width: 150px;">
-					<col style="width: 150px;">
 					<col style="width: 150px;">
 					<col style="width: 150px;">
 					<col style="width: 150px;">
@@ -404,14 +328,10 @@ function save(insertRow , updateRow, deleteRow){
 						<th></th> <!-- 훈련매핑 아이디 -->
 						<th>훈련명</th> <!-- selectbox  -->
 						<th>사용자그룹명</th>
-						<th>예방보안훈련<br/>VM그룹</th>
-						<th>예방보안훈련<br/>문제그룹</th>
-						<th>악성코드탐지대응훈련<br/>VM그룹</th>
-						<th>악성코드탐지대응훈련<br/>문제그룹</th>
-						<th>웹공격대응훈련<br/>VM그룹</th>
-						<th>웹공격대응훈련<br/>문제그룹</th>
-						<th>사후대응훈련<br/>VM그룹</th>
-						<th>사후대응훈련<br/>문제그룹</th>
+						<th>APT<br/>VM그룹</th>
+						<th>랜섬웨어<br/>VM그룹</th>
+						<th>웹해킹<br/>VM그룹</th>
+						<th>DDoS<br/>VM그룹</th>
 					</tr>
 				</thead>
 				<tbody class="ov" name="tbody">
@@ -437,62 +357,30 @@ function save(insertRow , updateRow, deleteRow){
 								</select>
 							</td>
 							<td>
-								<select name='pstVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<select name='aptVmGroupId' onchange='javascript:updatedRowSelect(this)'>
 									<c:forEach var="vmGroup" items="${vmGroupNameList}">
-										<option value="${vmGroup.ID}" <c:if test="${item.PST_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+										<option value="${vmGroup.ID}" <c:if test="${item.APT_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<!-- 예방보안훈련 문제 그룹  -->
-								<select name='pstExamGroupId' onchange='javascript:updatedRowSelect(this)'>
-									<c:forEach var="examGroup" items="${examGroupNameList}">
-										<option value="${examGroup.FAQ_GROUP_ID}" <c:if test="${item.PST_EXAM_GROUP_ID eq examGroup.FAQ_GROUP_ID}"> selected="selected" </c:if> >${examGroup.FAQ_GROUP_NM}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<select name='mdtVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<select name='ransomVmGroupId' onchange='javascript:updatedRowSelect(this)'>
 									<c:forEach var="vmGroup" items="${vmGroupNameList}">
-										<option value="${vmGroup.ID}" <c:if test="${item.MDT_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+										<option value="${vmGroup.ID}" <c:if test="${item.RANSOM_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<!-- 악성코드탐지대응훈련 문제 그룹  -->
-								<select name='mdtExamGroupId' onchange='javascript:updatedRowSelect(this)'>
-									<c:forEach var="examGroup" items="${examGroupNameList}">
-										<option value="${examGroup.FAQ_GROUP_ID}" <c:if test="${item.MDT_EXAM_GROUP_ID eq examGroup.FAQ_GROUP_ID}"> selected="selected" </c:if> >${examGroup.FAQ_GROUP_NM}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<select name='watVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<select name='webVmGroupId' onchange='javascript:updatedRowSelect(this)'>
 									<c:forEach var="vmGroup" items="${vmGroupNameList}">
-										<option value="${vmGroup.ID}" <c:if test="${item.WAT_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
+										<option value="${vmGroup.ID}" <c:if test="${item.WEB_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<!-- 웹공격대응훈련 문제 그룹  -->
-								<select name='watExamGroupId' onchange='javascript:updatedRowSelect(this)'>
-									<c:forEach var="examGroup" items="${examGroupNameList}">
-										<option value="${examGroup.FAQ_GROUP_ID}" <c:if test="${item.WAT_EXAM_GROUP_ID eq examGroup.FAQ_GROUP_ID}"> selected="selected" </c:if> >${examGroup.FAQ_GROUP_NM}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<select name='astVmGroupId' onchange='javascript:updatedRowSelect(this)'>
+								<select name='ddosVmGroupId' onchange='javascript:updatedRowSelect(this)'>
 									<c:forEach var="vmGroup" items="${vmGroupNameList}">
-										<option value="${vmGroup.ID}" <c:if test="${item.AST_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<!-- 사후대응훈련 문제 그룹  -->
-								<select name='astExamGroupId' onchange='javascript:updatedRowSelect(this)'>
-									<c:forEach var="examGroup" items="${examGroupNameList}">
-										<option value="${examGroup.FAQ_GROUP_ID}" <c:if test="${item.AST_EXAM_GROUP_ID eq examGroup.FAQ_GROUP_ID}"> selected="selected" </c:if> >${examGroup.FAQ_GROUP_NM}</option>
+										<option value="${vmGroup.ID}" <c:if test="${item.DDOS_VM_ID eq vmGroup.ID}"> selected="selected" </c:if> >${vmGroup.NAME}</option>
 									</c:forEach>
 								</select>
 							</td>

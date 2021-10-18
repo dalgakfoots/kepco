@@ -11,17 +11,17 @@
     		   A.GROUP_ID,
     		   B.TRAINING_ID
     	<choose>
-    		<when test='trainType == "pst"'>
-    		   ,B.PST_VM_ID AS VM_GROUP_ID
+    		<when test='trainType == "apt"'>
+    		   ,B.APT_VM_ID AS VM_GROUP_ID
     		</when>
-    		<when test='trainType == "mdt"'>
-    		   ,B.MDT_VM_ID AS VM_GROUP_ID
+    		<when test='trainType == "ransom"'>
+    		   ,B.RANSOM_VM_ID AS VM_GROUP_ID
     		</when>
-    		<when test='trainType == "wat"'>
-    		   ,B.WAT_VM_ID AS VM_GROUP_ID
+    		<when test='trainType == "web"'>
+    		   ,B.WEB_VM_ID AS VM_GROUP_ID
     		</when>
-    		<when test='trainType == "ast"'>
-    		   ,B.AST_VM_ID AS VM_GROUP_ID
+    		<when test='trainType == "ddos"'>
+    		   ,B.DDOS_VM_ID AS VM_GROUP_ID
     		</when>
     	</choose>
 		FROM   comtngnrlmber A
@@ -47,7 +47,7 @@
 		FROM   (
         SELECT A.mber_id,
 		               A.group_id,
-		               B.pst_vm_id AS VM_GROUP_ID,
+		               B.apt_vm_id AS VM_GROUP_ID,
 		               C.name,
 		               C.ip,
 		               C.user_name,
@@ -61,14 +61,14 @@
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
-		                            ON B.pst_vm_id = C.vm_group_id
+		                            ON B.apt_vm_id = C.vm_group_id
 		               LEFT OUTER JOIN kepco_vm_types D
 		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}
 		        UNION ALL
 		        SELECT A.mber_id,
 		               A.group_id,
-		               B.mdt_vm_id AS VM_GROUP_ID,
+		               B.ransom_vm_id AS VM_GROUP_ID,
 		               C.name,
 		               C.ip,
 		               C.user_name,
@@ -82,14 +82,14 @@
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
-		                            ON B.mdt_vm_id = C.vm_group_id
+		                            ON B.ransom_vm_id = C.vm_group_id
 		               LEFT OUTER JOIN kepco_vm_types D
 		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}
 		        UNION ALL
 		        SELECT A.mber_id,
 		               A.group_id,
-		               B.wat_vm_id AS VM_GROUP_ID,
+		               B.web_vm_id AS VM_GROUP_ID,
 		               C.name,
 		               C.ip,
 		               C.user_name,
@@ -103,14 +103,14 @@
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
-		                            ON B.wat_vm_id = C.vm_group_id
+		                            ON B.web_vm_id = C.vm_group_id
 		               LEFT OUTER JOIN kepco_vm_types D
 		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}
 		        UNION ALL
 		        SELECT A.mber_id,
 		               A.group_id,
-		               B.ast_vm_id AS VM_GROUP_ID,
+		               B.ddos_vm_id AS VM_GROUP_ID,
 		               C.name,
 		               C.ip,
 		               C.user_name,
@@ -124,7 +124,7 @@
 		               LEFT OUTER JOIN kepco_training_team_vmgroup B
 		                            ON A.group_id = B.team_id
 		               LEFT OUTER JOIN kepco_vm_group_types C
-		                            ON B.ast_vm_id = C.vm_group_id
+		                            ON B.ddos_vm_id = C.vm_group_id
 		               LEFT OUTER JOIN kepco_vm_types D
 		               				ON C.vm_type_id = D.id
 		        WHERE  A.esntl_id = #{esntlId}) A 

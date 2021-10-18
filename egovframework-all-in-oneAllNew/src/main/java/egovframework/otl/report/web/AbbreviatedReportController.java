@@ -207,7 +207,13 @@ public class AbbreviatedReportController {
     // 관리자의 사용자 보고서 검토 이후 점수 부여 요청
     @RequestMapping(value = "/report/abbreviatedReportGiveScore.do")
     public String abbreviatedReportGiveScore(@RequestParam(value = "score", required = false, defaultValue = "0") int score, @ModelAttribute("giveScoreToReport") AbbreviatedReportVO vo, ModelMap model) throws Exception {
-        abbreviatedReportService.abbreviatedReportGiveScore(vo, score);
+        try {
+            abbreviatedReportService.abbreviatedReportGiveScore(vo, score);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
         return "forward:/report/abbreviatedReportList.do";
     }
 

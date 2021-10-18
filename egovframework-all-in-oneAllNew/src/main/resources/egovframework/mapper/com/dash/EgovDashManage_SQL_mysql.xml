@@ -73,27 +73,19 @@
 				(select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id 
-			        and training_type = '예방보안') as type_1,
+			        and training_type = 'DDOS') as type_1,
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id
-			        and training_type = '실시간대응') as type_2,
+			        and training_type = '렌섬웨어') as type_2,
 				(select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id
-			        and training_type = '사후대응') as type_3,
+			        and training_type = '웹해킹') as type_3,
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id
-			        and training_type = '보안규정') as type_4,   
-				(select ifnull(sum(score), 0)
-					from kepco_training_team_scores 
-			        where team_id = kttv.team_id
-			        and training_type = 'vm복구') as type_5,
-			    (select ifnull(sum(score), 0)
-					from kepco_training_team_scores 
-			        where team_id = kttv.team_id
-			        and training_type = '가용성') as type_6,
+			        and training_type = 'APT') as type_4,   
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where team_id = kttv.team_id) as total
@@ -101,6 +93,7 @@
             WHERE kttv.training_id = #{value}
 			order by total desc
 		</select>
+		
 		
 		<select id="selectTeamTotalScoreByDateTime" parameterType="java.util.HashMap" resultType="int">
 			SELECT 
@@ -193,9 +186,10 @@
 		
 			SELECT 
 				start_datetime, 
-				end_datetime
+				end_datetime,
+				scheduling_state
 			FROM kepco_test.kepco_training_time 
-			WHERE training_id=#{trainingId};
+			WHERE training_id=#{trainingId}
 	<!-- 		SELECT
 				A.EVENT_SVC_BGNDE,
 				A.EVENT_SVC_ENDDE
@@ -207,6 +201,11 @@
 					ON a.EVENT_TY_CODE = b.CODE
 			WHERE A.event_id = #{trainingId} -->
 		</select> 
+		
+		
+		
+		
+		
 		
 		<insert id="insertDashScore" parameterType="java.util.HashMap">
 			<selectKey keyProperty="scoreId" resultType="int" order="BEFORE">
@@ -235,6 +234,18 @@
 				#{score}
 			);
 		</insert>
+		
+		<select id ="selectForParamByPlcApi" parameterType="String" resultType="java.util.HashMap">
+		    SELECT 
+				C.group_nm as Team,
+		        count(*) as Attack,
+		        count(case when defense='Y' then 1 end) as Defense,
+		        (select ifnull(sum(score), 0) from kepco_training_team_scores where training_id = kttal.training_id and team_id = kttal.team_id) as Score
+			FROM kepco_test.kepco_training_team_attack_log kttal 
+		    LEFT JOIN COMTNAUTHORGROUPINFO C on C.GROUP_ID = kttal.team_id
+		    WHERE kttal.training_id = #{trainingId}
+		    group by training_id, team_id;
+		</select>
 		
 
 </mapper>

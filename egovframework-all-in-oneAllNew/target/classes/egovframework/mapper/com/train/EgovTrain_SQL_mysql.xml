@@ -538,22 +538,23 @@
 	
 	<select id="selectTrainingTimeSetting" resultType="java.util.HashMap">
 	
-		SELECT B.EVENT_CN,
-			   A.TRAINING_ID,
-			   A.PST_START_DATETIME,
-			   A.PST_END_DATETIME,
-			   A.WAT_START_DATETIME,
-			   A.WAT_END_DATETIME,
-				A.MDT_START_DATETIME,
-				A.MDT_END_DATETIME,
-				A.AST_START_DATETIME,
-				A.AST_END_DATETIME,
-				A.SRG_START_DATETIME,
-				A.SRG_END_DATETIME,
-				DATE_FORMAT(A.START_DATETIME,'%Y-%m-%d') TRAINING_DATE	
-		 FROM kepco_training_time A INNER JOIN COMTNEVENTINFO B ON A.TRAINING_ID = B.EVENT_ID
-		WHERE TRAINING_ID = #{value}
-		ORDER BY TRAINING_ID DESC
+		SELECT A.EVENT_CN,
+			   A.EVENT_ID as TRAINING_ID,
+			   B.ddos_start_datetime,
+			   B.ddos_end_datetime,
+			   B.ransom_start_datetime,
+			   B.ransom_end_datetime,
+				B.wh_start_datetime,
+				B.wh_end_datetime,
+				B.apt01_start_datetime,
+				B.apt01_end_datetime,
+				B.apt02_start_datetime,
+				B.apt02_end_datetime,
+				DATE_FORMAT(B.START_DATETIME,'%Y-%m-%d') TRAINING_DATE	
+		 FROM COMTNEVENTINFO A
+         LEFT JOIN kepco_training_time B ON A.EVENT_ID = B.TRAINING_ID
+		WHERE A.EVENT_ID = #{value}
+		ORDER BY A.EVENT_ID DESC
 	
 	</select>
 	
@@ -687,44 +688,45 @@
 						(TRAINING_ID,
 						 START_DATETIME,
 						 END_DATETIME,
-						 PST_START_DATETIME,
-						 PST_END_DATETIME,
-						 MDT_START_DATETIME,
-						 MDT_END_DATETIME,
-						 WAT_START_DATETIME,
-						 WAT_END_DATETIME,
-						 AST_START_DATETIME,
-						 AST_END_DATETIME,
-						 SRG_START_DATETIME,
-						 SRG_END_DATETIME
+						 
+						 DDOS_START_DATETIME,
+						 DDOS_END_DATETIME,
+						 RANSOM_START_DATETIME,
+						 RANSOM_END_DATETIME,
+						 WH_START_DATETIME,
+						 WH_END_DATETIME,
+						 APT01_START_DATETIME,
+						 APT01_END_DATETIME,
+						 APT02_START_DATETIME,
+						 APT02_END_DATETIME
 						)VALUES(
 						 #{trainingId},
 						 #{startDatetime},
 						 #{endDatetime},
 						 
-						 #{pstStartDatetime},
-						 #{pstEndDatetime},
-						 #{mdtStartDatetime},
-						 #{mdtEndDatetime},
-						 #{watStartDatetime},
-						 #{watEndDatetime},
-						 #{astStartDatetime},
-						 #{astEndDatetime},
-						 #{srgStartDatetime},
-						 #{srgEndDatetime}
+						 #{ddosStartDatetime},
+						 #{ddosEndDatetime},
+						 #{ransomStartDatetime},
+						 #{ransomEndDatetime},
+						 #{whStartDatetime},
+						 #{whEndDatetime},
+						 #{apt01StartDatetime},
+						 #{apt01EndDatetime},
+						 #{apt02StartDatetime},
+						 #{apt02EndDatetime}
 						) ON DUPLICATE KEY UPDATE
 						 START_DATETIME = #{startDatetime},
 						 END_DATETIME = #{endDatetime},
-						 PST_START_DATETIME = #{pstStartDatetime},
-						 PST_END_DATETIME = #{pstEndDatetime},
-						 MDT_START_DATETIME = #{mdtStartDatetime},
-						 MDT_END_DATETIME = #{mdtEndDatetime},
-						 WAT_START_DATETIME = #{watStartDatetime},
-						 WAT_END_DATETIME = #{watEndDatetime},
-						 AST_START_DATETIME = #{astStartDatetime},
-						 AST_END_DATETIME = #{astEndDatetime},
-						 SRG_START_DATETIME = #{srgStartDatetime},
-						 SRG_END_DATETIME= #{srgEndDatetime}
+						 DDOS_START_DATETIME = #{ddosStartDatetime},
+						 DDOS_END_DATETIME = #{ddosEndDatetime},
+						 RANSOM_START_DATETIME = #{ransomStartDatetime},
+						 RANSOM_END_DATETIME = #{ransomEndDatetime},
+						 WH_START_DATETIME = #{whStartDatetime},
+						 WH_END_DATETIME = #{whEndDatetime},
+						 APT01_START_DATETIME = #{apt01StartDatetime},
+						 APT01_END_DATETIME = #{apt01EndDatetime},
+						 APT02_START_DATETIME = #{apt02StartDatetime},
+						 APT02_END_DATETIME = #{apt02EndDatetime}
 	
 	</insert>
 	

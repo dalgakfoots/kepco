@@ -1,5 +1,11 @@
 package egovframework.com.dash.service.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import egovframework.com.dam.spe.spe.service.EgovKnoSpecialistService;
 import egovframework.com.dam.spe.spe.service.KnoSpecialist;
@@ -21,7 +29,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.icu.text.SimpleDateFormat;
+
 
 /**
  * 개요
@@ -184,9 +195,6 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 	
 	
-	
-	
-	
 	@Override
 	public void insertDashScore(String trainingId, HashMap model) throws Exception {
 		
@@ -228,14 +236,119 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 				egovDashManageDAO.insertDashScore(model);	
 			}
 		}
+	}
+	
+	
+	@Override
+	public void plcTimerOn(final String trainingId) throws ParseException {
 		
-		
-		
-		
-		
+		final Timer timer = new Timer();
+		final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+//            	startTime과 endTime을 가지고 온다.
+            	Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
+				
+            	try {
+					long isEnd = compareWithNow(trainingTime.get("end_datetime").toString());
+					long isStart = compareWithNow(trainingTime.get("start_datetime").toString());
+
+					if(isStart < 0 && 0 < isEnd ) {
+	                    System.out.println("훈련 중...");
+	                    readyForParamByPlcApi(trainingId);
+	                } 
+					else if (trainingTime.get("scheduling_state").toString().equals("N")) {
+	                	System.out.println("훈련 끝.");
+	                	timer.cancel();
+	                } 
+					else {
+	                	System.out.println("훈련전 or 훈련끝");
+	                }
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        };
+        timer.schedule(timerTask, 0, 1000);
 	}
 
+	
+	// 현재시간과 훈련끝시간을 계산.
+	// 현재시간과 훈련시작시간을 계산.
+	private long compareWithNow(String time) throws ParseException {
+		SimpleDateFormat datetimeForm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date convertedTime = datetimeForm.parse(time);
+		Date now = new Date();
+		
+		long diff = convertedTime.getTime() - now.getTime();
+		
+		return diff;
+	}
+	
 
+// 디테일한 서비스 로직.
+		
+	// 훈련에 속한팀들의 totalScore, teamId, 공격 스택, 방어스택에 대한 정보를 수집.
+	private void readyForParamByPlcApi(String trainingId) throws JsonProcessingException {
+		List<Map> objectForPlcList = egovDashManageDAO.selectForParamByPlcApi(trainingId);
+		String jsonForPlcParam = convertJsonByObject(objectForPlcList);
+		plcRestApiCall(jsonForPlcParam);
+	}
+	
+	// json파일 형식으로 convert
+	private String convertJsonByObject(List<Map> objectForPlcList) throws JsonProcessingException {
+		String jsonForPlcParam = new ObjectMapper().writeValueAsString(objectForPlcList);
+		System.out.println("jsonForPlcParam : " + jsonForPlcParam);
+		return jsonForPlcParam;
+	}
+	
+	// json파일을 보내야하는 restAPI call
+	private void plcRestApiCall(String jsonForPlcParam) {
+		System.out.println("plcRestApiCall");
+//		
+//		
+//		try {
+//			URL url = new URL("");
+//			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//			con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
+//			con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+//			con.addRequestProperty("x-api-key", RestTestCommon.API_KEY); //key값 설정
+//
+//			con.setRequestMethod("POST");
+//
+//                                     //json으로 message를 전달하고자 할 때 
+//			con.setRequestProperty("Content-Type", "application/json");
+//			con.setDoInput(true);
+//			con.setDoOutput(true); //POST 데이터를 OutputStream으로 넘겨 주겠다는 설정 
+//			con.setUseCaches(false);
+//			con.setDefaultUseCaches(false);
+//
+//			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+//			wr.write(jsonForPlcParam); //json 형식의 message 전달 
+//			wr.flush();
+//
+//			StringBuilder sb = new StringBuilder();
+//			if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//				
+//				BufferedReader br = new BufferedReader(
+//						new InputStreamReader(con.getInputStream(), "utf-8"));
+//				String line;
+//				while ((line = br.readLine()) != null) {
+//					sb.append(line).append("\n");
+//				}
+//				br.close();
+//				System.out.println("" + sb.toString());
+//			} else {
+//				System.out.println(con.getResponseMessage());
+//			}
+//		} catch (Exception e){
+//			System.err.println(e.toString());
+//		}
 
+	}
 
 }

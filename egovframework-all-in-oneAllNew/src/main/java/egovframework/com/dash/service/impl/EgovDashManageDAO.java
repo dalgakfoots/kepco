@@ -106,4 +106,9 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 	public Map selectTrainingTimeByTrainingId(String trainingId) {
 		return selectOne("EgovDashManageDAO.selectTrainingTimeByTrainingId", trainingId);
 	}
+	
+	public List<Map> selectForParamByPlcApi(String trainingId) {
+		return selectList("EgovDashManageDAO.selectForParamByPlcApi", trainingId);
+		
+	}
 }

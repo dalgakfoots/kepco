@@ -436,7 +436,7 @@
         
         <!-- ajax json -->
         <!-- social에서 참조 하고 있어 임시 주석 처리 -->
-        <!-- 
+ 
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -452,7 +452,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.5.1</version>
         </dependency>               
-        -->
+
         
         <!-- LDAP조직도관리 관련 라이브러리  -->
         <dependency>

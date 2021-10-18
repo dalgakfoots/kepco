@@ -109,15 +109,15 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 	
 	
 	private EgovTrainTimeSettingVO setTrainingTotalTime(EgovTrainTimeSettingVO frm) throws Exception {
-
+	
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 
 		List<String> startTempTimeList = new ArrayList();
-		startTempTimeList.add(frm.getPstStartDatetime());
-		startTempTimeList.add(frm.getMdtStartDatetime());
-		startTempTimeList.add(frm.getWatStartDatetime());
-		startTempTimeList.add(frm.getAstStartDatetime());
-		startTempTimeList.add(frm.getSrgStartDatetime());
+		startTempTimeList.add(frm.getDdosStartDatetime());
+		startTempTimeList.add(frm.getRansomStartDatetime());
+		startTempTimeList.add(frm.getWhStartDatetime());
+		startTempTimeList.add(frm.getApt01StartDatetime());
+		startTempTimeList.add(frm.getApt02StartDatetime());
 		
 		String startTempTime = "23:59";
 		for (String startTime : startTempTimeList) {
@@ -128,11 +128,11 @@ public class EgovTrainServiceImpl implements EgovTrainService {
 		}
 		
 		List<String> endTempTimeList = new ArrayList();
-		endTempTimeList.add(frm.getPstEndDatetime());
-		endTempTimeList.add(frm.getMdtEndDatetime());
-		endTempTimeList.add(frm.getWatEndDatetime());
-		endTempTimeList.add(frm.getAstEndDatetime());
-		endTempTimeList.add(frm.getSrgEndDatetime());
+		endTempTimeList.add(frm.getDdosEndDatetime());
+		endTempTimeList.add(frm.getRansomEndDatetime());
+		endTempTimeList.add(frm.getWhEndDatetime());
+		endTempTimeList.add(frm.getApt01EndDatetime());
+		endTempTimeList.add(frm.getApt02EndDatetime());
 		
 		String endTempTime = "00:00";
 		for (String endTime : endTempTimeList) {

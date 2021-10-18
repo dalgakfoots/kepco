@@ -1,5 +1,6 @@
 package egovframework.com.dash.service;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,5 @@ public interface EgovDashManageService {
 	String selectTeamIdByUserId(String userId) throws Exception;
 	void insertDashScore( String trainingId, HashMap model) throws Exception;
 	void insertEgovDeductionScore(String trainingIs, String teamId, String score) throws Exception;
+	void plcTimerOn(String trainingId) throws ParseException;
 }

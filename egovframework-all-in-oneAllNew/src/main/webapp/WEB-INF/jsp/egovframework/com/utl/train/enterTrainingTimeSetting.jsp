@@ -41,53 +41,53 @@
 					</td>
 				</tr>
 				<tr>
-					<th>예방보안 시작시간</th>
+					<th>DDos 시작시간</th>
 					<td class="left">
-						<input id="pstStartDatetime" name="pstStartDatetime" style="width:100px;" type="time" value="${result.PST_START_DATETIME}">
+						<input id="ddosStartDatetime" name="ddosStartDatetime" style="width:100px;" type="time" value="${result.ddos_start_datetime}">
 					</td>
-					<th>예방보안 종료시간</th>
+					<th>DDos 종료시간</th>
 					<td class="left">
-						<input id="pstEndDatetime" name="pstEndDatetime" style="width:100px;" type="time" value="${result.PST_END_DATETIME}">
-					</td>
-				</tr>
-				<tr>
-					<th>실시간대응(악성코드) 시작시간</th>
-					<td class="left">
-						<input id="mdtStartDatetime" name="mdtStartDatetime" style="width:100px;" type="time" value="${result.MDT_START_DATETIME}">
-					</td>
-					<th>실시간대응(악성코드) 종료시간</th>
-					<td class="left">
-						<input id="mdtEndDatetime" name="mdtEndDatetime" style="width:100px;" type="time" value="${result.MDT_END_DATETIME}">
+						<input id="ddosEndDatetime" name="ddosEndDatetime" style="width:100px;" type="time" value="${result.ddos_end_datetime}">
 					</td>
 				</tr>
 				<tr>
-					<th>실시간대응(웹) 시작시간</th>
+					<th>렌섬웨어 시작시간</th>
 					<td class="left">
-						<input id="watStartDatetime" name="watStartDatetime" style="width:100px;" type="time" value="${result.WAT_START_DATETIME}">
+						<input id="ransomStartDatetime" name="ransomStartDatetime" style="width:100px;" type="time" value="${result.ransom_start_datetime}">
 					</td>
-					<th>실시간대응(웹) 종료시간</th>
+					<th>렌섬웨어 종료시간</th>
 					<td class="left">
-						<input id="watEndDatetime" name="watEndDatetime" style="width:100px;" type="time" value="${result.WAT_END_DATETIME}">
-					</td>
-				</tr>
-				<tr>
-					<th>사후대응 시작시간</th>
-					<td class="left">
-						<input id="astStartDatetime" name="astStartDatetime" style="width:100px;" type="time" value="${result.AST_START_DATETIME}">
-					</td>
-					<th>사후대응 종료시간</th>
-					<td class="left">
-						<input id="astEndDatetime" name="astEndDatetime" style="width:100px;" type="time" value="${result.AST_END_DATETIME}">
+						<input id="ransomEndDatetime" name="ransomEndDatetime" style="width:100px;" type="time" value="${result.ransom_end_datetime}">
 					</td>
 				</tr>
 				<tr>
-					<th>보안규정및지침 시작시간</th>
+					<th>웹해킹 시작시간</th>
 					<td class="left">
-						<input id="srgStartDatetime" name="srgStartDatetime" style="width:100px;" type="time" value="${result.SRG_START_DATETIME}">
+						<input id="whStartDatetime" name="whStartDatetime" style="width:100px;" type="time" value="${result.wh_start_datetime}">
 					</td>
-					<th>보안규정및지침 종료시간</th>
+					<th>웹해킹 종료시간</th>
 					<td class="left">
-						<input id="srgEndDatetime" name="srgEndDatetime" style="width:100px;" type="time" value="${result.SRG_END_DATETIME}">
+						<input id="whEndDatetime" name="whEndDatetime" style="width:100px;" type="time" value="${result.wh_end_datetime}">
+					</td>
+				</tr>
+				<tr>
+					<th>APT#01 시작시간</th>
+					<td class="left">
+						<input id="apt01StartDatetime" name="apt01StartDatetime" style="width:100px;" type="time" value="${result.apt01_start_datetime}">
+					</td>
+					<th>APT#01 종료시간</th>
+					<td class="left">
+						<input id="apt01EndDatetime" name="apt01EndDatetime" style="width:100px;" type="time" value="${result.apt01_end_datetime}">
+					</td>
+				</tr>
+				<tr>
+					<th>APT#02 시작시간</th>
+					<td class="left">
+						<input id="apt02StartDatetime" name="apt02StartDatetime" style="width:100px;" type="time" value="${result.apt02_start_datetime}">
+					</td>
+					<th>APT#02 종료시간</th>
+					<td class="left">
+						<input id="apt02EndDatetime" name="apt02EndDatetime" style="width:100px;" type="time" value="${result.apt02_end_datetime}">
 					</td>
 				</tr>
 			</tbody>

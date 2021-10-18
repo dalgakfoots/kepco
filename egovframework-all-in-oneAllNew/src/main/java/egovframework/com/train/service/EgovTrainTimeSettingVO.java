@@ -11,18 +11,16 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	private String startDatetime;
 	private String endDatetime;
 	
-	private String pstStartDatetime;
-	private String pstEndDatetime;
-	private String mdtStartDatetime;
-	private String mdtEndDatetime;
-	private String watStartDatetime;
-	private String watEndDatetime;
-	private String astStartDatetime;
-	private String astEndDatetime;
-	private String srgStartDatetime;
-	private String srgEndDatetime;
-	
-	
+	private String ddosStartDatetime;
+	private String ddosEndDatetime;
+	private String ransomStartDatetime;
+	private String ransomEndDatetime;
+	private String whStartDatetime;
+	private String whEndDatetime;
+	private String apt01StartDatetime;
+	private String apt01EndDatetime;
+	private String apt02StartDatetime;
+	private String apt02EndDatetime;
 	
 	public String getTrainingId() {
 		return trainingId;
@@ -30,68 +28,6 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	public void setTrainingId(String trainingId) {
 		this.trainingId = trainingId;
 	}
-	public String getPstStartDatetime() {
-		return pstStartDatetime;
-	}
-	public void setPstStartDatetime(String pstStartDatetime) {
-		this.pstStartDatetime = pstStartDatetime;
-	}
-	public String getPstEndDatetime() {
-		return pstEndDatetime;
-	}
-	public void setPstEndDatetime(String pstEndDatetime) {
-		this.pstEndDatetime = pstEndDatetime;
-	}
-	public String getMdtStartDatetime() {
-		return mdtStartDatetime;
-	}
-	public void setMdtStartDatetime(String mdtStartDatetime) {
-		this.mdtStartDatetime = mdtStartDatetime;
-	}
-	public String getMdtEndDatetime() {
-		return mdtEndDatetime;
-	}
-	public void setMdtEndDatetime(String mdtEndDatetime) {
-		this.mdtEndDatetime = mdtEndDatetime;
-	}
-	public String getWatStartDatetime() {
-		return watStartDatetime;
-	}
-	public void setWatStartDatetime(String watStartDatetime) {
-		this.watStartDatetime = watStartDatetime;
-	}
-	public String getWatEndDatetime() {
-		return watEndDatetime;
-	}
-	public void setWatEndDatetime(String watEndDatetime) {
-		this.watEndDatetime = watEndDatetime;
-	}
-	public String getAstStartDatetime() {
-		return astStartDatetime;
-	}
-	public void setAstStartDatetime(String astStartDatetime) {
-		this.astStartDatetime = astStartDatetime;
-	}
-	public String getAstEndDatetime() {
-		return astEndDatetime;
-	}
-	public void setAstEndDatetime(String astEndDatetime) {
-		this.astEndDatetime = astEndDatetime;
-	}
-	public String getSrgStartDatetime() {
-		return srgStartDatetime;
-	}
-	public void setSrgStartDatetime(String srgStartDatetime) {
-		this.srgStartDatetime = srgStartDatetime;
-	}
-	public String getSrgEndDatetime() {
-		return srgEndDatetime;
-	}
-	public void setSrgEndDatetime(String srgEndDatetime) {
-		this.srgEndDatetime = srgEndDatetime;
-	}
-	
-	
 	public String getTrainingDate() {
 		return trainingDate;
 	}
@@ -110,6 +46,73 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	public void setEndDatetime(String endDatetime) {
 		this.endDatetime = endDatetime;
 	}
+	public String getDdosStartDatetime() {
+		return ddosStartDatetime;
+	}
+	public void setDdosStartDatetime(String ddosStartDatetime) {
+		this.ddosStartDatetime = ddosStartDatetime;
+	}
+	public String getDdosEndDatetime() {
+		return ddosEndDatetime;
+	}
+	public void setDdosEndDatetime(String ddosEndDatetime) {
+		this.ddosEndDatetime = ddosEndDatetime;
+	}
+	public String getRansomStartDatetime() {
+		return ransomStartDatetime;
+	}
+	public void setRansomStartDatetime(String ransomStartDatetime) {
+		this.ransomStartDatetime = ransomStartDatetime;
+	}
+	public String getRansomEndDatetime() {
+		return ransomEndDatetime;
+	}
+	public void setRansomEndDatetime(String ransomEndDatetime) {
+		this.ransomEndDatetime = ransomEndDatetime;
+	}
+	public String getWhStartDatetime() {
+		return whStartDatetime;
+	}
+	public void setWhStartDatetime(String whStartDatetime) {
+		this.whStartDatetime = whStartDatetime;
+	}
+	public String getWhEndDatetime() {
+		return whEndDatetime;
+	}
+	public void setWhEndDatetime(String whEndDatetime) {
+		this.whEndDatetime = whEndDatetime;
+	}
+	public String getApt01StartDatetime() {
+		return apt01StartDatetime;
+	}
+	public void setApt01StartDatetime(String apt01StartDatetime) {
+		this.apt01StartDatetime = apt01StartDatetime;
+	}
+	public String getApt01EndDatetime() {
+		return apt01EndDatetime;
+	}
+	public void setApt01EndDatetime(String apt01EndDatetime) {
+		this.apt01EndDatetime = apt01EndDatetime;
+	}
+	public String getApt02StartDatetime() {
+		return apt02StartDatetime;
+	}
+	public void setApt02StartDatetime(String apt02StartDatetime) {
+		this.apt02StartDatetime = apt02StartDatetime;
+	}
+	public String getApt02EndDatetime() {
+		return apt02EndDatetime;
+	}
+	public void setApt02EndDatetime(String apt02EndDatetime) {
+		this.apt02EndDatetime = apt02EndDatetime;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+	
+	
 	
 	
 	

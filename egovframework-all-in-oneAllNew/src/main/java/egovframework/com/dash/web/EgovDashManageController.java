@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
@@ -274,10 +276,6 @@ public class EgovDashManageController {
     	egovDashManageService.insertEgovDeductionScore(trainingId, teamId, score);
 		return modelAndView;
 	}
-	
-	
-	
-	
 
 	@RequestMapping(value = "/dash/test.do")
 	public void test(HashMap model) throws Exception {
@@ -286,5 +284,23 @@ public class EgovDashManageController {
 		egovDashManageService.insertDashScore(trainingId, model);
 	}
 
+	@RequestMapping(value = "/dash/aaaa.do")
+	public void aaaa() throws Exception {
+		
+		egovDashManageService.plcTimerOn("EVENT_00000000000181");
+//		Timer timer = new Timer();
+//        TimerTask timerTask = new TimerTask() {
+//            int cnt = 0;
+//            @Override
+//            public void run() {
+//                if(cnt++ < 5){
+//                    System.out.println("task...");
+//                }else{
+//                    timer.cancel();
+//                }
+//            }
+//        };
+//        timer.schedule(timerTask,0,1000*60);
+	}
 
 }

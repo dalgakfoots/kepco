@@ -525,33 +525,29 @@ public class EgovTrainController {
 	public String setTrainingTimeSetting(@ModelAttribute("frm") EgovTrainTimeSettingVO frm, ModelMap model) throws Exception{
 		egovTrainService.setTrainingTimeSetting(frm);
 		
-		HashMap param = new HashMap();
-		String watStartDateTime = frm.getWatStartDatetime();
-		String[] temp = watStartDateTime.split(":");
-		int hour = Integer.parseInt(temp[0]);
-		int min = Integer.parseInt(temp[1]);
-		
-		int sum = (hour * 60) + min;
-		System.out.println("sum : "+sum);
-		hour = sum / 60;
-		System.out.println("hour : "+hour);
-		min = (sum % 60)+20;
-		
-		hour = min >= 60? hour + 1 : hour;
-		String h = String.valueOf(hour);
-		h = h.length() == 1 ? "0"+h : h; 
-		
-		min = min >= 60 ? min - 60 : min;
-		String minute = String.valueOf(min);
-		System.out.println("min : "+minute);
-		minute = minute.equals("0") ? "00" : minute;
-		
-		
-		watStartDateTime = h + minute;
-		System.out.println(watStartDateTime);
-		param.put("watStartDateTime", watStartDateTime);
-		
-		egovTrainService.updateWatExamOpenTime(param);
+//		HashMap param = new HashMap();
+//		String watStartDateTime = frm.getWatStartDatetime();
+//		String[] temp = watStartDateTime.split(":");
+//		int hour = Integer.parseInt(temp[0]);
+//		int min = Integer.parseInt(temp[1]);
+//		
+//		int sum = (hour * 60) + min;
+//		hour = sum / 60;
+//		min = (sum % 60)+20;
+//		
+//		hour = min >= 60? hour + 1 : hour;
+//		String h = String.valueOf(hour);
+//		h = h.length() == 1 ? "0"+h : h; 
+//		
+//		min = min >= 60 ? min - 60 : min;
+//		String minute = String.valueOf(min);
+//		minute = minute.equals("0") ? "00" : minute;
+//		
+//		
+//		watStartDateTime = h + minute;
+//		param.put("watStartDateTime", watStartDateTime);
+//		
+//		egovTrainService.updateWatExamOpenTime(param);
 		
 		return "forward:/train/setTrainingTime.do";
 	}

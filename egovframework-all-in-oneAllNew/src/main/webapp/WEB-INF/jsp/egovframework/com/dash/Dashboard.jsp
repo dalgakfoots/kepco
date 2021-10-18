@@ -254,17 +254,13 @@
   	  	  			const newCell5 = newRow.insertCell(4);
   	  	  			const newCell6 = newRow.insertCell(5);
   	  	  			const newCell7 = newRow.insertCell(6);
-  	  	  			const newCell8 = newRow.insertCell(7);
-  	  	  			const newCell9 = newRow.insertCell(8);
   	  	  			newCell1.innerText = parseInt(i)+1;
   	  	  			newCell2.innerText = rankList[i].team_name;
   	  	  			newCell3.innerText = rankList[i].type_1;
   	  	  			newCell4.innerText = rankList[i].type_2;
   	  	  			newCell5.innerText = rankList[i].type_3;
   	  	  			newCell6.innerText = rankList[i].type_4;
-  	  	  			newCell7.innerText = rankList[i].type_5;
-  	  	  			newCell8.innerText = rankList[i].type_6;
-  	  	  			newCell9.innerText = rankList[i].total;	
+  	  	  			newCell7.innerText = rankList[i].total;
   			}
   	}
   
@@ -276,7 +272,8 @@
   	
   </script>
 </head>
-<body onLoad="javascript:intervalTest()"> 
+<!-- <body onLoad="javascript:intervalTest()"> -->
+<body	> 
 
 <!-- <body > -->
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -302,7 +299,7 @@
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown no-arrow">
-      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
+      	<a class="nav-link" href="<c:url value='/dash/aaaa.do' />"">Test</a>
       </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>
@@ -371,12 +368,10 @@
                   <tr>
                     <th>순위</th>
                     <th>팀명</th>
-                    <th>예방보안</th>
-                    <th>실시간대응</th>
-                    <th>사후대응</th>
-                    <th>보안규정</th>
-                    <th>VM복구</th>
-                    <th>가용성</th>
+                    <th>DDos</th>
+                    <th>렌섬웨어</th>
+                    <th>웹 해킹</th>
+                    <th>APT</th>
                     <th>총점</th>
                     
                   </tr>
@@ -405,8 +400,6 @@
 	                    <td><c:out value="${item.type_2}"/></td>
 	                    <td><c:out value="${item.type_3}"/></td>
 	                    <td><c:out value="${item.type_4}"/></td>
-	                    <td><c:out value="${item.type_5}"/></td>
-	                    <td><c:out value="${item.type_6}"/></td>
 	                    <td><c:out value="${item.total}"/></td>
 					</tr>
 				</c:forEach>
@@ -424,7 +417,7 @@
       <footer class="sticky-footer">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright © Your Website 2021</span>
+            <span>Copyright © Kepco Website 2021</span>
           </div>
         </div>
       </footer>

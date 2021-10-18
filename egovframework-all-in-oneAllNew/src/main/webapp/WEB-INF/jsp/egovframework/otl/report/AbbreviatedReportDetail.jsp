@@ -42,11 +42,11 @@
                 <th>보고서 유형</th>
                 <td>
                     <select style="width: 100%;" disabled>
-                        <option value="APT1" <c:if test="${searchVO.type eq 'APT1'}">selected</c:if> > APT#1 보고서</option>
-                        <option value="APT2" <c:if test="${searchVO.type eq 'APT2'}">selected</c:if> >APT#2 보고서</option>
-                        <option value="RANSOM" <c:if test="${searchVO.type eq 'RANSOM'}">selected</c:if> >랜섬웨어 보고서</option>
-                        <option value="WEB" <c:if test="${searchVO.type eq 'WEB'}">selected</c:if> >웹해킹 보고서</option>
-                        <option value="DDOS" <c:if test="${searchVO.type eq 'DDOS'}">selected</c:if> >DDoS 보고서</option>
+                        <option value="APT1" <c:if test="${reportVO.reportType eq 'APT1'}">selected</c:if> > APT#1 보고서</option>
+                        <option value="APT2" <c:if test="${reportVO.reportType eq 'APT2'}">selected</c:if> >APT#2 보고서</option>
+                        <option value="RANSOM" <c:if test="${reportVO.reportType eq 'RANSOM'}">selected</c:if> >랜섬웨어 보고서</option>
+                        <option value="WEB" <c:if test="${reportVO.reportType eq 'WEB'}">selected</c:if> >웹해킹 보고서</option>
+                        <option value="DDOS" <c:if test="${reportVO.reportType eq 'DDOS'}">selected</c:if> >DDoS 보고서</option>
                     </select>
                 </td>
             </tr>

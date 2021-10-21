@@ -145,15 +145,15 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
     private String selectQustionId(String reportType) {
         String result = "err";
         if (reportType.equals("APT1")) {
-            result = "APT1";
+            result = "apt01";
         } else if (reportType.equals("APT2")) {
-            result = "APT2";
+            result = "apt02";
         } else if (reportType.equals("RANSOM")) {
-            result = "RANSOM";
+            result = "ransom";
         } else if (reportType.equals("WEB")) {
-            result = "WEB";
+            result = "wh";
         } else if (reportType.equals("DDOS")) {
-            result = "DDOS";
+            result = "ddos";
         }
 
         return result;

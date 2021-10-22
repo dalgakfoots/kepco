@@ -11,6 +11,22 @@
     <title>보고서 제출</title>
     <script type="text/javascript">
 
+        window.onload = function () {
+
+            const selectReportScore = document.getElementById("reportScore");
+            let baseScore = 300;
+            const scoreGap = 50;
+
+            for(let i = 1  ; baseScore < 1000 ; i++){
+                baseScore += scoreGap;
+                let scoreOption = document.createElement("option");
+                scoreOption.text = baseScore + "";
+                scoreOption.value = baseScore;
+                selectReportScore.options.add(scoreOption);
+            }
+
+        };
+
         function abbreviatedReportSubmit(){
             if (confirm('제출하시겠습니까?')) {
                 document.reportVO.action="<c:url value='/report/abbreviatedReportSubmit.do'/>";
@@ -42,11 +58,11 @@
                 <th>보고서 유형</th>
                 <td>
                     <select style="width: 100%;" disabled>
-                        <option value="APT1" <c:if test="${searchVO.type eq 'APT1'}">selected</c:if> > APT#1 보고서</option>
-                        <option value="APT2" <c:if test="${searchVO.type eq 'APT2'}">selected</c:if> >APT#2 보고서</option>
-                        <option value="RANSOM" <c:if test="${searchVO.type eq 'RANSOM'}">selected</c:if> >랜섬웨어 보고서</option>
-                        <option value="WEB" <c:if test="${searchVO.type eq 'WEB'}">selected</c:if> >웹해킹 보고서</option>
-                        <option value="DDOS" <c:if test="${searchVO.type eq 'DDOS'}">selected</c:if> >DDoS 보고서</option>
+                        <option value="APT1" <c:if test="${reportVO.reportType eq 'APT1'}">selected</c:if> > APT#1 보고서</option>
+                        <option value="APT2" <c:if test="${reportVO.reportType eq 'APT2'}">selected</c:if> >APT#2 보고서</option>
+                        <option value="RANSOM" <c:if test="${reportVO.reportType eq 'RANSOM'}">selected</c:if> >랜섬웨어 보고서</option>
+                        <option value="WEB" <c:if test="${reportVO.reportType eq 'WEB'}">selected</c:if> >웹해킹 보고서</option>
+                        <option value="DDOS" <c:if test="${reportVO.reportType eq 'DDOS'}">selected</c:if> >DDoS 보고서</option>
                     </select>
                 </td>
             </tr>
@@ -101,16 +117,16 @@
                 <c:if test="${role.get('author_code') eq 'ROLE_ADMIN'}">
                     <li>
                         <select id="reportScore">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">50</option>
-                            <option value="60">60</option>
-                            <option value="70">70</option>
-                            <option value="80">80</option>
-                            <option value="90">90</option>
-                            <option value="100">100</option>
+<%--                            <option value="10">10</option>--%>
+<%--                            <option value="20">20</option>--%>
+<%--                            <option value="30">30</option>--%>
+<%--                            <option value="40">40</option>--%>
+<%--                            <option value="50">50</option>--%>
+<%--                            <option value="60">60</option>--%>
+<%--                            <option value="70">70</option>--%>
+<%--                            <option value="80">80</option>--%>
+<%--                            <option value="90">90</option>--%>
+<%--                            <option value="100">100</option>--%>
                         </select>
                     </li>
                     <li>

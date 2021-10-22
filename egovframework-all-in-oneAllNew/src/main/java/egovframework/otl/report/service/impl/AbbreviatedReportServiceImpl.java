@@ -106,14 +106,15 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
         HashMap param = new HashMap();
         param.put("trainingId", vo.getTrainId());
         param.put("teamId", vo.getTeamId());
-
         param.put("questionId", vo.getReportId());
 
         param.put("scoreId", 0);
 
         /* TODO trainingType은 대시보드(리더보드)에서 집계할 시 분류를 위한 키로 사용됨. 변경 가능성 높음.*/
-        param.put("trainingType", selectQustionId(vo.getReportType()));
+        param.put("trainingType", selectTrainingType(vo.getReportType()));
         param.put("score", score);
+
+        param.put("subType",selectSubType(vo.getReportType()));
         abbreviatedReportDAO.abbreviatedReportGiveScore(param);
 
         // 보고서의 상태값 400 : 관리자가 검토 이후 점수 부여 완료 로 변경
@@ -142,21 +143,44 @@ public class AbbreviatedReportServiceImpl extends EgovAbstractServiceImpl implem
      * @param reportType
      * @return String result
      */
-    private String selectQustionId(String reportType) {
-        String result = "err";
+    private String selectTrainingType(String reportType) {
+        String trainingType = "err";
         if (reportType.equals("APT1")) {
-            result = "apt01";
+            trainingType = "apt01";
         } else if (reportType.equals("APT2")) {
-            result = "apt02";
+            trainingType = "apt02";
         } else if (reportType.equals("RANSOM")) {
-            result = "ransom";
+            trainingType = "ransom";
         } else if (reportType.equals("WEB")) {
-            result = "wh";
+            trainingType = "wh";
         } else if (reportType.equals("DDOS")) {
-            result = "ddos";
+            trainingType = "ddos";
         }
 
-        return result;
+        return trainingType;
+    }
+
+    /**
+     * 보고서 타입에 따라 kepco_training_team_scores.sub_type에 들어갈 값을 정한다.
+     * @param reportType
+     * @return
+     */
+    private String selectSubType(String reportType) {
+        String subType = "err";
+
+        if (reportType.equals("APT1")) {
+            subType = "APT1_REPORT";
+        } else if (reportType.equals("APT2")) {
+            subType = "APT2_REPORT";
+        } else if (reportType.equals("RANSOM")) {
+            subType = "RANSOM_REPORT";
+        } else if (reportType.equals("WEB")) {
+            subType = "WH_REPORT";
+        } else if (reportType.equals("DDOS")) {
+            subType = "DDOS_REPORT";
+        }
+
+        return subType;
     }
 
 }

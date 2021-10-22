@@ -152,7 +152,8 @@
 					 QUESTION_ID,
 					 SCORE_ID,
 					 TRAINING_TYPE,
-					 SCORE
+					 SCORE,
+					 SUB_TYPE
 					)
 		VALUES(
 		       #{trainingId},
@@ -160,7 +161,8 @@
 		       #{questionId},
 		       #{scoreId},
 		       #{trainingType},
-		       #{score}
+		       #{score},
+			   #{subType}
 			  )
 		ON DUPLICATE KEY UPDATE
 					SCORE = #{score}

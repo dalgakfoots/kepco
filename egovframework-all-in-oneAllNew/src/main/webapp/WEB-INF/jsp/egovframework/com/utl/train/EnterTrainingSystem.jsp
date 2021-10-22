@@ -116,7 +116,7 @@
 				</c:forEach>
 				<c:if test="${fn:length(userVmLists) == 0}">
 					<tr>
-						<td colspan="5">현재 소속된 그룹이 없거나, 그룹에 할당된 VM이 없습니다. 관리자에게 문의하세요.</td>
+						<td colspan="6">현재 소속된 그룹이 없거나, 그룹에 할당된 VM이 없습니다. 관리자에게 문의하세요.</td>
 					</tr>
 				</c:if>
 			</tbody>

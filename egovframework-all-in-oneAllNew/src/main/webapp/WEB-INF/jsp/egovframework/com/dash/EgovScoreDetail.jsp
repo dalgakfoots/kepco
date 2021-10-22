@@ -48,13 +48,12 @@
       		<table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                    <tr>
-                    <th>팀명</th>
-                    <th>예방보안</th>
-                    <th>실시간대응</th>
-                    <th>사후대응</th>
-                    <th>보안규정</th>
-                    <th>VM복구</th>
-                    <th>가용성</th>
+                   <th>팀명</th>
+                    <th>DDos</th>
+                    <th>렌섬웨어</th>
+                    <th>웹 해킹</th>
+                    <th>APT01</th>
+                    <th>APT02</th>
                     <th>총점</th>
                   </tr>
                 </thead>
@@ -66,7 +65,6 @@
 						<td><c:out value="${currentScore.type_3}"/></td>
 						<td><c:out value="${currentScore.type_4}"/></td>
 						<td><c:out value="${currentScore.type_5}"/></td>
-						<td><c:out value="${currentScore.type_6}"/></td>
 						<td><c:out value="${currentScore.total}"/></td>
 					</tr>
                 </tbody>

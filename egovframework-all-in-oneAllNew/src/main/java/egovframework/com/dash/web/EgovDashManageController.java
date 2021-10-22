@@ -81,11 +81,10 @@ public class EgovDashManageController {
 	@RequestMapping(value = "/dash/DashboardView.do")
 	public String selectDashManageView(@RequestParam(value = "trainingId") String trainingId, ModelMap model) throws Exception {
 		List<?> trainingTeams = egovDashManageService.selectTrainingTeams(trainingId);
-		
+		List<?> rankList = egovDashManageService.selectDashTable(trainingId);
 		model.addAttribute("training_name", egovDashManageService.selectTrainingName(trainingId));
 		model.addAttribute("training_id", trainingId);
-		model.addAttribute("rankList", egovDashManageService.selectDashTable(trainingId));
-		
+		model.addAttribute("rankList", rankList);
 		
 		return "egovframework/com/dash/Dashboard";
 	}
@@ -287,7 +286,9 @@ public class EgovDashManageController {
 	@RequestMapping(value = "/dash/aaaa.do")
 	public void aaaa() throws Exception {
 		
-		egovDashManageService.plcTimerOn("EVENT_00000000000181");
+//		egovDashManageService.plcTimerOn();
+		egovDashManageService.readyForParamByPlcApi("EVENT_00000000000181");
+		
 //		Timer timer = new Timer();
 //        TimerTask timerTask = new TimerTask() {
 //            int cnt = 0;

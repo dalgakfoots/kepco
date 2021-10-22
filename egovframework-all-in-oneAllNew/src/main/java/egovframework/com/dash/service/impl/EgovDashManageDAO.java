@@ -7,6 +7,7 @@ import java.util.Map;
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.dam.spe.spe.service.KnoSpecialist;
 import egovframework.com.dam.spe.spe.service.KnoSpecialistVO;
+import egovframework.com.dash.service.PlcApiVO;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
@@ -107,8 +108,11 @@ public class EgovDashManageDAO extends EgovComAbstractDAO {
 		return selectOne("EgovDashManageDAO.selectTrainingTimeByTrainingId", trainingId);
 	}
 	
-	public List<Map> selectForParamByPlcApi(String trainingId) {
+	public List<PlcApiVO> selectForParamByPlcApi(String trainingId) {
 		return selectList("EgovDashManageDAO.selectForParamByPlcApi", trainingId);
-		
+	}
+	
+	public String selectTrainingId() {
+		return selectOne("EgovDashManageDAO.selectTrainingId");
 	}
 }

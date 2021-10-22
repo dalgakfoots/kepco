@@ -65,7 +65,7 @@
       /* var yLimit = 5000; */
      
      
-     	var yLimit = (Math.trunc(maxData / 5000)+1) * 5000;
+     	var yLimit = (Math.trunc(maxData / 1000)+1) * 1000;
      
 /*      switch (Math.trunc(maxData / 5000)){
      	case 0 : yLimit = 5000; break;
@@ -78,28 +78,25 @@
      	default : yLimit = 35000; break;
      }  */
        
-     
-     
- 
      if (myLineChart) myLineChart.destroy();
-
+	console.log()
    myLineChart = new Chart(ctx, {
 	    type: 'line',
 	    data: {
-	      labels: 
-	    	  rslt.dateList.filter((e, i) => {
-	    		  console.log("i : ", i);
-    			  console.log("e : ", e);
-    			  console.log("rslt.dateList.length - rslt.dateList.length % 5  : " , rslt.dateList.length - (rslt.dateList.length-1) % 5 );
-    			  console.log("rslt.dateList.length: " , rslt.dateList.length);
-    			  console.log("rslt.dateList.length % 5  : " , rslt.dateList.length % 5 );
-	    		  if (i%5 === 0 ) {
-	    			  return e;
-	    		  } else if (rslt.dateList.length - rslt.dateList.length % 5 < i) {
-	    			  
-	    			  return e;
-	    		  }
-	      		}),
+	      labels:rslt.dateList,
+	      		/* rslt.dateList.filter((e, i) => {
+		    		  console.log("i : ", i);
+	    			  console.log("e : ", e);
+	    			  console.log("rslt.dateList.length - rslt.dateList.length % 5  : " , rslt.dateList.length - (rslt.dateList.length-1) % 5 );
+	    			  console.log("rslt.dateList.length: " , rslt.dateList.length);
+	    			  console.log("rslt.dateList.length % 5  : " , rslt.dateList.length % 5 );
+		    		  if (i%5 === 0 ) {
+		    			  return e;
+		    		  } else if (rslt.dateList.length - rslt.dateList.length % 5 < i) {
+		    			  
+		    			  return e;
+		    		  }
+		      		}), */
 	      datasets: rslt.graghList.map( (e, index) => {
 	    	  return {
 	    		label: e.team_name,
@@ -115,13 +112,14 @@
 	  	        pointHoverBackgroundColor: borderColor[index],
 	  	        pointHitRadius: 50, 
 	  	        pointBorderWidth: 0.5,
-	  	        data: e.data.filter((d, i) => {
-		    		  if (i%5 === 0 ) {
-		    			  return d;
-		    		  } else if (e.data.length -e.data.length % 5 < i) {
-		    			  return d;
-		    		  }
-		      		}),
+	  	        data: e.data,
+	  	      /* data: e.data.filter((d, i) => {
+	    		  if (i%5 === 0 ) {
+	    			  return d;
+	    		  } else if (e.data.length -e.data.length % 5 < i) {
+	    			  return d;
+	    		  }
+	      		}), */
 	    	  }
 	      })
 	    },
@@ -183,9 +181,6 @@
   					
   					var updateTime = document.getElementById("updateTime"); 
   					updateTime.innerText = "Updated today at "+returnData.updateTime;
-  					
-  					
-  					
   					ajax_callback(returnData);
   				}else{ alert("ERROR!");return;} 
   			}
@@ -254,13 +249,15 @@
   	  	  			const newCell5 = newRow.insertCell(4);
   	  	  			const newCell6 = newRow.insertCell(5);
   	  	  			const newCell7 = newRow.insertCell(6);
+  	  	  			const newCell8 = newRow.insertCell(7);
   	  	  			newCell1.innerText = parseInt(i)+1;
   	  	  			newCell2.innerText = rankList[i].team_name;
   	  	  			newCell3.innerText = rankList[i].type_1;
   	  	  			newCell4.innerText = rankList[i].type_2;
   	  	  			newCell5.innerText = rankList[i].type_3;
   	  	  			newCell6.innerText = rankList[i].type_4;
-  	  	  			newCell7.innerText = rankList[i].total;
+  	  	  			newCell7.innerText = rankList[i].type_5;
+  	  	  			newCell8.innerText = rankList[i].total;
   			}
   	}
   
@@ -272,8 +269,8 @@
   	
   </script>
 </head>
-<!-- <body onLoad="javascript:intervalTest()"> -->
-<body	> 
+<body onLoad="javascript:intervalTest()">
+<!-- <body	>  -->
 
 <!-- <body > -->
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -299,7 +296,7 @@
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown no-arrow">
-      	<a class="nav-link" href="<c:url value='/dash/aaaa.do' />"">Test</a>
+      	<a class="nav-link" href="<c:url value='/dash/test.do' />"">Test</a>
       </li>
       <li class="nav-item dropdown no-arrow">
       	<a class="nav-link" onclick="logout();return false;">Logout</a>
@@ -371,7 +368,8 @@
                     <th>DDos</th>
                     <th>렌섬웨어</th>
                     <th>웹 해킹</th>
-                    <th>APT</th>
+                    <th>APT01</th>
+                    <th>APT02</th>
                     <th>총점</th>
                     
                   </tr>
@@ -400,6 +398,7 @@
 	                    <td><c:out value="${item.type_2}"/></td>
 	                    <td><c:out value="${item.type_3}"/></td>
 	                    <td><c:out value="${item.type_4}"/></td>
+	                    <td><c:out value="${item.type_5}"/></td>
 	                    <td><c:out value="${item.total}"/></td>
 					</tr>
 				</c:forEach>

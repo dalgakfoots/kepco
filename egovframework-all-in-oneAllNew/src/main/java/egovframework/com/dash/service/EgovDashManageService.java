@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jettison.json.JSONException;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface EgovDashManageService {
 
@@ -24,5 +27,6 @@ public interface EgovDashManageService {
 	String selectTeamIdByUserId(String userId) throws Exception;
 	void insertDashScore( String trainingId, HashMap model) throws Exception;
 	void insertEgovDeductionScore(String trainingIs, String teamId, String score) throws Exception;
-	void plcTimerOn(String trainingId) throws ParseException;
+	void plcTimerOn() throws ParseException;
+	void readyForParamByPlcApi(String trainingId) throws JsonProcessingException;
 }

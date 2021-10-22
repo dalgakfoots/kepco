@@ -1,10 +1,16 @@
 package egovframework.com.dash.service.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,10 +27,25 @@ import egovframework.com.dam.spe.spe.service.KnoSpecialist;
 import egovframework.com.dam.spe.spe.service.KnoSpecialistVO;
 import egovframework.com.dam.spe.spe.service.impl.KnoSpecialistDAO;
 import egovframework.com.dash.service.EgovDashManageService;
+import egovframework.com.dash.service.PlcApiVO;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +53,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.icu.text.SimpleDateFormat;
+import com.sun.star.io.IOException;
 
 
 /**
@@ -48,6 +70,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 
 @Service("EgovDashManageService")
 public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implements EgovDashManageService {
+	
 	@Resource(name="EgovDashManageDAO")
 	private EgovDashManageDAO egovDashManageDAO;
 	
@@ -68,12 +91,6 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	@Override
 	public List<?> selectDashTable(String trainingId) throws Exception {
 		// score table에 있는 score들을 타입별로 더해서가져와
-		
-//		List<Map> trainingTeams = selectTrainingTeams(trainingId);
-//		for (Map map : trainingTeams) {
-//			String teamId = (String) map.get("team_id");
-//			rankList.add(egovDashManageDAO.selectDashTable(trainingId, teamId));
-//		}
 		return egovDashManageDAO.selectDashTableList(trainingId);
 	}
 
@@ -92,16 +109,11 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			Date standardTime = dateTime.parse(trainingTime.get("start_datetime").toString());
 			Date endtime = dateTime.parse(trainingTime.get("end_datetime").toString());
 			Date today = new Date();
-//			System.out.println("standardTime : "+ standardTime);
-//			System.out.println("endtime : "+ endtime);
-//			System.out.println("today : "+ today);
-			
+
 			
 			int compare = today.compareTo(endtime);
 			if (compare > 0) {
-//				System.out.println("today > endtime");
 			} else {
-//				System.out.println("today <= endtime");
 				endtime = today;
 			}
 			
@@ -109,8 +121,6 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			long diff = endtime.getTime()- standardTime.getTime();
 			long min = (diff / 1000) / 60;
 			int intervalCount = ((int) min)/ intervalTime ; 
-//			System.out.println("min : "+ min);
-//			System.out.println("intervalCount : " + intervalCount);
 			
 		// 시작 시간부터 현재시간을 인터벌 시간으로 나누어 splitedList를 만든다.
 		   Calendar cal = Calendar.getInstance();
@@ -127,8 +137,6 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 			   dashGraghColumn.add(column);
 			   
 		   }
-//		   System.out.println("splitedDateList : "+ splitedDateList);
-//		   System.out.println("dashGraghColumn : "+ dashGraghColumn);
 		   
 
 		   
@@ -211,56 +219,55 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 				switch (i) {
 					case 0:
 						model.put("questionId", question+index+i);
-						model.put("trainingType", "예방보안");
+						model.put("trainingType", "ddos");
 						break;
 					case 1:
 						model.put("questionId", question+index+i);
-						model.put("trainingType", "실시간대응");
+						model.put("trainingType", "ransom");
 						break;
 					case 2:
 						model.put("questionId", question+index+i);
-						model.put("trainingType", "사후대응");
+						model.put("trainingType", "wh");
 						break;
 					case 3: 
 						model.put("questionId", question+index+i);
-						model.put("trainingType", "vm복구");
+						model.put("trainingType", "apt01");
 						break;
 					case 4:
 						model.put("questionId", question+index+i);
-						model.put("trainingType", "가용성");
+						model.put("trainingType", "apt02");
 						break;
 				}
 				
 				double dValue = Math.random();
-				model.put("score", (int)(dValue * 1000));
+				model.put("score", (int)(dValue * 100));
 				egovDashManageDAO.insertDashScore(model);	
 			}
 		}
 	}
 	
 	
+//	@PostConstruct
 	@Override
-	public void plcTimerOn(final String trainingId) throws ParseException {
-		
+	public void plcTimerOn() throws ParseException{
+		// select trainingId
+		final String trainingId = egovDashManageDAO.selectTrainingId();
 		final Timer timer = new Timer();
 		final TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-//            	startTime과 endTime을 가지고 온다.
-            	Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
-				
-            	try {
-					long isEnd = compareWithNow(trainingTime.get("end_datetime").toString());
-					long isStart = compareWithNow(trainingTime.get("start_datetime").toString());
 
-					if(isStart < 0 && 0 < isEnd ) {
+            	try {
+            		boolean isAction = validationActionTime(trainingId);
+
+					if(isAction) {
 	                    System.out.println("훈련 중...");
 	                    readyForParamByPlcApi(trainingId);
 	                } 
-					else if (trainingTime.get("scheduling_state").toString().equals("N")) {
-	                	System.out.println("훈련 끝.");
-	                	timer.cancel();
-	                } 
+//					else if (trainingTime.get("scheduling_state").toString().equals("N")) {
+//	                	System.out.println("훈련 끝.");
+//	                	timer.cancel();
+//	                } 
 					else {
 	                	System.out.println("훈련전 or 훈련끝");
 	                }
@@ -270,15 +277,14 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 				} catch (JsonProcessingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				} 
             }
         };
-        timer.schedule(timerTask, 0, 1000);
+        timer.schedule(timerTask, 0, 1000 * 60);
 	}
-
 	
-	// 현재시간과 훈련끝시간을 계산.
-	// 현재시간과 훈련시작시간을 계산.
+	
+	
 	private long compareWithNow(String time) throws ParseException {
 		SimpleDateFormat datetimeForm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date convertedTime = datetimeForm.parse(time);
@@ -289,66 +295,137 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 		return diff;
 	}
 	
-
-// 디테일한 서비스 로직.
+	private String convertTimeByString(String time, String time2) throws ParseException {
+		final SimpleDateFormat datetimeForm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		final SimpleDateFormat convertForm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String[] splitList = time2.split(" ");
+		splitList[1] = time;
+		time = String.join(" ", splitList);
+		Date date = datetimeForm.parse(time);
+		time = convertForm.format(date);
 		
-	// 훈련에 속한팀들의 totalScore, teamId, 공격 스택, 방어스택에 대한 정보를 수집.
-	private void readyForParamByPlcApi(String trainingId) throws JsonProcessingException {
-		List<Map> objectForPlcList = egovDashManageDAO.selectForParamByPlcApi(trainingId);
-		String jsonForPlcParam = convertJsonByObject(objectForPlcList);
+		return time;
+	}
+	
+	@Override
+	public void readyForParamByPlcApi(String trainingId) throws JsonProcessingException {
+		List<PlcApiVO> plcApiVOList = egovDashManageDAO.selectForParamByPlcApi(trainingId);
+		String jsonForPlcParam = convertJsonByObject(plcApiVOList);
 		plcRestApiCall(jsonForPlcParam);
 	}
 	
-	// json파일 형식으로 convert
-	private String convertJsonByObject(List<Map> objectForPlcList) throws JsonProcessingException {
-		String jsonForPlcParam = new ObjectMapper().writeValueAsString(objectForPlcList);
+	private String convertJsonByObject(List<PlcApiVO> plcApiVOList) throws JsonProcessingException {
+		String jsonForPlcParam = new ObjectMapper().writeValueAsString(plcApiVOList);
 		System.out.println("jsonForPlcParam : " + jsonForPlcParam);
+		
 		return jsonForPlcParam;
 	}
 	
 	// json파일을 보내야하는 restAPI call
+	@Deprecated 
 	private void plcRestApiCall(String jsonForPlcParam) {
 		System.out.println("plcRestApiCall");
-//		
-//		
-//		try {
-//			URL url = new URL("");
-//			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//			con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
-//			con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
-//			con.addRequestProperty("x-api-key", RestTestCommon.API_KEY); //key값 설정
-//
-//			con.setRequestMethod("POST");
-//
-//                                     //json으로 message를 전달하고자 할 때 
-//			con.setRequestProperty("Content-Type", "application/json");
-//			con.setDoInput(true);
-//			con.setDoOutput(true); //POST 데이터를 OutputStream으로 넘겨 주겠다는 설정 
-//			con.setUseCaches(false);
-//			con.setDefaultUseCaches(false);
-//
-//			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-//			wr.write(jsonForPlcParam); //json 형식의 message 전달 
-//			wr.flush();
-//
-//			StringBuilder sb = new StringBuilder();
-//			if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-//				
-//				BufferedReader br = new BufferedReader(
-//						new InputStreamReader(con.getInputStream(), "utf-8"));
-//				String line;
-//				while ((line = br.readLine()) != null) {
-//					sb.append(line).append("\n");
-//				}
-//				br.close();
-//				System.out.println("" + sb.toString());
-//			} else {
-//				System.out.println(con.getResponseMessage());
-//			}
-//		} catch (Exception e){
-//			System.err.println(e.toString());
-//		}
-
+		 HttpClient httpClient = HttpClientBuilder.create().build();
+		try {
+	
+			    HttpPost request = new HttpPost("http://49.50.162.233:6969/dataset/insertion");
+			    StringEntity params = new StringEntity("dataset="+ jsonForPlcParam);
+			    request.addHeader("content-type", "application/x-www-form-urlencoded");
+			    request.setEntity(params);
+			    HttpResponse response = httpClient.execute(request);
+				
+		    } catch (Exception e) {
+		        System.out.println("not JSON Format response");
+		        e.printStackTrace();
+		    } finally {
+		    	httpClient.getConnectionManager().shutdown();
+		    }
 	}
+	
+	
+//	private void plcRestApiCall(String jsonForPlcParam) throws Exception {
+//		System.out.println("plcRestApiCall");
+//
+//		
+//		HttpClient httpclient = HttpClients.createDefault();
+//		HttpPost httppost = new HttpPost("http://www.a-domain.com/foo/");
+//		
+//		List<PlcApiVO> plcApiVOList = egovDashManageDAO.selectForParamByPlcApi("EVENT_00000000000181");
+//		JSONObject test = new JSONObject();
+//		test.append("dataset", plcApiVOList);
+//		
+//		
+//		httppost.setEntity(new UrlEncodedFormEntity((List<? extends NameValuePair>) test, "UTF-8"));
+//		
+//		HttpResponse response = httpclient.execute(httppost);
+//		HttpEntity entity = response.getEntity();
+//		
+//		System.out.println("response : " + response);
+//
+//		if (entity != null) {
+//		    try (InputStream instream = entity.getContent()) {
+//		        // do something useful
+//		    }
+//		}
+//	}
+
+	
+	
+	
+		
+		
+	private boolean validationActionTime(String trainingId) throws ParseException {
+		Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
+		boolean isAction = true;
+		String startTime = trainingTime.get("start_datetime").toString();
+		String endTime = trainingTime.get("end_datetime").toString();
+		
+		long isStart = compareWithNow(trainingTime.get("start_datetime").toString());
+		long isEnd = compareWithNow(trainingTime.get("end_datetime").toString());
+		
+		String ddosStartTime = convertTimeByString(trainingTime.get("ddos_start_datetime").toString(), startTime);
+		String ddosEndTime = convertTimeByString(trainingTime.get("ddos_end_datetime").toString(), endTime);
+		String ransomStartTime = convertTimeByString(trainingTime.get("ransom_start_datetime").toString(), startTime);
+		String ransomEndTime = convertTimeByString(trainingTime.get("ransom_end_datetime").toString(), endTime);
+		String whStartTime = convertTimeByString(trainingTime.get("wh_start_datetime").toString(), startTime);
+		String whEndTime = convertTimeByString(trainingTime.get("wh_end_datetime").toString(), endTime);
+		String apt01StartTime = convertTimeByString(trainingTime.get("apt01_start_datetime").toString(), startTime);
+		String apt01EndTime = convertTimeByString(trainingTime.get("apt01_end_datetime").toString(), endTime);
+		String apt02StartTime = convertTimeByString(trainingTime.get("apt02_start_datetime").toString(), startTime);
+		String apt02EndTime= convertTimeByString(trainingTime.get("apt02_end_datetime").toString(), endTime);
+		
+		long ddosIsStart = compareWithNow(ddosStartTime);
+		long ddosIsEnd = compareWithNow(ddosEndTime);
+		long ransomIsStart = compareWithNow(ransomStartTime);
+		long ransomIsEnd = compareWithNow(ransomEndTime);
+		long whIsStart = compareWithNow(whStartTime);
+		long whIsEnd = compareWithNow(whEndTime);
+		long apt01IsStart = compareWithNow(apt01StartTime);
+		long apt01IsEnd = compareWithNow(apt01EndTime);
+		long apt02IsStart = compareWithNow(apt02StartTime);
+		long apt02IsEnd = compareWithNow(apt02EndTime);
+		
+		if (isStart < 0 && 0 < isEnd) {
+			if (ddosIsStart <0 && 0 < ddosIsEnd) {
+				isAction = true;
+			} else if (ransomIsStart < 0 && 0 < ransomIsEnd) {
+				isAction = true;
+			} else if (whIsStart < 0 && 0 < whIsEnd) {
+				isAction = true;
+			} else if (apt01IsStart < 0 && 0 < apt01IsEnd) {
+				isAction = true;	
+			} else if (apt02IsStart < 0 && 0 < apt02IsEnd) {
+				isAction = true;
+			} else {
+				isAction = false;
+			}
+		} else {
+			isAction = false;
+		}
+		
+		return isAction;
+	}
+	
+	
 
 }

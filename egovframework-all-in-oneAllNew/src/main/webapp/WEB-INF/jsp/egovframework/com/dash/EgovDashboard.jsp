@@ -18,12 +18,14 @@
   <!-- Custom styles for this template-->
   <link href="<c:url value='/css/egovframework/com/dash/css/sb-admin.css'/>" rel="stylesheet">
   <script type="text/javaScript" language="javascript">
+  var myLineChart = null;
   function loadChart(rslt) {
 
 	  Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 	  Chart.defaults.global.defaultFontColor = '#292b2c';
-	  
+	  document.getElementById("myAreaChart").value = "";
 	  var ctx = document.getElementById("myAreaChart");
+	  
 
 	  const backgroundColor = [
 		  'rgba(255, 0, 0, 0)',
@@ -49,11 +51,51 @@
 		  'rgba(153, 204, 153, 1)',
 		  'rgba(000, 255, 255, 1)',
       ];
-	  
-	  var myLineChart = new Chart(ctx, {
+      
+      var maxData = 0;
+      
+      rslt.graghList.forEach(team => {
+    	  var data = team.data;
+    	  if (maxData < data[data.length-1]) {
+    		  maxData = data[data.length-1];
+    	  }
+      });
+     
+      /* var yLimit = 5000; */
+     
+     
+     	var yLimit = (Math.trunc(maxData / 1000)+1) * 1000;
+     
+/*      switch (Math.trunc(maxData / 5000)){
+     	case 0 : yLimit = 5000; break;
+     	case 1 : yLimit = 10000; break;
+     	case 2 : yLimit = 15000; break;
+     	case 3 : yLimit = 20000; break;
+     	case 4 : yLimit = 25000; break;
+     	case 5 : yLimit = 30000; break;
+     	case 6 : yLimit = 35000; break;
+     	default : yLimit = 35000; break;
+     }  */
+       
+     if (myLineChart) myLineChart.destroy();
+	console.log()
+   myLineChart = new Chart(ctx, {
 	    type: 'line',
 	    data: {
-	      labels: rslt.dateList,
+	      labels:rslt.dateList,
+	      		/* rslt.dateList.filter((e, i) => {
+		    		  console.log("i : ", i);
+	    			  console.log("e : ", e);
+	    			  console.log("rslt.dateList.length - rslt.dateList.length % 5  : " , rslt.dateList.length - (rslt.dateList.length-1) % 5 );
+	    			  console.log("rslt.dateList.length: " , rslt.dateList.length);
+	    			  console.log("rslt.dateList.length % 5  : " , rslt.dateList.length % 5 );
+		    		  if (i%5 === 0 ) {
+		    			  return e;
+		    		  } else if (rslt.dateList.length - rslt.dateList.length % 5 < i) {
+		    			  
+		    			  return e;
+		    		  }
+		      		}), */
 	      datasets: rslt.graghList.map( (e, index) => {
 	    	  return {
 	    		label: e.team_name,
@@ -61,53 +103,63 @@
 	  	        backgroundColor: backgroundColor[index],
 	            borderColor: borderColor[index],
 	            borderWidth: 2,
-	  	        pointRadius: 3,
+	  	        pointRadius: 1,
 	  	      	pointHoverRadius: 3,
 	  	      	
 	  	        pointBackgroundColor: borderColor[index],
 	  	        pointBorderColor: "rgba(255,255,255,0.8)",
 	  	        pointHoverBackgroundColor: borderColor[index],
-	  	        pointHitRadius: 50,
+	  	        pointHitRadius: 50, 
 	  	        pointBorderWidth: 0.5,
 	  	        data: e.data,
+	  	      /* data: e.data.filter((d, i) => {
+	    		  if (i%5 === 0 ) {
+	    			  return d;
+	    		  } else if (e.data.length -e.data.length % 5 < i) {
+	    			  return d;
+	    		  }
+	      		}), */
 	    	  }
 	      })
 	    },
 	    options: {
-	     scales: {
-	        xAxes: [{
-	          time: {
-	            unit: 'date'
-	          },
-	          gridLines: {
-	            display: false
-	          },
-	          ticks: {
-	            maxTicksLimit: 10
-	          }
-	        }],
-	        yAxes: [{
-	          ticks: {
-	            min: 0,
-	            max: 35000,
-	            maxTicksLimit: 20
-	          },
-	          gridLines: {
-	            color: "rgba(0, 0, 0, .125)",
-	          }
-	        }],
-	      },
-	   
-	      legend: {
-	    	  display: true,
-	    	  position : "bottom",
-	    	  align : "center",
-	      }
+		     scales: {
+		        xAxes: [{
+		          time: {
+		            unit: 'date'
+		          },
+		          gridLines: {
+		            display: false
+		          },
+		          ticks: {
+		            maxTicksLimit: 10
+		          }
+		        }],
+		        yAxes: [{
+		          ticks: {
+		            min: 0,
+		            max: yLimit,
+		            maxTicksLimit: 10
+		          },
+		          gridLines: {
+		            color: "rgba(0, 0, 0, .125)",
+		          }
+		        }],
+		      },
+		      plugins: {
+			      legend: {
+			    	  display: true,
+			    	  position : "top",
+			    	  align : "center",
+			    	  labels: {
+		                  color: 'rgb(255, 99, 132)',
+		                  /* usePointStyle: true, */
+		              }
+			      }
+		      }
 	    } 
 	  });
   }
-
-  
 
   	function intervalTest() {
   		ajaxTest()
@@ -128,9 +180,6 @@
   					
   					var updateTime = document.getElementById("updateTime"); 
   					updateTime.innerText = "Updated today at "+returnData.updateTime;
-  					
-  					
-  					
   					ajax_callback(returnData);
   				}else{ alert("ERROR!");return;} 
   			}
@@ -150,8 +199,8 @@
   		} else {
   			/* removeTableByNull(rankList); */
   		}
-  		
   	}
+  	
   	/* 
  	function removeTableByNull(rankList) {
   		var table = document.getElementById("list_body");
@@ -191,25 +240,23 @@
   	function addTableRow(rankList) {
   			var table = document.getElementById("list_body");
   			for (let i in rankList) {
-  				const newRow = table.insertRow();
-	  	  			const newCell1 = newRow.insertCell(0);
-	  	  			const newCell2 = newRow.insertCell(1);
-	  	  			const newCell3 = newRow.insertCell(2);
-	  	  			const newCell4 = newRow.insertCell(3);
-	  	  			const newCell5 = newRow.insertCell(4);
-	  	  			const newCell6 = newRow.insertCell(5);
-	  	  			const newCell7 = newRow.insertCell(6);
-	  	  			const newCell8 = newRow.insertCell(7);
-	  	  			const newCell9 = newRow.insertCell(8);
-	  	  			newCell1.innerText = parseInt(i)+1;
-	  	  			newCell2.innerText = rankList[i].team_name;
-	  	  			newCell3.innerText = rankList[i].type_1;
-	  	  			newCell4.innerText = rankList[i].type_2;
-	  	  			newCell5.innerText = rankList[i].type_3;
-	  	  			newCell6.innerText = rankList[i].type_4;
-	  	  			newCell7.innerText = rankList[i].type_5;
-	  	  			newCell8.innerText = rankList[i].type_6;
-	  	  			newCell9.innerText = rankList[i].total;	
+  					const newRow = table.insertRow();
+  	  	  			const newCell1 = newRow.insertCell(0);
+  	  	  			const newCell2 = newRow.insertCell(1);
+  	  	  			const newCell3 = newRow.insertCell(2);
+  	  	  			const newCell4 = newRow.insertCell(3);
+  	  	  			const newCell5 = newRow.insertCell(4);
+  	  	  			const newCell6 = newRow.insertCell(5);
+  	  	  			const newCell7 = newRow.insertCell(6);
+  	  	  			const newCell8 = newRow.insertCell(7);
+  	  	  			newCell1.innerText = parseInt(i)+1;
+  	  	  			newCell2.innerText = rankList[i].team_name;
+  	  	  			newCell3.innerText = rankList[i].type_1;
+  	  	  			newCell4.innerText = rankList[i].type_2;
+  	  	  			newCell5.innerText = rankList[i].type_3;
+  	  	  			newCell6.innerText = rankList[i].type_4;
+  	  	  			newCell7.innerText = rankList[i].type_5;
+  	  	  			newCell8.innerText = rankList[i].total;
   			}
   	}
   	
@@ -256,12 +303,11 @@
                   <tr>
                     <th>순위</th>
                     <th>팀명</th>
-                    <th>예방보안</th>
-                    <th>실시간대응</th>
-                    <th>사후대응</th>
-                    <th>보안규정</th>
-                    <th>VM복구</th>
-                    <th>가용성</th>
+                    <th>DDos</th>
+                    <th>렌섬웨어</th>
+                    <th>웹 해킹</th>
+                    <th>APT01</th>
+                    <th>APT02</th>
                     <th>총점</th>
                   </tr>
                 </thead>
@@ -277,7 +323,6 @@
 	                    <td><c:out value="${item.type_3}"/></td>
 	                    <td><c:out value="${item.type_4}"/></td>
 	                    <td><c:out value="${item.type_5}"/></td>
-	                    <td><c:out value="${item.type_6}"/></td>
 	                    <td><c:out value="${item.total}"/></td>
 					</tr>
 				</c:forEach>

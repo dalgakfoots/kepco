@@ -95,7 +95,7 @@
 
 </form>
 <script type="text/javascript">
-    var webSocket = new WebSocket("ws://localhost:8080/trainMessageSender");
+    var webSocket = new WebSocket("ws://192.168.11.142:8080/trainMessageSender");
 
     webSocket.onopen = function(message){console.log("messageSender open")};
 

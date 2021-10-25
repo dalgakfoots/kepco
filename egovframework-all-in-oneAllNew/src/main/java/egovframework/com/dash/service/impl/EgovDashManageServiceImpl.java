@@ -247,8 +247,8 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 	}
 	
 	
-//	@PostConstruct
-	@Override
+	@PostConstruct
+//	@Override
 	public void plcTimerOn() throws ParseException{
 		// select trainingId
 		final String trainingId = egovDashManageDAO.selectTrainingId();
@@ -258,19 +258,20 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
             public void run() {
 
             	try {
-            		boolean isAction = validationActionTime(trainingId);
-
-					if(isAction) {
-	                    System.out.println("훈련 중...");
-	                    readyForParamByPlcApi(trainingId);
-	                } 
-//					else if (trainingTime.get("scheduling_state").toString().equals("N")) {
-//	                	System.out.println("훈련 끝.");
-//	                	timer.cancel();
-//	                } 
-					else {
-	                	System.out.println("훈련전 or 훈련끝");
-	                }
+            		if (!trainingId.equals(null)) {            		
+	            		boolean isAction = validationActionTime(trainingId);
+						if(isAction) {
+		                    System.out.println("훈련 중...");
+		                    readyForParamByPlcApi(trainingId);
+		                } else {
+		                	System.out.println("훈련전 or 훈련끝");
+		                } 
+	//					else if (trainingTime.get("scheduling_state").toString().equals("N")) {
+	//	                	System.out.println("훈련 끝.");
+	//	                	timer.cancel();
+	//	                } 
+						
+            		}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -341,87 +342,62 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 		    	httpClient.getConnectionManager().shutdown();
 		    }
 	}
-	
-	
-//	private void plcRestApiCall(String jsonForPlcParam) throws Exception {
-//		System.out.println("plcRestApiCall");
-//
-//		
-//		HttpClient httpclient = HttpClients.createDefault();
-//		HttpPost httppost = new HttpPost("http://www.a-domain.com/foo/");
-//		
-//		List<PlcApiVO> plcApiVOList = egovDashManageDAO.selectForParamByPlcApi("EVENT_00000000000181");
-//		JSONObject test = new JSONObject();
-//		test.append("dataset", plcApiVOList);
-//		
-//		
-//		httppost.setEntity(new UrlEncodedFormEntity((List<? extends NameValuePair>) test, "UTF-8"));
-//		
-//		HttpResponse response = httpclient.execute(httppost);
-//		HttpEntity entity = response.getEntity();
-//		
-//		System.out.println("response : " + response);
-//
-//		if (entity != null) {
-//		    try (InputStream instream = entity.getContent()) {
-//		        // do something useful
-//		    }
-//		}
-//	}
-
-	
-	
-	
-		
 		
 	private boolean validationActionTime(String trainingId) throws ParseException {
 		Map trainingTime = egovDashManageDAO.selectTrainingTimeByTrainingId(trainingId);
 		boolean isAction = true;
-		String startTime = trainingTime.get("start_datetime").toString();
-		String endTime = trainingTime.get("end_datetime").toString();
-		
-		long isStart = compareWithNow(trainingTime.get("start_datetime").toString());
-		long isEnd = compareWithNow(trainingTime.get("end_datetime").toString());
-		
-		String ddosStartTime = convertTimeByString(trainingTime.get("ddos_start_datetime").toString(), startTime);
-		String ddosEndTime = convertTimeByString(trainingTime.get("ddos_end_datetime").toString(), endTime);
-		String ransomStartTime = convertTimeByString(trainingTime.get("ransom_start_datetime").toString(), startTime);
-		String ransomEndTime = convertTimeByString(trainingTime.get("ransom_end_datetime").toString(), endTime);
-		String whStartTime = convertTimeByString(trainingTime.get("wh_start_datetime").toString(), startTime);
-		String whEndTime = convertTimeByString(trainingTime.get("wh_end_datetime").toString(), endTime);
-		String apt01StartTime = convertTimeByString(trainingTime.get("apt01_start_datetime").toString(), startTime);
-		String apt01EndTime = convertTimeByString(trainingTime.get("apt01_end_datetime").toString(), endTime);
-		String apt02StartTime = convertTimeByString(trainingTime.get("apt02_start_datetime").toString(), startTime);
-		String apt02EndTime= convertTimeByString(trainingTime.get("apt02_end_datetime").toString(), endTime);
-		
-		long ddosIsStart = compareWithNow(ddosStartTime);
-		long ddosIsEnd = compareWithNow(ddosEndTime);
-		long ransomIsStart = compareWithNow(ransomStartTime);
-		long ransomIsEnd = compareWithNow(ransomEndTime);
-		long whIsStart = compareWithNow(whStartTime);
-		long whIsEnd = compareWithNow(whEndTime);
-		long apt01IsStart = compareWithNow(apt01StartTime);
-		long apt01IsEnd = compareWithNow(apt01EndTime);
-		long apt02IsStart = compareWithNow(apt02StartTime);
-		long apt02IsEnd = compareWithNow(apt02EndTime);
-		
-		if (isStart < 0 && 0 < isEnd) {
-			if (ddosIsStart <0 && 0 < ddosIsEnd) {
-				isAction = true;
-			} else if (ransomIsStart < 0 && 0 < ransomIsEnd) {
-				isAction = true;
-			} else if (whIsStart < 0 && 0 < whIsEnd) {
-				isAction = true;
-			} else if (apt01IsStart < 0 && 0 < apt01IsEnd) {
-				isAction = true;	
-			} else if (apt02IsStart < 0 && 0 < apt02IsEnd) {
-				isAction = true;
+		if (trainingTime != null && !trainingTime.isEmpty()) {
+			// 시간 정보가 있을.
+			String startTime = trainingTime.get("start_datetime").toString();
+			String endTime = trainingTime.get("end_datetime").toString();
+			
+			long isStart = compareWithNow(trainingTime.get("start_datetime").toString());
+			long isEnd = compareWithNow(trainingTime.get("end_datetime").toString());
+			
+			String ddosStartTime = convertTimeByString(trainingTime.get("ddos_start_datetime").toString(), startTime);
+			String ddosEndTime = convertTimeByString(trainingTime.get("ddos_end_datetime").toString(), endTime);
+			String ransomStartTime = convertTimeByString(trainingTime.get("ransom_start_datetime").toString(), startTime);
+			String ransomEndTime = convertTimeByString(trainingTime.get("ransom_end_datetime").toString(), endTime);
+			String whStartTime = convertTimeByString(trainingTime.get("wh_start_datetime").toString(), startTime);
+			String whEndTime = convertTimeByString(trainingTime.get("wh_end_datetime").toString(), endTime);
+			String apt01StartTime = convertTimeByString(trainingTime.get("apt01_start_datetime").toString(), startTime);
+			String apt01EndTime = convertTimeByString(trainingTime.get("apt01_end_datetime").toString(), endTime);
+			String apt02StartTime = convertTimeByString(trainingTime.get("apt02_start_datetime").toString(), startTime);
+			String apt02EndTime= convertTimeByString(trainingTime.get("apt02_end_datetime").toString(), endTime);
+			
+			long ddosIsStart = compareWithNow(ddosStartTime);
+			long ddosIsEnd = compareWithNow(ddosEndTime);
+			long ransomIsStart = compareWithNow(ransomStartTime);
+			long ransomIsEnd = compareWithNow(ransomEndTime);
+			long whIsStart = compareWithNow(whStartTime);
+			long whIsEnd = compareWithNow(whEndTime);
+			long apt01IsStart = compareWithNow(apt01StartTime);
+			long apt01IsEnd = compareWithNow(apt01EndTime);
+			long apt02IsStart = compareWithNow(apt02StartTime);
+			long apt02IsEnd = compareWithNow(apt02EndTime);
+			
+			if (isStart < 0 && 0 < isEnd) {
+				if (ddosIsStart <0 && 0 < ddosIsEnd) {
+					isAction = true;
+				} else if (ransomIsStart < 0 && 0 < ransomIsEnd) {
+					isAction = true;
+				} else if (whIsStart < 0 && 0 < whIsEnd) {
+					isAction = true;
+				} else if (apt01IsStart < 0 && 0 < apt01IsEnd) {
+					isAction = true;	
+				} else if (apt02IsStart < 0 && 0 < apt02IsEnd) {
+					isAction = true;
+				} else {
+					isAction = false;
+				}
 			} else {
 				isAction = false;
 			}
 		} else {
+			// 시간 정보가 없을때.
 			isAction = false;
 		}
+		
 		
 		return isAction;
 	}

@@ -36,6 +36,9 @@
 	
 	function movePage(url, vmId, vmName, index) {
 		console.log("index : ", index);
+		console.log("url : ", url);
+		console.log("vmId : ", vmId);
+		console.log("vmName : ", vmName);
 		window.open("<c:url value='/train/ticketUrl.do' />?url="+url+"&vmId="+vmId+"&vmName="+vmName,  index, '_blank');
 	}
 	

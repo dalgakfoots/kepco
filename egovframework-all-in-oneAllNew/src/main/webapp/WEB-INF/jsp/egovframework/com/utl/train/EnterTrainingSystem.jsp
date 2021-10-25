@@ -61,29 +61,9 @@
 
 	<c:choose>
 	<c:when test="${trainType ne 'none' }">
-		<c:choose>
-		
-			<c:when test="${trainType eq 'apt'}">
-				<h1>${trainTypeName} 인프라 구성도</h1>
-				<img src="<c:url value='/images/egovframework/com/sym/train/pst_infra.jpg' />" alt="APT 시나리오 훈련 인프라 구성" / style="width:100%;">
-			</c:when>
-			<c:when test="${trainType eq 'ransom'}">
-				<h1>${trainTypeName} 인프라 구성도</h1>
-				<img src="<c:url value='/images/egovframework/com/sym/train/mdt_infra.jpg' />" alt="랜섬웨어 훈련 인프라 구성" / style="width:100%;">
-			</c:when>
-			<c:when test="${trainType eq 'web'}">
-				<h1>${trainTypeName} 인프라 구성도</h1>
-				<img src="<c:url value='/images/egovframework/com/sym/train/wat_infra.jpg' />" alt="웹해킹 훈련 인프라 구성" / style="width:100%;">
-			</c:when>
-			<c:when test="${trainType eq 'ddos'}">
-				<h1>${trainTypeName} 인프라 구성도</h1>
-				<img src="<c:url value='/images/egovframework/com/sym/train/ast_infra.jpg' />" alt="DDoS 훈련 인프라 구성" / style="width:100%;">
-			</c:when>
-			<c:otherwise>
-				<!-- 별도의 훈련 타입이 추가 되어 인프라 구성도가 추가 될 시 추가할 것  -->
-			</c:otherwise>
-		
-		</c:choose>
+		<h1>${trainTypeName} 인프라 구성도</h1>
+		<img src="<c:url value='/images/egovframework/com/sym/train/kepco2_infra.jpg' />" alt="KEPCO 시나리오 인프라 구성도"  style="width:100%;"/>
+
 		<!-- PST~AST -->
 		<c:if test="${trainType ne 'srg'}">
 			<h1>${trainTypeName} 가상자원 목록</h1>

@@ -87,7 +87,7 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
     <script type="text/javascript">
     	/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
-	    var webSocket = new WebSocket("ws://localhost:8080/newArticleAlarmReceiver");
+	    var webSocket = new WebSocket("ws://192.168.11.142:8080/newArticleAlarmReceiver");
 	    webSocket.onopen = function(message) {console.log("alarmReceiver open")};
 	    webSocket.onclose = function(message) {};
 	    webSocket.onerror = function(message) {console.log('it is error')};
@@ -135,7 +135,7 @@
     </script>
 	<script type="text/javascript">
 		/* TODO 실서버 올릴 시 관리자문의 채팅과 함께 반드시 url 변경할 것.*/
-		var webSocket = new WebSocket("ws://localhost:8080/trainMessageReceiver");
+		var webSocket = new WebSocket("ws://192.168.11.142:8080/trainMessageReceiver");
 		webSocket.onopen = function(message) {console.log("messageReceiver open")};
 		webSocket.onclose = function(message) {};
 		webSocket.onerror = function(message) {console.log('it is error(from messageReceiver)')};

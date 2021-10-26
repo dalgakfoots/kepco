@@ -32,7 +32,8 @@
     
 	<select id="selectUserVMLists" resultType="java.util.HashMap">
 
-		SELECT mber_id,
+		SELECT DISTINCT
+			   mber_id,
 		       group_id,
 		       vm_group_id,
 		       name,

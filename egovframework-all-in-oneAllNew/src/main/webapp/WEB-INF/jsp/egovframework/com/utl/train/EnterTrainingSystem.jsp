@@ -94,7 +94,6 @@
 						<td>${item.user_name } <c:out value="/"/> ${item.user_password }</td>
 						<td><button class="s_btn" type="button" onclick="javascript:movePage('${item.url}', '${item.id}', '${item.name}', '${status.index}')">열기</button></td>  
 						
-						
 					</tr>
 				</c:forEach>
 				<c:if test="${fn:length(userVmLists) == 0}">

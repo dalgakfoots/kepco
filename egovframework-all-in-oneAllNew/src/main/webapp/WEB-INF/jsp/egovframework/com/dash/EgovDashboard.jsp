@@ -263,7 +263,8 @@
   	
   </script>
 </head>
-<body onLoad="javascript:intervalTest()">
+<!-- <body onLoad="javascript:intervalTest()"> -->
+<body>
 <div class="board">
   <div id="wrapper">
 

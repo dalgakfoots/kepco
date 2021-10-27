@@ -330,7 +330,7 @@ public class EgovDashManageServiceImpl extends EgovAbstractServiceImpl implement
 		try {
 	
 			    HttpPost request = new HttpPost("http://49.50.162.233:6969/dataset/insertion");
-			    StringEntity params = new StringEntity("dataset="+ jsonForPlcParam);
+			    StringEntity params = new StringEntity("dataset="+ jsonForPlcParam, "UTF-8");
 			    request.addHeader("content-type", "application/x-www-form-urlencoded");
 			    request.setEntity(params);
 			    HttpResponse response = httpClient.execute(request);

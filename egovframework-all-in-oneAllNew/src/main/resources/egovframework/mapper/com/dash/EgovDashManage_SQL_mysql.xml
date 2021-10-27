@@ -69,7 +69,8 @@
 			    (select ifnull(sum(score), 0)
 					from kepco_training_team_scores 
 			        where training_id = #{trainingId}
-			        and team_id = #{teamId}) as total
+			        and team_id = #{teamId}) as total 
+			        
 		</select>
 		
 		<select id="selectDashTableList" parameterType="String" resultType="java.util.HashMap">

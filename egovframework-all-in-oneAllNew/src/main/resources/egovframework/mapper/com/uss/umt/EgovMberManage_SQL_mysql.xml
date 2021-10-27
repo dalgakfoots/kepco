@@ -43,7 +43,7 @@ FROM(
         <if test="searchCondition == 3">
         	AND groupId IS NULL
         </if>
-        ORDER BY sbscrbDe DESC
+        ORDER BY uniqId DESC
         LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
     </select>
     

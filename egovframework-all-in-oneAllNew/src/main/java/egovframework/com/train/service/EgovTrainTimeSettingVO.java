@@ -21,7 +21,10 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	private String apt01EndDatetime;
 	private String apt02StartDatetime;
 	private String apt02EndDatetime;
-	
+
+	/*사용자 접근 제한용 컬럼*/
+	private String schedulingState;
+
 	public String getTrainingId() {
 		return trainingId;
 	}
@@ -109,11 +112,12 @@ public class EgovTrainTimeSettingVO extends ComDefaultVO{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	public String getSchedulingState() {
+		return schedulingState;
+	}
+
+	public void setSchedulingState(String schedulingState) {
+		this.schedulingState = schedulingState;
+	}
 }

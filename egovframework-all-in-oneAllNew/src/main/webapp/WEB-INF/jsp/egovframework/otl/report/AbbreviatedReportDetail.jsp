@@ -14,10 +14,10 @@
         window.onload = function () {
 
             const selectReportScore = document.getElementById("reportScore");
-            let baseScore = 300;
+            let baseScore = 50;
             const scoreGap = 50;
 
-            for(let i = 1  ; baseScore < 1000 ; i++){
+            for(let i = 1  ; baseScore < 700 ; i++){
                 baseScore += scoreGap;
                 let scoreOption = document.createElement("option");
                 scoreOption.text = baseScore + "";

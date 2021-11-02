@@ -80,6 +80,19 @@ public class EgovTrainController {
 			trainTypeName = "DDoS";
 		}
 
+		//trainType
+		HashMap availCheckMap = new HashMap();
+		availCheckMap.put("value", trainType);
+		String isAvailable = egovTrainService.selectCurrentExamAvailable(availCheckMap);
+
+		if(isAvailable.equals("N")) {
+			trainType = "none";
+			model.addAttribute("trainType", trainType);
+			model.addAttribute("msg", "지금은 훈련 시간이 아닙니다.");
+			return "egovframework/com/utl/train/EnterTrainingSystem";
+		}
+
+
 		model.addAttribute("trainType", trainType);
 		model.addAttribute("trainTypeName", trainTypeName);
 		model.addAttribute("userVmLists", userVmLists);
@@ -505,31 +518,6 @@ public class EgovTrainController {
 	@RequestMapping("/train/setTrainingTimeSetting.do")
 	public String setTrainingTimeSetting(@ModelAttribute("frm") EgovTrainTimeSettingVO frm, ModelMap model) throws Exception{
 		egovTrainService.setTrainingTimeSetting(frm);
-		
-//		HashMap param = new HashMap();
-//		String watStartDateTime = frm.getWatStartDatetime();
-//		String[] temp = watStartDateTime.split(":");
-//		int hour = Integer.parseInt(temp[0]);
-//		int min = Integer.parseInt(temp[1]);
-//		
-//		int sum = (hour * 60) + min;
-//		hour = sum / 60;
-//		min = (sum % 60)+20;
-//		
-//		hour = min >= 60? hour + 1 : hour;
-//		String h = String.valueOf(hour);
-//		h = h.length() == 1 ? "0"+h : h; 
-//		
-//		min = min >= 60 ? min - 60 : min;
-//		String minute = String.valueOf(min);
-//		minute = minute.equals("0") ? "00" : minute;
-//		
-//		
-//		watStartDateTime = h + minute;
-//		param.put("watStartDateTime", watStartDateTime);
-//		
-//		egovTrainService.updateWatExamOpenTime(param);
-		
 		return "forward:/train/setTrainingTime.do";
 	}
 	

@@ -551,6 +551,7 @@
 				B.apt01_end_datetime,
 				B.apt02_start_datetime,
 				B.apt02_end_datetime,
+				B.scheduling_state,
 				DATE_FORMAT(B.START_DATETIME,'%Y-%m-%d') TRAINING_DATE	
 		 FROM COMTNEVENTINFO A
          LEFT JOIN kepco_training_time B ON A.EVENT_ID = B.TRAINING_ID
@@ -570,23 +571,7 @@
 	<select id="selectCurrentExamAvailable" resultType="String">
 	
 		SELECT 
-			<choose>
-				<when test='value == "pst"'>
-					IF( (PST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( PST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
-				</when>
-				<when test='value == "mdt"'>
-					IF( (MDT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( MDT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
-				</when>
-				<when test='value == "wat"'>
-					IF( (WAT_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( WAT_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
-				</when>
-				<when test='value == "ast"'>
-					IF( (AST_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( AST_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
-				</when>
-				<when test='value == "srg"'>
-					IF( (SRG_START_DATETIME <![CDATA[<=]]> DATE_FORMAT(NOW(), '%H:%i')) AND ( SRG_END_DATETIME <![CDATA[>]]> DATE_FORMAT(NOW(), '%H:%i') ), 'Y', 'N') AS isAvailable
-				</when>
-			</choose>
+			   SCHEDULING_STATE AS isAvailable
 		  FROM KEPCO_TRAINING_TIME
 	
 		<!-- KEPCO_TRAINING_TIME 테이블이 현재 최신 훈련 ROW 하나만 들고 있기 때문에 가능함. 추후 반드시 변경해야함. -->
@@ -699,7 +684,8 @@
 						 APT01_START_DATETIME,
 						 APT01_END_DATETIME,
 						 APT02_START_DATETIME,
-						 APT02_END_DATETIME
+						 APT02_END_DATETIME,
+						 SCHEDULING_STATE
 						)VALUES(
 						 #{trainingId},
 						 #{startDatetime},
@@ -714,7 +700,8 @@
 						 #{apt01StartDatetime},
 						 #{apt01EndDatetime},
 						 #{apt02StartDatetime},
-						 #{apt02EndDatetime}
+						 #{apt02EndDatetime},
+						 #{schedulingState}
 						) ON DUPLICATE KEY UPDATE
 						 START_DATETIME = #{startDatetime},
 						 END_DATETIME = #{endDatetime},
@@ -727,7 +714,8 @@
 						 APT01_START_DATETIME = #{apt01StartDatetime},
 						 APT01_END_DATETIME = #{apt01EndDatetime},
 						 APT02_START_DATETIME = #{apt02StartDatetime},
-						 APT02_END_DATETIME = #{apt02EndDatetime}
+						 APT02_END_DATETIME = #{apt02EndDatetime},
+						 SCHEDULING_STATE = #{schedulingState}
 	
 	</insert>
 	
